@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resipal/core/formatters/date_formatters.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
@@ -27,7 +28,7 @@ class PaymentMovementTile extends StatelessWidget {
               children: [
                 HeaderText.five('Pago Registrado'),
                 HeaderText.six(
-                  'Referencia: ${movement.refId.toUpperCase()}',
+                  'Fecha: ${movement.date.toShortDate()}',
                   color: Colors.grey,
                   fontWeight: FontWeight.normal,
                 ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/data/sources/movement_data_source.dart';
-import 'package:resipal/data/sources/profile_data_source.dart';
+import 'package:resipal/data/sources/user_data_source.dart';
 import 'package:resipal/domain/repositories/movement_repository.dart';
 import 'package:resipal/presentation/users/home/user_home_page.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -17,7 +18,7 @@ Future<void> main() async {
   GetIt.I.registerSingleton(Supabase.instance.client);
 
   GetIt.I.registerSingleton(MovementDataSource());
-  GetIt.I.registerSingleton(ProfileDataSource());
+  GetIt.I.registerSingleton(UserDataSource());
 
   GetIt.I.registerSingleton(MovementRepository());
 
@@ -29,6 +30,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Scaffold(body: UserHomePage()));
+    return MaterialApp(
+      navigatorKey: Go.navigatorKey,
+      home: Scaffold(body: UserHomePage()));
   }
 }

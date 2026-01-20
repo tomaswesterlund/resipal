@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
 class PrimaryCtaButton extends StatelessWidget {
-  const PrimaryCtaButton({super.key});
+  final String label;
+  final bool canSubmit;
+  final VoidCallback onPressed;
+
+  const PrimaryCtaButton({
+    required this.label,
+    required this.canSubmit,
+    required this.onPressed,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
-
+      onPressed: canSubmit == true ? onPressed : null,
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(
           0xFFFF7235,
@@ -20,8 +28,8 @@ class PrimaryCtaButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20), // Large rounded corners
         ),
       ),
-      child: const Text(
-        'REGISTRAR PAGO',
+      child: Text(
+        label,
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,

@@ -1,4 +1,4 @@
-import 'package:resipal/domain/enums/movement_types.dart';
+import 'package:resipal/domain/enums/movement_type.dart';
 
 class MovementEntity {
   final String id;
@@ -6,7 +6,7 @@ class MovementEntity {
   final DateTime createdAt;
   final int amountInCents;
   final DateTime date;
-  final MovementTypes type;
+  final MovementType type;
   final String refSource;
   final String refId;
 

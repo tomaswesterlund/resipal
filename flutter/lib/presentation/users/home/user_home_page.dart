@@ -41,8 +41,8 @@ class _UserHomePageState extends State<UserHomePage> {
             label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.credit_card),
-            label: 'Mis pagos',
+            icon: Icon(Icons.attach_money),
+            label: 'Saldo',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.door_front_door_outlined),

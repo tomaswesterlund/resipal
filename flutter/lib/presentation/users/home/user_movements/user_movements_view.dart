@@ -6,7 +6,9 @@ import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/presentation/movements/widgets/movement_list_view.dart';
+import 'package:resipal/presentation/payments/register_payment/register_payment_page.dart';
 import 'package:resipal/presentation/users/home/user_movements/user_movements_cubit.dart';
+import 'package:short_navigation/short_navigation.dart';
 
 class UserMovementsView extends StatelessWidget {
   const UserMovementsView({super.key});
@@ -51,8 +53,7 @@ class _Loaded extends StatelessWidget {
 
               child: Column(
                 children: [
-                  HeaderText.two('Mis movimientos', color: Colors.white),
-                  HeaderText.six('Saldo total', color: Colors.white),
+                  HeaderText.four('Saldo total', color: Colors.white),
                   AmountText.fromDouble(1500.23, color: Colors.white),
                   HeaderText.six(
                     '✅ Estas al corriente',
@@ -61,12 +62,16 @@ class _Loaded extends StatelessWidget {
                   ),
                   SizedBox(height: 24.0),
 
-                  PrimaryCtaButton(),
+                  PrimaryCtaButton(
+                    label: 'Registrar pago',
+                    canSubmit: true,
+                    onPressed: () => Go.to(RegisterPaymentPage()),
+                  ),
                 ],
               ),
             ),
             Text('PROPERTY SELECTOR'),
-            HeaderText.three('Mis movemientos'),
+            HeaderText.three('Mis movimientos'),
             MovementListView(movements),
           ],
         ),

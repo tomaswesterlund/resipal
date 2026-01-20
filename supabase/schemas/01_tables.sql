@@ -1,6 +1,6 @@
-CREATE TABLE profile (
+CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL, -- Reference later to auth.users(id)
+    -- uud UUID NOT NULL, -- Reference later to auth.users(id)
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     name TEXT NOT NULL,
     phone_number TEXT NOT NULL,
@@ -8,9 +8,17 @@ CREATE TABLE profile (
     email TEXT NOT NULL
 );
 
+CREATE TABLE properties (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    name TEXT NOT NULL,
+    description TEXT
+);
+
 CREATE TABLE movements (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL, -- Reference later to auth.users(id)
+    user_id UUID NOT NULL REFERENCES users(id),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     amount_in_cents INT NOT NULL,
     type TEXT NOT NULL,
@@ -21,9 +29,10 @@ CREATE TABLE movements (
 
 CREATE TABLE payments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL, -- Reference later to auth.users(id)
+    user_id UUID NOT NULL REFERENCES users(id),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     amount_in_cents INT NOT NULL,
+    status TEXT NOT NULL,
     date TIMESTAMPTZ NOT NULL,
     reference TEXT,
     note TEXT

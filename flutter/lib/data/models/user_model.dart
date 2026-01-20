@@ -1,4 +1,4 @@
-class ProfileModel {
+class UserModel {
   final String id;
   final DateTime createdAt;
   final String name;
@@ -6,7 +6,7 @@ class ProfileModel {
   final String emergencyPhoneNumber;
   final String email;
 
-  ProfileModel({
+  UserModel({
     required this.id,
     required this.createdAt,
     required this.name,
@@ -15,8 +15,8 @@ class ProfileModel {
     required this.email,
   });
 
-  factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    return ProfileModel(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
       id: json['id'],
       createdAt: DateTime.parse(json['created_at'].toString()),
       name: json['name'],
