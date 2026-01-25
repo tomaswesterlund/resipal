@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal/core/ui/buttons/cta/primary_cta_button.dart';
 import 'package:resipal/core/ui/containers/green_box_container.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
-import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/movements/widgets/movement_list_view.dart';
 import 'package:resipal/presentation/payments/register_payment/register_payment_page.dart';
-import 'package:resipal/presentation/users/home/user_movements/user_movements_cubit.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class UserMovementsView extends StatelessWidget {

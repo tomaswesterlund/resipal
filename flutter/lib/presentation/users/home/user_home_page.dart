@@ -25,7 +25,7 @@ class _UserHomePageState extends State<UserHomePage> {
     _pages = [
       const HomeView(),
       UserMovementsView(user: widget.user),
-      const UserAccessView(),
+      UserAccessView(user: widget.user),
       const ProfileView(),
     ];
   }

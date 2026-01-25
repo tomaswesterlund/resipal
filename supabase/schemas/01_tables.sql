@@ -37,3 +37,22 @@ CREATE TABLE payments (
     reference TEXT,
     note TEXT
 );
+
+CREATE TABLE visitors (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    name TEXT NOT NULL
+);
+
+CREATE TABLE invitations (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id),
+    property_id UUID NOT NULL REFERENCES properties(id),
+    visitor_id UUID NOT NULL REFERENCES visitors(id),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    qr_code_token UUID NOT NULL,
+    from_date TIMESTAMPTZ NOT NULL,
+    to_date TIMESTAMPTZ NOT NULL,
+    max_entries INT NOT NULL
+);
