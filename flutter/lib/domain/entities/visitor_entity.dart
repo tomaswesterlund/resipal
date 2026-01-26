@@ -1,4 +1,4 @@
-import 'package:resipal/domain/entities/refs/user_ref.dart';
+import 'package:resipal/domain/refs/user_ref.dart';
 
 class VisitorEntity {
   final String id;

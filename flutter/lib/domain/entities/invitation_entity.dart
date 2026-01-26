@@ -1,6 +1,7 @@
-import 'package:resipal/domain/entities/refs/property_ref.dart';
-import 'package:resipal/domain/entities/refs/user_ref.dart';
-import 'package:resipal/domain/entities/refs/visitor_ref.dart';
+import 'package:resipal/domain/entities/access_log_entity.dart';
+import 'package:resipal/domain/refs/property_ref.dart';
+import 'package:resipal/domain/refs/user_ref.dart';
+import 'package:resipal/domain/refs/visitor_ref.dart';
 
 class InvitationEntity {
   final String id;
@@ -12,8 +13,23 @@ class InvitationEntity {
   final DateTime fromDate;
   final DateTime toDate;
   final int maxEntries;
+  final List<AccessLogEntity> logs;
 
   bool get isActive => true;
+
+  bool get canEnter {
+    final hasEntriesLeft = usageCount < maxEntries;
+    return isWithinDateRange && hasEntriesLeft;
+  }
+
+  int get remainingEntries => maxEntries - usageCount;
+
+  bool get isWithinDateRange {
+    final now = DateTime.now();
+    return now.isAfter(fromDate) && now.isBefore(toDate);
+  }
+
+  int get usageCount => logs.where((log) => log.isEntry).length;
 
   InvitationEntity({
     required this.id,
@@ -25,5 +41,6 @@ class InvitationEntity {
     required this.fromDate,
     required this.toDate,
     required this.maxEntries,
+    required this.logs,
   });
 }

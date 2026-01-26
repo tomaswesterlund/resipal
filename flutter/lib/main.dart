@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:resipal/data/sources/access_log_data_source.dart';
 import 'package:resipal/data/sources/invitation_data_source.dart';
 import 'package:resipal/data/sources/movement_data_source.dart';
 import 'package:resipal/data/sources/payment_data_source.dart';
 import 'package:resipal/data/sources/property_data_source.dart';
 import 'package:resipal/data/sources/user_data_source.dart';
 import 'package:resipal/data/sources/visitor_data_source.dart';
+import 'package:resipal/domain/repositories/access_log_repository.dart';
 import 'package:resipal/domain/repositories/invitation_repository.dart';
 import 'package:resipal/domain/repositories/movement_repository.dart';
 import 'package:resipal/domain/repositories/payment_repository.dart';
@@ -26,6 +28,7 @@ Future<void> main() async {
 
   GetIt.I.registerSingleton(Supabase.instance.client);
 
+  GetIt.I.registerSingleton(AccessLogDataSource());
   GetIt.I.registerSingleton(InvitationDataSource());
   GetIt.I.registerSingleton(MovementDataSource());
   GetIt.I.registerSingleton(PaymentDataSource());
@@ -33,6 +36,7 @@ Future<void> main() async {
   GetIt.I.registerSingleton(VisitorDataSource());
   GetIt.I.registerSingleton(UserDataSource());
 
+  GetIt.I.registerSingleton(AccessLogRepository());
   GetIt.I.registerSingleton(InvitationRepository());
   GetIt.I.registerSingleton(MovementRepository());
   GetIt.I.registerSingleton(PaymentRepository());

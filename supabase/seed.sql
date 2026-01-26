@@ -59,3 +59,30 @@ INSERT INTO invitations(user_id, property_id, visitor_id, qr_code_token, from_da
     WHERE
         name = 'Terreno K19' LIMIT 1), 'e4444444-5555-6666-7777-888888888888', gen_random_uuid(), NOW() - INTERVAL '2 hours', NOW() - INTERVAL '1 hour', 1);
 
+
+-- 1. Carla Sainz (Frequent Visitor) - 2 entries, 1 exit
+INSERT INTO access_logs (invitation_id, direction, timestamp)
+VALUES 
+    -- First Visit: 2 days ago
+    ((SELECT id FROM invitations WHERE visitor_id = 'b1111111-2222-3333-4444-555555555555' LIMIT 1), 
+     'entry', NOW() - INTERVAL '2 days 4 hours'),
+    ((SELECT id FROM invitations WHERE visitor_id = 'b1111111-2222-3333-4444-555555555555' LIMIT 1), 
+     'exit', NOW() - INTERVAL '2 days 1 hour'),
+    
+    -- Second Visit: Yesterday
+    ((SELECT id FROM invitations WHERE visitor_id = 'b1111111-2222-3333-4444-555555555555' LIMIT 1), 
+     'entry', NOW() - INTERVAL '1 day 2 hours');
+
+-- 2. FedEx Delivery (Expired Invitation) - 1 entry/exit pair in the past
+INSERT INTO access_logs (invitation_id, direction, timestamp)
+VALUES 
+    ((SELECT id FROM invitations WHERE visitor_id = 'e4444444-5555-6666-7777-888888888888' LIMIT 1), 
+     'entry', NOW() - INTERVAL '1 hour 50 minutes'),
+    ((SELECT id FROM invitations WHERE visitor_id = 'e4444444-5555-6666-7777-888888888888' LIMIT 1), 
+     'exit', NOW() - INTERVAL '1 hour 40 minutes');
+
+-- 3. María Sánchez (Newest Invitation) - Just entered 15 minutes ago
+INSERT INTO access_logs (invitation_id, direction, timestamp)
+VALUES 
+    ((SELECT id FROM invitations WHERE visitor_id = 'd3333333-4444-5555-6666-777777777777' LIMIT 1), 
+     'entry', NOW() - INTERVAL '15 minutes');

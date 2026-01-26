@@ -6,7 +6,7 @@ import 'package:resipal/presentation/access/invitation_list_view.dart';
 
 class UserAccessView extends StatelessWidget {
   final UserEntity user;
-  
+
   const UserAccessView({required this.user, super.key});
 
   @override
@@ -14,8 +14,15 @@ class UserAccessView extends StatelessWidget {
     return Column(
       children: [
         GreenBoxContainer(
-          child: HeaderText.two('Accesos', color: Colors.white),
-        ),
+            child: SafeArea(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: HeaderText.two('Accesos', color: Colors.white),
+                ),
+              ),
+            ),
+          ),
         Text('Create QR'),
         HeaderText.three('Invitaciones activas'),
         InvitationListView(user.activeInvitations),

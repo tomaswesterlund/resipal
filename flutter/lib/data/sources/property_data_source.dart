@@ -11,6 +11,12 @@ class PropertyDataSource {
     return model;
   }
 
+  Future<PropertyModel> getPropertyByUserId(String userId) async {
+    final item = await _client.from('properties').select().eq('user_id', userId).single();
+    final model = PropertyModel.fromJson(item);
+    return model;
+  }
+
   Future<List<PropertyModel>> getPropertiesByUserId(String userId) async {
     final items = await _client.from('properties').select().eq('user_id', userId);
     final models = items.map((i) => PropertyModel.fromJson(i)).toList();

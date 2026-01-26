@@ -1,4 +1,4 @@
-import 'package:resipal/domain/entities/refs/user_ref.dart';
+import 'package:resipal/domain/refs/user_ref.dart';
 import 'package:resipal/domain/enums/payment_status.dart';
 
 class PaymentEntity {

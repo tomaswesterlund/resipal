@@ -56,3 +56,11 @@ CREATE TABLE invitations (
     to_date TIMESTAMPTZ NOT NULL,
     max_entries INT NOT NULL
 );
+
+CREATE TABLE access_logs(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    invitation_id UUID NOT NULL REFERENCES invitations(id),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    direction TEXT NOT NULL,
+    timestamp TIMESTAMPTZ NOT NULL
+);

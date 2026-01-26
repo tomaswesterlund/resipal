@@ -6,6 +6,7 @@ import 'package:resipal/presentation/users/home/user_access_view.dart';
 import 'package:resipal/presentation/users/home/home_view.dart';
 import 'package:resipal/presentation/users/home/profile_view.dart';
 import 'package:resipal/presentation/users/home/user_movements_view.dart';
+import 'package:resipal/presentation/users/home/user_properties_page.dart';
 
 class UserHomePage extends StatefulWidget {
   final UserEntity user;
@@ -25,6 +26,7 @@ class _UserHomePageState extends State<UserHomePage> {
     _pages = [
       const HomeView(),
       UserMovementsView(user: widget.user),
+      UserPropertiesPage(user: widget.user),
       UserAccessView(user: widget.user),
       const ProfileView(),
     ];
@@ -51,6 +53,10 @@ class _UserHomePageState extends State<UserHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.attach_money),
             label: 'Saldo',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.house_outlined),
+            label: 'Propiedades',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.door_front_door_outlined),

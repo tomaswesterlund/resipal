@@ -1,6 +1,7 @@
 import 'package:resipal/domain/entities/invitation_entity.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/entities/payment_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 
 class UserEntity {
   final String id;
@@ -12,6 +13,7 @@ class UserEntity {
   final List<InvitationEntity> invitations;
   final List<MovementEntity> movements;
   final List<PaymentEntity> payments;
+  final List<PropertyEntity> properties;
 
   List<InvitationEntity> get activeInvitations =>
       invitations.where((e) => e.isActive).toList();
@@ -26,5 +28,6 @@ class UserEntity {
     required this.invitations,
     required this.movements,
     required this.payments,
+    required this.properties
   });
 }
