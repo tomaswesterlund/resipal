@@ -10,6 +10,7 @@ class PaymentEntity {
   final DateTime date;
   final String? reference;
   final String? note;
+  final String? receiptPath;
 
   PaymentEntity({
     required this.id,
@@ -20,5 +21,6 @@ class PaymentEntity {
     required this.date,
     required this.reference,
     required this.note,
+    required this.receiptPath,
   });
 }

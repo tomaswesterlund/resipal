@@ -7,8 +7,8 @@ class MovementEntity {
   final int amountInCents;
   final DateTime date;
   final MovementType type;
-  final String refSource;
   final String refId;
+  final Object data;
 
   MovementEntity({
     required this.id,
@@ -17,7 +17,7 @@ class MovementEntity {
     required this.amountInCents,
     required this.date,
     required this.type,
-    required this.refSource,
     required this.refId,
+    required this.data
   });
 }

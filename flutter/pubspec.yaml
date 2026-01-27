@@ -14,7 +14,10 @@ dependencies:
   flutter_bloc: ^9.1.1
   get_it: ^9.2.0
   google_fonts: ^7.0.2
+  image_picker: ^1.2.1
   intl: ^0.20.2
+  logger: ^2.6.2
+  package_info_plus: ^9.0.0
   qr_flutter: ^4.1.0
   short_navigation: ^2.5.3
   supabase_flutter: ^2.12.0

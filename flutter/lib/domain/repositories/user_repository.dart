@@ -20,7 +20,7 @@ class UserRepository {
 
     final invitations = await invitationRepository.getInvitationsByUserId(id);
     final movements = await movementRepository.getMovementsByUserId(id);
-    final payments = await paymentRepository.getPaymentsByUserId(id);
+    var payments = await paymentRepository.getPaymentsByUserId(id);
     final properties = await propertyRepository.getPropertiesByUserId(id);
 
     final entity = UserEntity(

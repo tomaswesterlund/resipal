@@ -7,6 +7,7 @@ class PaymentModel {
   final DateTime date;
   final String? reference;
   final String? note;
+  final String? receiptPath;
 
   PaymentModel({
     required this.id,
@@ -17,6 +18,7 @@ class PaymentModel {
     required this.date,
     required this.reference,
     required this.note,
+    required this.receiptPath
   });
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class PaymentModel {
       date: DateTime.parse(json['date'].toString()),
       reference: json['reference'],
       note: json['note'],
+      receiptPath: json['receipt_path'],
     );
   }
 }

@@ -5,7 +5,6 @@ BEGIN
         user_id,
         amount_in_cents,
         type,
-        ref_source,
         ref_id,
         created_at
     )
@@ -13,7 +12,6 @@ BEGIN
         NEW.user_id,
         NEW.amount_in_cents,
         'payment',
-        'payments_table',
         NEW.id::TEXT,
         NEW.created_at
     );

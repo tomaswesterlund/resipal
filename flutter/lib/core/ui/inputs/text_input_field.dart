@@ -11,7 +11,7 @@ class TextInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
       style: GoogleFonts.raleway(fontSize: 16.0, color: Colors.black87),
       decoration: InputDecoration(
         hintText: label,

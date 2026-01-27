@@ -10,37 +10,40 @@ class MovementTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-              child: Padding(
-                padding: EdgeInsetsGeometry.all(12.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.construction, size: 36),
-                    SizedBox(width: 8,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        HeaderText.five(movement.type.name.toString()),
-                        HeaderText.six(
-                          'Noviembre / Terreno K19',
-                          color: Colors.grey,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        AmountText.fromDouble(movement.amountInCents.toDouble(), fontSize: 14),
-
-                        Text('01 Dic'),
-                      ],
-                    ),
-                    SizedBox(width: 8,),
-                    Icon(Icons.arrow_forward_ios)
-                  ],
+      child: Padding(
+        padding: EdgeInsetsGeometry.all(12.0),
+        child: Row(
+          children: [
+            Icon(Icons.construction, size: 36),
+            SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HeaderText.five(movement.type.name.toString()),
+                HeaderText.six(
+                  'Noviembre / Terreno K19',
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal,
                 ),
-              ),
-            );
+              ],
+            ),
+            Spacer(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                AmountText.fromDouble(
+                  movement.amountInCents.toDouble(),
+                  fontSize: 14,
+                ),
+
+                Text('01 Dic'),
+              ],
+            ),
+            SizedBox(width: 8),
+            Icon(Icons.arrow_forward_ios),
+          ],
+        ),
+      ),
+    );
   }
 }

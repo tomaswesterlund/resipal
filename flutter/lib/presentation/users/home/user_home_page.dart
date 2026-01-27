@@ -5,7 +5,7 @@ import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/users/home/user_access_view.dart';
 import 'package:resipal/presentation/users/home/home_view.dart';
 import 'package:resipal/presentation/users/home/profile_view.dart';
-import 'package:resipal/presentation/users/home/user_movements_view.dart';
+import 'package:resipal/presentation/users/home/user_movements/user_movements_view.dart';
 import 'package:resipal/presentation/users/home/user_properties_page.dart';
 
 class UserHomePage extends StatefulWidget {
@@ -51,8 +51,8 @@ class _UserHomePageState extends State<UserHomePage> {
             label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
-            label: 'Saldo',
+            icon: Icon(Icons.account_balance),
+            label: 'Balance',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.house_outlined),

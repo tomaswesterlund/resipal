@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/enums/movement_type.dart';
+import 'package:resipal/presentation/movements/widgets/tiles/maintenance_fee_tile.dart';
 import 'package:resipal/presentation/movements/widgets/tiles/movement_tile.dart';
 import 'package:resipal/presentation/movements/widgets/tiles/payment_movement_tile.dart';
 
@@ -22,6 +23,10 @@ class MovementListView extends StatelessWidget {
           final movement = movements[index];
           if(movement.type == MovementType.payment) {
             return PaymentMovementTile(movement);
+          }
+
+          if(movement.type == MovementType.maintenanceFee) {
+            return MaintenanceFeeMovementTile(movement);
           }
 
           return MovementTile(movement);

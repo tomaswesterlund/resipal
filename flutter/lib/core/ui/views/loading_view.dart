@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:resipal/core/ui/texts/body_text.dart';
 
 class LoadingView extends StatelessWidget {
-  const LoadingView({super.key});
+  final String text;
+  const LoadingView({this.text =  'Cargando información...', super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class LoadingView extends StatelessWidget {
           
           // Using BodyText to inform the user
           BodyText.medium(
-            'Cargando información...',
+            text,
             color: Colors.grey.shade600,
           ),
         ],

@@ -4,7 +4,6 @@ class MovementModel {
   final DateTime createdAt;
   final int amountInCents;
   final String type;
-  final String refSource;
   final String refId;
 
   MovementModel({
@@ -13,7 +12,6 @@ class MovementModel {
     required this.createdAt,
     required this.amountInCents,
     required this.type,
-    required this.refSource,
     required this.refId,
   });
 
@@ -24,7 +22,6 @@ class MovementModel {
       createdAt: DateTime.parse(json['created_at'].toString()),
       amountInCents: int.parse(json['amount_in_cents'].toString()),
       type: json['type'],
-      refSource: json['ref_source'],
       refId: json['ref_id'],
     );
   }

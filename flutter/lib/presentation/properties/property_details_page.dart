@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resipal/core/formatters/currency_formatter.dart';
 import 'package:resipal/core/formatters/date_formatters.dart';
 import 'package:resipal/core/ui/cards/hero_card.dart';
 import 'package:resipal/core/ui/cards/info_container.dart';
@@ -54,6 +55,31 @@ class PropertyDetailsPage extends StatelessWidget {
                   icon: Icons.person_outline,
                   label: 'Propietario',
                   text: property.user.name,
+                ),
+              ],
+            ),
+            const SizedBox(height: 25),
+
+            // Information Section
+            const SectionHeaderText(text: 'CONTRATO'),
+            InfoCard(
+              children: [
+                InfoTile(
+                  icon: Icons.control_camera_outlined,
+                  label: 'Nombre',
+                  text: property.contract.name,
+                ),
+                const Divider(height: 1),
+                InfoTile(
+                  icon: Icons.calendar_today_outlined,
+                  label: 'Periodo',
+                  text: property.contract.period
+                ),
+                const Divider(height: 1),
+                InfoTile(
+                  icon: Icons.person_outline,
+                  label: 'Costo (por periodo)',
+                  text: CurrencyFormatter.fromCents(property.contract.amountInCents)
                 ),
               ],
             ),

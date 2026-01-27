@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Resipal necesita acceso a tu cámara para que puedas tomar fotos de tus comprobantes de pago.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Resipal necesita acceso a tu galería para que puedas seleccionar imágenes de tus comprobantes de pago.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Resipal necesita acceso al micrófono (requerido por la API de cámara).</string>
 </dict>
 </plist>

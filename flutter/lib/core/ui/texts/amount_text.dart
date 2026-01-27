@@ -9,8 +9,9 @@ class AmountText extends StatelessWidget {
 
   const AmountText(this.text, {this.fontSize = 48.0, this.color = Colors.black, super.key});
 
-  AmountText.fromDouble(double amount, {this.fontSize = 48.0, this.color = Colors.black, super.key}) : text = CurrencyFormatter.toCurrencyString(amount);
-  AmountText.fromInt(int amount, {this.fontSize = 48.0, this.color = Colors.black, super.key}) : text = CurrencyFormatter.toCurrencyString(amount.toDouble());
+  AmountText.fromDouble(double amount, {this.fontSize = 48.0, this.color = Colors.black, super.key}) : text = CurrencyFormatter.fromDouble(amount);
+  AmountText.fromInt(int amount, {this.fontSize = 48.0, this.color = Colors.black, super.key}) : text = CurrencyFormatter.fromDouble(amount.toDouble());
+  AmountText.fromCents(int amount, {this.fontSize = 48.0, this.color = Colors.black, super.key}) : text = CurrencyFormatter.fromCents(amount);
 
   @override
   Widget build(BuildContext context) {
