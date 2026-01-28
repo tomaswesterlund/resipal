@@ -5,4 +5,8 @@ extension DateFormatters on DateTime {
     final formatter = DateFormat.yMMMMd();
     return formatter.format(this);
   }
+
+  String toRange(DateTime to) {
+    return '${toShortDate()} - ${to.toShortDate()}';
+  }
 }

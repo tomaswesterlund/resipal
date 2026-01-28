@@ -47,7 +47,8 @@ CREATE TABLE movements(
     created_at timestamptz NOT NULL DEFAULT NOW(),
     amount_in_cents int NOT NULL,
     type TEXT NOT NULL CHECK (type IN ('payment', 'maintenance_fee')),
-    ref_id text NOT NULL
+    ref_id text NOT NULL,
+    description TEXT
 );
 
 CREATE TABLE payments(

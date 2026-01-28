@@ -63,43 +63,7 @@ class _Loaded extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GreenBoxContainer(
-            child: Column(
-              children: [
-                const SizedBox(height: 24.0),
-                HeaderText.one('Saldo total', color: Colors.white),
-                AmountText.fromCents(
-                  user.totalBalanceInCents,
-                  color: Colors.white,
-                ),
-
-                if (user.totalOverdueFeeInCents > 0) ...[
-                  const SizedBox(height: 8.0),
-                  OverdueMaintenanceInfoRow(
-                    overdueAmount: user.totalOverdueFeeInCents,
-                  ),
-                ],
-
-                if (user.pendingPaymentAmountInCents > 0) ...[
-                  const SizedBox(height: 8.0),
-                  PendingPaymentsInfoRow(
-                    pendingPaymentAmount: user.pendingPaymentAmountInCents,
-                  ),
-                ],
-
-                const SizedBox(height: 24.0),
-                PrimaryCtaButton(
-                  label: 'Registrar pago',
-                  canSubmit: true,
-                  onPressed: () => Go.to(const RegisterPaymentPage()),
-                ),
-              ],
-            ),
-          ),
-          // const Padding(
-          //   padding: EdgeInsets.all(16.0),
-          //   child: Text('PROPERTY SELECTOR'),
-          // ),
+          
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: HeaderText.three('Mis movimientos'),

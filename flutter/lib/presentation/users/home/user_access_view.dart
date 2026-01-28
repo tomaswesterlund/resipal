@@ -14,15 +14,15 @@ class UserAccessView extends StatelessWidget {
     return Column(
       children: [
         GreenBoxContainer(
-            child: SafeArea(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: HeaderText.two('Accesos', color: Colors.white),
-                ),
+          child: SafeArea(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: HeaderText.two('Accesos', color: Colors.white),
               ),
             ),
           ),
+        ),
         Text('Create QR'),
         HeaderText.three('Invitaciones activas'),
         InvitationListView(user.activeInvitations),

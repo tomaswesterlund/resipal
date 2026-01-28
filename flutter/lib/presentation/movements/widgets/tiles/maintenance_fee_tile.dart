@@ -5,7 +5,7 @@ import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/entities/maintenance_fee_entity.dart';
 import 'package:resipal/domain/enums/maintenance_fee_status.dart';
-import 'package:resipal/presentation/movements/pages/maintenance_fee_details_page.dart';
+import 'package:resipal/presentation/maintenance/maintenance_fee_details_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class MaintenanceFeeMovementTile extends StatelessWidget {

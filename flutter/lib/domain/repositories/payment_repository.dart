@@ -8,6 +8,12 @@ import 'package:resipal/domain/repositories/user_repository.dart';
 class PaymentRepository {
   final PaymentDataSource _paymentDataSource = GetIt.I<PaymentDataSource>();
 
+  Stream<PaymentEntity> watchPaymentById(String id) {
+    return _paymentDataSource
+        .watchPaymentById(id)
+        .asyncMap((model) => _toEntity(model));
+  }
+
   Future<PaymentEntity> getPaymentById(String id) async {
     final model = await _paymentDataSource.getPaymentById(id);
     final entity = _toEntity(model);
@@ -27,14 +33,14 @@ class PaymentRepository {
     required DateTime date,
     required String? reference,
     required String? note,
-    required String receiptPath
+    required String receiptPath,
   }) => _paymentDataSource.registerNewPayment(
     userId: userId,
     amountInCents: amountInCents,
     date: date,
     reference: reference,
     note: note,
-    receiptPath: receiptPath
+    receiptPath: receiptPath,
   );
 
   Future<PaymentEntity> _toEntity(PaymentModel model) async {
@@ -49,7 +55,13 @@ class PaymentRepository {
       date: model.date,
       reference: model.reference,
       note: model.note,
-      receiptPath: model.receiptPath
+      receiptPath: model.receiptPath,
     );
   }
+
+  Future approvePayment({
+    required String userId,
+    required String paymentId,
+  }) async =>
+      _paymentDataSource.approvePayment(userId: userId, paymentId: paymentId);
 }

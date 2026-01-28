@@ -9,7 +9,7 @@ class ImageService {
     final supabase = Supabase.instance.client;
 
     final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
-    final path = '$userId/receipts/$fileName';
+    final path = 'receipts/$fileName';
 
     // 2. Read bytes from XFile (Works on all platforms)
     final bytes = await xFile.readAsBytes();

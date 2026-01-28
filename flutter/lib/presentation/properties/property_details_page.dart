@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:resipal/core/formatters/currency_formatter.dart';
 import 'package:resipal/core/formatters/date_formatters.dart';
 import 'package:resipal/core/ui/cards/hero_card.dart';
-import 'package:resipal/core/ui/cards/info_container.dart';
+import 'package:resipal/core/ui/cards/info_card.dart';
 import 'package:resipal/core/ui/texts/section_header_text.dart';
 import 'package:resipal/core/ui/tiles/info_tile.dart';
 import 'package:resipal/domain/entities/property_entity.dart';

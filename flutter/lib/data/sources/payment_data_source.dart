@@ -5,6 +5,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class PaymentDataSource {
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
+  Stream<PaymentModel> watchPaymentById(String id) {
+    return _client
+        .from('payments')
+        .stream(primaryKey: ['id'])
+        .eq('id', id)
+        .map((data) => PaymentModel.fromJson(data.first));
+  }
+
   Future<PaymentModel> getPaymentById(String id) async {
     final item = await _client.from('payments').select().eq('id', id).single();
     final model = PaymentModel.fromJson(item);
@@ -23,7 +31,7 @@ class PaymentDataSource {
     required DateTime date,
     required String? reference,
     required String? note,
-    required String receiptPath
+    required String receiptPath,
   }) async {
     await _client.rpc(
       'fn_register_new_payment',
@@ -33,8 +41,18 @@ class PaymentDataSource {
         'p_date': date.toIso8601String(),
         'p_reference': reference,
         'p_note': note,
-        'p_receipt_path': receiptPath
+        'p_receipt_path': receiptPath,
       },
+    );
+  }
+
+  Future approvePayment({
+    required String userId,
+    required String paymentId,
+  }) async {
+    await _client.rpc(
+      'fn_approve_payment',
+      params: {'p_user_id': userId, 'p_payment_id': paymentId},
     );
   }
 }

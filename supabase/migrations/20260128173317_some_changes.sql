@@ -1,6 +1,11 @@
-CREATE OR REPLACE FUNCTION fn_approve_payment(p_user_id UUID, p_payment_id UUID)
-RETURNS void
-LANGUAGE plpgsql AS $$
+alter table "public"."movements" add column "description" text;
+
+set check_function_bodies = off;
+
+CREATE OR REPLACE FUNCTION public.fn_approve_payment(p_user_id uuid, p_payment_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
 DECLARE
     v_is_pending BOOLEAN;
     v_amount_in_cents INT;
@@ -24,4 +29,7 @@ BEGIN
     INSERT INTO public.movements (user_id, amount_in_cents, type, ref_id, description)
     VALUES (p_user_id, (v_amount_in_cents * -1), 'payment', p_payment_id, 'Pago aprobado');
 END;
-$$;
+$function$
+;
+
+
