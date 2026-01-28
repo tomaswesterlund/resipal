@@ -1,4 +1,5 @@
 import 'package:resipal/domain/entities/maintenance_contract_entity.dart';
+import 'package:resipal/domain/entities/maintenance_fee_entity.dart';
 import 'package:resipal/domain/refs/user_ref.dart';
 
 class PropertyEntity {

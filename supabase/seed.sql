@@ -12,39 +12,39 @@ VALUES
 ('a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d', 'Departamento 402', 'Unidad en Torre A'),
 ('a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d', 'Bodega B-05', 'Espacio de almacenamiento en sótano');
 
--- 1. Create Maintenance Contracts for ALL existing properties
--- We use a CROSS JOIN / LATERAL approach to ensure every property gets one
-INSERT INTO maintenance_contracts(property_id, name, period, amount_in_cents, description)
-SELECT
-    id,
-    'Cuota de mantenimiento mensual',
-    'monthly',
-    5000,
-    'Cuota de mantenimiento mensual - ' || name
-FROM
-    properties;
+-- 1. Create Maintenance Contracts 
+INSERT INTO maintenance_contracts (id, property_id, name, period, amount_in_cents, description)
+VALUES 
+('c1111111-1111-1111-1111-111111111111', (SELECT id FROM properties WHERE name = 'Terreno K19' LIMIT 1), 'Mantenimiento K19', 'monthly', 5000, 'Cuota mensual estándar'),
+('c2222222-2222-2222-2222-222222222222', (SELECT id FROM properties WHERE name = 'Departamento 402' LIMIT 1), 'Mantenimiento Depto 402', 'monthly', 5000, 'Cuota mensual estándar'),
+('c3333333-3333-3333-3333-333333333333', (SELECT id FROM properties WHERE name = 'Bodega B-05' LIMIT 1), 'Mantenimiento Bodega', 'monthly', 2000, 'Cuota mensual estándar');
 
--- 2. Create Fees for EVERY contract
--- We'll generate 3 months of history for each: Jan (Paid), Feb (Paid), March (Pending)
-INSERT INTO maintenance_fees(contract_id, amount_in_cents, status, from_date, to_date, note)
-SELECT
-    mc.id,
-    mc.amount_in_cents,
-    -- Case to decide status based on the month
-    CASE WHEN months.start_date < '2026-03-01' THEN
-        'paid'
-    ELSE
-        'pending'
-    END AS status,
-    months.start_date,
-(months.start_date + INTERVAL '1 month' - INTERVAL '1 second') AS end_date,
-    TO_CHAR(months.start_date, 'Month') || ' Maintenance' AS note
-FROM
-    maintenance_contracts mc
-    CROSS JOIN (
-        VALUES (TIMESTAMPTZ '2026-01-01 00:00:00+00'),
-(TIMESTAMPTZ '2026-02-01 00:00:00+00'),
-(TIMESTAMPTZ '2026-03-01 00:00:00+00')) AS months(start_date);
+-- 2. Create Maintenance Fees for Terreno K19 (The specific 6-month history)
+INSERT INTO maintenance_fees (contract_id, amount_in_cents, payment_date, due_date, from_date, to_date, note)
+VALUES 
+-- October 2025: Paid (Payment date is before or on the due date)
+('c1111111-1111-1111-1111-111111111111', 5000, '2025-10-05 10:00:00+00', '2025-10-10 23:59:59+00', '2025-10-01', '2025-10-31', 'October 2025 Maintenance'),
+
+-- November 2025: Not Paid (payment_date is NULL, and today is 2026, so this is OVERDUE)
+('c1111111-1111-1111-1111-111111111111', 5000, NULL, '2025-11-10 23:59:59+00', '2025-11-01', '2025-11-30', 'November 2025 Maintenance'),
+
+-- December 2025: Not Paid (OVERDUE)
+('c1111111-1111-1111-1111-111111111111', 5000, NULL, '2025-12-10 23:59:59+00', '2025-12-01', '2025-12-31', 'December 2025 Maintenance'),
+
+-- January 2026: Not Paid (OVERDUE - Today is Jan 28, due date was Jan 10)
+('c1111111-1111-1111-1111-111111111111', 5000, NULL, '2026-01-10 23:59:59+00', '2026-01-01', '2026-01-31', 'January 2026 Maintenance'),
+
+-- February 2026: Not Paid (UPCOMING - Due in the future)
+('c1111111-1111-1111-1111-111111111111', 5000, NULL, '2026-02-10 23:59:59+00', '2026-02-01', '2026-02-28', 'February 2026 Maintenance'),
+
+-- March 2026: Not Paid (UPCOMING - Due in the future)
+('c1111111-1111-1111-1111-111111111111', 5000, NULL, '2026-03-10 23:59:59+00', '2026-03-01', '2026-03-31', 'March 2026 Maintenance');
+-- 3. (Optional) Quick entries for the other properties so the UI isn't empty
+
+-- INSERT INTO maintenance_fees (contract_id, amount_in_cents, is_paid, from_date, to_date, note)
+-- VALUES 
+-- ('c2222222-2222-2222-2222-222222222222', 5000, true, '2026-01-01', '2026-01-31', 'January 2026 Maintenance'),
+-- ('c3333333-3333-3333-3333-333333333333', 2000, true, '2026-01-01', '2026-01-31', 'January 2026 Maintenance');
 
 INSERT INTO payments(user_id, amount_in_cents, status, date, reference, note)
 VALUES

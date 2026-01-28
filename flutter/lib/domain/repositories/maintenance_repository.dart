@@ -8,25 +8,17 @@ import 'package:resipal/domain/entities/maintenance_fee_entity.dart';
 import 'package:resipal/domain/refs/maintenance_contract_ref.dart';
 
 class MaintenanceRepository {
-  final MaintenanceContractDataSource _maintenanceContractDataSource =
-      GetIt.I<MaintenanceContractDataSource>();
-  final MaintenanceFeeDataSource _maintenanceFeeDataSource =
-      GetIt.I<MaintenanceFeeDataSource>();
+  final MaintenanceContractDataSource _maintenanceContractDataSource = GetIt.I<MaintenanceContractDataSource>();
+  final MaintenanceFeeDataSource _maintenanceFeeDataSource = GetIt.I<MaintenanceFeeDataSource>();
 
-  Future<MaintenanceContractRef> getMaintenanceContractRefById(
-    String id,
-  ) async {
-    final model = await _maintenanceContractDataSource
-        .getMaintenanceContractById(id);
+  Future<MaintenanceContractRef> getMaintenanceContractRefById(String id) async {
+    final model = await _maintenanceContractDataSource.getMaintenanceContractById(id);
     final ref = MaintenanceContractRef(id: model.id, name: model.name);
     return ref;
   }
 
-  Future<MaintenanceContractEntity> getMaintenanceContractByPropertyId(
-    String propertyId,
-  ) async {
-    final model = await _maintenanceContractDataSource
-        .getMaintenanceContractByPropertyId(propertyId);
+  Future<MaintenanceContractEntity> getMaintenanceContractByPropertyId(String propertyId) async {
+    final model = await _maintenanceContractDataSource.getMaintenanceContractByPropertyId(propertyId);
     final entity = await _toMaintenanceContractEntity(model);
     return entity;
   }
@@ -37,30 +29,15 @@ class MaintenanceRepository {
     return entity;
   }
 
-  Future<MaintenanceContractEntity> _toMaintenanceContractEntity(
-    MaintenanceContractModel model,
-  ) async {
-    final feeModels = await _maintenanceFeeDataSource
-        .getMaintenanceFeeByContractId(model.id);
-    final futures = feeModels.map(
-      (f) async => await _toMaintenanceFeeEntity(f),
-    );
+  Future<MaintenanceContractEntity> _toMaintenanceContractEntity(MaintenanceContractModel model) async {
+    final feeModels = await _maintenanceFeeDataSource.getMaintenanceFeeByContractId(model.id);
+    final futures = feeModels.map((f) async => await _toMaintenanceFeeEntity(f));
     final fees = await Future.wait(futures);
 
-    return MaintenanceContractEntity(
-      id: model.id,
-      name: model.name,
-      createdAt: model.createdAt,
-      period: model.period,
-      amountInCents: model.amountInCents,
-      description: model.description,
-      fees: fees,
-    );
+    return MaintenanceContractEntity(id: model.id, name: model.name, createdAt: model.createdAt, period: model.period, amountInCents: model.amountInCents, description: model.description, fees: fees);
   }
 
-  Future<MaintenanceFeeEntity> _toMaintenanceFeeEntity(
-    MaintenanceFeeModel model,
-  ) async {
+  Future<MaintenanceFeeEntity> _toMaintenanceFeeEntity(MaintenanceFeeModel model) async {
     final contract = await getMaintenanceContractRefById(model.contractId);
 
     return MaintenanceFeeEntity(
@@ -68,7 +45,8 @@ class MaintenanceRepository {
       contract: contract,
       createdAt: model.createdAt,
       amountInCents: model.amountInCents,
-      status: model.status,
+      dueDate: model.dueDate,
+      paymentDate: model.paymentDate,
       fromDate: model.fromDate,
       toDate: model.toDate,
       note: model.note,

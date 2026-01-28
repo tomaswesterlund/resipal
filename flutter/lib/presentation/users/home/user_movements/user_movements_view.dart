@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal/core/ui/buttons/cta/primary_cta_button.dart';
 import 'package:resipal/core/ui/containers/green_box_container.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
-import 'package:resipal/core/ui/texts/body_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
 import 'package:resipal/core/ui/views/loading_view.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
+import 'package:resipal/presentation/maintenance/overdue_maintenance_info_row.dart';
 import 'package:resipal/presentation/movements/widgets/movement_list_view.dart';
+import 'package:resipal/presentation/payments/pending_payments_info_row.dart';
 import 'package:resipal/presentation/payments/register_payment/register_payment_page.dart';
 import 'package:resipal/presentation/users/home/user_movements/user_movements_cubit.dart';
 import 'package:short_navigation/short_navigation.dart';
@@ -72,48 +73,17 @@ class _Loaded extends StatelessWidget {
                   color: Colors.white,
                 ),
 
-                // --- Payment in Review Logic ---
+                if (user.totalOverdueFeeInCents > 0) ...[
+                  const SizedBox(height: 8.0),
+                  OverdueMaintenanceInfoRow(
+                    overdueAmount: user.totalOverdueFeeInCents,
+                  ),
+                ],
+
                 if (user.pendingPaymentAmountInCents > 0) ...[
                   const SizedBox(height: 8.0),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.history_toggle_off,
-                          color: Colors.white,
-                          size: 14,
-                        ),
-                        const SizedBox(width: 6),
-                        BodyText.tiny(
-                          'Pagos en revisión: ',
-                          color: Colors.white,
-                        ),
-                        AmountText.fromCents(
-                          user.pendingPaymentAmountInCents,
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                        const SizedBox(width: 4),
-                        // --- The Help Button ---
-                        GestureDetector(
-                          onTap: () => _showReviewExplanation(context),
-                          child: Icon(
-                            Icons.help_outline_rounded,
-                            color: Colors.white.withOpacity(0.7),
-                            size: 14,
-                          ),
-                        ),
-                      ],
-                    ),
+                  PendingPaymentsInfoRow(
+                    pendingPaymentAmount: user.pendingPaymentAmountInCents,
                   ),
                 ],
 
@@ -135,25 +105,6 @@ class _Loaded extends StatelessWidget {
             child: HeaderText.three('Mis movimientos'),
           ),
           MovementListView(sortedMovements),
-        ],
-      ),
-    );
-  }
-
-  void _showReviewExplanation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: HeaderText.four('Pagos en revisión'),
-        content: BodyText.small(
-          'Este monto corresponde a los comprobantes que has subido pero que aún no han sido validados por administración.\n\nUna vez verificados, se aplicarán automáticamente a tu saldo total.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('ENTENDIDO'),
-          ),
         ],
       ),
     );

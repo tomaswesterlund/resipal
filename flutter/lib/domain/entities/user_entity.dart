@@ -20,16 +20,29 @@ class UserEntity {
       invitations.where((e) => e.isActive).toList();
 
   int get totalBalanceInCents {
-    // Get all expenses - Maintenance fees etc.
-    // Get all paid 
-    final approvedAndPaidPayments = payments.where((p) => p.status == PaymentStatus.approved);
-    final approvedPaymentAmountInCents = approvedAndPaidPayments.fold(0, (sum, payment) => sum = sum + payment.amountInCents);
+    final approvedAndPaidPayments = payments.where(
+      (p) => p.status == PaymentStatus.approved,
+    );
+    final approvedPaymentAmountInCents = approvedAndPaidPayments.fold(
+      0,
+      (sum, payment) => sum = sum + payment.amountInCents,
+    );
     return approvedPaymentAmountInCents;
   }
 
+  int get totalOverdueFeeInCents => properties.fold(
+    0,
+    (sum, property) => sum = sum + property.contract.totalOverdueFeeInCents,
+  );
+
   int get pendingPaymentAmountInCents {
-    final pendingPayments = payments.where((p) => p.status == PaymentStatus.pendingReview);
-    final pendingAmountInCents = pendingPayments.fold(0, (sum, payment) => sum = sum + payment.amountInCents);
+    final pendingPayments = payments.where(
+      (p) => p.status == PaymentStatus.pendingReview,
+    );
+    final pendingAmountInCents = pendingPayments.fold(
+      0,
+      (sum, payment) => sum = sum + payment.amountInCents,
+    );
     return pendingAmountInCents;
   }
 
@@ -43,6 +56,6 @@ class UserEntity {
     required this.invitations,
     required this.movements,
     required this.payments,
-    required this.properties
+    required this.properties,
   });
 }

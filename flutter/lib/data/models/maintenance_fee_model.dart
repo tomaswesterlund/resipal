@@ -3,7 +3,8 @@ class MaintenanceFeeModel {
   final String contractId;
   final DateTime createdAt;
   final int amountInCents;
-  final String status;
+  final DateTime dueDate;
+  final DateTime? paymentDate;
   final DateTime fromDate;
   final DateTime toDate;
   final String? note;
@@ -13,7 +14,8 @@ class MaintenanceFeeModel {
     required this.contractId,
     required this.createdAt,
     required this.amountInCents,
-    required this.status,
+    required this.dueDate,
+    required this.paymentDate,
     required this.fromDate,
     required this.toDate,
     required this.note,
@@ -25,7 +27,10 @@ class MaintenanceFeeModel {
       contractId: json['contract_id'],
       createdAt: DateTime.parse(json['created_at'].toString()),
       amountInCents: int.parse(json['amount_in_cents'].toString()),
-      status: json['status'],
+      dueDate: DateTime.parse(json['due_date'].toString()),
+      paymentDate: json['payment_date'] == null
+          ? null
+          : DateTime.parse(json['payment_date'].toString()),
       fromDate: DateTime.parse(json['from_date'].toString()),
       toDate: DateTime.parse(json['to_date'].toString()),
       note: json['note'],
