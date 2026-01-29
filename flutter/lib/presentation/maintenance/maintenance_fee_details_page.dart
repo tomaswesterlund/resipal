@@ -69,7 +69,8 @@ class MaintenanceFeeDetailsPage extends StatelessWidget {
                   DetailTile(
                     icon: Icons.schedule_outlined,
                     label: 'Periodo',
-                    value: maintenanceFee.fromDate.toRange(
+                    value: DateFormatters.toDateRange(
+                      maintenanceFee.fromDate,
                       maintenanceFee.toDate,
                     ),
                   ),

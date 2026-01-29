@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resipal/core/formatters/date_formatters.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
@@ -14,7 +14,6 @@ class InvitationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isActive = invitation.canEnter;
-    final DateFormat formatter = DateFormat('dd MMM, yyyy');
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -23,8 +22,8 @@ class InvitationCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           // Subtle border tint based on status
-          color: isActive 
-              ? AppColors.success.withOpacity(0.2) 
+          color: isActive
+              ? AppColors.success.withOpacity(0.2)
               : AppColors.danger.withOpacity(0.2),
           width: 1,
         ),
@@ -37,8 +36,8 @@ class InvitationCard extends StatelessWidget {
             children: [
               // 1. Status Indicator Side Bar
               Container(
-                width: 6, 
-                color: isActive ? AppColors.success : AppColors.danger
+                width: 6,
+                color: isActive ? AppColors.success : AppColors.danger,
               ),
 
               // 2. Main Content
@@ -72,8 +71,12 @@ class InvitationCard extends StatelessWidget {
                           ),
                           // Status Icon
                           Icon(
-                            isActive ? Icons.check_circle : Icons.history_rounded,
-                            color: isActive ? AppColors.success : AppColors.danger,
+                            isActive
+                                ? Icons.check_circle
+                                : Icons.history_rounded,
+                            color: isActive
+                                ? AppColors.success
+                                : AppColors.danger,
                             size: 18,
                           ),
                         ],
@@ -86,8 +89,12 @@ class InvitationCard extends StatelessWidget {
                           fontSize: 13,
                         ),
                       ),
-                      const Divider(height: 24, thickness: 1, color: Color(0xFFF4F5F4)),
-                      
+                      Divider(
+                        height: 24,
+                        thickness: 1,
+                        color: AppColors.auxiliarScale[100],
+                      ),
+
                       // Footer: Dates and Action
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,20 +103,27 @@ class InvitationCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Vence el',
+                                'Fechas',
                                 style: GoogleFonts.raleway(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.auxiliarScale[400],
                                 ),
                               ),
-                              Text(
-                                formatter.format(invitation.toDate),
-                                style: GoogleFonts.raleway(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.auxiliarScale[800],
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    DateFormatters.toDateRange(
+                                      invitation.fromDate,
+                                      invitation.toDate,
+                                    ),
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.auxiliarScale[800],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -121,7 +135,8 @@ class InvitationCard extends StatelessWidget {
                                 fontSize: 13,
                               ),
                             ),
-                            onPressed: () => Go.to(InvitationDetailsPage(invitation)),
+                            onPressed: () =>
+                                Go.to(InvitationDetailsPage(invitation)),
                             child: const Row(
                               children: [
                                 Text('Detalles'),

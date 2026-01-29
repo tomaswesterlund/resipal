@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal/core/ui/app_colors.dart';
-import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
 import 'package:resipal/core/ui/views/loading_view.dart';
 import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
 import 'package:resipal/presentation/invitations/invitation_card.dart';
-import 'package:resipal/presentation/invitations/invitation_details_page.dart';
 import 'package:resipal/presentation/invitations/invitation_list/invitation_list_cubit.dart';
-import 'package:resipal/presentation/users/home/user_home_view.dart';
-import 'package:resipal/presentation/visitors/no_visitors_found_view.dart';
-import 'package:short_navigation/short_navigation.dart';
 
 class InvitationListView extends StatelessWidget {
   final String userId;
@@ -56,6 +50,7 @@ class _Loaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: invitations.length,

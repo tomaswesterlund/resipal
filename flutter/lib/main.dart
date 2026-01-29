@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/image_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
@@ -28,22 +29,26 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(
-    url: 'http://127.0.0.1:54321    ',
-    anonKey: 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH',
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
   );
 
   // await Supabase.initialize(
-  //   url: 'https://xapfoiggbgutbmcqrgma.supabase.co',
-  //   anonKey: 'sb_publishable_I1FzA8ioJ1zPOhpFjld_vA_p2Pip5pw',
+  //   url: 'http://127.0.0.1:54321    ',
+  //   anonKey: 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH',
   // );
 
+  await Supabase.initialize(
+    url: 'https://xapfoiggbgutbmcqrgma.supabase.co',
+    anonKey: 'sb_publishable_I1FzA8ioJ1zPOhpFjld_vA_p2Pip5pw',
+  );
+
   GetIt.I.registerSingleton(Supabase.instance.client);
-  
+
   GetIt.I.registerSingleton(ImageService());
   GetIt.I.registerSingleton(LoggerService());
   GetIt.I.registerSingleton(SessionService());
-
 
   GetIt.I.registerSingleton(AccessLogDataSource());
   GetIt.I.registerSingleton(ErrorLogDataSource());

@@ -5,18 +5,21 @@ class DetailTile extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final Color? color; // Add this
 
   const DetailTile({
     super.key,
     required this.icon,
     required this.label,
     required this.value,
+    this.color, // Add this
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.primary, size: 22),
+      // Use the passed color, or fallback to primary
+      leading: Icon(icon, color: color ?? AppColors.primary, size: 22),
       title: Text(
         label,
         style: const TextStyle(

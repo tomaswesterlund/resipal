@@ -20,24 +20,33 @@ class UserAccessView extends StatelessWidget {
           GreenBoxContainer(
             child: SafeArea(
               child: Column(
-                children: [
-                  HeaderText.one('Accesos', color: Colors.white),
-                  const SizedBox(height: 24.0),
-                  PrimaryCtaButton(
-                    label: 'Crear invitación',
-                    canSubmit: true,
-                    onPressed: () => Go.to(CreateInvitationPage()),
-                  ),
-                ],
+                children: [HeaderText.one('Accesos', color: Colors.white)],
               ),
             ),
           ),
-      
-          SizedBox(height: 12),
+
+          const SizedBox(height: 12.0),
+
+          PrimaryCtaButton(
+            label: 'Crear invitación',
+            canSubmit: true,
+            onPressed: () => Go.to(CreateInvitationPage()),
+          ),
+
+          const SizedBox(height: 12.0),
+
+          PrimaryCtaButton(
+            label: 'Crear visitante',
+            canSubmit: true,
+            onPressed: () => Go.to(CreateInvitationPage()),
+          ),
+
+          SizedBox(height: 32),
           HeaderText.three('Invitaciones activas'),
-          InvitationListView(userId: user.id,),
+          InvitationListView(userId: user.id),
           Text('Frecuentes'),
           Text('Historial'),
+          SizedBox(height: 148,)
         ],
       ),
     );

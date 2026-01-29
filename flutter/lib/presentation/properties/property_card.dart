@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
@@ -21,7 +22,9 @@ class PropertyCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: hasDebt ? AppColors.danger.withOpacity(0.3) : AppColors.success.withOpacity(0.3),
+          color: hasDebt
+              ? AppColors.danger.withOpacity(0.3)
+              : AppColors.success.withOpacity(0.3),
           width: 1,
         ),
       ),
@@ -32,7 +35,10 @@ class PropertyCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // 1. Status Indicator Side Bar
-              Container(width: 6, color: hasDebt ? AppColors.danger : AppColors.success),
+              Container(
+                width: 6,
+                color: hasDebt ? AppColors.danger : AppColors.success,
+              ),
 
               // 2. Main Content
               Expanded(
@@ -44,14 +50,31 @@ class PropertyCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          HeaderText.five(
-                            'Propiedad ${property.name}', // e.g., "Apt 402"
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.house_outlined,
+                                  size: 20,
+                                  color: AppColors.secondaryScale[400],
+                                ),
+                                const SizedBox(width: 8),
+                                Flexible(
+                                  child: HeaderText.five(
+                                    property.name,
+                                    color: AppColors.auxiliarScale[900]!,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           Icon(
                             hasDebt
                                 ? Icons.warning_amber_rounded
                                 : Icons.check_circle_outline,
-                            color: hasDebt ? AppColors.danger : AppColors.success,
+                            color: hasDebt
+                                ? AppColors.danger
+                                : AppColors.success,
                             size: 20,
                           ),
                         ],
@@ -65,30 +88,51 @@ class PropertyCard extends StatelessWidget {
                           fontSize: 13,
                         ),
                       ),
-                      const Divider(height: 24),
+                       Divider(
+                        height: 24,
+                        thickness: 1,
+                        color: AppColors.auxiliarScale[100]
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Deuda Pendiente',
-                                style: TextStyle(
+                                style: GoogleFonts.raleway(
                                   fontSize: 11,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.auxiliarScale[400],
                                 ),
                               ),
                               AmountText.fromCents(
                                 property.contract.totalOverdueFeeInCents,
                                 fontSize: 18,
-                                color: hasDebt ? AppColors.danger : Colors.black87,
+                                color: hasDebt
+                                    ? AppColors.danger
+                                    : Colors.black87,
                               ),
                             ],
                           ),
                           TextButton(
-                            onPressed: () => Go.to(PropertyDetailsPage(property)),
-                            child: const Text('Ver detalles'),
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppColors.secondary,
+                              textStyle: GoogleFonts.raleway(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                            onPressed: () =>
+                                Go.to(PropertyDetailsPage(property)),
+                            child: Row(
+                              children: [
+                                Text('Detalles'),
+                                SizedBox(width: 4),
+                                Icon(Icons.arrow_forward_ios, size: 12),
+                              ],
+                            ),
                           ),
                         ],
                       ),

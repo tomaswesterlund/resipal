@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:resipal/core/ui/buttons/cta/primary_cta_button.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/containers/green_box_container.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
-import 'package:resipal/domain/entities/invitation_entity.dart';
-import 'package:resipal/domain/entities/property_entity.dart';
+import 'package:resipal/core/ui/texts/section_header_text.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
-import 'package:resipal/presentation/invitations/invitation_card.dart';
+import 'package:resipal/presentation/invitations/invitation_list/invitation_list_view.dart';
 import 'package:resipal/presentation/maintenance/overdue_maintenance_info_row.dart';
 import 'package:resipal/presentation/payments/pending_payments_info_row.dart';
-import 'package:resipal/presentation/payments/register_payment/register_payment_page.dart';
 import 'package:resipal/presentation/properties/property_card.dart';
-import 'package:short_navigation/short_navigation.dart';
 
 class UserHomeView extends StatelessWidget {
   final UserEntity user;
@@ -34,20 +32,6 @@ class UserHomeView extends StatelessWidget {
                     user.totalBalanceInCents,
                     color: Colors.white,
                   ),
-
-                  // Keep your InfoRows here
-                  if (user.totalOverdueFeeInCents > 0) ...[
-                    const SizedBox(height: 12.0),
-                    OverdueMaintenanceInfoRow(
-                      overdueAmount: user.totalOverdueFeeInCents,
-                    ),
-                  ],
-                  if (user.pendingPaymentAmountInCents > 0) ...[
-                    const SizedBox(height: 8.0),
-                    PendingPaymentsInfoRow(
-                      pendingPaymentAmount: user.pendingPaymentAmountInCents,
-                    ),
-                  ],
                 ],
               ),
             ),
@@ -62,6 +46,19 @@ class UserHomeView extends StatelessWidget {
                 // Quick Actions Grid
                 const _QuickActionsGrid(),
 
+                HeaderText.four('Advertencias'),
+                if (user.totalOverdueFeeInCents > 0) ...[
+                  const SizedBox(height: 12.0),
+                  OverdueMaintenanceInfoRow(
+                    overdueAmount: user.totalOverdueFeeInCents,
+                  ),
+                ],
+                if (user.pendingPaymentAmountInCents > 0) ...[
+                  const SizedBox(height: 8.0),
+                  PendingPaymentsInfoRow(
+                    pendingPaymentAmount: user.pendingPaymentAmountInCents,
+                  ),
+                ],
                 const SizedBox(height: 32),
 
                 // Property Info
@@ -81,25 +78,23 @@ class UserHomeView extends StatelessWidget {
                       HeaderText.four('Invitaciones activas'),
                       TextButton(
                         onPressed: () {},
-                        child: const Text('Ver todas'),
+                        child: Text(
+                          'Ver todas >',
+                          style: GoogleFonts.raleway(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.secondary,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  // Simple Horizontal Scroll for Invitations
-                  SizedBox(
-                    height: 100,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: user.activeInvitations.length,
-                      itemBuilder: (ctx, i) =>
-                          InvitationCard(user.activeInvitations[i]),
-                    ),
-                  ),
+                  InvitationListView(userId: user.id),
                 ],
               ],
             ),
           ),
+          SizedBox(height: 148,)
         ],
       ),
     );
@@ -112,6 +107,7 @@ class _QuickActionsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 4,

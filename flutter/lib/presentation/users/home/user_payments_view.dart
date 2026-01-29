@@ -18,24 +18,39 @@ class UserPaymentsView extends StatelessWidget {
     payments.sort((a, b) => b.date.compareTo(a.date));
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GreenBoxContainer(
             child: SafeArea(
               child: Column(
                 children: [
                   HeaderText.one('Mis pagos', color: Colors.white),
-                  const SizedBox(height: 24.0),
-                  PrimaryCtaButton(
-                    label: 'Registrar pago',
-                    canSubmit: true,
-                    onPressed: () => Go.to(const RegisterPaymentPage()),
-                  ),
                 ],
               ),
             ),
           ),
 
-          PaymentListView(payments),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 12.0),
+                PrimaryCtaButton(
+                  label: 'Registrar pago',
+                  canSubmit: true,
+                  onPressed: () => Go.to(const RegisterPaymentPage()),
+                ),
+                
+                SizedBox(height: 32),
+
+                HeaderText.four('Mis Pagos', textAlign: TextAlign.start),
+                const SizedBox(height: 12),
+                PaymentListView(payments),
+              ],
+            ),
+          ),
+          SizedBox(height: 148),
         ],
       ),
     );

@@ -17,6 +17,14 @@ class HeaderText extends StatelessWidget {
     this.textAlign, // Initialize in default constructor
   });
 
+    const HeaderText.giga(
+    this.text, {
+    this.color = Colors.black,
+    this.fontWeight = FontWeight.bold,
+    this.textAlign,
+    super.key,
+  }) : fontSize = 48.0;
+
   const HeaderText.one(
     this.text, {
     this.color = Colors.black,
