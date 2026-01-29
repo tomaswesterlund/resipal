@@ -29,6 +29,7 @@ class LoggerService {
     required StackTrace? stackTrace,
     Map<String, dynamic>? metadata,
   }) async {
+    final SessionService sessionService = GetIt.I<SessionService>();
     final ErrorLogDataSource errorDataSource = GetIt.I<ErrorLogDataSource>();
 
     _logger.e(
@@ -44,7 +45,7 @@ class LoggerService {
       final errorLog = ErrorLogModel(
         id: Uuid().v4(),
         createdAt: DateTime.now(),
-        userId: SessionService.signedInUserId,
+        userId: sessionService.getSignedInUserId(),
         errorMessage: exception.toString(),
         stackTrace: stackTrace?.toString(),
         platform: kIsWeb ? 'web' : Platform.operatingSystem,

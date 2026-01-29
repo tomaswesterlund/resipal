@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resipal/core/ui/app_colors.dart';
+import 'package:resipal/core/ui/texts/header_text.dart';
+import 'package:resipal/core/ui/views/error_state_view.dart';
+import 'package:resipal/core/ui/views/loading_view.dart';
+import 'package:resipal/core/ui/views/unknown_state_view.dart';
+import 'package:resipal/domain/entities/invitation_entity.dart';
+import 'package:resipal/presentation/invitations/invitation_card.dart';
+import 'package:resipal/presentation/invitations/invitation_details_page.dart';
+import 'package:resipal/presentation/invitations/invitation_list/invitation_list_cubit.dart';
+import 'package:resipal/presentation/users/home/user_home_view.dart';
+import 'package:resipal/presentation/visitors/no_visitors_found_view.dart';
+import 'package:short_navigation/short_navigation.dart';
+
+class InvitationListView extends StatelessWidget {
+  final String userId;
+
+  const InvitationListView({required this.userId, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<InvitationListCubit>(
+      create: (ctx) => InvitationListCubit()..initialize(userId),
+      child: BlocBuilder<InvitationListCubit, InvitationListState>(
+        builder: (ctx, state) {
+          if (state is InitialState || state is LoadingState) {
+            return const LoadingView();
+          }
+
+          if (state is LoadedState) {
+            if (state.invitations.isEmpty) {
+              return Text('No invitations found ...');
+            }
+            return _Loaded(invitations: state.invitations);
+          }
+
+          if (state is ErrorState) {
+            return ErrorStateView(
+              errorMessage: state.errorMessage,
+              exception: state.exception,
+            );
+          }
+
+          return const UnknownStateView();
+        },
+      ),
+    );
+  }
+}
+
+class _Loaded extends StatelessWidget {
+  final List<InvitationEntity> invitations;
+  const _Loaded({required this.invitations});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: invitations.length,
+      itemBuilder: (ctx, index) {
+        final invitation = invitations[index];
+        return InvitationCard(invitation);
+      },
+    );
+  }
+}

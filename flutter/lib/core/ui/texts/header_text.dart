@@ -6,6 +6,7 @@ class HeaderText extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final Color color;
+  final TextAlign? textAlign; // Added field
 
   const HeaderText({
     super.key,
@@ -13,12 +14,14 @@ class HeaderText extends StatelessWidget {
     this.fontSize = 18.0,
     this.fontWeight = FontWeight.normal,
     this.color = Colors.black,
+    this.textAlign, // Initialize in default constructor
   });
 
   const HeaderText.one(
     this.text, {
     this.color = Colors.black,
     this.fontWeight = FontWeight.bold,
+    this.textAlign, // Pass through named constructor
     super.key,
   }) : fontSize = 32.0;
 
@@ -26,6 +29,7 @@ class HeaderText extends StatelessWidget {
     this.text, {
     this.color = Colors.black,
     this.fontWeight = FontWeight.bold,
+    this.textAlign, // Pass through named constructor
     super.key,
   }) : fontSize = 24.0;
 
@@ -33,6 +37,7 @@ class HeaderText extends StatelessWidget {
     this.text, {
     this.color = Colors.black,
     this.fontWeight = FontWeight.bold,
+    this.textAlign, // Pass through named constructor
     super.key,
   }) : fontSize = 20.0;
 
@@ -40,6 +45,7 @@ class HeaderText extends StatelessWidget {
     this.text, {
     this.color = Colors.black,
     this.fontWeight = FontWeight.bold,
+    this.textAlign, // Pass through named constructor
     super.key,
   }) : fontSize = 18.0;
 
@@ -47,6 +53,7 @@ class HeaderText extends StatelessWidget {
     this.text, {
     this.color = Colors.black,
     this.fontWeight = FontWeight.bold,
+    this.textAlign, // Pass through named constructor
     super.key,
   }) : fontSize = 16.0;
 
@@ -54,6 +61,7 @@ class HeaderText extends StatelessWidget {
     this.text, {
     this.color = Colors.black,
     this.fontWeight = FontWeight.bold,
+    this.textAlign, // Pass through named constructor
     super.key,
   }) : fontSize = 14.0;
 
@@ -61,6 +69,7 @@ class HeaderText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: textAlign, // Applied here
       style: GoogleFonts.raleway(
         fontSize: fontSize,
         fontWeight: fontWeight,

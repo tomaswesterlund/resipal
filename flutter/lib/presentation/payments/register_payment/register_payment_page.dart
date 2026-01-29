@@ -36,7 +36,7 @@ class RegisterPaymentPage extends StatelessWidget {
               return LoadingView(text: 'Procesando el nuevo pago ...');
             }
 
-            if (state is FormSubmittedSuccessfully) {
+            if (state is FormSubmittedSuccessfullyState) {
               return SuccessView(
                 title: '¡Pago enviado!',
                 subtitle:

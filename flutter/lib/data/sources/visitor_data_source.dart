@@ -18,6 +18,8 @@ class VisitorDataSource {
   }
 
   Future<List<VisitorModel>> getVisitorsByUserId(String userId) async {
-    return await getVisitors();
+    final items = await _client.from('visitors').select().eq('user_id', userId);
+    final models = items.map((i) => VisitorModel.fromJson(i)).toList();
+    return models;
   }
 }

@@ -3,20 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
-import 'package:resipal/domain/use_cases/watch_user_movements.dart';
+import 'package:resipal/domain/repositories/movement_repository.dart';
 
 class UserMovementsCubit extends Cubit<UserMovementsState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
-  final WatchUserMovements _watchUserMovements = GetIt.I<WatchUserMovements>();
+  final MovementRepository _movementRepository = GetIt.I<MovementRepository>();
 
   UserMovementsCubit() : super(InitialState());
 
   Future initialize(String userId) async {
     try {
       emit(LoadingState());
-      _watchUserMovements
-          .call(userId)
-          .listen((movements) => emit(LoadedState(movements)), onError: (e) {});
+      _movementRepository.watchMovementsByUserId(userId).listen((movements) => emit(LoadedState(movements)), onError: (e) {});
     } catch (e, stack) {
       _logger.logException(exception: e, featureArea: 'UserMovementsCubit.initialize', stackTrace: stack);
       emit(ErrorState(errorMessage: e.toString(), exception: e));

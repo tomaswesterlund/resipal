@@ -24,7 +24,6 @@ class _UserHomePageState extends State<UserHomePage> {
     _pages = [
       UserHomeView(user: widget.user),
       UserPaymentsView(widget.user.payments),
-      UserPropertiesPage(user: widget.user),
       UserAccessView(user: widget.user),
       const ProfileView(),
     ];
@@ -47,14 +46,7 @@ class _UserHomePageState extends State<UserHomePage> {
             icon: Icon(Icons.home_outlined),
             label: 'Inicio',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.money),
-            label: 'Pagos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.house_outlined),
-            label: 'Propiedades',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.money), label: 'Pagos'),
           BottomNavigationBarItem(
             icon: Icon(Icons.door_front_door_outlined),
             label: 'Accesos',

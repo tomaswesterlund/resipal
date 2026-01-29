@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:resipal/core/formatters/date_formatters.dart';
+import 'package:resipal/core/ui/cards/default_card.dart';
+import 'package:resipal/core/ui/my_app_bar.dart';
+import 'package:resipal/core/ui/texts/section_header_text.dart';
+import 'package:resipal/core/ui/tiles/detail_tile.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
 import 'package:resipal/domain/entities/access_log_entity.dart';
 
@@ -8,7 +13,8 @@ class InvitationDetailsPage extends StatelessWidget {
   final InvitationEntity invitation;
   const InvitationDetailsPage(this.invitation, {super.key});
 
-  String _formatDate(DateTime date) => DateFormat('dd MMM yyyy, hh:mm a').format(date);
+  String _formatDate(DateTime date) =>
+      DateFormat('dd MMM yyyy, hh:mm a').format(date);
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +24,7 @@ class InvitationDetailsPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        title: const Text('Detalles de Invitación'),
-        elevation: 0,
-      ),
+      appBar: MyAppBar(title: 'Detalles de Invitación'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -32,6 +35,18 @@ class InvitationDetailsPage extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Details Card
+            SectionHeaderText(text: 'INFORMACIÓN GENERAL'),
+            DefaultCard(
+              child: Column(
+                children: [
+                  DetailTile(
+                    icon: Icons.event_available_rounded,
+                    label: 'Fecha de pago',
+                    value: invitation.fromDate.toShortDate()
+                  ),
+                ],
+              ),
+            ),
             _buildInfoCard(),
             const SizedBox(height: 20),
 
@@ -49,9 +64,9 @@ class InvitationDetailsPage extends StatelessWidget {
               ),
             ),
             _buildHistoryCard(sortedLogs),
-            
+
             const SizedBox(height: 30),
-            
+
             // Share Button
             _buildShareButton(),
             const SizedBox(height: 20),
@@ -74,7 +89,10 @@ class InvitationDetailsPage extends StatelessWidget {
             Center(
               child: Text(
                 invitation.visitor.name,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 8),
@@ -101,13 +119,18 @@ class InvitationDetailsPage extends StatelessWidget {
                   version: QrVersions.auto,
                   size: 200.0,
                   gapless: false,
-                  eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
+                  eyeStyle: const QrEyeStyle(
+                    eyeShape: QrEyeShape.square,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 10),
             Text(
-              active ? 'Presenta este código en caseta' : 'Este código ya no es válido',
+              active
+                  ? 'Presenta este código en caseta'
+                  : 'Este código ya no es válido',
               style: const TextStyle(color: Colors.grey),
             ),
           ],
@@ -142,7 +165,8 @@ class InvitationDetailsPage extends StatelessWidget {
           _buildDetailTile(
             icon: Icons.pin_outlined,
             label: 'Uso de Entradas',
-            value: '${invitation.usageCount} / ${invitation.maxEntries} (${invitation.remainingEntries} restantes)',
+            value:
+                '${invitation.usageCount} / ${invitation.maxEntries} (${invitation.remainingEntries} restantes)',
           ),
         ],
       ),
@@ -155,7 +179,12 @@ class InvitationDetailsPage extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: const Padding(
           padding: EdgeInsets.all(20.0),
-          child: Center(child: Text('Sin movimientos registrados', style: TextStyle(color: Colors.grey))),
+          child: Center(
+            child: Text(
+              'Sin movimientos registrados',
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
         ),
       );
     }
@@ -163,16 +192,18 @@ class InvitationDetailsPage extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: ListView.separated(
-        shrinkWrap: true, 
+        shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: sortedLogs.length,
         separatorBuilder: (context, index) => const Divider(height: 1),
         itemBuilder: (context, index) {
           final log = sortedLogs[index];
-          
+
           return ListTile(
             leading: CircleAvatar(
-              backgroundColor: log.isEntry ? Colors.blue[50] : Colors.orange[50],
+              backgroundColor: log.isEntry
+                  ? Colors.blue[50]
+                  : Colors.orange[50],
               child: Icon(
                 log.isEntry ? Icons.login_rounded : Icons.logout_rounded,
                 color: log.isEntry ? Colors.blue[800] : Colors.orange[800],
@@ -184,7 +215,11 @@ class InvitationDetailsPage extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
             ),
             subtitle: Text(_formatDate(log.timestamp)),
-            trailing: const Icon(Icons.chevron_right, color: Colors.grey, size: 16),
+            trailing: const Icon(
+              Icons.chevron_right,
+              color: Colors.grey,
+              size: 16,
+            ),
           );
         },
       ),
@@ -199,26 +234,48 @@ class InvitationDetailsPage extends StatelessWidget {
       height: 55,
       child: ElevatedButton.icon(
         // Disable button if invitation is not active
-        onPressed: active ? () {
-          // TODO: Implement share logic
-        } : null, 
+        onPressed: active
+            ? () {
+                // TODO: Implement share logic
+              }
+            : null,
         icon: const Icon(Icons.share),
         label: const Text('COMPARTIR QR'),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue[800],
           disabledBackgroundColor: Colors.grey[300],
           foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildDetailTile({required IconData icon, required String label, required String value}) {
+  Widget _buildDetailTile({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
     return ListTile(
       leading: Icon(icon, color: Colors.blue[800]),
-      title: Text(label, style: const TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.bold)),
-      subtitle: Text(value, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black87)),
+      title: Text(
+        label,
+        style: const TextStyle(
+          fontSize: 11,
+          color: Colors.grey,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      subtitle: Text(
+        value,
+        style: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          color: Colors.black87,
+        ),
+      ),
     );
   }
 }

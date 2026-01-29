@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/core/formatters/currency_formatter.dart';
 import 'package:resipal/core/formatters/date_formatters.dart';
+import 'package:resipal/core/ui/cards/default_card.dart';
 import 'package:resipal/core/ui/cards/hero_card.dart';
 import 'package:resipal/core/ui/cards/info_card.dart';
+import 'package:resipal/core/ui/my_app_bar.dart';
 import 'package:resipal/core/ui/texts/section_header_text.dart';
+import 'package:resipal/core/ui/tiles/detail_tile.dart';
 import 'package:resipal/core/ui/tiles/info_tile.dart';
 import 'package:resipal/domain/entities/property_entity.dart';
 
@@ -15,18 +18,7 @@ class PropertyDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        title: Text(property.name),
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit_outlined),
-            onPressed: () {
-              /* Edit logic */
-            },
-          ),
-        ],
-      ),
+      appBar: MyAppBar(title: 'Detalle de Propiedad'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -35,55 +27,61 @@ class PropertyDetailsPage extends StatelessWidget {
             HeroCard(title: property.name, description: property.description),
             const SizedBox(height: 25),
 
-            // Information Section
-            const SectionHeaderText(text: 'DETALLES TÉCNICOS'),
-            InfoCard(
-              children: [
-                InfoTile(
-                  icon: Icons.fingerprint,
-                  label: 'ID de Propiedad',
-                  text: property.id.split('-').first.toUpperCase(),
-                ),
-                const Divider(height: 1),
-                InfoTile(
-                  icon: Icons.calendar_today_outlined,
-                  label: 'Fecha de Registro',
-                  text: property.createdAt.toShortDate(),
-                ),
-                const Divider(height: 1),
-                InfoTile(
-                  icon: Icons.person_outline,
-                  label: 'Propietario',
-                  text: property.user.name,
-                ),
-              ],
+            SectionHeaderText(text: 'INFORMACIÓN GENERAL'),
+            DefaultCard(
+              padding: 0,
+              child: Column(
+                children: [
+                  DetailTile(
+                    icon: Icons.fingerprint,
+                    label: 'ID de Propiedad',
+                    value: property.id.split('-').first.toUpperCase(),
+                  ),
+                  const Divider(height: 1),
+                  DetailTile(
+                    icon: Icons.calendar_today_outlined,
+                    label: 'Fecha de registro (en Resipal)',
+                    value: property.createdAt.toShortDate(),
+                  ),
+                  const Divider(height: 1),
+                  DetailTile(
+                    icon: Icons.person_outline,
+                    label: 'Propietario',
+                    value: property.user.name,
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
 
-            // Information Section
-            const SectionHeaderText(text: 'CONTRATO'),
-            InfoCard(
-              children: [
-                InfoTile(
-                  icon: Icons.control_camera_outlined,
-                  label: 'Nombre',
-                  text: property.contract.name,
-                ),
-                const Divider(height: 1),
-                InfoTile(
-                  icon: Icons.calendar_today_outlined,
-                  label: 'Periodo',
-                  text: property.contract.period
-                ),
-                const Divider(height: 1),
-                InfoTile(
-                  icon: Icons.person_outline,
-                  label: 'Costo (por periodo)',
-                  text: CurrencyFormatter.fromCents(property.contract.amountInCents)
-                ),
-              ],
+            SectionHeaderText(text: 'CONTRATO'),
+            DefaultCard(
+              padding: 0,
+              child: Column(
+                children: [
+                  DetailTile(
+                    icon: Icons.control_camera_outlined,
+                    label: 'Nombre',
+                    value: property.contract.name,
+                  ),
+                  const Divider(height: 1),
+                  DetailTile(
+                    icon: Icons.calendar_today_outlined,
+                    label: 'Periodo',
+                    value: property.contract.period,
+                  ),
+                  const Divider(height: 1),
+                  DetailTile(
+                    icon: Icons.person_outline,
+                    label: 'Costo (por periodo)',
+                    value: CurrencyFormatter.fromCents(
+                      property.contract.amountInCents,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
           ],
         ),
       ),

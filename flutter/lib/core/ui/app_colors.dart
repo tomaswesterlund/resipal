@@ -5,15 +5,78 @@ import 'package:resipal/domain/enums/maintenance_fee_status.dart';
 import 'package:resipal/domain/enums/payment_status.dart';
 
 class AppColors {
-  static const Color primary = Color(0xFF1A4644);
+  // static const Color primary = Color(0xFF1A4644);
+  // static const Color background = Color(0xFFF9FAFB);
+  // static const Color surface = Colors.white;
+
+  // static const Color success = Color(0xFF22C55E);
+  // static const Color warning = Color(0xFFF97316);
+  // static const Color danger = Color(0xFFEF4444);
+  // static const Color info = Color(0xFF64748B);
+
+  // --- Primary Scale (Orange) ---
+  static const Color primaryBase = Color(0xFFF6751A); // From shade 500
+  static const Map<int, Color> primaryScale = {
+    900: Color(0xFF853204),
+    800: Color(0xFFA14107),
+    700: Color(0xFFBD510B),
+    600: Color(0xFFD96210),
+    500: Color(0xFFF6751A), // Primary 'P'
+    400: Color(0xFFFF8947),
+    300: Color(0xFFFFA775),
+    200: Color(0xFFFFC5A3),
+    100: Color(0xFFFFE2D1),
+    50: Color(0xFFFFF4ED),
+  };
+
+  // --- Secondary Scale (Teal/Dark Green) ---
+  static const Color secondaryBase = Color(0xFF002C2A); // From shade 700
+  static const Map<int, Color> secondaryScale = {
+    900: Color(0xFF00100F),
+    800: Color(0xFF001F1E),
+    700: Color(0xFF002C2A), // Secondary 'S'
+    600: Color(0xFF0D3E3B),
+    500: Color(0xFF1A514D),
+    400: Color(0xFF477571),
+    300: Color(0xFF759895),
+    200: Color(0xFFA3BCBA),
+    100: Color(0xFFD1DFDE),
+    50: Color(0xFFF2F7F7),
+  };
+
+  // --- Auxiliar Scale (Grays) ---
+  static const Color auxiliarBase = Color(0xFF5C6661); // From shade 500
+  static const Map<int, Color> auxiliarScale = {
+    900: Color(0xFF1D2120),
+    800: Color(0xFF2D3331),
+    700: Color(0xFF3D4441),
+    600: Color(0xFF4C5551),
+    500: Color(0xFF5C6661), // Auxiliar 'A'
+    400: Color(0xFF7E8984),
+    300: Color(0xFFA1ABA7),
+    200: Color(0xFFC1C8C5),
+    100: Color(0xFFE2E5E4),
+    50: Color(0xFFF4F5F4),
+  };
+
+  // --- Semantic Aliases ---
+  static const Color primary = primaryBase;
+  static const Color secondary = secondaryBase;
   static const Color background = Color(0xFFF9FAFB);
   static const Color surface = Colors.white;
 
-  static const Color success = Color(0xFF22C55E);
-  static const Color warning = Color(0xFFF97316);
-  static const Color danger = Color(0xFFEF4444);
-  static const Color info = Color(0xFF64748B);
+  // Status colors as defined in the second design sheet
+  static const Color success = Color(0xFF22C574);
+  static const Color warning = Color(0xFFF99C16);
+  static const Color danger = Color(0xFFEB5857);
+  static const Color info = Color(0xFF759895);
 
+  // Example shades for UI elements
+  static const Color fieldBorder = Color(0xFFD1DFDE); // Secondary 100
+  static const Color hintText = Color(0xFFA1ABA7); // Auxiliar 300
+
+
+  // MOVE OUT FROM CORE
   static Color getColorForPayment(PaymentEntity payment) {
     switch (payment.status) {
       case PaymentStatus.approved:

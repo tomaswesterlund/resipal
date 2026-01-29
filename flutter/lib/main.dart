@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logger/web.dart';
 import 'package:resipal/core/services/image_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
+import 'package:resipal/core/services/session_service.dart';
 import 'package:resipal/data/sources/access_log_data_source.dart';
 import 'package:resipal/data/sources/error_log_data_source.dart';
 import 'package:resipal/data/sources/invitation_data_source.dart';
@@ -21,7 +21,6 @@ import 'package:resipal/domain/repositories/payment_repository.dart';
 import 'package:resipal/domain/repositories/property_repository.dart';
 import 'package:resipal/domain/repositories/user_repository.dart';
 import 'package:resipal/domain/repositories/visitor_repository.dart';
-import 'package:resipal/domain/use_cases/watch_user_movements.dart';
 import 'package:resipal/presentation/signin/signin_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -43,6 +42,7 @@ Future<void> main() async {
   
   GetIt.I.registerSingleton(ImageService());
   GetIt.I.registerSingleton(LoggerService());
+  GetIt.I.registerSingleton(SessionService());
 
 
   GetIt.I.registerSingleton(AccessLogDataSource());
@@ -64,10 +64,6 @@ Future<void> main() async {
   GetIt.I.registerSingleton(PropertyRepository());
   GetIt.I.registerSingleton(VisitorRepository());
   GetIt.I.registerSingleton(UserRepository());
-
-  
-
-  GetIt.I.registerSingleton(WatchUserMovements());
 
   runApp(MainApp());
 }

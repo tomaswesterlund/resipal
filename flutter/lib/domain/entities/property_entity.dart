@@ -1,9 +1,8 @@
+import 'package:resipal/domain/entities/id_entity.dart';
 import 'package:resipal/domain/entities/maintenance_contract_entity.dart';
-import 'package:resipal/domain/entities/maintenance_fee_entity.dart';
 import 'package:resipal/domain/refs/user_ref.dart';
 
-class PropertyEntity {
-  final String id;
+class PropertyEntity extends IdEntity {
   final UserRef user;
   final DateTime createdAt;
   final String name;
@@ -11,7 +10,7 @@ class PropertyEntity {
   final MaintenanceContractEntity contract;
 
   PropertyEntity({
-    required this.id,
+    required super.id,
     required this.user,
     required this.createdAt,
     required this.name,

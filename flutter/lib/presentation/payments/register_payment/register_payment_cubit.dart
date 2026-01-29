@@ -12,6 +12,7 @@ import 'package:resipal/core/services/session_service.dart';
 class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
   final ImageService _imageService = GetIt.I<ImageService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
+  final SessionService _sessionService = GetIt.I<SessionService>();
 
   RegisterPaymentCubit() : super(InitialState());
 
@@ -76,10 +77,10 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
         _formState.amount,
       );
 
-      final receiptPath = await _imageService.uploadReceipt(_formState.receiptImage!, SessionService.signedInUserId);
+      final receiptPath = await _imageService.uploadReceipt(_formState.receiptImage!, _sessionService.getSignedInUserId());
 
       await _paymentRepository.registerNewPayment(
-        userId: SessionService.signedInUserId,
+        userId: _sessionService.getSignedInUserId(),
         amountInCents: amountInCents,
         date: DateTime.now(),
         reference: _formState.reference,
@@ -87,7 +88,7 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
         receiptPath: receiptPath
       );
 
-      emit(FormSubmittedSuccessfully());
+      emit(FormSubmittedSuccessfullyState());
     } catch (e) {
       emit(ErrorState(errorMessage: e.toString(), exception: e));
     }
@@ -151,7 +152,7 @@ class FormEditingState extends RegisterPaymentState {
 
 class FormSubmittingState extends RegisterPaymentState {}
 
-class FormSubmittedSuccessfully extends RegisterPaymentState {}
+class FormSubmittedSuccessfullyState extends RegisterPaymentState {}
 
 class ErrorState extends RegisterPaymentState {
   final String errorMessage;

@@ -11,6 +11,15 @@ class InvitationRepository {
   final InvitationDataSource _invitationDataSource =
       GetIt.I<InvitationDataSource>();
 
+  Stream<List<InvitationEntity>> watchInvitationsByUserId(String userId) {
+    return _invitationDataSource.watchInvitationsByUserId(userId).asyncMap((
+      list,
+    ) async {
+      final entities = await Future.wait(list.map((i) => _toEntity(i)));
+      return entities;
+    });
+  }
+
   Future<List<InvitationEntity>> getInvitationsByUserId(String userId) async {
     final models = await _invitationDataSource.getInvitationsByUserId(userId);
     final futures = models.map((model) async => _toEntity(model));
@@ -18,8 +27,12 @@ class InvitationRepository {
     return entities;
   }
 
-  Future<List<InvitationEntity>> getActiveInvitationsByUserId(String userId) async {
-    final models = await _invitationDataSource.getActiveInvitationsByUserId(userId);
+  Future<List<InvitationEntity>> getActiveInvitationsByUserId(
+    String userId,
+  ) async {
+    final models = await _invitationDataSource.getActiveInvitationsByUserId(
+      userId,
+    );
     final futures = models.map((model) async => _toEntity(model));
     final entities = Future.wait(futures);
     return entities;
@@ -41,9 +54,23 @@ class InvitationRepository {
       fromDate: model.fromDate,
       toDate: model.toDate,
       maxEntries: model.maxEntries,
-      logs: await accessLogRepository.getAccessLogsByInvitationId(model.id)
+      logs: await accessLogRepository.getAccessLogsByInvitationId(model.id),
     );
 
     return entity;
   }
+
+  Future createInvitation({
+    required String userId,
+    required String propertyId,
+    required String visitorId,
+    required DateTime fromDate,
+    required DateTime toDate,
+  }) async => _invitationDataSource.createInvitation(
+    userId: userId,
+    propertyId: propertyId,
+    visitorId: visitorId,
+    fromDate: fromDate,
+    toDate: toDate,
+  );
 }
