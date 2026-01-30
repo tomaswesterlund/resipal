@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/core/formatters/date_formatters.dart';
+import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/cards/default_card.dart';
 import 'package:resipal/core/ui/images/receipt_preview.dart';
 import 'package:resipal/core/ui/my_app_bar.dart';
@@ -15,7 +16,7 @@ class PaymentDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: AppColors.background,
       appBar: MyAppBar(title: 'Detalle de Pago'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),

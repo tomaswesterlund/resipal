@@ -11,6 +11,7 @@ class PendingPaymentsInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         // Using Primary 50 (Lightest Orange) for the background
@@ -40,7 +41,7 @@ class PendingPaymentsInfoRow extends StatelessWidget {
             color: AppColors.primaryScale[900]!, // Strongest orange for the amount
             fontSize: 12,
           ),
-          const SizedBox(width: 4),
+          Spacer(),
           // --- The Help Button ---
           GestureDetector(
             onTap: () => _showReviewExplanation(context),

@@ -5,18 +5,18 @@ import 'package:resipal/core/ui/views/loading_view.dart';
 import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
 import 'package:resipal/presentation/invitations/invitation_card.dart';
-import 'package:resipal/presentation/invitations/invitation_list/invitation_list_cubit.dart';
+import 'package:resipal/presentation/invitations/active_invitation_list/invitation_list_cubit.dart';
 
-class InvitationListView extends StatelessWidget {
+class ActiveInvitationListView extends StatelessWidget {
   final String userId;
 
-  const InvitationListView({required this.userId, super.key});
+  const ActiveInvitationListView({required this.userId, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<InvitationListCubit>(
-      create: (ctx) => InvitationListCubit()..initialize(userId),
-      child: BlocBuilder<InvitationListCubit, InvitationListState>(
+    return BlocProvider<ActiveInvitationListCubit>(
+      create: (ctx) => ActiveInvitationListCubit()..initialize(userId),
+      child: BlocBuilder<ActiveInvitationListCubit, ActiveInvitationListState>(
         builder: (ctx, state) {
           if (state is InitialState || state is LoadingState) {
             return const LoadingView();

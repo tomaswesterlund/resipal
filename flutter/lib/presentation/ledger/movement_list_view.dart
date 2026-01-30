@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/enums/movement_type.dart';
-import 'package:resipal/presentation/movements/widgets/tiles/maintenance_fee_tile.dart';
-import 'package:resipal/presentation/movements/widgets/tiles/movement_tile.dart';
-import 'package:resipal/presentation/movements/widgets/tiles/payment_movement_tile.dart';
+import 'package:resipal/presentation/ledger/tiles/maintenance_fee_tile.dart';
+import 'package:resipal/presentation/ledger/tiles/movement_tile.dart';
+import 'package:resipal/presentation/ledger/tiles/payment_movement_tile.dart';
 
 class MovementListView extends StatelessWidget {
   final List<MovementEntity> movements;
@@ -16,6 +16,7 @@ class MovementListView extends StatelessWidget {
       return Text('No movements.');
     } else {
       return ListView.builder(
+        padding: EdgeInsets.zero,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemCount: movements.length,

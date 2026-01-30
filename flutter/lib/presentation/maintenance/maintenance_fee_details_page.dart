@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:resipal/core/formatters/currency_formatter.dart';
 import 'package:resipal/core/formatters/date_formatters.dart';
 import 'package:resipal/core/formatters/id_formatter.dart';
+import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/cards/default_card.dart';
-import 'package:resipal/core/ui/cards/hero_card.dart';
 import 'package:resipal/core/ui/my_app_bar.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
-import 'package:resipal/core/ui/texts/body_text.dart';
-import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/texts/section_header_text.dart';
 import 'package:resipal/core/ui/tiles/detail_tile.dart';
-import 'package:resipal/core/ui/tiles/info_tile.dart';
 import 'package:resipal/domain/entities/maintenance_fee_entity.dart';
-import 'package:resipal/domain/enums/maintenance_fee_status.dart';
-import 'package:resipal/main.dart';
 import 'package:resipal/presentation/maintenance/maintenance_fee_icon.dart';
 import 'package:resipal/presentation/maintenance/maintenance_status_pill.dart';
 
@@ -25,7 +19,7 @@ class MaintenanceFeeDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: AppColors.background,
       appBar: MyAppBar(title: 'Detalle de Cuota'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
@@ -34,6 +28,7 @@ class MaintenanceFeeDetailsPage extends StatelessWidget {
           children: [
             // Header
             DefaultCard(
+              padding: 20,
               child: Column(
                 children: [
                   MaintenanceFeeIcon(maintenanceFee),

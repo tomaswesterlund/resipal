@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/buttons/cta/primary_cta_button.dart';
 import 'package:resipal/core/ui/inputs/date_range_picker_field.dart';
 import 'package:resipal/core/ui/inputs/entry_dropdown_field.dart';
@@ -11,6 +12,8 @@ import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/domain/entities/visitor_entity.dart';
 import 'package:resipal/presentation/invitations/create_invitation/create_invitation_cubit.dart';
+import 'package:resipal/presentation/invitations/create_invitation/create_invitation_form_state.dart';
+import 'package:resipal/presentation/invitations/create_invitation/create_invitation_state.dart';
 import 'package:resipal/presentation/properties/no_properties_found_view.dart';
 import 'package:resipal/presentation/visitors/no_visitors_found_view.dart';
 
@@ -21,12 +24,13 @@ class CreateInvitationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: 'Crear invitación'),
+      backgroundColor: AppColors.background,
       body: BlocProvider<CreateInvitationCubit>(
         create: (ctx) => CreateInvitationCubit()..initialize(),
         child: BlocConsumer<CreateInvitationCubit, CreateInvitationState>(
           listener: (ctx, state) {},
           builder: (ctx, state) {
-            if (state is InitialState || state is LoadingView) {
+            if (state is InitialState || state is LoadingState) {
               return LoadingView();
             }
 

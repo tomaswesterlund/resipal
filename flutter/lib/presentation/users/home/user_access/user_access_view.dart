@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/buttons/cta/primary_cta_button.dart';
 import 'package:resipal/core/ui/containers/green_box_container.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/invitations/create_invitation/create_invitation_page.dart';
-import 'package:resipal/presentation/invitations/invitation_list/invitation_list_view.dart';
+import 'package:resipal/presentation/invitations/active_invitation_list/active_invitation_list_view.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class UserAccessView extends StatelessWidget {
@@ -25,28 +27,53 @@ class UserAccessView extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 12.0),
 
-          PrimaryCtaButton(
-            label: 'Crear invitación',
-            canSubmit: true,
-            onPressed: () => Go.to(CreateInvitationPage()),
+          Container(
+            color: AppColors.background,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  PrimaryCtaButton(
+                    label: 'Crear invitación',
+                    canSubmit: true,
+                    onPressed: () => Go.to(CreateInvitationPage()),
+                  ),
+            
+                  const SizedBox(height: 12.0),
+            
+                  PrimaryCtaButton(
+                    label: 'Crear visitante',
+                    canSubmit: true,
+                    onPressed: () => Go.to(CreateInvitationPage()),
+                  ),
+            
+                  SizedBox(height: 32),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      HeaderText.four('Invitaciones activas'),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Ver todas >',
+                          style: GoogleFonts.raleway(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  ActiveInvitationListView(userId: user.id),
+                  SizedBox(height: 148),
+                ],
+              ),
+            ),
           ),
-
-          const SizedBox(height: 12.0),
-
-          PrimaryCtaButton(
-            label: 'Crear visitante',
-            canSubmit: true,
-            onPressed: () => Go.to(CreateInvitationPage()),
-          ),
-
-          SizedBox(height: 32),
-          HeaderText.three('Invitaciones activas'),
-          InvitationListView(userId: user.id),
-          Text('Frecuentes'),
-          Text('Historial'),
-          SizedBox(height: 148,)
         ],
       ),
     );

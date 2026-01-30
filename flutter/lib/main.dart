@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/image_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/core/services/session_service.dart';
+import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/data/sources/access_log_data_source.dart';
 import 'package:resipal/data/sources/error_log_data_source.dart';
 import 'package:resipal/data/sources/invitation_data_source.dart';
@@ -17,7 +18,7 @@ import 'package:resipal/data/sources/visitor_data_source.dart';
 import 'package:resipal/domain/repositories/access_log_repository.dart';
 import 'package:resipal/domain/repositories/invitation_repository.dart';
 import 'package:resipal/domain/repositories/maintenance_repository.dart';
-import 'package:resipal/domain/repositories/movement_repository.dart';
+import 'package:resipal/domain/repositories/ledger_repository.dart';
 import 'package:resipal/domain/repositories/payment_repository.dart';
 import 'package:resipal/domain/repositories/property_repository.dart';
 import 'package:resipal/domain/repositories/user_repository.dart';
@@ -61,14 +62,25 @@ Future<void> main() async {
   GetIt.I.registerSingleton(VisitorDataSource());
   GetIt.I.registerSingleton(UserDataSource());
 
+  // Repositories
+  final userRepository = UserRepository();
+  await userRepository.initialize();
+
+  final paymentRepository = PaymentRepository(
+    GetIt.I<LoggerService>(),
+    GetIt.I<PaymentDataSource>(),
+    userRepository,
+  );
+  await paymentRepository.initialize();
+
   GetIt.I.registerSingleton(AccessLogRepository());
   GetIt.I.registerSingleton(InvitationRepository());
   GetIt.I.registerSingleton(MaintenanceRepository());
-  GetIt.I.registerSingleton(MovementRepository());
-  GetIt.I.registerSingleton(PaymentRepository());
+  GetIt.I.registerSingleton(LedgerRepository());
+  GetIt.I.registerSingleton(paymentRepository);
   GetIt.I.registerSingleton(PropertyRepository());
   GetIt.I.registerSingleton(VisitorRepository());
-  GetIt.I.registerSingleton(UserRepository());
+  GetIt.I.registerSingleton(userRepository);
 
   runApp(MainApp());
 }
@@ -80,7 +92,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: Go.navigatorKey,
-      home: Scaffold(backgroundColor: Color(0xFF1E1E1E), body: SigninPage()),
+      home: Scaffold(backgroundColor: AppColors.background, body: SigninPage()),
     );
   }
 }

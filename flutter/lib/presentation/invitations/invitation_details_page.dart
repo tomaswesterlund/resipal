@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:resipal/core/formatters/date_formatters.dart';
 import 'package:resipal/core/ui/app_colors.dart';
+import 'package:resipal/core/ui/buttons/cta/primary_cta_button.dart';
 import 'package:resipal/core/ui/cards/default_card.dart';
 import 'package:resipal/core/ui/my_app_bar.dart';
 import 'package:resipal/core/ui/texts/section_header_text.dart';
@@ -20,19 +21,20 @@ class InvitationDetailsPage extends StatelessWidget {
       ..sort((a, b) => b.timestamp.compareTo(a.timestamp));
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: AppColors.background,
       appBar: MyAppBar(title: 'Detalles de Invitación'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // QR Code Card
-            _buildQRCard(),
+            _buildHeroCard(),
             const SizedBox(height: 20),
 
-            // Share Button
-            _buildShareButton(),
+            SizedBox(
+              width: double.infinity,
+              child: PrimaryCtaButton(label: 'COMPARTIR QR', onPressed: () {}),
+            ),
             const SizedBox(height: 30),
 
             // Details Card
@@ -91,12 +93,10 @@ class InvitationDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildQRCard() {
+  Widget _buildHeroCard() {
     final bool active = invitation.canEnter;
 
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 2,
+    return DefaultCard(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -188,57 +188,6 @@ class InvitationDetailsPage extends StatelessWidget {
             value: log.timestamp.toShortDate(),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildShareButton() {
-    return SizedBox(
-      width: double.infinity,
-      height: 55,
-      child: ElevatedButton.icon(
-        // Disable button if invitation is not active
-        onPressed: invitation.canEnter
-            ? () {
-                // TODO: Implement share logic
-              }
-            : null,
-        icon: const Icon(Icons.share),
-        label: const Text('COMPARTIR QR'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue[800],
-          disabledBackgroundColor: Colors.grey[300],
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDetailTile({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.blue[800]),
-      title: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 11,
-          color: Colors.grey,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      subtitle: Text(
-        value,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
-          color: Colors.black87,
-        ),
       ),
     );
   }

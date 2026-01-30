@@ -2,13 +2,17 @@ CREATE OR REPLACE FUNCTION fn_create_invitation(p_user_id uuid, p_property_id uu
 RETURNS void
 LANGUAGE plpgsql AS $$
 BEGIN
-    IF p_to_date::date < p_from_date::date THEN
-        RAISE EXCEPTION 'p_to_date is before p_from_date';
-    END IF;
+    -- IF p_to_date::date < p_from_date::date THEN
+    --     RAISE EXCEPTION 'p_to_date is before p_from_date';
+    -- END IF;
 
-    IF p_from_date::date < CURRENT_DATE OR p_to_date::date < CURRENT_DATE THEN
-        RAISE EXCEPTION 'p_from_date and p_to_date must be today or a future date';
-    END IF;
+    -- IF p_from_date::date < CURRENT_DATE  THEN
+    --     RAISE EXCEPTION 'p_from_date must be today or a future date';
+    -- END IF;
+
+    -- IF p_to_date::date < CURRENT_DATE THEN
+    --     RAISE EXCEPTION 'p_to_date must be today or a future date';
+    -- END IF;
 
     -- Check Property
     IF NOT EXISTS (SELECT 1 FROM properties WHERE id = p_property_id AND user_id = p_user_id) THEN

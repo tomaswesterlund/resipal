@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/core/formatters/currency_formatter.dart';
 import 'package:resipal/core/formatters/date_formatters.dart';
+import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/cards/default_card.dart';
 import 'package:resipal/core/ui/cards/hero_card.dart';
-import 'package:resipal/core/ui/cards/info_card.dart';
 import 'package:resipal/core/ui/my_app_bar.dart';
+import 'package:resipal/core/ui/texts/body_text.dart';
+import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/texts/section_header_text.dart';
 import 'package:resipal/core/ui/tiles/detail_tile.dart';
-import 'package:resipal/core/ui/tiles/info_tile.dart';
 import 'package:resipal/domain/entities/property_entity.dart';
 
 class PropertyDetailsPage extends StatelessWidget {
@@ -17,15 +18,15 @@ class PropertyDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: AppColors.background,
       appBar: MyAppBar(title: 'Detalle de Propiedad'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeroCard(title: property.name, description: property.description),
-            const SizedBox(height: 25),
+            _buildHeroCard(property),
+            const SizedBox(height: 24),
 
             SectionHeaderText(text: 'INFORMACIÓN GENERAL'),
             DefaultCard(
@@ -82,6 +83,21 @@ class PropertyDetailsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeroCard(PropertyEntity property) {
+    return DefaultCard(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            Center(child: HeaderText.two(property.name)),
+            const SizedBox(height: 8),
+            BodyText.medium(property.description ?? ''),
           ],
         ),
       ),

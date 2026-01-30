@@ -14,10 +14,10 @@ class UserEntity {
   final List<InvitationEntity> invitations;
   final List<MovementEntity> movements;
   final List<PaymentEntity> payments;
-  final List<PropertyEntity> properties;
+  // final List<PropertyEntity> properties;
 
   List<InvitationEntity> get activeInvitations =>
-      invitations.where((e) => e.isActive).toList();
+      invitations.where((e) => e.canEnter).toList();
 
   int get totalBalanceInCents {
     final approvedAndPaidPayments = payments.where(
@@ -30,10 +30,10 @@ class UserEntity {
     return approvedPaymentAmountInCents;
   }
 
-  int get totalOverdueFeeInCents => properties.fold(
-    0,
-    (sum, property) => sum = sum + property.contract.totalOverdueFeeInCents,
-  );
+  // int get totalOverdueFeeInCents => properties.fold(
+  //   0,
+  //   (sum, property) => sum = sum + property.contract.totalOverdueFeeInCents,
+  // );
 
   int get pendingPaymentAmountInCents {
     final pendingPayments = payments.where(
@@ -56,6 +56,6 @@ class UserEntity {
     required this.invitations,
     required this.movements,
     required this.payments,
-    required this.properties,
+    // required this.properties,
   });
 }

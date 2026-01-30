@@ -7,7 +7,7 @@ class GreenBoxContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(36),
+      padding: EdgeInsets.all(30),
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(

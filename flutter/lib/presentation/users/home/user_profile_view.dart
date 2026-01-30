@@ -115,14 +115,14 @@ class UserProfileView extends StatelessWidget {
                       subtitle: 'Mi perfil',
                       onTap: () {},
                     ),
-                    const Divider(height: 1, indent: 16, endIndent: 16),
-                    _buildMenuTile(
-                      title: 'Mis Propiedades',
-                      subtitle: user.properties.isNotEmpty 
-                          ? user.properties.map((p) => p.name).join(' / ') 
-                          : 'Sin propiedades',
-                      onTap: () {},
-                    ),
+                    // const Divider(height: 1, indent: 16, endIndent: 16),
+                    // _buildMenuTile(
+                    //   title: 'Mis Propiedades',
+                    //   subtitle: user.properties.isNotEmpty 
+                    //       ? user.properties.map((p) => p.name).join(' / ') 
+                    //       : 'Sin propiedades',
+                    //   onTap: () {},
+                    // ),
                     const Divider(height: 1, indent: 16, endIndent: 16),
                     _buildMenuTile(
                       title: 'Seguridad y Accesos',

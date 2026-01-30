@@ -8,6 +8,8 @@ import 'package:resipal/domain/entities/visitor_entity.dart';
 import 'package:resipal/domain/repositories/invitation_repository.dart';
 import 'package:resipal/domain/repositories/property_repository.dart';
 import 'package:resipal/domain/repositories/visitor_repository.dart';
+import 'package:resipal/presentation/invitations/create_invitation/create_invitation_form_state.dart';
+import 'package:resipal/presentation/invitations/create_invitation/create_invitation_state.dart';
 
 class CreateInvitationCubit extends Cubit<CreateInvitationState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
@@ -82,58 +84,4 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
   }
 }
 
-class CreateInvitationState {}
 
-class InitialState extends CreateInvitationState {}
-
-class LoadingState extends CreateInvitationState {}
-
-class FormEditingState extends CreateInvitationState {
-  final CreateInvitationFormState formState;
-
-  FormEditingState({required this.formState});
-}
-
-class NoPropertiesFoundState extends CreateInvitationState {}
-
-class NoVisitorsFoundState extends CreateInvitationState {}
-
-class FormSubmittingState extends CreateInvitationState {}
-
-class FormSubmittedSuccessfullyState extends CreateInvitationState {}
-
-class ErrorState extends CreateInvitationState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, required this.exception});
-}
-
-class CreateInvitationFormState {
-  final List<PropertyEntity> properties;
-  final List<VisitorEntity> visitors;
-
-  final PropertyEntity? property;
-  final VisitorEntity? visitor;
-  final DateTimeRange? dateRange;
-
-  bool get canSubmit {
-    if (property == null) return false;
-    if (visitor == null) return false;
-    if (dateRange == null) return false;
-
-    return true;
-  }
-
-  CreateInvitationFormState({required this.properties, required this.visitors, this.property, this.visitor, this.dateRange});
-
-  CreateInvitationFormState copyWith({PropertyEntity? property, VisitorEntity? visitor, DateTimeRange? dateRange}) {
-    return CreateInvitationFormState(
-      properties: properties,
-      visitors: visitors,
-      property: property ?? this.property,
-      visitor: visitor ?? this.visitor,
-      dateRange: dateRange ?? this.dateRange,
-    );
-  }
-}

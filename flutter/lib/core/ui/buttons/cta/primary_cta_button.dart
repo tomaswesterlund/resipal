@@ -4,13 +4,17 @@ import 'package:resipal/core/ui/app_colors.dart';
 
 class PrimaryCtaButton extends StatelessWidget {
   final String label;
-  final bool canSubmit;
   final VoidCallback onPressed;
+  final bool canSubmit;
+  final bool isSubmitting;
+  final IconData? icon;
 
   const PrimaryCtaButton({
     required this.label,
-    required this.canSubmit,
     required this.onPressed,
+    this.canSubmit = false,
+    this.isSubmitting = false,
+    this.icon = Icons.home,
     super.key,
   });
 
@@ -21,22 +25,30 @@ class PrimaryCtaButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary, // Using your brand teal
         foregroundColor: Colors.white,
-        disabledBackgroundColor: AppColors.primary.withOpacity(0.3), // Softened teal for disabled state
+        disabledBackgroundColor: AppColors.primary.withOpacity(
+          0.3,
+        ), // Softened teal for disabled state
         disabledForegroundColor: Colors.white.withOpacity(0.6),
         elevation: canSubmit ? 4 : 0, // Remove shadow when disabled
         shadowColor: Colors.black.withOpacity(0.4),
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
-      child: Text(
-        label,
-        style: GoogleFonts.raleway( // Using Raleway for consistency
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1.1,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 20),
+          SizedBox(width: 8),
+          Text(
+            label,
+            style: GoogleFonts.raleway(
+              // Using Raleway for consistency
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.1,
+            ),
+          ),
+        ],
       ),
     );
   }

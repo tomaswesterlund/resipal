@@ -10,35 +10,17 @@ import 'package:uuid/uuid.dart';
 
 class LoggerService {
   final Logger _logger = Logger(
-    printer: PrettyPrinter(
-      methodCount: 2,
-      errorMethodCount: 8,
-      lineLength: 120,
-      colors: true,
-      printEmojis: true,
-    ),
+    printer: PrettyPrinter(methodCount: 2, errorMethodCount: 8, lineLength: 120, colors: true, printEmojis: true),
     // Only print logs in debug mode
     filter: DevelopmentFilter(),
   );
 
-  
-
-  Future logException({
-    required dynamic exception,
-    required String featureArea,
-    required StackTrace? stackTrace,
-    Map<String, dynamic>? metadata,
-  }) async {
+  Future logException({required dynamic exception, required String featureArea, required StackTrace? stackTrace, Map<String, dynamic>? metadata}) async {
     final SessionService sessionService = GetIt.I<SessionService>();
     final ErrorLogDataSource errorDataSource = GetIt.I<ErrorLogDataSource>();
 
-    _logger.e(
-      'Exception in $featureArea',
-      error: exception,
-      stackTrace: stackTrace,
-    );
+    _logger.e('Exception in $featureArea', error: exception, stackTrace: stackTrace);
 
-    // 2. Remote logging for production monitoring
     try {
       final info = await PackageInfo.fromPlatform();
 

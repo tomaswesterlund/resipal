@@ -1,74 +1,10 @@
-// import 'package:flutter/material.dart';
-// import 'package:resipal/domain/entities/user_entity.dart';
-// import 'package:resipal/presentation/users/home/user_access_view.dart';
-// import 'package:resipal/presentation/users/home/user_home_view.dart';
-// import 'package:resipal/presentation/users/home/user_profile_view.dart';
-// import 'package:resipal/presentation/users/home/user_payments_view.dart';
-// import 'package:resipal/presentation/users/home/user_properties_page.dart';
-
-// class UserHomePage extends StatefulWidget {
-//   final UserEntity user;
-//   const UserHomePage({required this.user, super.key});
-
-//   @override
-//   State<UserHomePage> createState() => _UserHomePageState();
-// }
-
-// class _UserHomePageState extends State<UserHomePage> {
-//   int _currentPageIndex = 0;
-//   late final List<Widget> _pages;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _pages = [
-//       UserHomeView(user: widget.user),
-//       UserPaymentsView(widget.user.payments),
-//       UserAccessView(user: widget.user),
-//       UserProfileView(user: widget.user),
-//     ];
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: _pages[_currentPageIndex],
-//       bottomNavigationBar: BottomNavigationBar(
-//         type: BottomNavigationBarType.fixed,
-//         currentIndex: _currentPageIndex,
-//         onTap: (index) {
-//           setState(() {
-//             _currentPageIndex = index;
-//           });
-//         },
-//         items: [
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home_outlined),
-//             label: 'Inicio',
-//           ),
-//           BottomNavigationBarItem(icon: Icon(Icons.money), label: 'Pagos'),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.door_front_door_outlined),
-//             label: 'Accesos',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.person_outline_outlined),
-//             label: 'Perfil',
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/users/home/user_access/user_access_view.dart';
-import 'package:resipal/presentation/users/home/user_home_view.dart';
+import 'package:resipal/presentation/users/home/user_home/user_home_view.dart';
+import 'package:resipal/presentation/users/home/user_ledger/user_ledger_view.dart';
 import 'package:resipal/presentation/users/home/user_profile_view.dart';
-import 'package:resipal/presentation/users/home/user_payments_view.dart';
 
 class UserHomePage extends StatefulWidget {
   final UserEntity user;
@@ -87,7 +23,7 @@ class _UserHomePageState extends State<UserHomePage> {
     super.initState();
     _pages = [
       UserHomeView(user: widget.user),
-      UserPaymentsView(widget.user.payments),
+      UserLedgerView(user: widget.user),
       UserAccessView(user: widget.user),
       UserProfileView(user: widget.user),
     ];
@@ -97,8 +33,11 @@ class _UserHomePageState extends State<UserHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       // Allows the body to extend behind the floating navigation bar
-      extendBody: true, 
-      body: _pages[_currentPageIndex],
+      extendBody: true,
+      body: IndexedSemantics(
+        index: _currentPageIndex,
+        child: _pages[_currentPageIndex],
+      ),
       bottomNavigationBar: _buildFloatingNavBar(),
     );
   }
@@ -122,8 +61,8 @@ class _UserHomePageState extends State<UserHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _navItem(0, Icons.home_outlined, 'Home'),
-          _navItem(1, Icons.credit_card_outlined, 'Mis Pagos'),
-          _navItem(2, Icons.door_front_door_outlined, 'Accesos'),
+          _navItem(1, Icons.currency_exchange_outlined, 'Movimientos'),
+          _navItem(2, Icons.door_front_door_outlined, 'Acessos'),
           _navItem(3, Icons.person_outline, 'Perfil'),
         ],
       ),

@@ -5,19 +5,19 @@ import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
 import 'package:resipal/domain/repositories/invitation_repository.dart';
 
-class InvitationListCubit extends Cubit<InvitationListState> {
+class ActiveInvitationListCubit extends Cubit<ActiveInvitationListState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final InvitationRepository _invitationRepository =
       GetIt.I<InvitationRepository>();
 
-  InvitationListCubit() : super(InitialState());
+  ActiveInvitationListCubit() : super(InitialState());
 
   Future initialize(String userId) async {
     try {
       emit(LoadingState());
 
       _invitationRepository
-          .watchInvitationsByUserId(userId)
+          .watchActiveInvitationsByUserId(userId)
           .listen(
             (invitations) => emit(LoadedState(invitations: invitations)),
             onError: (e) {
@@ -36,16 +36,16 @@ class InvitationListCubit extends Cubit<InvitationListState> {
   }
 }
 
-class InvitationListState extends Equatable {
+class ActiveInvitationListState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class InitialState extends InvitationListState {}
+class InitialState extends ActiveInvitationListState {}
 
-class LoadingState extends InvitationListState {}
+class LoadingState extends ActiveInvitationListState {}
 
-class LoadedState extends InvitationListState {
+class LoadedState extends ActiveInvitationListState {
   final List<InvitationEntity> invitations;
 
   LoadedState({required this.invitations});
@@ -54,7 +54,7 @@ class LoadedState extends InvitationListState {
   List<Object?> get props => [invitations];
 }
 
-class ErrorState extends InvitationListState {
+class ErrorState extends ActiveInvitationListState {
   final String errorMessage;
   final Object? exception;
 

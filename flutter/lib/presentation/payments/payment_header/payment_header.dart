@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal/core/formatters/currency_formatter.dart';
+import 'package:resipal/core/ui/cards/default_card.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
 import 'package:resipal/core/ui/views/loading_view.dart';
@@ -52,12 +53,9 @@ class _Loaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          elevation: 2,
+        DefaultCard(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
             child: Column(

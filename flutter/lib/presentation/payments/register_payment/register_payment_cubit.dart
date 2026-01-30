@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -8,6 +7,8 @@ import 'package:resipal/core/services/image_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/domain/repositories/payment_repository.dart';
 import 'package:resipal/core/services/session_service.dart';
+import 'package:resipal/presentation/payments/register_payment/register_payment_form_state.dart';
+import 'package:resipal/presentation/payments/register_payment/register_payment_state.dart';
 
 class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
   final ImageService _imageService = GetIt.I<ImageService>();
@@ -31,18 +32,12 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
 
   late RegisterPaymentFormState _formState;
 
-  void setup() {
+  void initialize() {
     _formState = RegisterPaymentFormState(amount: 0.0, reference: '', note: '');
 
     _amountController.addListener(_updateAmount);
-    _referenceController.addListener(
-      () => _formState = _formState.copyWith(
-        reference: _referenceController.text,
-      ),
-    );
-    _noteController.addListener(
-      () => _formState = _formState.copyWith(note: _noteController.text),
-    );
+    _referenceController.addListener(() => _updateReference());
+    _noteController.addListener(() => _updateNote());
 
     emit(FormEditingState(_formState));
   }
@@ -64,6 +59,16 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
     }
   }
 
+  void _updateReference() {
+    _formState = _formState.copyWith(reference: _referenceController.text);
+    emit(FormEditingState(_formState));
+  }
+
+  void _updateNote() {
+    _formState = _formState.copyWith(note: _noteController.text);
+    emit(FormEditingState(_formState));
+  }
+
   Future submit() async {
     try {
       if (_formState.canSubmit == false) {
@@ -77,7 +82,10 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
         _formState.amount,
       );
 
-      final receiptPath = await _imageService.uploadReceipt(_formState.receiptImage!, _sessionService.getSignedInUserId());
+      final receiptPath = await _imageService.uploadReceipt(
+        _formState.receiptImage!,
+        _sessionService.getSignedInUserId(),
+      );
 
       await _paymentRepository.registerNewPayment(
         userId: _sessionService.getSignedInUserId(),
@@ -85,11 +93,17 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
         date: DateTime.now(),
         reference: _formState.reference,
         note: _formState.note,
-        receiptPath: receiptPath
+        receiptPath: receiptPath,
       );
 
       emit(FormSubmittedSuccessfullyState());
-    } catch (e) {
+    } catch (e, s) {
+      await _logger.logException(
+        exception: e,
+        stackTrace: s,
+        featureArea: 'RegisterPaymentCubit.submit',
+        metadata: _formState.toMap(),
+      );
       emit(ErrorState(errorMessage: e.toString(), exception: e));
     }
   }
@@ -138,63 +152,4 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
     _noteController.dispose();
     return super.close();
   }
-}
-
-abstract class RegisterPaymentState {}
-
-class InitialState extends RegisterPaymentState {}
-
-class FormEditingState extends RegisterPaymentState {
-  final RegisterPaymentFormState formState;
-
-  FormEditingState(this.formState);
-}
-
-class FormSubmittingState extends RegisterPaymentState {}
-
-class FormSubmittedSuccessfullyState extends RegisterPaymentState {}
-
-class ErrorState extends RegisterPaymentState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, this.exception});
-}
-
-class RegisterPaymentFormState extends Equatable {
-  final double amount;
-  final String reference;
-  final String note;
-  final XFile? receiptImage;
-
-  bool get canSubmit {
-    if (amount <= 0) return false;
-    if (receiptImage == null) return false;
-
-    return true;
-  }
-
-  const RegisterPaymentFormState({
-    required this.amount,
-    required this.reference,
-    required this.note,
-    this.receiptImage,
-  });
-
-  RegisterPaymentFormState copyWith({
-    double? amount,
-    String? reference,
-    String? note,
-    XFile? receiptImage,
-  }) {
-    return RegisterPaymentFormState(
-      amount: amount ?? this.amount,
-      reference: reference ?? this.reference,
-      note: note ?? this.note,
-      receiptImage: receiptImage ?? this.receiptImage,
-    );
-  }
-
-  @override
-  List<Object?> get props => [amount, reference, note, receiptImage];
 }

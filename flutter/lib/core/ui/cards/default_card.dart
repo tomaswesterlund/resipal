@@ -9,7 +9,7 @@ class DefaultCard extends StatelessWidget {
   const DefaultCard({
     super.key,
     required this.child,
-    this.padding = 24.0,
+    this.padding = 0.0,
     this.onTap,
   });
 
@@ -18,6 +18,7 @@ class DefaultCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         elevation: 2,
         child: Container(

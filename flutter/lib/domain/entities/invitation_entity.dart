@@ -15,11 +15,16 @@ class InvitationEntity {
   final int maxEntries;
   final List<AccessLogEntity> logs;
 
-  bool get isActive => true;
+  // TODO Update logic - canEnter is not equal to isActive
+  bool get isActive => canEnter;
 
   bool get canEnter {
+    final now = DateTime.now();
+    final isAfterOrEqualFrom = now.isAfter(fromDate) || now.isAtSameMomentAs(fromDate);
+    final isBeforeOrEqualTo = now.isBefore(toDate) || now.isAtSameMomentAs(toDate);
+
     final hasEntriesLeft = usageCount < maxEntries;
-    return isWithinDateRange && hasEntriesLeft;
+    return isWithinDateRange && hasEntriesLeft && isAfterOrEqualFrom && isBeforeOrEqualTo;
   }
 
   int get remainingEntries => maxEntries - usageCount;

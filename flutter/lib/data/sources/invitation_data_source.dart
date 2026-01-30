@@ -6,12 +6,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class InvitationDataSource {
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
-  Stream<List<InvitationModel>> watchInvitationsByUserId(String userId) {
+  Stream<List<InvitationModel>> watchInvitations() {
     return _client
         .from('invitations')
         .stream(primaryKey: ['id'])
-        .eq('user_id', userId)
-        .map((data) => data.map((item) => InvitationModel.fromJson(item)).toList());
+        .map(
+          (data) => data.map((item) => InvitationModel.fromJson(item)).toList(),
+        );
   }
 
   Future<List<InvitationModel>> getInvitations() async {
@@ -20,9 +21,16 @@ class InvitationDataSource {
     return models;
   }
 
-  Future<List<InvitationModel>> getActiveInvitationsByUserId(String userId) async {
+  Future<List<InvitationModel>> getActiveInvitationsByUserId(
+    String userId,
+  ) async {
     final now = DateTime.now();
-    final items = await _client.from('invitations').select().eq('user_id', userId).lte('from_date', now).gte('to_date', now);
+    final items = await _client
+        .from('invitations')
+        .select()
+        .eq('user_id', userId)
+        .lte('from_date', now)
+        .gte('to_date', now);
     final models = items.map((i) => InvitationModel.fromJson(i)).toList();
     return models;
   }
@@ -44,8 +52,8 @@ class InvitationDataSource {
         'p_user_id': userId,
         'p_property_id': propertyId,
         'p_visitor_id': visitorId,
-        'p_from_date': DateUtils.dateOnly(fromDate).toIso8601String(),
-        'p_to_date': DateUtils.dateOnly(toDate).toIso8601String(),
+        'p_from_date': DateUtils.dateOnly(fromDate.toUtc()).toIso8601String(),
+        'p_to_date': DateUtils.dateOnly(toDate.toUtc()).toIso8601String(),
       },
     );
   }

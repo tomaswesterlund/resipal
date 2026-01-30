@@ -13,6 +13,8 @@ import 'package:resipal/core/ui/views/loading_view.dart';
 import 'package:resipal/core/ui/views/success_view.dart';
 import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/presentation/payments/register_payment/register_payment_cubit.dart';
+import 'package:resipal/presentation/payments/register_payment/register_payment_form_state.dart';
+import 'package:resipal/presentation/payments/register_payment/register_payment_state.dart';
 
 class RegisterPaymentPage extends StatelessWidget {
   const RegisterPaymentPage({super.key});
@@ -22,7 +24,7 @@ class RegisterPaymentPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: HeaderText.two('Registrar un pago')),
       body: BlocProvider<RegisterPaymentCubit>(
-        create: (ctx) => RegisterPaymentCubit()..setup(),
+        create: (ctx) => RegisterPaymentCubit()..initialize(),
         child: BlocConsumer<RegisterPaymentCubit, RegisterPaymentState>(
           listener: (ctx, state) {
             //if (state is FormSubmittedSuccessfully) {}

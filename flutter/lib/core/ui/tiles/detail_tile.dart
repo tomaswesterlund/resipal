@@ -19,7 +19,7 @@ class DetailTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       // Use the passed color, or fallback to primary
-      leading: Icon(icon, color: color ?? AppColors.primary, size: 22),
+      leading: Icon(icon, color: color ?? AppColors.secondary, size: 22),
       title: Text(
         label,
         style: const TextStyle(
