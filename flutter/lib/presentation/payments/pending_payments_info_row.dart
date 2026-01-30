@@ -5,50 +5,44 @@ import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 
 class PendingPaymentsInfoRow extends StatelessWidget {
-  final int pendingPaymentAmount;
-  const PendingPaymentsInfoRow({required this.pendingPaymentAmount, super.key});
+  final int amount;
+  const PendingPaymentsInfoRow({required this.amount, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        // Using Primary 50 (Lightest Orange) for the background
-        color: AppColors.primaryScale[50],
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          // Using Primary 100 for a subtle border
-          color: AppColors.primaryScale[100]!,
-          width: 1,
-        ),
+        color: AppColors.warningScale[50], // Soft orange background
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.warningScale[100]!),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            Icons.history_toggle_off, 
-            color: AppColors.primary, // Primary Base (Orange 500)
-            size: 14,
+            Icons.schedule_rounded,
+            color: AppColors.warningScale[600],
+            size: 16,
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: 8),
           BodyText.tiny(
-            'Pagos en revisión: ', 
-            color: AppColors.primaryScale[800]!, // Darker orange for readability
+            'Pagos en revisión: ',
+            color: AppColors.warningScale[700]!,
           ),
           AmountText.fromCents(
-            pendingPaymentAmount,
-            color: AppColors.primaryScale[900]!, // Strongest orange for the amount
+            amount,
+            color: AppColors.warningScale[800]!,
             fontSize: 12,
+            fontWeight: FontWeight.bold,
           ),
-          Spacer(),
-          // --- The Help Button ---
+          const SizedBox(width: 8),
           GestureDetector(
             onTap: () => _showReviewExplanation(context),
             child: Icon(
               Icons.help_outline_rounded,
-              color: AppColors.primaryScale[400],
-              size: 14,
+              color: AppColors.warningScale[300],
+              size: 16,
             ),
           ),
         ],
@@ -70,7 +64,10 @@ class PendingPaymentsInfoRow extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.pop(context),
             style: TextButton.styleFrom(foregroundColor: AppColors.primary),
-            child: const Text('ENTENDIDO', style: TextStyle(fontWeight: FontWeight.bold)),
+            child: const Text(
+              'ENTENDIDO',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

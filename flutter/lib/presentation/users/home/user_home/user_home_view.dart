@@ -24,8 +24,6 @@ class UserHomeView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             UserHomeHeader(user),
-
-            // Content Section
             Container(
               color: AppColors.background,
               child: Padding(
@@ -44,16 +42,9 @@ class UserHomeView extends StatelessWidget {
                               color: Colors.white,
                             ),
                             const SizedBox(height: 12.0),
-
-                            InReviewInfoRow(amount: 250000),
+                            OverdueMaintenanceInfoRow(amount: -500000),
                             const SizedBox(height: 12.0),
-                            OverdueInfoRow(amount: 500000,),
-
-                            PendingPaymentsInfoRow(
-                              pendingPaymentAmount: 250000,
-                            ),
-                            const SizedBox(height: 12.0),
-                            OverdueMaintenanceInfoRow(overdueAmount: -500000),
+                            PendingPaymentsInfoRow(amount: 250000),
                           ],
                         ),
                       ),
@@ -133,66 +124,6 @@ class _ActionIcon extends StatelessWidget {
             label,
             style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-
-
-class InReviewInfoRow extends StatelessWidget {
-  final int amount;
-
-  const InReviewInfoRow({required this.amount, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.warningScale[50], // Soft orange background
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.warningScale[100]!),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.schedule_rounded, color: AppColors.warningScale[600], size: 16),
-          const SizedBox(width: 8),
-          BodyText.tiny('Pagos en revisión: ', color: AppColors.warningScale[700]!),
-          AmountText.fromCents(amount, color: AppColors.warningScale[800]!, fontSize: 12, fontWeight: FontWeight.bold),
-          const SizedBox(width: 8),
-          Icon(Icons.help_outline_rounded, color: AppColors.warningScale[300], size: 16),
-        ],
-      ),
-    );
-  }
-}
-
-class OverdueInfoRow extends StatelessWidget {
-  final int amount;
-
-  const OverdueInfoRow({required this.amount, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.dangerScale[50], // Soft red background
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.dangerScale[100]!),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.error_outline_rounded, color: AppColors.dangerScale[600], size: 16),
-          const SizedBox(width: 8),
-          BodyText.tiny('Monto adeudado: ', color: AppColors.dangerScale[700]!, fontWeight: FontWeight.bold),
-          AmountText.fromCents(amount, color: AppColors.dangerScale[800]!, fontSize: 12),
-          const SizedBox(width: 8),
-          Icon(Icons.help_outline_rounded, color: AppColors.dangerScale[300], size: 16),
         ],
       ),
     );
