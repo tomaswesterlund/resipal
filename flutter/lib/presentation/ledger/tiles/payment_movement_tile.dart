@@ -5,7 +5,7 @@ import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/entities/payment_entity.dart';
 import 'package:resipal/domain/enums/payment_status.dart';
-import 'package:resipal/presentation/payments/payment_details_page.dart';
+import 'package:resipal/presentation/payments/payment_details/payment_details_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class PaymentMovementTile extends StatelessWidget {
@@ -18,7 +18,7 @@ class PaymentMovementTile extends StatelessWidget {
     final statusData = _getStatusDisplayData(payment.status);
 
     return GestureDetector(
-      onTap: () => Go.to(PaymentDetailsPage(payment)),
+      onTap: () => Go.to(PaymentDetailsPage(paymentId: payment.id,)),
       child: Card(
         color: Colors.white,
         elevation: 0,

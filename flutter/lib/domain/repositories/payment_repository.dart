@@ -18,7 +18,7 @@ class PaymentRepository {
   PaymentRepository(
     this._logger,
     this._paymentDataSource,
-    this.userRepository
+    this.userRepository,
   ) {
     _stream = _paymentDataSource
         .watchPayments()
@@ -79,7 +79,7 @@ class PaymentRepository {
   Future<PaymentEntity> _toEntity(PaymentModel model) async {
     return PaymentEntity(
       id: model.id,
-      user: await userRepository.getUserRefById(model.userId),
+      user: userRepository.getUserRefById(model.userId),
       createdAt: model.createdAt,
       amountInCents: model.amountInCents,
       status: PaymentStatus.fromString(model.status),
@@ -93,15 +93,20 @@ class PaymentRepository {
   Future<List<PaymentEntity>> _processAndCache(List<PaymentModel> models) {
     return Future.wait(
       models.map((model) async {
-        // If we already processed this exact version, return from cache
-        // (Note: You might need a version/updated_at check if data can change)
         if (_cache.containsKey(model.id)) {
-          return _cache[model.id]!;
-        }
+          final current = _cache[model.id];
+          final updated = await _toEntity(model);
 
-        final entity = await _toEntity(model);
-        _cache[model.id] = entity;
-        return entity;
+          if (current != updated) {
+            _cache[model.id] = updated;
+          }
+
+          return _cache[model.id]!;
+        } else {
+          final entity = await _toEntity(model);
+          _cache[model.id] = entity;
+          return entity;
+        }
       }),
     );
   }

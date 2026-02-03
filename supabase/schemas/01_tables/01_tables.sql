@@ -47,6 +47,7 @@ CREATE TABLE movements(
     user_id uuid NOT NULL REFERENCES users(id),
     created_at timestamptz NOT NULL DEFAULT NOW(),
     amount_in_cents int NOT NULL,
+    date TIMESTAMPTZ NOT NULL,
     type TEXT NOT NULL CHECK (type IN ('payment', 'maintenance_fee')),
     ref_id text NOT NULL,
     description TEXT

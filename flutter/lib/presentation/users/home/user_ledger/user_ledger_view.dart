@@ -5,6 +5,7 @@ import 'package:resipal/core/ui/cards/shimmer_card.dart';
 import 'package:resipal/core/ui/containers/green_box_container.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
+import 'package:resipal/core/ui/views/loading_view.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/ledger/movement_list_view.dart';
 import 'package:resipal/presentation/users/home/user_ledger/user_ledger_cubit.dart';
@@ -25,6 +26,10 @@ class UserLedgerView extends StatelessWidget {
               errorMessage: state.errorMessage,
               exception: state.exception,
             );
+          }
+
+          if(state.isFetching) {
+            return LoadingView();
           }
 
           if (state.ledger == null) {
