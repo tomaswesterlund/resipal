@@ -3,14 +3,21 @@ import 'package:google_fonts/google_fonts.dart';
 
 class TextInputField extends StatelessWidget {
   final String label;
-  final TextEditingController? controller;
+  final String? initialValue;
+  final Function(String)? onChanged;
 
-  const TextInputField({required this.controller, required this.label, super.key});
+  const TextInputField({
+    required this.label,
+    this.initialValue,
+    this.onChanged,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
+      initialValue: initialValue,
+      onChanged: onChanged,
       keyboardType: TextInputType.text,
       style: GoogleFonts.raleway(fontSize: 16.0, color: Colors.black87),
       decoration: InputDecoration(

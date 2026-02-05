@@ -20,7 +20,7 @@ class UserRepository {
         .shareValue();
   }
 
-  Future initialize() async  {
+  Future initialize() async {
     final firstData = await _userDataSource.watchUsers().first;
     _processAndCache(firstData);
     _stream.listen((_) {}, onError: (e) => print('User Stream Error: $e'));
@@ -30,10 +30,33 @@ class UserRepository {
   UserEntity getUserById(String id) =>
       _cache.values.firstWhere((u) => u.id == id);
 
+  /// Fetched the user from the data source which is sometimes needed if a user is created but the stream has not yet emitted the new user. After fetching, the user will be in the cache and can be accessed with [getUserById].
+  Future fetchUser(String id) async {
+    final model = await _userDataSource.getUserById(id);
+    final entity = _toEntity(model);
+    _cache[id] = entity;
+  }
+
   UserRef getUserRefById(String id) {
     final user = getUserById(id);
     return UserRef(id: user.id, name: user.name);
   }
+
+  bool userExists(String id) => _cache.containsKey(id);
+
+  Future createUser({
+    required String id,
+    required String name,
+    required String phoneNumber,
+    required String emergencyPhoneNumber,
+    required String email,
+  }) async => _userDataSource.createUser(
+    id: id,
+    name: name,
+    phoneNumber: phoneNumber,
+    emergencyPhoneNumber: emergencyPhoneNumber,
+    email: email,
+  );
 
   UserEntity _toEntity(UserModel model) {
     return UserEntity(

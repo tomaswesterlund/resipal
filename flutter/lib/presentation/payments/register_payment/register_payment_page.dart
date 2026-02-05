@@ -77,11 +77,11 @@ class _Form extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AmountInputField(controller: cubit.amountController),
+          AmountInputField(onChanged: cubit.updateAmount),
           const SizedBox(height: 12.0),
-          TextInputField(label: 'Referencia', controller: cubit.referenceController),
+          TextInputField(label: 'Referencia', onChanged: cubit.updateReference),
           const SizedBox(height: 12.0),
-          TextInputField(label: 'Nota', controller: cubit.noteController),
+          TextInputField(label: 'Nota', onChanged: cubit.updateNote),
           const SizedBox(height: 24.0),
           HeaderText.four('Comprobante'),
           BodyText.small('Selecciona la opción para elegir una imagen.'),

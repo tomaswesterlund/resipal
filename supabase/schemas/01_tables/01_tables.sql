@@ -6,9 +6,7 @@ CREATE TABLE communities(
 );
 
 CREATE TABLE users(
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    -- uud UUID NOT NULL, -- Reference later to auth.users(id)
-    community_id uuid NOT NULL REFERENCES communities(id),
+    id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     name text NOT NULL,
     phone_number text NOT NULL,

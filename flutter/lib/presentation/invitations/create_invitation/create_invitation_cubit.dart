@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
-import 'package:resipal/core/services/session_service.dart';
+import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/domain/entities/visitor_entity.dart';
 import 'package:resipal/domain/repositories/invitation_repository.dart';
@@ -13,7 +13,7 @@ import 'package:resipal/presentation/invitations/create_invitation/create_invita
 
 class CreateInvitationCubit extends Cubit<CreateInvitationState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
-  final SessionService _sessionService = GetIt.I<SessionService>();
+  final AuthService _authService = GetIt.I<AuthService>();
   final InvitationRepository _invitationRepository = GetIt.I<InvitationRepository>();
   final PropertyRepository _propertyRepository = GetIt.I<PropertyRepository>();
   final VisitorRepository _visitorRepository = GetIt.I<VisitorRepository>();
@@ -26,7 +26,7 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
     try {
       emit(LoadingState());
 
-      final userId = _sessionService.getSignedInUserId();
+      final userId = _authService.getSignedInUserId();
       final properties = await _propertyRepository.getPropertiesByUserId(userId);
       final visitors = await _visitorRepository.getVisitorsByUserId(userId);
 
@@ -54,7 +54,7 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
       emit(FormSubmittingState());
 
       await _invitationRepository.createInvitation(
-        userId: _sessionService.getSignedInUserId(),
+        userId: _authService.getSignedInUserId(),
         propertyId: _formState.property!.id,
         visitorId: _formState.visitor!.id,
         fromDate: _formState.dateRange!.start,

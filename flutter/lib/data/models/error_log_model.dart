@@ -1,6 +1,6 @@
 class ErrorLogModel {
   final String id;
-  final String userId;
+  final String? userId;
   final DateTime createdAt;
   final String errorMessage;
   final String? stackTrace;

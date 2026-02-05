@@ -3,15 +3,24 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AmountInputField extends StatelessWidget {
-  final TextEditingController? controller;
+  final Function(double) onChanged;
 
-  const AmountInputField({required this.controller, super.key});
+  const AmountInputField({required this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: 1,
-      controller: controller,
+      onChanged: (value) {
+        try {
+          final double? amount = double.tryParse(value);
+          if (amount != null) {
+            onChanged(amount);
+          }
+        } catch (e) {
+          // Handle parsing error if necessary
+        }
+      },
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [
         // Allow digits and only one decimal point

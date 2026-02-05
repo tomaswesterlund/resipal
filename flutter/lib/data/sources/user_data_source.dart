@@ -12,15 +12,28 @@ class UserDataSource {
         .map((data) => data.map((item) => UserModel.fromJson(item)).toList());
   }
 
-  // Future<List<UserModel>> getUsers() async {
-  //   final items = await _client.from('users').select();
-  //   final models = items.map((i) => UserModel.fromJson(i)).toList();
-  //   return models;
-  // }
+  Future<UserModel> getUserById(String id) async {
+    final item = await _client.from('users').select().eq('id', id).single();
+    final model = UserModel.fromJson(item);
+    return model;
+  }
 
-  // Future<UserModel> getUserById(String id) async {
-  //   final item = await _client.from('users').select().eq('id', id).single();
-  //   final model = UserModel.fromJson(item);
-  //   return model;
-  // }
+  Future createUser({
+    required String id,
+    required String name,
+    required String phoneNumber,
+    required String emergencyPhoneNumber,
+    required String email,
+  }) async {
+    await _client.rpc(
+      'fn_create_user',
+      params: {
+        'p_user_id': id,
+        'p_name': name,
+        'p_phone_number': phoneNumber,
+        'p_emergency_phone_number': emergencyPhoneNumber,
+        'p_email': email,
+      },
+    );
+  }
 }

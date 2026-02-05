@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:resipal/core/services/session_service.dart';
+import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/data/sources/error_log_data_source.dart';
 import 'package:resipal/data/models/error_log_model.dart';
 import 'package:uuid/uuid.dart';
@@ -16,7 +16,7 @@ class LoggerService {
   );
 
   Future logException({required dynamic exception, required String featureArea, required StackTrace? stackTrace, Map<String, dynamic>? metadata}) async {
-    final SessionService sessionService = GetIt.I<SessionService>();
+    final AuthService sessionService = GetIt.I<AuthService>();
     final ErrorLogDataSource errorDataSource = GetIt.I<ErrorLogDataSource>();
 
     _logger.e('Exception in $featureArea', error: exception, stackTrace: stackTrace);
@@ -27,7 +27,7 @@ class LoggerService {
       final errorLog = ErrorLogModel(
         id: Uuid().v4(),
         createdAt: DateTime.now(),
-        userId: sessionService.getSignedInUserId(),
+        userId: '-1',
         errorMessage: exception.toString(),
         stackTrace: stackTrace?.toString(),
         platform: kIsWeb ? 'web' : Platform.operatingSystem,

@@ -1,10 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
+import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/domain/repositories/user_repository.dart';
+import 'package:resipal/presentation/signin/signin_state.dart';
 
 class SigninCubit extends Cubit<SigninState> {
+  final AuthService _sessionService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
   final UserRepository _userRepository = GetIt.I<UserRepository>();
 
@@ -12,14 +16,18 @@ class SigninCubit extends Cubit<SigninState> {
 
   Future signin() async {
     try {
-      // Signin logic
-      final user = await _userRepository.getUserById(
-        'a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d',
-      );
+      await _sessionService.signInWithGoogle();
+      final authUser = _sessionService.getSignedInUser()!;
 
-      // Set signin user
+      // Has the user been onboarded i.e. exists in the Users table?
+      final userOnboarded = await _userRepository.userExists(authUser.id);
 
-      emit(UserSignedInSuccessfullyState(user));
+      if (userOnboarded) {
+        final user = _userRepository.getUserById(authUser.id);
+        emit(UserSignedInSuccessfullyState(userOnboarded: true, user: user));
+      } else {
+        emit(UserSignedInSuccessfullyState(userOnboarded: false));
+      }
     } catch (e, stack) {
       _logger.logException(
         exception: e,
@@ -29,21 +37,4 @@ class SigninCubit extends Cubit<SigninState> {
       emit(ErrorState(errorMessage: e.toString(), exception: e));
     }
   }
-}
-
-abstract class SigninState {}
-
-class InitialState extends SigninState {}
-
-class UserSignedInSuccessfullyState extends SigninState {
-  final UserEntity user;
-
-  UserSignedInSuccessfullyState(this.user);
-}
-
-class ErrorState extends SigninState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, required this.exception});
 }

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/image_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
-import 'package:resipal/core/services/session_service.dart';
+import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/data/sources/access_log_data_source.dart';
 import 'package:resipal/data/sources/error_log_data_source.dart';
@@ -49,7 +49,7 @@ Future<void> main() async {
 
   GetIt.I.registerSingleton(ImageService());
   GetIt.I.registerSingleton(LoggerService());
-  GetIt.I.registerSingleton(SessionService());
+  GetIt.I.registerSingleton(AuthService());
 
   GetIt.I.registerSingleton(AccessLogDataSource());
   GetIt.I.registerSingleton(ErrorLogDataSource());

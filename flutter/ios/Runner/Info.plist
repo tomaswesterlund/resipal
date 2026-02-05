@@ -51,5 +51,16 @@
 	<string>Resipal necesita acceso a tu galería para que puedas seleccionar imágenes de tus comprobantes de pago.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Resipal necesita acceso al micrófono (requerido por la API de cámara).</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.381902294075-k4u2q9s5o3pa387s8ik2t7r0jepjkiss</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
