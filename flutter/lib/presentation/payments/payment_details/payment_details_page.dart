@@ -37,10 +37,7 @@ class PaymentDetailsPage extends StatelessWidget {
             }
 
             if (state is ErrorState) {
-              return ErrorStateView(
-                errorMessage: state.errorMessage,
-                exception: state.exception,
-              );
+              return ErrorStateView();
             }
 
             return UnknownStateView();
@@ -65,8 +62,7 @@ class _Loaded extends StatelessWidget {
           PaymentHeader(payment),
           const SizedBox(height: 32),
 
-          if (payment.receiptPath != null &&
-              payment.receiptPath!.isNotEmpty) ...[
+          if (payment.receiptPath != null && payment.receiptPath!.isNotEmpty) ...[
             SectionHeaderText(text: 'COMPROBANTE ADJUNTO'),
             ReceiptPreview(receiptPath: payment.receiptPath!),
             const SizedBox(height: 20),
@@ -91,9 +87,7 @@ class _Loaded extends StatelessWidget {
                 DetailTile(
                   icon: Icons.tag,
                   label: 'Referencia',
-                  value: payment.reference?.isNotEmpty == true
-                      ? payment.reference!
-                      : 'Sin referencia',
+                  value: payment.reference?.isNotEmpty == true ? payment.reference! : 'Sin referencia',
                 ),
                 const Divider(height: 1),
                 DetailTile(
@@ -112,14 +106,7 @@ class _Loaded extends StatelessWidget {
             DefaultCard(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  payment.note!,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: Colors.black87,
-                    height: 1.4,
-                  ),
-                ),
+                child: Text(payment.note!, style: const TextStyle(fontSize: 15, color: Colors.black87, height: 1.4)),
               ),
             ),
 

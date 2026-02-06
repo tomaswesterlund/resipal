@@ -1,13 +1,17 @@
 class PropertyModel {
   final String id;
-  final String userId;
+  final String communityId;
+  final String? ownerId;
+  final String? contractId;
   final DateTime createdAt;
   final String name;
   final String? description;
 
   PropertyModel({
     required this.id,
-    required this.userId,
+    required this.communityId,
+    required this.ownerId,
+    required this.contractId,
     required this.createdAt,
     required this.name,
     required this.description,
@@ -16,7 +20,9 @@ class PropertyModel {
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
     return PropertyModel(
       id: json['id'],
-      userId: json['user_id'],
+      communityId: json['community_id'],
+      ownerId: json['owner_id'],
+      contractId: json['contract_id'],
       createdAt: DateTime.parse(json['created_at'].toString()),
       name: json['name'],
       description: json['description'],

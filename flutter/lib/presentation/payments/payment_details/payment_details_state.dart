@@ -19,9 +19,4 @@ class LoadedState extends PaymentDetailsState {
   List<Object?> get props => [payment];
 }
 
-class ErrorState extends PaymentDetailsState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, required this.exception});
-}
+class ErrorState extends PaymentDetailsState {}

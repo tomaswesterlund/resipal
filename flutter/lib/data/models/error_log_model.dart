@@ -21,7 +21,7 @@ class ErrorLogModel {
     this.metadata,
   });
 
-  factory ErrorLogModel.fromJson(Map<String, dynamic> json) {
+  factory ErrorLogModel.fromMap(Map<String, dynamic> json) {
     return ErrorLogModel(
       id: json['id'],
       userId: json['user_id'],

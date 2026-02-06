@@ -10,10 +10,4 @@ class MaintenanceContractDataSource {
     final model = MaintenanceContractModel.fromJson(item);
     return model;
   }
-
-  Future<MaintenanceContractModel> getMaintenanceContractByPropertyId(String propertyId) async {
-    final item = await _client.from('maintenance_contracts').select().eq('property_id', propertyId).single();
-    final model = MaintenanceContractModel.fromJson(item);
-    return model;
-  }
 }

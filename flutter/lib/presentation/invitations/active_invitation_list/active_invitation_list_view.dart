@@ -30,10 +30,7 @@ class ActiveInvitationListView extends StatelessWidget {
           }
 
           if (state is ErrorState) {
-            return ErrorStateView(
-              errorMessage: state.errorMessage,
-              exception: state.exception,
-            );
+            return ErrorStateView();
           }
 
           return const UnknownStateView();

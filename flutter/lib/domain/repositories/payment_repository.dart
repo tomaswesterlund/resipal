@@ -4,55 +4,22 @@ import 'package:resipal/data/models/payment_model.dart';
 import 'package:resipal/data/sources/payment_data_source.dart';
 import 'package:resipal/domain/entities/payment_entity.dart';
 import 'package:resipal/domain/enums/payment_status.dart';
-import 'package:resipal/domain/repositories/user_repository.dart';
-import 'package:rxdart/streams.dart';
 
 class PaymentRepository {
-  final LoggerService _logger;
-  final PaymentDataSource _paymentDataSource;
-  final UserRepository userRepository;
+  final LoggerService _logger = GetIt.I<LoggerService>();
+  final PaymentDataSource _paymentDataSource = GetIt.I<PaymentDataSource>();
 
   final Map<String, PaymentEntity> _cache = {};
-  late final Stream<List<PaymentEntity>> _stream;
-
-  PaymentRepository(
-    this._logger,
-    this._paymentDataSource,
-    this.userRepository,
-  ) {
-    _stream = _paymentDataSource
-        .watchPayments()
-        .asyncMap((models) => _processAndCache(models))
-        .shareValue();
-  }
 
   Future initialize() async {
     final firstData = await _paymentDataSource.watchPayments().first;
     await _processAndCache(firstData);
-    _stream.listen((_) {}, onError: (e) => print('Property Stream Error: $e'));
-    _logger.info('✅ PropertyRepository initialized');
-  }
-
-  Stream<List<PaymentEntity>> watchPayments() => _stream;
-
-  Stream<List<PaymentEntity>> watchPaymentsByUserId(String userId) {
-    return _stream
-        .map(
-          (list) => list.where((payment) => payment.user.id == userId).toList(),
-        )
-        .distinct();
-  }
-
-  Stream<PaymentEntity> watchPaymentById(String id) {
-    return _stream
-        .map((list) => list.firstWhere((payment) => payment.id == id))
-        .distinct();
+    _logger.info('✅ PaymentRepository initialized');
   }
 
   PaymentEntity getPaymentById(String id) => _cache[id]!;
 
-  List<PaymentEntity> getPaymentsByUserId(String id) =>
-      _cache.values.where((p) => p.user.id == id).toList();
+  List<PaymentEntity> getPaymentsByUserId(String userId) => _cache.values.where((p) => p.userId == userId).toList();
 
   Future registerNewPayment({
     required String userId,
@@ -70,16 +37,13 @@ class PaymentRepository {
     receiptPath: receiptPath,
   );
 
-  Future approvePayment({
-    required String userId,
-    required String paymentId,
-  }) async =>
+  Future approvePayment({required String userId, required String paymentId}) async =>
       _paymentDataSource.approvePayment(userId: userId, paymentId: paymentId);
 
   Future<PaymentEntity> _toEntity(PaymentModel model) async {
     return PaymentEntity(
       id: model.id,
-      user: userRepository.getUserRefById(model.userId),
+      userId: model.userId,
       createdAt: model.createdAt,
       amountInCents: model.amountInCents,
       status: PaymentStatus.fromString(model.status),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/cards/green_box_card.dart';
-import 'package:resipal/core/ui/containers/green_box_container.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
-import 'package:resipal/core/ui/texts/body_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/maintenance/overdue_maintenance_info_row.dart';
@@ -37,14 +35,11 @@ class UserHomeView extends StatelessWidget {
                         child: Column(
                           children: [
                             HeaderText.two('Saldo actual', color: Colors.white),
-                            AmountText.fromCents(
-                              user.totalBalanceInCents,
-                              color: Colors.white,
-                            ),
+                            AmountText.fromCents(user.totalBalanceInCents, color: Colors.white),
                             const SizedBox(height: 12.0),
-                            OverdueMaintenanceInfoRow(amount: -500000),
+                            OverdueMaintenanceInfoRow(amount: user.totalOverdueFeeInCents),
                             const SizedBox(height: 12.0),
-                            PendingPaymentsInfoRow(amount: 250000),
+                            PendingPaymentsInfoRow(amount: user.pendingPaymentAmountInCents),
                           ],
                         ),
                       ),
@@ -53,6 +48,8 @@ class UserHomeView extends StatelessWidget {
                     // Quick Actions Grid
                     //const _QuickActionsGrid(),
                     const SizedBox(height: 32),
+                    const HeaderText.three('Mis propiedades'),
+                    const SizedBox(height: 16), // Spacing between header and content
                     UserPropertiesView(user: user),
                     const SizedBox(height: 32),
                     UserActiveInvitationsView(user: user),
@@ -81,11 +78,7 @@ class _QuickActionsGrid extends StatelessWidget {
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
       children: [
-        _ActionIcon(
-          icon: Icons.qr_code_scanner,
-          label: 'Invitación',
-          onTap: () {},
-        ),
+        _ActionIcon(icon: Icons.qr_code_scanner, label: 'Invitación', onTap: () {}),
         _ActionIcon(icon: Icons.history, label: 'Historial', onTap: () {}),
         _ActionIcon(icon: Icons.security, label: 'Accesos', onTap: () {}),
         _ActionIcon(icon: Icons.support_agent, label: 'Soporte', onTap: () {}),
@@ -99,11 +92,7 @@ class _ActionIcon extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _ActionIcon({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
+  const _ActionIcon({required this.icon, required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -113,17 +102,11 @@ class _ActionIcon extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.blueGrey[50],
-              borderRadius: BorderRadius.circular(12),
-            ),
+            decoration: BoxDecoration(color: Colors.blueGrey[50], borderRadius: BorderRadius.circular(12)),
             child: Icon(icon, color: Colors.blueGrey[800]),
           ),
           const SizedBox(height: 4),
-          Text(
-            label,
-            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-          ),
+          Text(label, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600)),
         ],
       ),
     );

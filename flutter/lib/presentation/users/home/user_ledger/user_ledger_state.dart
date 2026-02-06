@@ -1,35 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:resipal/domain/entities/ledger_entity.dart';
 
-class UserLedgerState extends Equatable {
-  final bool isFetching;
-  final LedgerEntity? ledger;
-  final String? errorMessage;
-  final Object? exception;
+abstract class UserLedgerState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
-  bool get isError => errorMessage != null || exception != null;
+class InitialState extends UserLedgerState {}
 
-  const UserLedgerState({
-    this.isFetching = true,
-    this.ledger,
-    this.errorMessage,
-    this.exception,
-  });
+class LoadingState extends UserLedgerState {}
 
-  UserLedgerState copyWith({
-    bool? isFetching,
-    LedgerEntity? ledger,
-    String? errorMessage,
-    Exception? exception,
-  }) {
-    return UserLedgerState(
-      isFetching: isFetching ?? this.isFetching,
-      ledger: ledger ?? this.ledger,
-      errorMessage: errorMessage ?? this.errorMessage,
-      exception: exception ?? this.exception,
-    );
-  }
+class LoadedState extends UserLedgerState {
+  final LedgerEntity ledger;
+
+  LoadedState(this.ledger);
 
   @override
-  List<Object?> get props => [isFetching, ledger, errorMessage, exception];
+  List<Object?> get props => [ledger];
 }
+
+class ErrorState extends UserLedgerState {}

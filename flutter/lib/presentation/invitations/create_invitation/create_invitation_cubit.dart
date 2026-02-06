@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/core/services/auth_service.dart';
-import 'package:resipal/domain/entities/property_entity.dart';
+import 'package:resipal/domain/entities/user_property_entity.dart';
 import 'package:resipal/domain/entities/visitor_entity.dart';
 import 'package:resipal/domain/repositories/invitation_repository.dart';
 import 'package:resipal/domain/repositories/property_repository.dart';
@@ -27,7 +27,7 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
       emit(LoadingState());
 
       final userId = _authService.getSignedInUserId();
-      final properties = await _propertyRepository.getPropertiesByUserId(userId);
+      final properties = await _propertyRepository.getPropertiesByOwnerId(userId);
       final visitors = await _visitorRepository.getVisitorsByUserId(userId);
 
       if (properties.isEmpty) {
@@ -68,7 +68,7 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
     }
   }
 
-  void onPropertySelected(PropertyEntity? property) {
+  void onPropertySelected(UserPropertyEntity? property) {
     _formState = _formState.copyWith(property: property);
     emit(FormEditingState(formState: _formState));
   }

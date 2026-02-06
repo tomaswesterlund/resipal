@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/domain/entities/maintenance_fee_entity.dart';
-import 'package:resipal/domain/entities/payment_entity.dart';
 
 class MaintenanceFeeIcon extends StatelessWidget {
   final MaintenanceFeeEntity maintenanceFee;

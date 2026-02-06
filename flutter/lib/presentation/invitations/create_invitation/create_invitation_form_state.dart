@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:resipal/domain/entities/property_entity.dart';
+import 'package:resipal/domain/entities/user_property_entity.dart';
 import 'package:resipal/domain/entities/visitor_entity.dart';
 
 class CreateInvitationFormState {
-  final List<PropertyEntity> properties;
+  final List<UserPropertyEntity> properties;
   final List<VisitorEntity> visitors;
 
-  final PropertyEntity? property;
+  final UserPropertyEntity? property;
   final VisitorEntity? visitor;
   final DateTimeRange? dateRange;
 
@@ -27,7 +27,7 @@ class CreateInvitationFormState {
   });
 
   CreateInvitationFormState copyWith({
-    PropertyEntity? property,
+    UserPropertyEntity? property,
     VisitorEntity? visitor,
     DateTimeRange? dateRange,
   }) {

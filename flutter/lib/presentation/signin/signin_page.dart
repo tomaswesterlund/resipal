@@ -10,7 +10,7 @@ import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/presentation/signin/signin_cubit.dart';
 import 'package:resipal/presentation/signin/signin_state.dart';
 import 'package:resipal/presentation/users/home/user_home_page.dart';
-import 'package:resipal/presentation/users/user_onboarding/user_onboarding_page.dart';
+import 'package:resipal/presentation/users/user_onboarding/user_data/user_onboarding_user_data_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class SigninPage extends StatelessWidget {
@@ -26,7 +26,7 @@ class SigninPage extends StatelessWidget {
             if (state.userOnboarded) {
               Go.to(UserHomePage(user: state.user!));
             } else {
-              Go.to(UserOnboardingPage());
+              Go.to(UserOnboardingUserDataPage());
             }
           }
         },

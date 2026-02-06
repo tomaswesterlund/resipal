@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal/core/ui/cards/shimmer_card.dart';
-import 'package:resipal/core/ui/texts/header_text.dart';
-import 'package:resipal/core/ui/views/error_state_view.dart';
+import 'package:resipal/domain/entities/user_property_entity.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/properties/no_properties_found_view.dart';
 import 'package:resipal/presentation/properties/property_list_view.dart';
-import 'package:resipal/presentation/users/home/user_properties/user_properties_cubit.dart';
-import 'package:resipal/presentation/users/home/user_properties/user_properties_state.dart';
 
 class UserPropertiesView extends StatelessWidget {
   final UserEntity user;
@@ -15,34 +11,63 @@ class UserPropertiesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (ctx) => UserPropertiesCubit()..intialize(user.id),
-      child: BlocBuilder<UserPropertiesCubit, UserPropertiesState>(
-        builder: (ctx, state) {
-          if (state.isError) {
-            return ErrorStateView(
-              errorMessage: state.errorMessage,
-              exception: state.exception,
-            );
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HeaderText.four('Mis Propiedades'),
-              const SizedBox(height: 12),
+    if (user.properties.isEmpty) {
+      return NoPropertiesFoundView();
+    } else {
+      return PropertyListView(user.properties);
+    }
+    // return BlocProvider(
+    //   create: (ctx) => UserPropertiesCubit()..intialize(user.id),
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       const HeaderText.three('Mis propiedades'),
+    //       const SizedBox(height: 16), // Spacing between header and content
+    //       BlocBuilder<UserPropertiesCubit, UserPropertiesState>(
+    //         builder: (ctx, state) {
+    //           if (state is InitialState || state is LoadingState) {
+    //             return const _Loading();
+    //           }
 
-              if (state.isFetching) ...[
-                ShimmerCard(),
-                ShimmerCard(),
-                ShimmerCard(),
-              ] else if (state.properties.isEmpty)
-                NoPropertiesFoundView()
-              else
-                PropertyListView(state.properties),
-            ],
-          );
-        },
-      ),
+    //           if (state is LoadedState) {
+    //             return _Loaded(state.properties);
+    //           }
+
+    //           if (state is ErrorState) {
+    //             return const ErrorStateView();
+    //           }
+
+    //           return UnknownStateView();
+    //         },
+    //       ),
+    //     ],
+    //   ),
+    // );
+  }
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [ShimmerCard(), ShimmerCard(), ShimmerCard()],
     );
+  }
+}
+
+class _Loaded extends StatelessWidget {
+  final List<UserPropertyEntity> properties;
+  const _Loaded(this.properties, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (properties.isEmpty) {
+      return NoPropertiesFoundView();
+    } else {
+      return PropertyListView(properties);
+    }
   }
 }

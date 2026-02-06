@@ -34,10 +34,7 @@ class _UserHomePageState extends State<UserHomePage> {
     return Scaffold(
       // Allows the body to extend behind the floating navigation bar
       extendBody: true,
-      body: IndexedSemantics(
-        index: _currentPageIndex,
-        child: _pages[_currentPageIndex],
-      ),
+      body: _pages[_currentPageIndex],
       bottomNavigationBar: _buildFloatingNavBar(),
     );
   }

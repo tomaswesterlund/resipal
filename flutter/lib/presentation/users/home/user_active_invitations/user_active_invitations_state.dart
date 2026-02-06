@@ -1,25 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
 
-class UserActiveInvitationsState extends Equatable {
-  final bool isFetching;
+abstract class UserActiveInvitationsState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class InitialState extends UserActiveInvitationsState {}
+
+class LoadingState extends UserActiveInvitationsState {}
+
+class LoadedState extends UserActiveInvitationsState {
   final List<InvitationEntity> invitations;
-  final String? errorMessage;
-  final Object? exception;
 
-  bool get isError => errorMessage != null || exception != null;
-
-  const UserActiveInvitationsState({this.isFetching = true, this.invitations = const [], this.errorMessage, this.exception});
-
-  UserActiveInvitationsState copyWith({bool? isFetching, List<InvitationEntity>? invitations, String? errorMessage, Exception? exception}) {
-    return UserActiveInvitationsState(
-      isFetching: isFetching ?? this.isFetching,
-      invitations: invitations ?? this.invitations,
-      errorMessage: errorMessage ?? this.errorMessage,
-      exception: exception ?? this.exception,
-    );
-  }
+  LoadedState(this.invitations);
 
   @override
-  List<Object?> get props => [isFetching, invitations, errorMessage, exception];
+  List<Object?> get props => [invitations];
 }
+
+class ErrorState extends UserActiveInvitationsState {}

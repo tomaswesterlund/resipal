@@ -1,7 +1,7 @@
 import 'package:resipal/domain/entities/invitation_entity.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/entities/payment_entity.dart';
-import 'package:resipal/domain/entities/property_entity.dart';
+import 'package:resipal/domain/entities/user_property_entity.dart';
 import 'package:resipal/domain/enums/payment_status.dart';
 
 class UserEntity {
@@ -14,7 +14,7 @@ class UserEntity {
   final List<InvitationEntity> invitations;
   final List<MovementEntity> movements;
   final List<PaymentEntity> payments;
-  // final List<PropertyEntity> properties;
+  final List<UserPropertyEntity> properties;
 
   List<InvitationEntity> get activeInvitations =>
       invitations.where((e) => e.canEnter).toList();
@@ -30,10 +30,10 @@ class UserEntity {
     return approvedPaymentAmountInCents;
   }
 
-  // int get totalOverdueFeeInCents => properties.fold(
-  //   0,
-  //   (sum, property) => sum = sum + property.contract.totalOverdueFeeInCents,
-  // );
+  int get totalOverdueFeeInCents => properties.fold(
+    0,
+    (sum, property) => sum = sum + property.contract.totalOverdueFeeInCents,
+  );
 
   int get pendingPaymentAmountInCents {
     final pendingPayments = payments.where(
@@ -56,6 +56,6 @@ class UserEntity {
     required this.invitations,
     required this.movements,
     required this.payments,
-    // required this.properties,
+    required this.properties,
   });
 }

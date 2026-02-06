@@ -1,35 +1,27 @@
-import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/data/models/property_model.dart';
 import 'package:resipal/data/sources/property_data_source.dart';
-import 'package:resipal/domain/entities/property_entity.dart';
+import 'package:resipal/domain/entities/user_property_entity.dart';
 import 'package:resipal/domain/refs/property_ref.dart';
 import 'package:resipal/domain/repositories/maintenance_repository.dart';
-import 'package:resipal/domain/repositories/user_repository.dart';
-import 'package:rxdart/streams.dart';
 
 class PropertyRepository {
-  final LoggerService _logger = GetIt.I<LoggerService>();
-  final PropertyDataSource _propertyDataSource = GetIt.I<PropertyDataSource>();
+  final LoggerService _logger;
+  final PropertyDataSource _propertyDataSource;
+  final MaintenanceRepository maintenanceRepository;
 
-  final Map<String, PropertyEntity> _cache = {};
-  late Stream<List<PropertyEntity>> _stream;
+  final Map<String, UserPropertyEntity> _cache = {};
 
-  PropertyRepository() {
-    _stream = _propertyDataSource
-        .watchProperties()
-        .asyncMap((models) => _processAndCache(models))
-        .shareValue();
+  PropertyRepository(this._logger, this._propertyDataSource, this.maintenanceRepository);
 
-    _stream.listen((_) {}, onError: (e) => print('Property Stream Error: $e'));
+  Future initialize() async {
+    final firstData = await _propertyDataSource.watchProperties().first;
+    await _processAndCache(firstData);
+    _logger.info('✅ PropertyRepository initialized');
   }
 
-  Stream<List<PropertyEntity>> watchPropertiesByUserId(String userId) => _stream
-      .map((list) => list.where((p) => p.user.id == userId).toList())
-      .distinct();
-
-  List<PropertyEntity> getPropertiesByUserId(String userId) =>
-      _cache.values.where((p) => p.user.id == userId).toList();
+  List<UserPropertyEntity> getPropertiesByOwnerId(String ownerId) =>
+      _cache.values.where((p) => p.ownerId == ownerId).toList();
 
   PropertyRef getPropertyRefById(String id) {
     try {
@@ -47,23 +39,34 @@ class PropertyRepository {
     }
   }
 
-  Future<PropertyEntity> _toEntity(PropertyModel model) async {
-    final maintenanceRepository = GetIt.I<MaintenanceRepository>();
-    final userRepository = GetIt.I<UserRepository>();
+  // Future<UserPropertyEntity> _toEntity(PropertyModel model) async {
+  //     return UserPropertyEntity(
+  //       id: model.id,
+  //       communityId: ,
+  //       ownerId: model.ownerId,
+  //       contract: await maintenanceRepository.getMaintenanceContractByPropertyId(model.id),
+  //       createdAt: model.createdAt,
+  //       name: model.name,
+  //       description: model.description,
+  //     );
+  //   }
 
-    return PropertyEntity(
+  Future<UserPropertyEntity> _toUserPropertyEntity(PropertyModel model) async {
+    assert(model.ownerId != null, 'PropertyModel ownerId should not be null');
+    assert(model.contractId != null, 'PropertyModel contractId should not be null');
+
+    return UserPropertyEntity(
       id: model.id,
-      user: await userRepository.getUserRefById(model.userId),
-      contract: await maintenanceRepository.getMaintenanceContractByPropertyId(
-        model.id,
-      ),
+      communityId: model.communityId,
+      ownerId: model.ownerId!,
+      contract: await maintenanceRepository.getMaintenanceContractById(model.contractId!),
       createdAt: model.createdAt,
       name: model.name,
       description: model.description,
     );
   }
 
-  Future<List<PropertyEntity>> _processAndCache(List<PropertyModel> models) {
+  Future<List<UserPropertyEntity>> _processAndCache(List<PropertyModel> models) {
     return Future.wait(
       models.map((model) async {
         // If we already processed this exact version, return from cache
@@ -72,7 +75,7 @@ class PropertyRepository {
           return _cache[model.id]!;
         }
 
-        final entity = await _toEntity(model);
+        final entity = await _toUserPropertyEntity(model);
         _cache[model.id] = entity;
         return entity;
       }),

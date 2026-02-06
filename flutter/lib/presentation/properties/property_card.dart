@@ -3,18 +3,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
-import 'package:resipal/domain/entities/property_entity.dart';
+import 'package:resipal/domain/entities/user_property_entity.dart';
 import 'package:resipal/presentation/properties/property_details_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class PropertyCard extends StatelessWidget {
-  final PropertyEntity property;
+  final UserPropertyEntity property;
 
   const PropertyCard(this.property, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bool hasDebt = property.contract.totalOverdueFeeInCents > 0;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -22,7 +21,7 @@ class PropertyCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: hasDebt
+          color: property.hasDebt
               ? AppColors.danger.withOpacity(0.3)
               : AppColors.success.withOpacity(0.3),
           width: 1,
@@ -37,7 +36,7 @@ class PropertyCard extends StatelessWidget {
               // 1. Status Indicator Side Bar
               Container(
                 width: 6,
-                color: hasDebt ? AppColors.danger : AppColors.success,
+                color: property.hasDebt ? AppColors.danger : AppColors.success,
               ),
 
               // 2. Main Content
@@ -69,10 +68,10 @@ class PropertyCard extends StatelessWidget {
                             ),
                           ),
                           Icon(
-                            hasDebt
+                            property.hasDebt
                                 ? Icons.warning_amber_rounded
                                 : Icons.check_circle_outline,
-                            color: hasDebt
+                            color: property.hasDebt
                                 ? AppColors.danger
                                 : AppColors.success,
                             size: 20,
@@ -108,9 +107,10 @@ class PropertyCard extends StatelessWidget {
                                 ),
                               ),
                               AmountText.fromCents(
-                                property.contract.totalOverdueFeeInCents,
+                                property.totalOverdueFeeInCents.toInt(),
+                                //property.contract?.totalOverdueFeeInCents,
                                 fontSize: 18,
-                                color: hasDebt
+                                color: property.hasDebt
                                     ? AppColors.danger
                                     : Colors.black87,
                               ),

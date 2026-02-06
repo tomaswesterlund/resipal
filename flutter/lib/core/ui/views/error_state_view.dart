@@ -20,17 +20,23 @@ class ErrorStateView extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Main user-friendly message
-            HeaderText.three(errorMessage ?? 'Algo salió mal!', color: Colors.black87),
+            HeaderText.three('Oops!', color: Colors.black87),
+            const SizedBox(height: 4),
+            BodyText.large('Algo no salió como esperábamos.'),
+            const SizedBox(height: 8),
+            BodyText.tiny('Ya notificamos a nuestro equipo y estamos trabajando en ello.', textAlign: TextAlign.center,),
+
+            // HeaderText.three(errorMessage ?? 'Oopa! Algo salió mal!', color: Colors.black87),
 
             // Technical exception details (only shown if exception is not null)
-            if (exception != null) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(8)),
-                child: BodyText.tiny(exception.toString(), color: Colors.grey.shade700),
-              ),
-            ],
+            // if (exception != null) ...[
+            //   const SizedBox(height: 12),
+            //   Container(
+            //     padding: const EdgeInsets.all(12),
+            //     decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(8)),
+            //     child: BodyText.tiny(exception.toString(), color: Colors.grey.shade700),
+            //   ),
+            // ],
           ],
         ),
       ),

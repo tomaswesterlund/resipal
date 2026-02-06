@@ -16,7 +16,7 @@ class LoggerService {
   );
 
   Future logException({required dynamic exception, required String featureArea, required StackTrace? stackTrace, Map<String, dynamic>? metadata}) async {
-    final AuthService sessionService = GetIt.I<AuthService>();
+    final AuthService authService = GetIt.I<AuthService>();
     final ErrorLogDataSource errorDataSource = GetIt.I<ErrorLogDataSource>();
 
     _logger.e('Exception in $featureArea', error: exception, stackTrace: stackTrace);
@@ -27,7 +27,7 @@ class LoggerService {
       final errorLog = ErrorLogModel(
         id: Uuid().v4(),
         createdAt: DateTime.now(),
-        userId: '-1',
+        userId: authService.getSignedInUserId(),
         errorMessage: exception.toString(),
         stackTrace: stackTrace?.toString(),
         platform: kIsWeb ? 'web' : Platform.operatingSystem,

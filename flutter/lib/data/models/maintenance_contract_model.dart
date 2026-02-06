@@ -1,15 +1,13 @@
 class MaintenanceContractModel {
   final String id;
-  final String propertyId;
-  final String name;
   final DateTime createdAt;
+  final String name;
   final String period;
   final int amountInCents;
   final String? description;
 
   MaintenanceContractModel({
     required this.id,
-    required this.propertyId,
     required this.name,
     required this.createdAt,
     required this.period,
@@ -20,7 +18,6 @@ class MaintenanceContractModel {
   factory MaintenanceContractModel.fromJson(Map<String, dynamic> json) {
     return MaintenanceContractModel(
       id: json['id'],
-      propertyId: json['property_id'],
       name: json['name'],
       createdAt: DateTime.parse(json['created_at'].toString()),
       period: json['period'],

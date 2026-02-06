@@ -5,7 +5,7 @@ import 'package:resipal/core/ui/cards/shimmer_card.dart';
 import 'package:resipal/core/ui/containers/green_box_container.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
-import 'package:resipal/core/ui/views/loading_view.dart';
+import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/ledger/movement_list_view.dart';
 import 'package:resipal/presentation/users/home/user_ledger/user_ledger_cubit.dart';
@@ -17,66 +17,51 @@ class UserLedgerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (ctx) => UserLedgerCubit()..intialize(user.id),
-      child: BlocBuilder<UserLedgerCubit, UserLedgerState>(
-        builder: (ctx, state) {
-          if (state.isError) {
-            return ErrorStateView(
-              errorMessage: state.errorMessage,
-              exception: state.exception,
-            );
-          }
+    return SingleChildScrollView(
+      child: Container(
+        color: AppColors.background,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GreenBoxContainer(
+              child: SafeArea(
+                child: Column(children: [HeaderText.one('Movimientos', color: Colors.white)]),
+              ),
+            ),
 
-          if(state.isFetching) {
-            return LoadingView();
-          }
-
-          if (state.ledger == null) {
-            return ErrorStateView(errorMessage: 'Ledger is null');
-          }
-
-          return SingleChildScrollView(
-            child: Container(
-              color: AppColors.background,
+            Padding(
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GreenBoxContainer(
-                    child: SafeArea(
-                      child: Column(
-                        children: [
-                          HeaderText.one('Movimientos', color: Colors.white),
-                        ],
-                      ),
+                  HeaderText.four('Mis últimos movimientos'),
+                  const SizedBox(height: 12),
+                  BlocProvider(
+                    create: (ctx) => UserLedgerCubit()..intialize(user.id),
+                    child: BlocBuilder<UserLedgerCubit, UserLedgerState>(
+                      builder: (ctx, state) {
+                        if (state is InitialState || state is LoadingState) {
+                          return Column(children: [ShimmerCard(), ShimmerCard(), ShimmerCard()]);
+                        }
+
+                        if (state is ErrorState) {
+                          return ErrorStateView();
+                        }
+
+                        if (state is LoadedState) {
+                          return MovementListView(state.ledger.movements);
+                        }
+
+                        return UnknownStateView();
+                      },
                     ),
                   ),
-              
-                  
-              
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        HeaderText.four('Mis últimos movimientos'),
-                        const SizedBox(height: 12),
-                    
-                        if (state.isFetching) ...[
-                          ShimmerCard(),
-                          ShimmerCard(),
-                          ShimmerCard(),
-                        ] else
-                          MovementListView(state.ledger!.movements),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 148,)
                 ],
               ),
             ),
-          );
-        },
+            SizedBox(height: 148),
+          ],
+        ),
       ),
     );
   }

@@ -9,43 +9,17 @@ import 'package:resipal/presentation/users/home/user_ledger/user_ledger_state.da
 class UserLedgerCubit extends Cubit<UserLedgerState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final LedgerRepository _ledgerRepository = GetIt.I<LedgerRepository>();
-  StreamSubscription<LedgerEntity>? _streamSubscription;
 
-  UserLedgerCubit() : super(UserLedgerState());
+  UserLedgerCubit() : super(InitialState());
 
   Future intialize(String userId) async {
     try {
-      await _streamSubscription?.cancel();
-      emit(state.copyWith(isFetching: true));
-
-      _streamSubscription = _ledgerRepository
-          .watchLedgerByUserId(userId)
-          .listen(
-            (ledger) {
-              emit(UserLedgerState(isFetching: false, ledger: ledger));
-            },
-            onError: (e, s) {
-              _logger.logException(
-                exception: e,
-                featureArea: 'UserLedgerCubit.intialize',
-                stackTrace: s,
-              );
-              emit(UserLedgerState(errorMessage: e.toString(), exception: e));
-            },
-          );
+      emit(LoadingState());
+      final ledger = await _ledgerRepository.getLedgerByUserId(userId);
+      emit(LoadedState(ledger));
     } catch (e, s) {
-      _logger.logException(
-        exception: e,
-        featureArea: 'UserLedgerCubit.intialize',
-        stackTrace: s,
-      );
-      emit(UserLedgerState(errorMessage: e.toString(), exception: e));
+      _logger.logException(exception: e, featureArea: 'UserLedgerCubit.intialize', stackTrace: s);
+      emit(ErrorState());
     }
-  }
-
-  @override
-  Future<void> close() {
-    _streamSubscription?.cancel();
-    return super.close();
   }
 }

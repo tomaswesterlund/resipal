@@ -7,38 +7,32 @@ import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/enums/movement_type.dart';
 import 'package:resipal/domain/repositories/maintenance_repository.dart';
 import 'package:resipal/domain/repositories/payment_repository.dart';
-import 'package:rxdart/streams.dart';
 
 class LedgerRepository {
-  final LoggerService _logger = GetIt.I<LoggerService>();
-  final MovementDataSource _movementDataSource = GetIt.I<MovementDataSource>();
+  final LoggerService _logger;
+  final MovementDataSource _movementDataSource;
+  final MaintenanceRepository _maintenanceRepository;
+  final PaymentRepository _paymentRepository;
 
   final Map<String, LedgerEntity> _cache = {};
-  late Stream<List<LedgerEntity>> _stream;
 
-  LedgerRepository() {
-    _stream = _movementDataSource
-        .watchMovements()
-        .asyncMap((models) => _processAndCache(models))
-        .shareValue();
+  LedgerRepository(this._logger, this._movementDataSource, this._maintenanceRepository, this._paymentRepository);
 
-    _stream.listen((_) {}, onError: (e) => print('LedgerRepository error: $e'));
+  Future initialize() async {
+    final firstData = await _movementDataSource.watchMovements().first;
+    await _processAndCache(firstData);
+    _logger.info('✅ LedgerRepository initialized');
   }
 
-  Stream<LedgerEntity> watchLedgerByUserId(String userId) => _stream
-      .map((list) => list.firstWhere((l) => l.userId == userId))
-      .distinct();
+  LedgerEntity getLedgerByUserId(String userId) => _cache[userId]!;
 
   Future<Object> _getData(MovementType type, String id) async {
     if (type == MovementType.payment) {
-      final PaymentRepository paymentRepository = GetIt.I<PaymentRepository>();
-      return paymentRepository.getPaymentById(id);
+      return _paymentRepository.getPaymentById(id);
     }
 
     if (type == MovementType.maintenanceFee) {
-      final MaintenanceRepository maintenanceRepository =
-          GetIt.I<MaintenanceRepository>();
-      return await maintenanceRepository.getMaintenanceFeeById(id);
+      return await _maintenanceRepository.getMaintenanceFeeById(id);
     }
 
     throw UnimplementedError('LedgerRepository._getData');
@@ -59,23 +53,15 @@ class LedgerRepository {
         data: await _getData(type, model.refId),
       );
     } catch (e, s) {
-      _logger.logException(
-        exception: e,
-        featureArea: 'LedgerRepository._toEntity',
-        stackTrace: s,
-      );
+      _logger.logException(exception: e, featureArea: 'LedgerRepository._toEntity', stackTrace: s);
       rethrow;
     }
   }
 
-  Future<List<LedgerEntity>> _processAndCache(
-    List<MovementModel> models,
-  ) async {
+  Future<List<LedgerEntity>> _processAndCache(List<MovementModel> models) async {
     try {
       final futures = models.map((model) async {
-        final ledger = _cache[model.userId] ??= LedgerEntity(
-          userId: model.userId,
-        );
+        final ledger = _cache[model.userId] ??= LedgerEntity(userId: model.userId);
 
         final movement = await _toEntity(model);
         ledger.addMovement(movement);
@@ -83,13 +69,10 @@ class LedgerRepository {
         return ledger;
       });
 
-      return await Future.wait(futures);
+      final list = await Future.wait(futures);
+      return list;
     } catch (e, s) {
-      _logger.logException(
-        exception: e,
-        featureArea: 'LedgerRepository._processAndCache',
-        stackTrace: s,
-      );
+      _logger.logException(exception: e, featureArea: 'LedgerRepository._processAndCache', stackTrace: s);
       rethrow;
     }
   }

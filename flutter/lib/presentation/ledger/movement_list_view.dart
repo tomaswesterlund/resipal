@@ -22,11 +22,11 @@ class MovementListView extends StatelessWidget {
         itemCount: movements.length,
         itemBuilder: (ctx, index) {
           final movement = movements[index];
-          if(movement.type == MovementType.payment) {
+          if (movement.type == MovementType.payment) {
             return PaymentMovementTile(movement);
           }
 
-          if(movement.type == MovementType.maintenanceFee) {
+          if (movement.type == MovementType.maintenanceFee) {
             return MaintenanceFeeMovementTile(movement);
           }
 

@@ -11,13 +11,14 @@ import 'package:resipal/core/ui/views/loading_view.dart';
 import 'package:resipal/core/ui/views/success_view.dart';
 import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/presentation/users/home/user_home_page.dart';
-import 'package:resipal/presentation/users/user_onboarding/user_onboarding_cubit.dart';
-import 'package:resipal/presentation/users/user_onboarding/user_onboarding_form_state.dart';
-import 'package:resipal/presentation/users/user_onboarding/user_onboarding_state.dart';
+import 'package:resipal/presentation/users/user_onboarding/community_setup/user_onboarding_community_setup_page.dart';
+import 'package:resipal/presentation/users/user_onboarding/user_data/user_onboarding_user_data_cubit.dart';
+import 'package:resipal/presentation/users/user_onboarding/user_data/user_onboarding_user_data_form_state.dart';
+import 'package:resipal/presentation/users/user_onboarding/user_data/user_onboarding_user_data_state.dart';
 import 'package:short_navigation/short_navigation.dart';
 
-class UserOnboardingPage extends StatelessWidget {
-  const UserOnboardingPage({super.key});
+class UserOnboardingUserDataPage extends StatelessWidget {
+  const UserOnboardingUserDataPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +27,9 @@ class UserOnboardingPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: const HeaderText.two('Onboarding'),
       ),
-      body: BlocProvider<UserOnboardingCubit>(
-        create: (ctx) => UserOnboardingCubit()..initialize(),
-        child: BlocBuilder<UserOnboardingCubit, UserOnboardingState>(
+      body: BlocProvider<UserOnboardingUserDataCubit>(
+        create: (ctx) => UserOnboardingUserDataCubit()..initialize(),
+        child: BlocBuilder<UserOnboardingUserDataCubit, UserOnboardingUserDataState>(
           builder: (ctx, state) {
             if (state is InitialState) {
               return LoadingView();
@@ -48,7 +49,7 @@ class UserOnboardingPage extends StatelessWidget {
                 subtitle: 'Tu cuenta ha sido creada exitosamente.',
                 actionButtonLabel: 'CONTINUAR',
                 onActionButtonPressed: () {
-                  Go.to(UserHomePage(user: state.user));
+                  Go.to(UserOnboardingCommunitySetupPage());
                 },
               );
             }
@@ -69,12 +70,12 @@ class UserOnboardingPage extends StatelessWidget {
 }
 
 class _Form extends StatelessWidget {
-  final UserOnboardingFormState formState;
+  final UserOnboardingUserDataFormState formState;
   const _Form(this.formState, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<UserOnboardingCubit>();
+    final cubit = context.read<UserOnboardingUserDataCubit>();
     return Center(
       child: Column(
         children: [

@@ -7,23 +7,15 @@ import 'package:resipal/domain/repositories/invitation_repository.dart';
 
 class ActiveInvitationListCubit extends Cubit<ActiveInvitationListState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
-  final InvitationRepository _invitationRepository =
-      GetIt.I<InvitationRepository>();
+  final InvitationRepository _invitationRepository = GetIt.I<InvitationRepository>();
 
   ActiveInvitationListCubit() : super(InitialState());
 
   Future initialize(String userId) async {
     try {
       emit(LoadingState());
-
-      _invitationRepository
-          .watchActiveInvitationsByUserId(userId)
-          .listen(
-            (invitations) => emit(LoadedState(invitations: invitations)),
-            onError: (e) {
-              emit(ErrorState(errorMessage: e.toString(), exception: e));
-            },
-          );
+      final invitations = _invitationRepository.getActiveInvitationsByUserId(userId);
+      emit(LoadedState(invitations: invitations));
     } catch (e, stack) {
       _logger.logException(
         exception: e,
@@ -31,7 +23,8 @@ class ActiveInvitationListCubit extends Cubit<ActiveInvitationListState> {
         stackTrace: stack,
         metadata: {'userId': userId},
       );
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+
+      emit(ErrorState());
     }
   }
 }
@@ -54,9 +47,4 @@ class LoadedState extends ActiveInvitationListState {
   List<Object?> get props => [invitations];
 }
 
-class ErrorState extends ActiveInvitationListState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, required this.exception});
-}
+class ErrorState extends ActiveInvitationListState {}

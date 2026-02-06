@@ -1,20 +1,24 @@
 import 'package:resipal/domain/entities/id_entity.dart';
 import 'package:resipal/domain/entities/maintenance_contract_entity.dart';
-import 'package:resipal/domain/refs/user_ref.dart';
 
-class PropertyEntity extends IdEntity {
-  final UserRef user;
+class UserPropertyEntity extends IdEntity {
+  final String communityId;
+  final String ownerId;
   final DateTime createdAt;
   final String name;
   final String? description;
   final MaintenanceContractEntity contract;
 
-  PropertyEntity({
+  bool get hasDebt => totalOverdueFeeInCents > 0;
+  int get totalOverdueFeeInCents => contract.totalOverdueFeeInCents;
+
+  UserPropertyEntity({
     required super.id,
-    required this.user,
+    required this.communityId,
+    required this.ownerId,
     required this.createdAt,
     required this.name,
     required this.description,
-    required this.contract
+    required this.contract,
   });
 }
