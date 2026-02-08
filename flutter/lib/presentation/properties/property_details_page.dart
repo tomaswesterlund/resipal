@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/core/ui/app_colors.dart';
+import 'package:resipal/core/ui/floating_nav_bar.dart';
 import 'package:resipal/core/ui/my_app_bar.dart';
 import 'package:resipal/domain/entities/user_property_entity.dart';
 import 'package:resipal/presentation/properties/property_contract_view.dart';
@@ -29,17 +30,15 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
       appBar: MyAppBar(title: 'Detalle de Propiedad'),
       body: _pages[_currentIndex],
 
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: FloatingNavBar(
         currentIndex: _currentIndex,
-        onTap: (value) {
-          setState(() {
-            _currentIndex = value;
-          });
+        onChanged: (index) {
+          setState(() => _currentIndex = index);
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.info_outline), label: 'Información'),
-          BottomNavigationBarItem(icon: Icon(Icons.house_outlined), label: 'Mantenimiento'),
-          BottomNavigationBarItem(icon: Icon(Icons.document_scanner_outlined), label: 'Contrato'),
+          FloatingNavBarItem(icon: Icons.info_outline, label: 'Información'),
+          FloatingNavBarItem(icon: Icons.house_outlined, label: 'Mantenimiento'),
+          FloatingNavBarItem(icon: Icons.document_scanner_outlined, label: 'Contrato'),
         ],
       ),
     );

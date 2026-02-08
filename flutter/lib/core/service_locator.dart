@@ -75,12 +75,6 @@ class ServiceLocator {
       sl<MaintenanceFeeDataSource>(),
     );
 
-    final propertyRepository = PropertyRepository(sl<LoggerService>(), sl<PropertyDataSource>(), maintenanceRepository);
-    await propertyRepository.initialize();
-
-    final userRepository = UserRepository(sl<LoggerService>(), sl<UserDataSource>(), propertyRepository);
-    await userRepository.initialize();
-
     final ledgerRepository = LedgerRepository(
       sl<LoggerService>(),
       sl<MovementDataSource>(),
@@ -88,6 +82,17 @@ class ServiceLocator {
       paymentRepository,
     );
     await ledgerRepository.initialize();
+
+    final propertyRepository = PropertyRepository(sl<LoggerService>(), sl<PropertyDataSource>(), maintenanceRepository);
+    await propertyRepository.initialize();
+
+    final userRepository = UserRepository(
+      sl<LoggerService>(),
+      sl<UserDataSource>(),
+      ledgerRepository,
+      propertyRepository,
+    );
+    await userRepository.initialize();
 
     final visitorRepository = VisitorRepository();
     final accessLogRepository = AccessLogRepository();

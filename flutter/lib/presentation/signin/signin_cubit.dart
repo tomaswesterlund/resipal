@@ -17,13 +17,15 @@ class SigninCubit extends Cubit<SigninState> {
   Future signin() async {
     try {
       await _sessionService.signInWithGoogle();
-      final authUser = _sessionService.getSignedInUser()!;
+      final authUser = _sessionService.getSignedInUser();
 
       // Has the user been onboarded i.e. exists in the Users table?
-      final userOnboarded = await _userRepository.userExists(authUser.id);
+      // TODO Remove, jsut temporarily for fastre initial dev, we will need to onboard users in the future
+      final userId = authUser.id; //'3f00ccb6-d2c0-466e-9cf5-8752959d3ed1';
+      final userOnboarded = _userRepository.userExists(userId);
 
       if (userOnboarded) {
-        final user = _userRepository.getUserById(authUser.id);
+        final user = _userRepository.getUserById(userId);
         emit(UserSignedInSuccessfullyState(userOnboarded: true, user: user));
       } else {
         emit(UserSignedInSuccessfullyState(userOnboarded: false));
@@ -34,7 +36,7 @@ class SigninCubit extends Cubit<SigninState> {
         stackTrace: stack,
         featureArea: 'SigninCubit.signin',
       );
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+      emit(ErrorState());
     }
   }
 }

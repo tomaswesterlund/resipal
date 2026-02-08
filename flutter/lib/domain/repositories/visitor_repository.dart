@@ -9,10 +9,17 @@ class VisitorRepository {
 
   Future<List<VisitorEntity>> getVisitorsByUserId(String userId) async {
     final UserRepository userRepository = GetIt.I<UserRepository>();
-    
+
     final models = await _visitorDataSource.getVisitorsByUserId(userId);
-    final futures = models.map((m) async => VisitorEntity(id: m.id, user: await userRepository.getUserRefById(m.userId), createdAt: m.createdAt, name: m.name));
-    final entities = await Future.wait(futures);
+    final entities = models.map(
+      (m) => VisitorEntity(
+        id: m.id,
+        user: userRepository.getUserRefById(m.userId),
+        createdAt: m.createdAt,
+        name: m.name,
+        identificationPath: m.identificationPath,
+      ),
+    ).toList();
     return entities;
   }
 

@@ -11,9 +11,4 @@ class UserSignedInSuccessfullyState extends SigninState {
   UserSignedInSuccessfullyState({required this.userOnboarded, this.user});
 }
 
-class ErrorState extends SigninState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, required this.exception});
-}
+class ErrorState extends SigninState {}

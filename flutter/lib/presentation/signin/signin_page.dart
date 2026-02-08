@@ -129,8 +129,6 @@ class SigninPage extends StatelessWidget {
 
           if (state is ErrorState) {
             return ErrorStateView(
-              errorMessage: state.errorMessage,
-              exception: state.exception,
             );
           }
 

@@ -1,7 +1,9 @@
 CREATE TABLE maintenance_fees(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    contract_id UUID NOT NULL REFERENCES maintenance_contracts(id),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id),
+    contract_id UUID NOT NULL REFERENCES maintenance_contracts(id),
+    property_id UUID NOT NULL REFERENCES properties(id),
     amount_in_cents INT NOT NULL,
     due_date TIMESTAMPTZ NOT NULL,
     payment_date TIMESTAMPTZ,

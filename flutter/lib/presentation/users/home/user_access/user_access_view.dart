@@ -7,6 +7,7 @@ import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/invitations/create_invitation/create_invitation_page.dart';
 import 'package:resipal/presentation/invitations/active_invitation_list/active_invitation_list_view.dart';
+import 'package:resipal/presentation/visitors/create_visitor/create_visitor_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class UserAccessView extends StatelessWidget {
@@ -46,7 +47,7 @@ class UserAccessView extends StatelessWidget {
                   PrimaryCtaButton(
                     label: 'Crear visitante',
                     canSubmit: true,
-                    onPressed: () => Go.to(CreateInvitationPage()),
+                    onPressed: () => Go.to(CreateVisitorPage()),
                   ),
             
                   SizedBox(height: 32),

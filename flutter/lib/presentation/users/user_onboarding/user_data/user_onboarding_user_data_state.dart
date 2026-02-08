@@ -26,9 +26,4 @@ class FormSubmittedSuccessfullyState extends UserOnboardingUserDataState {
   FormSubmittedSuccessfullyState(this.user);
 }
 
-class ErrorState extends UserOnboardingUserDataState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, required this.exception});
-}
+class ErrorState extends UserOnboardingUserDataState {}

@@ -1,4 +1,5 @@
 import 'package:resipal/domain/entities/invitation_entity.dart';
+import 'package:resipal/domain/entities/ledger_entity.dart';
 import 'package:resipal/domain/entities/movement_entity.dart';
 import 'package:resipal/domain/entities/payment_entity.dart';
 import 'package:resipal/domain/entities/user_property_entity.dart';
@@ -12,7 +13,8 @@ class UserEntity {
   final String emergencyPhoneNumber;
   final String email;
   final List<InvitationEntity> invitations;
-  final List<MovementEntity> movements;
+  // final List<MovementEntity> movements;
+  final LedgerEntity ledger;
   final List<PaymentEntity> payments;
   final List<UserPropertyEntity> properties;
 
@@ -54,7 +56,7 @@ class UserEntity {
     required this.emergencyPhoneNumber,
     required this.email,
     required this.invitations,
-    required this.movements,
+    required this.ledger,
     required this.payments,
     required this.properties,
   });

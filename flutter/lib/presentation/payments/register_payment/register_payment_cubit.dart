@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,20 +44,15 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
   Future submit() async {
     try {
       if (_formState.canSubmit == false) {
-        emit(ErrorState(errorMessage: 'Form state is not valid'));
+        emit(ErrorState());
         return;
       }
 
       emit(FormSubmittingState());
 
-      final amountInCents = CurrencyFormatter.toAmountInCents(
-        _formState.amount,
-      );
+      final amountInCents = CurrencyFormatter.toAmountInCents(_formState.amount);
 
-      final receiptPath = await _imageService.uploadReceipt(
-        _formState.receiptImage!,
-        _authService.getSignedInUserId(),
-      );
+      final receiptPath = await _imageService.uploadReceipt(_formState.receiptImage!, _authService.getSignedInUserId());
 
       await _paymentRepository.registerNewPayment(
         userId: _authService.getSignedInUserId(),
@@ -77,16 +71,13 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
         featureArea: 'RegisterPaymentCubit.submit',
         metadata: _formState.toMap(),
       );
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+      emit(ErrorState());
     }
   }
 
   void pickImage(ImageSource source) async {
     try {
-      final XFile? image = await _picker.pickImage(
-        source: source,
-        imageQuality: 70,
-      );
+      final XFile? image = await _picker.pickImage(source: source, imageQuality: 70);
 
       if (image != null) {
         _formState = _formState.copyWith(receiptImage: image);
@@ -97,29 +88,15 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
         exception: e,
         stackTrace: stack,
         featureArea: 'RegisterPaymentCubit.pickImage',
-        metadata: {
-          'source': source.toString(),
-          'device_time': DateTime.now().toIso8601String(),
-        },
+        metadata: {'source': source.toString(), 'device_time': DateTime.now().toIso8601String()},
       );
 
-      emit(
-        ErrorState(
-          errorMessage:
-              'Error al seleccionar la imagen. Por favor intenta de nuevo.',
-          exception: e,
-        ),
-      );
+      emit(ErrorState());
     }
   }
 
   void removeImage() {
     _formState = _formState.copyWith(receiptImage: null);
     emit(FormEditingState(_formState));
-  }
-
-  @override
-  Future<void> close() {
-    return super.close();
   }
 }

@@ -22,7 +22,7 @@ class UserOnboardingJoinCommunityCubit extends Cubit<UserOnboardingJoinCommunity
       emit(LoadedState(communities));
     } catch (e, s) {
       _logger.logException(exception: e, featureArea: 'UserOnboardingJoinCommunityCubit.initialize', stackTrace: s);
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+      emit(ErrorState());
     }
   }
 
@@ -45,7 +45,7 @@ class UserOnboardingJoinCommunityCubit extends Cubit<UserOnboardingJoinCommunity
         metadata: {'community': community},
       );
 
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+      emit(ErrorState());
     }
   }
 }

@@ -45,7 +45,7 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
       emit(FormEditingState(formState: _formState));
     } catch (e, stack) {
       _logger.logException(exception: e, featureArea: 'CreateInvitaitonCubit.initialize', stackTrace: stack);
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+      emit(ErrorState());
     }
   }
 
@@ -60,11 +60,11 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
         fromDate: _formState.dateRange!.start,
         toDate: _formState.dateRange!.end,
       );
-      
+
       emit(FormSubmittedSuccessfullyState());
     } catch (e, stack) {
       _logger.logException(exception: e, featureArea: 'CreateInvitaitonCubit.submit', stackTrace: stack);
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+      emit(ErrorState());
     }
   }
 
@@ -83,5 +83,3 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
     emit(FormEditingState(formState: _formState));
   }
 }
-
-

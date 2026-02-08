@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:resipal/domain/repositories/ledger_repository.dart';
 import 'package:rxdart/streams.dart';
 
 import 'package:resipal/core/services/logger_service.dart';
@@ -11,11 +12,12 @@ import 'package:resipal/domain/repositories/property_repository.dart';
 class UserRepository {
   final LoggerService _logger;
   final UserDataSource _userDataSource;
+  final LedgerRepository _ledgerRepository;
   final PropertyRepository _propertyRepository;
 
   final Map<String, UserEntity> _cache = {};
 
-  UserRepository(this._logger, this._userDataSource, this._propertyRepository);
+  UserRepository(this._logger, this._userDataSource, this._ledgerRepository, this._propertyRepository);
 
   Future initialize() async {
     final firstData = await _userDataSource.watchUsers().first;
@@ -54,7 +56,8 @@ class UserRepository {
   );
 
   Future<UserEntity> _toEntity(UserModel model) async {
-    final properties = await _propertyRepository.getPropertiesByOwnerId(model.id);
+    final ledger = _ledgerRepository.getLedgerByUserId(model.id);
+    final properties = _propertyRepository.getPropertiesByOwnerId(model.id);
 
     return UserEntity(
       id: model.id,
@@ -64,7 +67,7 @@ class UserRepository {
       emergencyPhoneNumber: model.emergencyPhoneNumber,
       email: model.email,
       invitations: [],
-      movements: [],
+      ledger: ledger,
       payments: [],
       properties: properties
     );

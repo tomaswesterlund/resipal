@@ -20,9 +20,4 @@ class JoinedCommunitySuccessfully extends UserOnboardingJoinCommunityState {
   JoinedCommunitySuccessfully({required this.community, required this.user});
 }
 
-class ErrorState extends UserOnboardingJoinCommunityState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, required this.exception});
-}
+class ErrorState extends UserOnboardingJoinCommunityState {}

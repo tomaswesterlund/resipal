@@ -23,10 +23,7 @@ class UserOnboardingUserDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const HeaderText.two('Onboarding'),
-      ),
+      appBar: AppBar(automaticallyImplyLeading: false, title: const HeaderText.two('Onboarding')),
       body: BlocProvider<UserOnboardingUserDataCubit>(
         create: (ctx) => UserOnboardingUserDataCubit()..initialize(),
         child: BlocBuilder<UserOnboardingUserDataCubit, UserOnboardingUserDataState>(
@@ -55,10 +52,7 @@ class UserOnboardingUserDataPage extends StatelessWidget {
             }
 
             if (state is ErrorState) {
-              return ErrorStateView(
-                errorMessage: state.errorMessage,
-                exception: state.exception,
-              );
+              return ErrorStateView();
             }
 
             return UnknownStateView();
@@ -86,11 +80,7 @@ class _Form extends StatelessWidget {
             child: Form(
               child: Column(
                 children: [
-                  TextInputField(
-                    label: 'Nombre',
-                    initialValue: formState.name,
-                    onChanged: cubit.updateName,
-                  ),
+                  TextInputField(label: 'Nombre', initialValue: formState.name, onChanged: cubit.updateName),
                   const SizedBox(height: 12.0),
                   PhoneNumberInputField(
                     label: 'Número de teléfono',
@@ -104,17 +94,9 @@ class _Form extends StatelessWidget {
                     onChanged: cubit.updateEmergencyPhoneNumber,
                   ),
                   const SizedBox(height: 12.0),
-                  EmailInputField(
-                    label: 'Correo electrónico',
-                    initialValue: formState.email,
-                    enabled: false,
-                  ),
+                  EmailInputField(label: 'Correo electrónico', initialValue: formState.email, enabled: false),
                   const SizedBox(height: 12.0),
-                  PrimaryCtaButton(
-                    label: 'Enviar',
-                    onPressed: cubit.submit,
-                    canSubmit: formState.isValid(),
-                  ),
+                  PrimaryCtaButton(label: 'Enviar', onPressed: cubit.submit, canSubmit: formState.isValid()),
                 ],
               ),
             ),

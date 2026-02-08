@@ -14,9 +14,4 @@ class FormSubmittingState extends RegisterPaymentState {}
 
 class FormSubmittedSuccessfullyState extends RegisterPaymentState {}
 
-class ErrorState extends RegisterPaymentState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, this.exception});
-}
+class ErrorState extends RegisterPaymentState {}

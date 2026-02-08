@@ -20,9 +20,4 @@ class FormSubmittingState extends CreateInvitationState {}
 
 class FormSubmittedSuccessfullyState extends CreateInvitationState {}
 
-class ErrorState extends CreateInvitationState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, required this.exception});
-}
+class ErrorState extends CreateInvitationState {}

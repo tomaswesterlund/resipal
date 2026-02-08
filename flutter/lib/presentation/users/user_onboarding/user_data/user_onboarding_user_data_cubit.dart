@@ -43,7 +43,7 @@ class UserOnboardingUserDataCubit extends Cubit<UserOnboardingUserDataState> {
         featureArea: 'UserOnboardingCubit.submit',
         stackTrace: s,
       );
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+      emit(ErrorState());
     }
   }
 

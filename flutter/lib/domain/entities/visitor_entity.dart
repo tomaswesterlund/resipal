@@ -5,11 +5,13 @@ class VisitorEntity extends IdEntity {
   final UserRef user;
   final DateTime createdAt;
   final String name;
+  final String identificationPath;
 
   VisitorEntity({
     required super.id,
     required this.user,
     required this.createdAt,
     required this.name,
+    required this.identificationPath,
   });
 }

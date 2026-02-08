@@ -24,7 +24,7 @@ class ApprovePaymentCubit extends Cubit<ApprovePaymentState> {
         metadata: {'paymentId': paymentId},
       );
 
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+      emit(ErrorState());
     }
   }
 }
@@ -37,9 +37,4 @@ class LoadedState extends ApprovePaymentState {}
 
 class LoadingState extends ApprovePaymentState {}
 
-class ErrorState extends ApprovePaymentState {
-  final String errorMessage;
-  final Object? exception;
-
-  ErrorState({required this.errorMessage, required this.exception});
-}
+class ErrorState extends ApprovePaymentState {}

@@ -24,7 +24,13 @@ class LedgerRepository {
     _logger.info('✅ LedgerRepository initialized');
   }
 
-  LedgerEntity getLedgerByUserId(String userId) => _cache[userId]!;
+  LedgerEntity getLedgerByUserId(String userId) {
+    if (!_cache.containsKey(userId)) {
+      _cache[userId] = LedgerEntity(userId: userId);
+    }
+
+    return _cache[userId]!;
+  }
 
   Future<Object> _getData(MovementType type, String id) async {
     if (type == MovementType.payment) {

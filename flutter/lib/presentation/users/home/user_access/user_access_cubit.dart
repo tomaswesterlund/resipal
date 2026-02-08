@@ -17,7 +17,7 @@ class UserAccessCubit extends Cubit<UserAccessState> {
         featureArea: 'UserAccessCubit.initialize',
         stackTrace: stack,
       );
-      emit(ErrorState(errorMessage: e.toString(), exception: e));
+      emit(ErrorState());
     }
   }
 }
@@ -35,8 +35,5 @@ class LoadedState extends UserAccessState {
 }
 
 class ErrorState extends UserAccessState {
-  final String errorMessage;
-  final Object? exception;
 
-  ErrorState({required this.errorMessage, required this.exception});
 }
