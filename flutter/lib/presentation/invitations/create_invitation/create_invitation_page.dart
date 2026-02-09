@@ -84,7 +84,7 @@ class _Loaded extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Column(
         children: [
-          EntityDropdownField<UserPropertyEntity>(
+          EntityDropdownField<PropertyEntity>(
             label: "Seleccionar propiedad",
             items: formState.properties,
             value: null,

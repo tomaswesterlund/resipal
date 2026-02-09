@@ -8,17 +8,32 @@ import 'package:resipal/presentation/users/home/user_payments/user_payments_stat
 class UserPaymentsCubit extends Cubit<UserPaymentsState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final PaymentRepository _paymentRepository = GetIt.I<PaymentRepository>();
+  late final StreamSubscription? _streamSubscription;
 
   UserPaymentsCubit() : super(InitialState());
 
   Future intialize(String userId) async {
     try {
       emit(LoadingState());
-      final payments = _paymentRepository.getPaymentsByUserId(userId);
-      emit(LoadedState(payments));
+
+      _streamSubscription = _paymentRepository
+          .watchPaymentsByUserId(userId)
+          .listen(
+            (payments) => emit(LoadedState(payments)),
+            onError: (e, s) {
+              _logger.logException(exception: e, featureArea: 'UserPaymentsCubit.intialize', stackTrace: s);
+              emit(ErrorState());
+            },
+          );
     } catch (e, s) {
       _logger.logException(exception: e, featureArea: 'UserPaymentsCubit.intialize', stackTrace: s);
       emit(ErrorState());
     }
+  }
+
+  @override
+  Future<void> close() {
+    _streamSubscription?.cancel();
+    return super.close();
   }
 }

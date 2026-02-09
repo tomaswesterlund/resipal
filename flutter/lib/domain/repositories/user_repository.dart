@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:resipal/domain/repositories/ledger_repository.dart';
+import 'package:resipal/domain/repositories/payment_repository.dart';
+import 'package:resipal/domain/repositories/visitor_repository.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/streams.dart';
 
 import 'package:resipal/core/services/logger_service.dart';
@@ -13,11 +16,18 @@ class UserRepository {
   final LoggerService _logger;
   final UserDataSource _userDataSource;
   final LedgerRepository _ledgerRepository;
+  final PaymentRepository _paymentRepository;
   final PropertyRepository _propertyRepository;
 
   final Map<String, UserEntity> _cache = {};
 
-  UserRepository(this._logger, this._userDataSource, this._ledgerRepository, this._propertyRepository);
+  UserRepository(
+    this._logger,
+    this._userDataSource,
+    this._ledgerRepository,
+    this._paymentRepository,
+    this._propertyRepository,
+  );
 
   Future initialize() async {
     final firstData = await _userDataSource.watchUsers().first;
@@ -25,14 +35,27 @@ class UserRepository {
     _logger.info('✅ UserRepository initialized');
   }
 
-  UserEntity getUserById(String id) => _cache.values.firstWhere((u) => u.id == id);
+  Stream<UserEntity> watchUserById(String id) {
+    return CombineLatestStream.combine2(
+      _userDataSource.watchUserById(id),
+      _paymentRepository.watchPaymentsByUserId(id),
+
+      (user, payments) {
+        final entity = _toEntity(user);
+        _cache[id] = entity;
+        return entity;
+      },
+    );
+  }
 
   /// Fetched the user from the data source which is sometimes needed if a user is created but the stream has not yet emitted the new user. After fetching, the user will be in the cache and can be accessed with [getUserById].
   Future fetchUser(String id) async {
     final model = await _userDataSource.getUserById(id);
-    final entity = await _toEntity(model);
+    final entity = _toEntity(model);
     _cache[id] = entity;
   }
+
+  UserEntity getUserById(String id) => _cache.values.firstWhere((u) => u.id == id);
 
   UserRef getUserRefById(String id) {
     final user = getUserById(id);
@@ -55,8 +78,9 @@ class UserRepository {
     email: email,
   );
 
-  Future<UserEntity> _toEntity(UserModel model) async {
+  UserEntity _toEntity(UserModel model) {
     final ledger = _ledgerRepository.getLedgerByUserId(model.id);
+    final payments = _paymentRepository.getPaymentsByUserId(model.id);
     final properties = _propertyRepository.getPropertiesByOwnerId(model.id);
 
     return UserEntity(
@@ -68,8 +92,8 @@ class UserRepository {
       email: model.email,
       invitations: [],
       ledger: ledger,
-      payments: [],
-      properties: properties
+      payments: payments,
+      properties: properties,
     );
   }
 

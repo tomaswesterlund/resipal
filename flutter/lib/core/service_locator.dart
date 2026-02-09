@@ -74,6 +74,7 @@ class ServiceLocator {
       sl<MaintenanceContractDataSource>(),
       sl<MaintenanceFeeDataSource>(),
     );
+    //maintenanceRepository.initialize();
 
     final ledgerRepository = LedgerRepository(
       sl<LoggerService>(),
@@ -90,6 +91,7 @@ class ServiceLocator {
       sl<LoggerService>(),
       sl<UserDataSource>(),
       ledgerRepository,
+      paymentRepository,
       propertyRepository,
     );
     await userRepository.initialize();

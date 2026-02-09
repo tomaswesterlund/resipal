@@ -59,7 +59,7 @@ class _Loading extends StatelessWidget {
 }
 
 class _Loaded extends StatelessWidget {
-  final List<UserPropertyEntity> properties;
+  final List<PropertyEntity> properties;
   const _Loaded(this.properties, {super.key});
 
   @override

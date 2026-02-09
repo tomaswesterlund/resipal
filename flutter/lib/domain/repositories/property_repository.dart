@@ -1,16 +1,18 @@
+import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/data/models/property_model.dart';
 import 'package:resipal/data/sources/property_data_source.dart';
 import 'package:resipal/domain/entities/user_property_entity.dart';
 import 'package:resipal/domain/refs/property_ref.dart';
 import 'package:resipal/domain/repositories/maintenance_repository.dart';
+import 'package:resipal/domain/repositories/user_repository.dart';
 
 class PropertyRepository {
   final LoggerService _logger;
   final PropertyDataSource _propertyDataSource;
   final MaintenanceRepository maintenanceRepository;
 
-  final Map<String, UserPropertyEntity> _cache = {};
+  final Map<String, PropertyEntity> _cache = {};
 
   PropertyRepository(this._logger, this._propertyDataSource, this.maintenanceRepository);
 
@@ -20,8 +22,8 @@ class PropertyRepository {
     _logger.info('✅ PropertyRepository initialized');
   }
 
-  List<UserPropertyEntity> getPropertiesByOwnerId(String ownerId) =>
-      _cache.values.where((p) => p.ownerId == ownerId).toList();
+  List<PropertyEntity> getPropertiesByOwnerId(String ownerId) =>
+      _cache.values.where((p) => p.owner != null && p.owner!.id == ownerId).toList();
 
   PropertyRef getPropertyRefById(String id) {
     try {
@@ -39,26 +41,17 @@ class PropertyRepository {
     }
   }
 
-  // Future<UserPropertyEntity> _toEntity(PropertyModel model) async {
-  //     return UserPropertyEntity(
-  //       id: model.id,
-  //       communityId: ,
-  //       ownerId: model.ownerId,
-  //       contract: await maintenanceRepository.getMaintenanceContractByPropertyId(model.id),
-  //       createdAt: model.createdAt,
-  //       name: model.name,
-  //       description: model.description,
-  //     );
-  //   }
 
-  Future<UserPropertyEntity> _toUserPropertyEntity(PropertyModel model) async {
-    assert(model.ownerId != null, 'PropertyModel ownerId should not be null');
+  Future<PropertyEntity> _toPropertyEntity(PropertyModel model) async {
+    //assert(model.ownerId != null, 'PropertyModel ownerId should not be null');
     assert(model.contractId != null, 'PropertyModel contractId should not be null');
 
-    return UserPropertyEntity(
+    final userRepository = GetIt.I<UserRepository>();
+
+    return PropertyEntity(
       id: model.id,
       communityId: model.communityId,
-      ownerId: model.ownerId!,
+      owner: model.ownerId == null ? null : userRepository.getUserRefById(model.ownerId!),
       contract: await maintenanceRepository.getMaintenanceContractById(model.contractId!),
       createdAt: model.createdAt,
       name: model.name,
@@ -66,7 +59,7 @@ class PropertyRepository {
     );
   }
 
-  Future<List<UserPropertyEntity>> _processAndCache(List<PropertyModel> models) {
+  Future<List<PropertyEntity>> _processAndCache(List<PropertyModel> models) {
     return Future.wait(
       models.map((model) async {
         // If we already processed this exact version, return from cache
@@ -75,7 +68,7 @@ class PropertyRepository {
           return _cache[model.id]!;
         }
 
-        final entity = await _toUserPropertyEntity(model);
+        final entity = await _toPropertyEntity(model);
         _cache[model.id] = entity;
         return entity;
       }),

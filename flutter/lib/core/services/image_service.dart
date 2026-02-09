@@ -5,35 +5,27 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class ImageService {
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
-  Future<String> uploadReceipt(XFile xFile, String userId) async {
-    final supabase = Supabase.instance.client;
-
+  Future<String> uploadImage({required String bucket, required String folder, required XFile xFile}) async {
     final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
-    final path = 'receipts/$fileName';
+    final path = '$folder/$fileName';
 
-    // 2. Read bytes from XFile (Works on all platforms)
     final bytes = await xFile.readAsBytes();
 
-    // 3. Upload to the bucket (Ensure your bucket name is correct, e.g., 'movements')
-    await supabase.storage
-        .from('payments')
-        .uploadBinary(
-          path,
-          bytes,
-          fileOptions: const FileOptions(
-            contentType: 'image/png',
-            upsert: false,
-          ),
-        );
+    await _client.storage
+        .from(bucket)
+        .uploadBinary(path, bytes, fileOptions: const FileOptions(contentType: 'image/png', upsert: false));
 
     return path;
   }
 
+  Future<String> uploadPaymentReceipt(XFile xFile) => uploadImage(bucket: 'payments', folder: 'receipts', xFile: xFile);
+
+  Future<String> uploadVisitorIdentification(XFile xFile) =>
+      uploadImage(bucket: 'visitors', folder: 'identifications', xFile: xFile);
+
   Future<String> getSignedUrl(String path) async {
     try {
-      final url = _client.storage
-          .from('payments')
-          .getPublicUrl(path);
+      final url = _client.storage.from('payments').getPublicUrl(path);
       return url;
     } catch (e) {
       // Log error or rethrow so the UI can show the error state

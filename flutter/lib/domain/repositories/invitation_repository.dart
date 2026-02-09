@@ -33,6 +33,13 @@ class InvitationRepository {
     _logger.info('✅ PropertyRepository initialized');
   }
 
+  Stream<List<InvitationEntity>> watchInvitationsByUserId(String userId) {
+    return _invitationDataSource.watchInvitationsByUserId(userId).asyncMap((models) async {
+      final entities = await _processAndCache(models);
+      return entities;
+    });
+  }
+
   List<InvitationEntity> getInvitationsByUserId(String userId) =>
       _cache.values.where((e) => e.user.id == userId).toList();
 

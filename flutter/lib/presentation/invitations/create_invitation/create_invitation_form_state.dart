@@ -3,10 +3,10 @@ import 'package:resipal/domain/entities/user_property_entity.dart';
 import 'package:resipal/domain/entities/visitor_entity.dart';
 
 class CreateInvitationFormState {
-  final List<UserPropertyEntity> properties;
+  final List<PropertyEntity> properties;
   final List<VisitorEntity> visitors;
 
-  final UserPropertyEntity? property;
+  final PropertyEntity? property;
   final VisitorEntity? visitor;
   final DateTimeRange? dateRange;
 
@@ -27,7 +27,7 @@ class CreateInvitationFormState {
   });
 
   CreateInvitationFormState copyWith({
-    UserPropertyEntity? property,
+    PropertyEntity? property,
     VisitorEntity? visitor,
     DateTimeRange? dateRange,
   }) {

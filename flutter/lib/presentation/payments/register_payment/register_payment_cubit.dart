@@ -6,6 +6,7 @@ import 'package:resipal/core/services/image_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/domain/repositories/payment_repository.dart';
 import 'package:resipal/core/services/auth_service.dart';
+import 'package:resipal/domain/repositories/user_repository.dart';
 import 'package:resipal/presentation/payments/register_payment/register_payment_form_state.dart';
 import 'package:resipal/presentation/payments/register_payment/register_payment_state.dart';
 
@@ -13,6 +14,7 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
   final ImageService _imageService = GetIt.I<ImageService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
   final AuthService _authService = GetIt.I<AuthService>();
+  final UserRepository _userRepository = GetIt.I<UserRepository>();
 
   RegisterPaymentCubit() : super(InitialState());
 
@@ -52,7 +54,7 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
 
       final amountInCents = CurrencyFormatter.toAmountInCents(_formState.amount);
 
-      final receiptPath = await _imageService.uploadReceipt(_formState.receiptImage!, _authService.getSignedInUserId());
+      final receiptPath = await _imageService.uploadPaymentReceipt(_formState.receiptImage!);
 
       await _paymentRepository.registerNewPayment(
         userId: _authService.getSignedInUserId(),
@@ -62,6 +64,8 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
         note: _formState.note,
         receiptPath: receiptPath,
       );
+
+      await _userRepository.fetchUser(_authService.getSignedInUserId());
 
       emit(FormSubmittedSuccessfullyState());
     } catch (e, s) {

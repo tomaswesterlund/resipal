@@ -5,15 +5,21 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class PaymentDataSource {
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
-    Stream<List<PaymentModel>> watchPayments() {
+  Stream<List<PaymentModel>> watchPayments() {
     return _client
         .from('payments')
         .stream(primaryKey: ['id'])
-        .map(
-          (data) => data.map((item) => PaymentModel.fromJson(item)).toList(),
-        );
+        .map((data) => data.map((item) => PaymentModel.fromJson(item)).toList());
   }
-  
+
+  Stream<List<PaymentModel>> watchPaymentsByUserId(String userId) {
+    return _client
+        .from('payments')
+        .stream(primaryKey: ['id'])
+        .eq('user_id', userId)
+        .map((data) => data.map((item) => PaymentModel.fromJson(item)).toList());
+  }
+
   Future registerNewPayment({
     required String userId,
     required int amountInCents,
@@ -35,13 +41,7 @@ class PaymentDataSource {
     );
   }
 
-  Future approvePayment({
-    required String userId,
-    required String paymentId,
-  }) async {
-    await _client.rpc(
-      'fn_approve_payment',
-      params: {'p_user_id': userId, 'p_payment_id': paymentId},
-    );
+  Future approvePayment({required String userId, required String paymentId}) async {
+    await _client.rpc('fn_approve_payment', params: {'p_user_id': userId, 'p_payment_id': paymentId});
   }
 }

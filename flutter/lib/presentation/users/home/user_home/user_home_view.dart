@@ -1,18 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/cards/green_box_card.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
+import 'package:resipal/core/ui/views/error_state_view.dart';
+import 'package:resipal/core/ui/views/loading_view.dart';
+import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/maintenance/overdue_maintenance_info_row.dart';
 import 'package:resipal/presentation/payments/pending_payments_info_row.dart';
 import 'package:resipal/presentation/users/home/user_active_invitations/user_active_invitations_view.dart';
+import 'package:resipal/presentation/users/home/user_home/user_home_cubit.dart';
 import 'package:resipal/presentation/users/home/user_home/user_home_header.dart';
+import 'package:resipal/presentation/users/home/user_home/user_home_state.dart';
 import 'package:resipal/presentation/users/home/user_properties/user_properties_view.dart';
 
 class UserHomeView extends StatelessWidget {
+  final String userId;
+  const UserHomeView({required this.userId, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (ctx) => UserHomeCubit()..initialize(userId),
+      child: BlocBuilder<UserHomeCubit, UserHomeState>(builder: (ctx, state) {
+        if(state is InitialState || state is LoadingState) {
+          return LoadingView();
+        }
+
+        if(state is LoadedState) {
+          return _Loaded(state.user);
+        }
+
+        if(state is ErrorState){
+          return ErrorStateView();
+        }
+
+        return UnknownStateView();
+      }),
+    );
+  }
+}
+
+class _Loaded extends StatelessWidget {
   final UserEntity user;
-  const UserHomeView({required this.user, super.key});
+  const _Loaded(this.user, {super.key});
 
   @override
   Widget build(BuildContext context) {

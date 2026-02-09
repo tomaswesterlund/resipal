@@ -59,6 +59,20 @@ class AppColors {
     50: Color(0xFFF4F5F4),
   };
 
+  static const Color successBase = Color(0xFF22C574); // From shade 500
+  static const Map<int, Color> successScale = {
+    900: Color(0xFF0D4B2D),
+    800: Color(0xFF14683E),
+    700: Color(0xFF1A854F),
+    600: Color(0xFF1EB36A),
+    500: Color(0xFF22C574), // successBase
+    400: Color(0xFF55D595),
+    300: Color(0xFF88E5B6),
+    200: Color(0xFFBBF5D7),
+    100: Color(0xFFDEFCEF),
+    50: Color(0xFFF0FDF4),
+  };
+
   // --- Danger Scale (Reds) ---
   static const Color dangerBase = Color(0xFFEB5857); // From shade 500
   static const Map<int, Color> dangerScale = {
@@ -96,7 +110,7 @@ class AppColors {
   static const Color surface = Colors.white;
 
   // Status colors as defined in the second design sheet
-  static const Color success = Color(0xFF22C574);
+  static const Color success = successBase;
   static const Color warning = warningBase;
   static const Color danger = dangerBase;
   static const Color info = Color(0xFF759895);

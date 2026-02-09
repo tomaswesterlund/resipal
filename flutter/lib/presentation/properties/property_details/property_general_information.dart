@@ -9,7 +9,7 @@ import 'package:resipal/core/ui/tiles/detail_tile.dart';
 import 'package:resipal/domain/entities/user_property_entity.dart';
 
 class PropertyGeneralInformation extends StatelessWidget {
-  final UserPropertyEntity property;
+  final PropertyEntity property;
   const PropertyGeneralInformation(this.property, {super.key});
 
   @override
@@ -20,17 +20,13 @@ class PropertyGeneralInformation extends StatelessWidget {
         children: [
           _buildHeroCard(property),
           const SizedBox(height: 24),
-      
+
           SectionHeaderText(text: 'INFORMACIÓN GENERAL'),
           DefaultCard(
             padding: 0,
             child: Column(
               children: [
-                DetailTile(
-                  icon: Icons.fingerprint,
-                  label: 'ID de Propiedad',
-                  value: property.id.toShortId(),
-                ),
+                DetailTile(icon: Icons.fingerprint, label: 'ID de Propiedad', value: property.id.toShortId()),
                 const Divider(height: 1),
                 DetailTile(
                   icon: Icons.calendar_today_outlined,
@@ -38,7 +34,11 @@ class PropertyGeneralInformation extends StatelessWidget {
                   value: property.createdAt.toShortDate(),
                 ),
                 const Divider(height: 1),
-                DetailTile(icon: Icons.person_outline, label: 'Propietario', value: property.ownerId),
+                DetailTile(
+                  icon: Icons.person_outline,
+                  label: 'Propietario',
+                  value: property.owner?.name ?? 'No hay propietario asociado.',
+                ),
               ],
             ),
           ),
@@ -47,7 +47,7 @@ class PropertyGeneralInformation extends StatelessWidget {
     );
   }
 
-  Widget _buildHeroCard(UserPropertyEntity property) {
+  Widget _buildHeroCard(PropertyEntity property) {
     return DefaultCard(
       child: Padding(
         padding: const EdgeInsets.all(24.0),

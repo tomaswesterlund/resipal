@@ -4,7 +4,7 @@ import 'package:resipal/presentation/properties/no_properties_found_view.dart';
 import 'package:resipal/presentation/properties/property_card.dart';
 
 class PropertyListView extends StatelessWidget {
-  final List<UserPropertyEntity> properties;
+  final List<PropertyEntity> properties;
   const PropertyListView(this.properties, {super.key});
 
   @override

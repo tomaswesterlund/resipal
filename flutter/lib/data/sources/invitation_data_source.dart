@@ -10,34 +10,16 @@ class InvitationDataSource {
     return _client
         .from('invitations')
         .stream(primaryKey: ['id'])
-        .map(
-          (data) => data.map((item) => InvitationModel.fromJson(item)).toList(),
-        );
+        .map((data) => data.map((item) => InvitationModel.fromJson(item)).toList());
   }
 
-  // Future<List<InvitationModel>> getInvitations() async {
-  //   final items = await _client.from('invitations').select();
-  //   final models = items.map((i) => InvitationModel.fromJson(i)).toList();
-  //   return models;
-  // }
-
-  // Future<List<InvitationModel>> getActiveInvitationsByUserId(
-  //   String userId,
-  // ) async {
-  //   final now = DateTime.now();
-  //   final items = await _client
-  //       .from('invitations')
-  //       .select()
-  //       .eq('user_id', userId)
-  //       .lte('from_date', now)
-  //       .gte('to_date', now);
-  //   final models = items.map((i) => InvitationModel.fromJson(i)).toList();
-  //   return models;
-  // }
-
-  // Future<List<InvitationModel>> getInvitationsByUserId(String userId) async {
-  //   return await getInvitations();
-  // }
+  Stream<List<InvitationModel>> watchInvitationsByUserId(String userId) {
+    return _client
+        .from('invitations')
+        .stream(primaryKey: ['id'])
+        .eq('user_id', userId)
+        .map((data) => data.map((item) => InvitationModel.fromJson(item)).toList());
+  }
 
   Future createInvitation({
     required String userId,

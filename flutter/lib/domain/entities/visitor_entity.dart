@@ -1,15 +1,14 @@
 import 'package:resipal/domain/entities/id_entity.dart';
-import 'package:resipal/domain/refs/user_ref.dart';
 
 class VisitorEntity extends IdEntity {
-  final UserRef user;
+  final String userId;
   final DateTime createdAt;
   final String name;
   final String identificationPath;
 
   VisitorEntity({
     required super.id,
-    required this.user,
+    required this.userId,
     required this.createdAt,
     required this.name,
     required this.identificationPath,

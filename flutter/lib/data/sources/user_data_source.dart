@@ -12,6 +12,16 @@ class UserDataSource {
         .map((data) => data.map((item) => UserModel.fromJson(item)).toList());
   }
 
+  Stream<UserModel> watchUserById(String id) {
+    return _client.from('users').stream(primaryKey: ['id']).eq('id', id)
+    .map((data) {
+      if (data.isEmpty) {
+        throw Exception('User not found');
+      }
+      return UserModel.fromJson(data.first);
+    });
+  }
+
   Future<UserModel> getUserById(String id) async {
     final item = await _client.from('users').select().eq('id', id).single();
     final model = UserModel.fromJson(item);

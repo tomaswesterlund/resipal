@@ -4,7 +4,7 @@ import 'package:resipal/core/formatters/date_formatters.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
-import 'package:resipal/presentation/invitations/invitation_details_page.dart';
+import 'package:resipal/presentation/invitations/invitation_details/invitation_details_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class InvitationCard extends StatelessWidget {
@@ -13,7 +13,28 @@ class InvitationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 1. Determine State
     final bool isActive = invitation.canEnter;
+    final bool isUpcoming = invitation.isUpcoming;
+
+    // 2. Map colors and icons based on state
+    Color statusColor;
+    Color borderColor;
+    IconData statusIcon;
+
+    if (isActive) {
+      statusColor = AppColors.success;
+      borderColor = AppColors.successScale[200]!;
+      statusIcon = Icons.check_circle_rounded;
+    } else if (isUpcoming) {
+      statusColor = AppColors.warning;
+      borderColor = AppColors.warningScale[200]!;
+      statusIcon = Icons.schedule_rounded; // Clock icon for upcoming
+    } else {
+      statusColor = AppColors.danger;
+      borderColor = AppColors.dangerScale[200]!;
+      statusIcon = Icons.history_rounded;
+    }
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -21,12 +42,12 @@ class InvitationCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          // Subtle border tint based on status
-          color: isActive
-              ? AppColors.success.withOpacity(0.2)
-              : AppColors.danger.withOpacity(0.2),
+          color: borderColor, // Now using the specific scale color
           width: 1,
         ),
+        boxShadow: [
+          BoxShadow(color: AppColors.auxiliarScale[900]!.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 4)),
+        ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
@@ -35,10 +56,7 @@ class InvitationCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // 1. Status Indicator Side Bar
-              Container(
-                width: 6,
-                color: isActive ? AppColors.success : AppColors.danger,
-              ),
+              Container(width: 6, color: statusColor),
 
               // 2. Main Content
               Expanded(
@@ -50,50 +68,27 @@ class InvitationCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Visitor Icon & Name
                           Expanded(
                             child: Row(
                               children: [
-                                Icon(
-                                  Icons.qr_code_2_rounded,
-                                  size: 20,
-                                  color: AppColors.secondaryScale[400],
-                                ),
+                                Icon(Icons.qr_code_2_rounded, size: 20, color: AppColors.secondaryScale[400]),
                                 const SizedBox(width: 8),
                                 Flexible(
-                                  child: HeaderText.five(
-                                    invitation.visitor.name,
-                                    color: AppColors.auxiliarScale[900]!,
-                                  ),
+                                  child: HeaderText.five(invitation.visitor.name, color: AppColors.auxiliarScale[900]!),
                                 ),
                               ],
                             ),
                           ),
-                          // Status Icon
-                          Icon(
-                            isActive
-                                ? Icons.check_circle
-                                : Icons.history_rounded,
-                            color: isActive
-                                ? AppColors.success
-                                : AppColors.danger,
-                            size: 18,
-                          ),
+                          // Status Icon reflects state
+                          Icon(statusIcon, color: statusColor, size: 18),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Propiedad: ${invitation.property.name}',
-                        style: GoogleFonts.raleway(
-                          color: AppColors.auxiliarScale[500],
-                          fontSize: 13,
-                        ),
+                        style: GoogleFonts.raleway(color: AppColors.auxiliarScale[500], fontSize: 13),
                       ),
-                      Divider(
-                        height: 24,
-                        thickness: 1,
-                        color: AppColors.auxiliarScale[100],
-                      ),
+                      Divider(height: 24, thickness: 1, color: AppColors.auxiliarScale[100]),
 
                       // Footer: Dates and Action
                       Row(
@@ -103,46 +98,32 @@ class InvitationCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Fechas',
+                                isUpcoming ? 'Válida a partir de' : 'Fechas',
                                 style: GoogleFonts.raleway(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.auxiliarScale[400],
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  Text(
-                                    DateFormatters.toDateRange(
-                                      invitation.fromDate,
-                                      invitation.toDate,
-                                    ),
-                                    style: GoogleFonts.raleway(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.auxiliarScale[800],
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                DateFormatters.toDateRange(invitation.fromDate, invitation.toDate),
+                                style: GoogleFonts.raleway(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.auxiliarScale[800],
+                                ),
                               ),
                             ],
                           ),
                           TextButton(
                             style: TextButton.styleFrom(
                               foregroundColor: AppColors.secondary,
-                              textStyle: GoogleFonts.raleway(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                              ),
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              textStyle: GoogleFonts.raleway(fontWeight: FontWeight.bold, fontSize: 13),
                             ),
-                            onPressed: () =>
-                                Go.to(InvitationDetailsPage(invitation)),
+                            onPressed: () => Go.to(InvitationDetailsPage(invitation)),
                             child: const Row(
-                              children: [
-                                Text('Detalles'),
-                                SizedBox(width: 4),
-                                Icon(Icons.arrow_forward_ios, size: 12),
-                              ],
+                              children: [Text('Detalles'), SizedBox(width: 4), Icon(Icons.arrow_forward_ios, size: 12)],
                             ),
                           ),
                         ],

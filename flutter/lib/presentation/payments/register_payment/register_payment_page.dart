@@ -8,6 +8,7 @@ import 'package:resipal/core/ui/inputs/amount_input_field.dart';
 import 'package:resipal/core/ui/inputs/images/image_picker_buttons.dart';
 import 'package:resipal/core/ui/inputs/images/image_preview.dart';
 import 'package:resipal/core/ui/inputs/text_input_field.dart';
+import 'package:resipal/core/ui/my_app_bar.dart';
 import 'package:resipal/core/ui/texts/body_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
@@ -24,7 +25,7 @@ class RegisterPaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: HeaderText.two('Registrar un pago')),
+      appBar: MyAppBar(title: 'Registrar un pago'),
       body: BlocProvider<RegisterPaymentCubit>(
         create: (ctx) => RegisterPaymentCubit()..initialize(),
         child: BlocConsumer<RegisterPaymentCubit, RegisterPaymentState>(
@@ -46,7 +47,7 @@ class RegisterPaymentPage extends StatelessWidget {
                 subtitle: 'Tu comprobante está siendo revisado por administración.',
                 actionButtonLabel: 'VOLVER',
                 onActionButtonPressed: () {
-                  Navigator.of(context).pop(); // Navigate back after success
+                  Navigator.of(context).pop();
                 },
               );
             }

@@ -1,4 +1,3 @@
-import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/data/models/community_model.dart';
 import 'package:resipal/data/sources/community_data_source.dart';

@@ -6,7 +6,7 @@ import 'package:resipal/core/ui/tiles/detail_tile.dart';
 import 'package:resipal/domain/entities/user_property_entity.dart';
 
 class PropertyContractView extends StatelessWidget {
-  final UserPropertyEntity property;
+  final PropertyEntity property;
   const PropertyContractView(this.property, {super.key});
 
   @override

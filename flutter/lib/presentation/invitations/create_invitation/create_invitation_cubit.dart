@@ -68,7 +68,7 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
     }
   }
 
-  void onPropertySelected(UserPropertyEntity? property) {
+  void onPropertySelected(PropertyEntity? property) {
     _formState = _formState.copyWith(property: property);
     emit(FormEditingState(formState: _formState));
   }

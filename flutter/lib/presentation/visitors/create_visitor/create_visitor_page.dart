@@ -7,6 +7,8 @@ import 'package:resipal/core/ui/inputs/images/image_picker_buttons.dart';
 import 'package:resipal/core/ui/inputs/images/image_preview.dart';
 import 'package:resipal/core/ui/inputs/text_input_field.dart';
 import 'package:resipal/core/ui/my_app_bar.dart';
+import 'package:resipal/core/ui/texts/body_text.dart';
+import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
 import 'package:resipal/core/ui/views/loading_view.dart';
 import 'package:resipal/core/ui/views/success_view.dart';
@@ -76,21 +78,42 @@ class _Loaded extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<CreateVisitorCubit>();
 
-    return Column(
-      children: [
-        TextInputField(label: 'Nombre', onChanged: cubit.updateName),
-        const SizedBox(height: 12.0),
-        if (formState.identificationImage != null)
-          ImagePreview(imagePath: formState.identificationImage!.path, onDelete: () => cubit.removeImage())
-        else
-          ImagePickerButtons(
-            onCamera: () => cubit.pickImage(ImageSource.camera),
-            onGallery: () => cubit.pickImage(ImageSource.gallery),
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        children: [
+          TextInputField(label: 'Nombre', onChanged: cubit.updateName),
+          const SizedBox(height: 24.0),
+          HeaderText.four('Identificación'),
+          BodyText.small('Selecciona la opción para elegir una imagen.'),
+          const SizedBox(height: 16.0),
 
-          Spacer(),
-          PrimaryCtaButton(label: 'Crear visitante', onPressed: () => cubit.submit())
-      ],
+          // --- Image Selection / Preview Area ---
+          if (formState.identificationImage != null)
+            ImagePreview(imagePath: formState.identificationImage!.path, onDelete: () => cubit.removeImage())
+          else
+            ImagePickerButtons(
+              onCamera: () => cubit.pickImage(ImageSource.camera),
+              onGallery: () => cubit.pickImage(ImageSource.gallery),
+            ),
+
+          const SizedBox(height: 8.0),
+          const Center(
+            child: BodyText.tiny(
+              'Se requiere una identificación oficial vigente para autorizar el acceso.',
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 32.0),
+          Center(
+            child: PrimaryCtaButton(
+              label: 'CREAR VISITANTE',
+              canSubmit: formState.isValid(),
+              onPressed: () => cubit.submit(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

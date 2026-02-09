@@ -3,12 +3,12 @@ import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/floating_nav_bar.dart';
 import 'package:resipal/core/ui/my_app_bar.dart';
 import 'package:resipal/domain/entities/user_property_entity.dart';
-import 'package:resipal/presentation/properties/property_contract_view.dart';
-import 'package:resipal/presentation/properties/property_general_information.dart';
-import 'package:resipal/presentation/properties/property_maintenance_view.dart';
+import 'package:resipal/presentation/properties/property_details/property_contract_view.dart';
+import 'package:resipal/presentation/properties/property_details/property_general_information.dart';
+import 'package:resipal/presentation/properties/property_details/property_maintenance_view.dart';
 
 class PropertyDetailsPage extends StatefulWidget {
-  final UserPropertyEntity property;
+  final PropertyEntity property;
   const PropertyDetailsPage(this.property, {super.key});
 
   @override

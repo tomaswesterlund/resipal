@@ -17,6 +17,13 @@ class PaymentRepository {
     _logger.info('✅ PaymentRepository initialized');
   }
 
+  Stream<List<PaymentEntity>> watchPaymentsByUserId(String userId) {
+    return _paymentDataSource.watchPaymentsByUserId(userId).asyncMap((models) async {
+      final entities = await _processAndCache(models);
+      return entities;
+    });
+  }
+
   PaymentEntity getPaymentById(String id) => _cache[id]!;
 
   List<PaymentEntity> getPaymentsByUserId(String userId) => _cache.values.where((p) => p.userId == userId).toList();

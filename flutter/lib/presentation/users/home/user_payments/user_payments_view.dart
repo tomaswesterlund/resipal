@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/buttons/cta/primary_cta_button.dart';
 import 'package:resipal/core/ui/cards/shimmer_card.dart';
 import 'package:resipal/core/ui/containers/green_box_container.dart';
@@ -8,7 +7,6 @@ import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
 import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/domain/entities/payment_entity.dart';
-import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/payments/payment_list_view.dart';
 import 'package:resipal/presentation/payments/register_payment/register_payment_page.dart';
 import 'package:resipal/presentation/users/home/user_payments/user_payments_cubit.dart';
@@ -16,13 +14,13 @@ import 'package:resipal/presentation/users/home/user_payments/user_payments_stat
 import 'package:short_navigation/short_navigation.dart';
 
 class UserPaymentsView extends StatelessWidget {
-  final UserEntity user;
-  const UserPaymentsView({required this.user, super.key});
+  final String userId;
+  const UserPaymentsView({required this.userId, super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (ctx) => UserPaymentsCubit()..intialize(user.id),
+      create: (ctx) => UserPaymentsCubit()..intialize(userId),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +91,6 @@ class _Loaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (payments.isEmpty) {
-      // You can replace this with a NoPaymentsFoundView if you have one
       return const Center(
         child: Padding(padding: EdgeInsets.only(top: 40), child: Text('No se encontraron pagos registrados.')),
       );

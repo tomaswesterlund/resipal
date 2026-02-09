@@ -96,7 +96,7 @@ class PaymentCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Fecha: ${payment.date.toShortDate()}',
+                                'Fecha de pago: ${payment.date.toShortDate()}',
                                 style: GoogleFonts.raleway(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,

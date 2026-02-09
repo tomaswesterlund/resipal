@@ -34,7 +34,7 @@ class InitialState extends UserPropertiesState {}
 class LoadingState extends UserPropertiesState {}
 
 class LoadedState extends UserPropertiesState {
-  final List<UserPropertyEntity> properties;
+  final List<PropertyEntity> properties;
 
   LoadedState(this.properties);
 

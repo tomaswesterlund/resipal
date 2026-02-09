@@ -8,7 +8,7 @@ class CreateVisitorFormState extends Equatable {
   const CreateVisitorFormState({this.name, this.identificationImage});
 
   bool isValid() {
-    return name != null && name!.isNotEmpty;
+    return name != null && name!.isNotEmpty && identificationImage != null;
   }
 
   CreateVisitorFormState copyWith({String? name, XFile? identificationImage}) {

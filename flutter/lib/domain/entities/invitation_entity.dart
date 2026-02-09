@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:resipal/domain/entities/access_log_entity.dart';
 import 'package:resipal/domain/refs/property_ref.dart';
 import 'package:resipal/domain/refs/user_ref.dart';
 import 'package:resipal/domain/refs/visitor_ref.dart';
 
-class InvitationEntity {
+class InvitationEntity extends Equatable {
   final String id;
   final UserRef user;
   final VisitorRef visitor;
@@ -15,8 +16,9 @@ class InvitationEntity {
   final int maxEntries;
   final List<AccessLogEntity> logs;
 
-  // TODO Update logic - canEnter is not equal to isActive
-  bool get isActive => canEnter;
+  bool get isActive => canEnter || isUpcoming;
+
+  bool get isUpcoming => fromDate.isAfter(DateTime.now());
 
   bool get canEnter {
     final now = DateTime.now();
@@ -48,4 +50,7 @@ class InvitationEntity {
     required this.maxEntries,
     required this.logs,
   });
+
+  @override
+  List<Object?> get props => [id, user, visitor, property, createdAt, qrCodeToken, fromDate, toDate, maxEntries, logs];
 }

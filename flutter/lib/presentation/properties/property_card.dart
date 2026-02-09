@@ -4,11 +4,11 @@ import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/user_property_entity.dart';
-import 'package:resipal/presentation/properties/property_details_page.dart';
+import 'package:resipal/presentation/properties/property_details/property_details_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class PropertyCard extends StatelessWidget {
-  final UserPropertyEntity property;
+  final PropertyEntity property;
 
   const PropertyCard(this.property, {super.key});
 

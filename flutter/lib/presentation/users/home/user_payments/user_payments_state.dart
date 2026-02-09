@@ -14,6 +14,9 @@ class LoadedState extends UserPaymentsState {
   final List<PaymentEntity> payments;
 
   LoadedState(this.payments);
+
+  @override
+  List<Object?> get props => [payments];
 }
 
 class ErrorState extends UserPaymentsState {}
