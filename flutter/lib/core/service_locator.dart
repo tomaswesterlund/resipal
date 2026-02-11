@@ -3,6 +3,7 @@ import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/core/services/image_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/data/sources/access_log_data_source.dart';
+import 'package:resipal/data/sources/community_application_data_source.dart';
 import 'package:resipal/data/sources/community_data_source.dart';
 import 'package:resipal/data/sources/error_log_data_source.dart';
 import 'package:resipal/data/sources/invitation_data_source.dart';
@@ -31,14 +32,9 @@ class ServiceLocator {
     sl.registerLazySingleton(() => ImageService());
     sl.registerLazySingleton(() => AuthService());
 
-    _initDataSources();
-    // _initMappers();
-
-    // await _initRepositories();
-  }
-
-  static void _initDataSources() {
+    // Data sources
     sl.registerLazySingleton(() => AccessLogDataSource());
+    sl.registerLazySingleton(() => CommunityApplicationDataSource());
     sl.registerLazySingleton(() => CommunityDataSource());
     sl.registerLazySingleton(() => ErrorLogDataSource());
     sl.registerLazySingleton(() => InvitationDataSource());
@@ -51,29 +47,12 @@ class ServiceLocator {
     sl.registerLazySingleton(() => UserDataSource());
   }
 
-  // static void _initMappers() {
-  //   sl.registerLazySingleton(() => CommunityMapper());
-  //   sl.registerLazySingleton(() => MaintenanceContractMapper());
-  //   sl.registerLazySingleton(() => MaintenanceFeeMapper());
-  //   sl.registerLazySingleton(() => PropertyMapper());
-  // }
-
-  // static Future<void> _initRepositories() async {
-  //   sl.registerLazySingleton(() => AccessLogRepository());
-  //   sl.registerLazySingleton(() => CommunityRepository());
-  //   sl.registerLazySingleton(() => MaintenanceContractRepository());
-  //   sl.registerLazySingleton(() => MaintenanceFeeRepository());
-  //   sl.registerLazySingleton(() => PaymentRepository());
-  //   // sl.registerLazySingleton(() => PropertyRepository());
-  //   sl.registerLazySingleton(() => VisitorRepository());
-  //   sl.registerLazySingleton(() => UserRepository());
-  // }
-
   static Future<void> initializeUserScope(String userId) async {
     // TODO: Remove hard-coded community id
     final communityId = '401989eb-2fe6-4c2f-b2e9-82f91e2e916d';
 
     await GetIt.I<UserDataSource>().watchById(userId).first;
+    await GetIt.I<CommunityApplicationDataSource>().watchByUserId(userId).first;
     await GetIt.I<InvitationDataSource>().watchByUserId(userId).first;
     await GetIt.I<MaintenanceContractDataSource>().watchByCommunityId(communityId).first;
     await GetIt.I<MaintenanceFeeDataSource>().watchByCommunityId(communityId).first;

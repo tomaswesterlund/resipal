@@ -3,7 +3,7 @@ import 'package:resipal/domain/refs/maintenance_contract_ref.dart';
 
 class MaintenanceFeeEntity {
   final String id;
-  final String contractId;
+  final MaintenanceContractRef contract;
   final DateTime createdAt;
   final int amountInCents;
   final DateTime dueDate;
@@ -27,7 +27,7 @@ class MaintenanceFeeEntity {
 
   MaintenanceFeeEntity({
     required this.id,
-    required this.contractId,
+    required this.contract,
     required this.createdAt,
     required this.amountInCents,
     required this.dueDate,

@@ -16,6 +16,8 @@ class AuthService {
 
   String getSignedInUserId() => getSignedInUser().id;
 
+  bool get userIsSignedIn => _client.auth.currentUser != null;
+
   Future signInWithGoogle() async {
     try {
       const iosClientId =

@@ -1,6 +1,7 @@
 CREATE TABLE error_logs(
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id uuid REFERENCES users(id) ON DELETE SET NULL,
+    community_id UUID REFERENCES communities(id),
+    user_id UUID REFERENCES users(id) ON DELETE SET NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     created_by UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id),
     -- Error Data

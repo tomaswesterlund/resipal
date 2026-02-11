@@ -3,19 +3,19 @@ import 'package:resipal/core/formatters/currency_formatter.dart';
 import 'package:resipal/core/formatters/date_formatters.dart';
 import 'package:resipal/core/formatters/id_formatter.dart';
 import 'package:resipal/core/ui/app_colors.dart';
+import 'package:resipal/core/ui/buttons/cta/primary_cta_button.dart';
 import 'package:resipal/core/ui/cards/default_card.dart';
 import 'package:resipal/core/ui/my_app_bar.dart';
 import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/texts/section_header_text.dart';
 import 'package:resipal/core/ui/tiles/detail_tile.dart';
 import 'package:resipal/domain/entities/maintenance_fee_entity.dart';
-import 'package:resipal/presentation/maintenance/maintenance_fee_card.dart';
 import 'package:resipal/presentation/maintenance/maintenance_fee_icon.dart';
 import 'package:resipal/presentation/maintenance/maintenance_status_pill.dart';
 
 class MaintenanceFeeDetailsPage extends StatelessWidget {
-  final MaintenanceFeeEntity maintenanceFee;
-  const MaintenanceFeeDetailsPage(this.maintenanceFee, {super.key});
+  final MaintenanceFeeEntity fee;
+  const MaintenanceFeeDetailsPage(this.fee, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +32,16 @@ class MaintenanceFeeDetailsPage extends StatelessWidget {
               padding: 20,
               child: Column(
                 children: [
-                  MaintenanceFeeIcon(maintenanceFee),
+                  MaintenanceFeeIcon(fee),
                   const SizedBox(height: 16),
-                  AmountText(CurrencyFormatter.fromCents(maintenanceFee.amountInCents)),
+                  AmountText(CurrencyFormatter.fromCents(fee.amountInCents)),
                   const SizedBox(height: 8),
-                  MaintenanceStatusPill(maintenanceFee),
+                  MaintenanceStatusPill(fee),
                 ],
               ),
             ),
+            const SizedBox(height: 12),
+            PrimaryCtaButton(label: 'Pagar mantenimiento', onPressed: () {}, icon: Icons.attach_money,),
             const SizedBox(height: 24),
 
             SectionHeaderText(text: 'INFORMACIÓN GENERAL'),
@@ -48,32 +50,32 @@ class MaintenanceFeeDetailsPage extends StatelessWidget {
               padding: 0,
               child: Column(
                 children: [
-                  DetailTile(icon: Icons.fingerprint, label: 'ID de registro', value: maintenanceFee.id.toShortId()),
+                  DetailTile(icon: Icons.fingerprint, label: 'ID de registro', value: fee.id.toShortId()),
                   const Divider(height: 1),
-                  DetailTile(icon: Icons.note_outlined, label: 'Contrato', value: 'IMPLEEMTN CONTRACT NAME'), //maintenanceFee.contract.name),
+                  DetailTile(icon: Icons.note_outlined, label: 'Contrato', value: fee.contract.name),
                   const Divider(height: 1),
                   DetailTile(
                     icon: Icons.schedule_outlined,
                     label: 'Periodo',
-                    value: DateFormatters.toDateRange(maintenanceFee.fromDate, maintenanceFee.toDate),
+                    value: DateFormatters.toDateRange(fee.fromDate, fee.toDate),
                   ),
                   const Divider(height: 1),
                   DetailTile(
                     icon: Icons.schedule,
                     label: 'Fecha de vencimiento',
-                    value: maintenanceFee.dueDate.toShortDate(),
+                    value: fee.dueDate.toShortDate(),
                   ),
-                  if (maintenanceFee.paymentDate != null) ...[
+                  if (fee.paymentDate != null) ...[
                     const Divider(height: 1),
                     DetailTile(
                       icon: Icons.credit_card_outlined,
                       label: 'Fecha de pago',
-                      value: maintenanceFee.paymentDate!.toShortDate(),
+                      value: fee.paymentDate!.toShortDate(),
                     ),
                   ],
-                  if (maintenanceFee.note != null) ...[
+                  if (fee.note != null) ...[
                     const Divider(height: 1),
-                    DetailTile(icon: Icons.note_outlined, label: 'Nota', value: maintenanceFee.note!),
+                    DetailTile(icon: Icons.note_outlined, label: 'Nota', value: fee.note!),
                   ],
                 ],
               ),

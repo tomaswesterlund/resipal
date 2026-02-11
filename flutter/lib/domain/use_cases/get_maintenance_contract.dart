@@ -9,7 +9,7 @@ class GetOptionalMaintenanceContract {
   MaintenanceContractEntity? call(String? id) {
     if(id == null) return null;
 
-    final model = _source.getOptionalById(id);
+    final model = _source.getById(id);
     if (model == null) return null;
 
     return MaintenanceContractEntity(

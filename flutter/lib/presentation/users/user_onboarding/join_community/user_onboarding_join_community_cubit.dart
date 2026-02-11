@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/domain/entities/community_entity.dart';
+import 'package:resipal/domain/use_cases/fetch_communities.dart';
 import 'package:resipal/domain/use_cases/fetch_user.dart';
 import 'package:resipal/domain/use_cases/get_communities.dart';
 import 'package:resipal/domain/use_cases/get_user.dart';
@@ -18,6 +19,7 @@ class UserOnboardingJoinCommunityCubit extends Cubit<UserOnboardingJoinCommunity
   Future initialize() async {
     try {
       emit(LoadingState());
+      await FetchCommunities().call();
       final communities = GetCommunities().call();
       emit(LoadedState(communities));
     } catch (e, s) {

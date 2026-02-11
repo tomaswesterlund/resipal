@@ -1,6 +1,5 @@
 class CommunityModel {
   final String id;
-  final String communityId;
   final String name;
   final String key;
   final String location;
@@ -8,7 +7,6 @@ class CommunityModel {
 
   CommunityModel({
     required this.id,
-    required this.communityId,
     required this.name,
     required this.key,
     required this.location,
@@ -18,7 +16,6 @@ class CommunityModel {
   factory CommunityModel.fromMap(Map<String, dynamic> map) {
     return CommunityModel(
       id: map['id'],
-      communityId: map['community_id'],
       name: map['name'],
       key: map['key'],
       location: map['location'],

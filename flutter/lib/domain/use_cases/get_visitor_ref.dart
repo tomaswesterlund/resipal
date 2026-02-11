@@ -1,12 +1,18 @@
 import 'package:get_it/get_it.dart';
+import 'package:resipal/data/models/visitor_model.dart';
 import 'package:resipal/data/sources/visitor_data_source.dart';
 import 'package:resipal/domain/refs/visitor_ref.dart';
 
 class GetVisitorRef {
   final VisitorDataSource _source = GetIt.I<VisitorDataSource>();
 
-  VisitorRef call(String id) {
+  VisitorRef fromId(String id) {
     final model = _source.getById(id);
+    if (model == null) {
+      throw Exception('Visitor $id not found in cache. Ensure the stream is active.');
+    }
     return VisitorRef(id: model.id, name: model.name);
   }
+
+  VisitorRef fromModel(VisitorModel model) => VisitorRef(id: model.id, name: model.name);
 }

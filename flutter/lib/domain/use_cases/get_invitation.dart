@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:resipal/data/models/invitation_model.dart';
 import 'package:resipal/data/sources/invitation_data_source.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
 import 'package:resipal/domain/use_cases/get_property_ref.dart';
@@ -7,14 +8,25 @@ import 'package:resipal/domain/use_cases/get_visitor_ref.dart';
 class GetInvitation {
   final InvitationDataSource _source = GetIt.I<InvitationDataSource>();
 
-  InvitationEntity call(String id) {
+  final _getVisitorRef = GetVisitorRef();
+  final _getPropertyRef = GetPropertyRef();
+
+  InvitationEntity fromId(String id) {
     final model = _source.getById(id);
 
+    if (model == null) {
+      throw Exception('Invitation $id not found in cache. Ensure the stream is active.');
+    }
+
+    return fromModel(model);
+  }
+
+  InvitationEntity fromModel(InvitationModel model) {
     return InvitationEntity(
-      id: id,
+      id: model.id,
       userId: model.userId,
-      visitor: GetVisitorRef().call(model.visitorId),
-      property: GetPropertyRef().call(model.propertyId),
+      visitor: _getVisitorRef.fromId(model.visitorId),
+      property: _getPropertyRef(model.propertyId),
       createdAt: model.createdAt,
       qrCodeToken: model.qrCodeToken,
       fromDate: model.fromDate,

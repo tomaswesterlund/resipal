@@ -3,11 +3,13 @@ import 'package:resipal/core/ui/texts/header_text.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  const MyAppBar({required this.title, super.key});
+  final bool automaticallyImplyLeading;
+  const MyAppBar({required this.title, this.automaticallyImplyLeading = true, super.key});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: automaticallyImplyLeading,
       title: HeaderText.four(title),
       centerTitle: true,
       elevation: 0,

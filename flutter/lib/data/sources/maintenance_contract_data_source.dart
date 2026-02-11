@@ -29,12 +29,7 @@ class MaintenanceContractDataSource {
     });
   }
 
-  MaintenanceContractModel? getOptionalById(String id) {
-    if (_cache.containsKey(id)) {
-      return _cache[id]!;
-    }
-    return null;
-  }
+  MaintenanceContractModel? getById(String id) => _cache[id];
 
   // Future<MaintenanceContractModel> getMaintenanceContractById(String id) async {
   //   final item = await _client.from('maintenance_contracts').select().eq('id', id).single();

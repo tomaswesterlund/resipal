@@ -23,7 +23,7 @@ class UserOnboardingJoinCommunityPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const MyAppBar(title: 'Unirse a Comunidad'),
+      appBar: const MyAppBar(title: 'Unirse a una Comunidad'),
       body: BlocProvider(
         create: (ctx) => UserOnboardingJoinCommunityCubit()..initialize(),
         child: BlocBuilder<UserOnboardingJoinCommunityCubit, UserOnboardingJoinCommunityState>(
@@ -121,11 +121,14 @@ class _LoadedState extends State<_Loaded> {
                             padding: const EdgeInsets.all(16.0),
                             child: Row(
                               children: [
+                                const Icon(Icons.group_add_outlined, size: 40),
+                                SizedBox(width: 12.0,),
                                 Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     HeaderText.five(community.name),
-                                    const SizedBox(height: 12),
+                                    // const SizedBox(height: 12),
                                     // BodyText.medium(community.description ?? ''),
                                     // const SizedBox(height: 12),
                                     Row(

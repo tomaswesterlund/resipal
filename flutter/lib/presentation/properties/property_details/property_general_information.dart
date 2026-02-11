@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:resipal/core/formatters/date_formatters.dart';
 import 'package:resipal/core/formatters/id_formatter.dart';
 import 'package:resipal/core/ui/cards/default_card.dart';
+import 'package:resipal/core/ui/cards/green_box_card.dart';
 import 'package:resipal/core/ui/texts/body_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/texts/section_header_text.dart';
@@ -18,7 +19,18 @@ class PropertyGeneralInformation extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          _buildHeroCard(property),
+          // _buildHeroCard(property),
+          GreenBoxCard(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                  Icon(Icons.house, size: 96, color: Colors.white,),
+                  HeaderText.two(property.name, color: Colors.white)
+                ],
+              ),
+            ),
+          ),
           const SizedBox(height: 24),
 
           SectionHeaderText(text: 'INFORMACIÓN GENERAL'),
@@ -54,6 +66,7 @@ class PropertyGeneralInformation extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
+            Icon(Icons.house_outlined, size: 96),
             Center(child: HeaderText.two(property.name)),
             const SizedBox(height: 8),
             BodyText.medium(property.description ?? ''),

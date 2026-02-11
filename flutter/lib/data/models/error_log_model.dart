@@ -1,5 +1,6 @@
 class ErrorLogModel {
   final String id;
+  final String? communityId;
   final String? userId;
   final DateTime createdAt;
   final String errorMessage;
@@ -11,6 +12,7 @@ class ErrorLogModel {
 
   ErrorLogModel({
     required this.id,
+    required this.communityId,
     required this.userId,
     required this.createdAt,
     required this.errorMessage,
@@ -24,6 +26,7 @@ class ErrorLogModel {
   factory ErrorLogModel.fromMap(Map<String, dynamic> json) {
     return ErrorLogModel(
       id: json['id'],
+      communityId: json['community_id'],
       userId: json['user_id'],
       createdAt: DateTime.parse(json['created_at'].toString()),
       errorMessage: json['error_message'],

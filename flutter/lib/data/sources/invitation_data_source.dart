@@ -19,7 +19,7 @@ class InvitationDataSource {
     });
   }
 
-  InvitationModel getById(String id) => _cache[id]!;
+  InvitationModel? getById(String id) => _cache[id];
 
   List<InvitationModel> getByUserId(String userId) {
     return _cache.values.where((m) => m.userId == userId).toList();

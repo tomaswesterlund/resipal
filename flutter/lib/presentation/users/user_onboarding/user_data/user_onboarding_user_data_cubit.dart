@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:resipal/core/service_locator.dart';
 import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/domain/use_cases/create_user.dart';
@@ -38,6 +39,7 @@ class UserOnboardingUserDataCubit extends Cubit<UserOnboardingUserDataState> {
 
       await FetchUser().call(authUser.id);
       final user = GetUser().call(authUser.id);
+      await ServiceLocator.initializeUserScope(user.id);
 
       emit(FormSubmittedSuccessfullyState(user));
     } catch (e, s) {

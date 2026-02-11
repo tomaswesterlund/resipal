@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/cards/default_card.dart';
+import 'package:resipal/core/ui/my_app_bar.dart';
 import 'package:resipal/core/ui/texts/body_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
+import 'package:resipal/presentation/users/user_onboarding/join_community/user_onboarding_join_community_page.dart';
+import 'package:short_navigation/short_navigation.dart';
 
 class UserOnboardingCommunitySetupPage extends StatelessWidget {
   const UserOnboardingCommunitySetupPage({super.key});
@@ -10,20 +14,14 @@ class UserOnboardingCommunitySetupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const HeaderText.two('Onboarding'),
-      ),
+      extendBody: true,
+      appBar: MyAppBar(title: 'Onboarding', automaticallyImplyLeading: false),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch, // Makes cards full width
+          crossAxisAlignment: CrossAxisAlignment.stretch, // Makes cards full width
           children: [
-            SvgPicture.asset(
-              'assets/resipal_logo.svg',
-              semanticsLabel: 'Resipal logo',
-            ),
+            SvgPicture.asset('assets/resipal_logo.svg', semanticsLabel: 'Resipal logo'),
             const SizedBox(height: 20),
             HeaderText.four('¡Casi terminamos!', textAlign: TextAlign.center),
             const SizedBox(height: 8),
@@ -34,27 +32,19 @@ class UserOnboardingCommunitySetupPage extends StatelessWidget {
             const SizedBox(height: 40),
 
             DefaultCard(
+              onTap: () => Go.to(UserOnboardingJoinCommunityPage()),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16.0,
-                  horizontal: 8.0,
-                ),
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    const Icon(
-                      Icons.group_add_outlined,
-                      size: 40,
-                      color: Colors.blue,
-                    ),
+                    const Icon(Icons.group_add_outlined, size: 40, color: AppColors.primary),
                     const SizedBox(width: 16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           HeaderText.five('Unirse a una comunidad'),
-                          BodyText.small(
-                            'Soy residente y quiero unirme a mi comunidad.',
-                          ),
+                          BodyText.small('Soy residente y quiero unirme a mi comunidad.'),
                         ],
                       ),
                     ),
@@ -68,17 +58,10 @@ class UserOnboardingCommunitySetupPage extends StatelessWidget {
 
             DefaultCard(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16.0,
-                  horizontal: 8.0,
-                ),
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    const Icon(
-                      Icons.add_business_outlined,
-                      size: 40,
-                      color: Colors.green,
-                    ),
+                    const Icon(Icons.add_business_outlined, size: 40, color: AppColors.primary),
                     const SizedBox(width: 16),
                     Expanded(
                       child: Column(
@@ -86,7 +69,7 @@ class UserOnboardingCommunitySetupPage extends StatelessWidget {
                         children: [
                           HeaderText.five('Crear nueva comunidad'),
                           BodyText.small(
-                            'Soy administrador y quiero crear una nueva comunidad para un fraccionamiento y edificio.',
+                            'Soy administrador y quiero crear una nueva comunidad para un fraccionamiento o edificio.',
                           ),
                         ],
                       ),

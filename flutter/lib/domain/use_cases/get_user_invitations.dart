@@ -5,9 +5,10 @@ import 'package:resipal/domain/use_cases/get_invitation.dart';
 
 class GetUserInvitations {
   final InvitationDataSource _source = GetIt.I<InvitationDataSource>();
+  final GetInvitation _getInvitation = GetInvitation();
 
   List<InvitationEntity> call(String userId) {
     final models = _source.getByUserId(userId);
-    return models.map((model) => GetInvitation().call(model.id)).toList();
+    return models.map((model) => _getInvitation.fromModel(model)).toList();
   }
 }

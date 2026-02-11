@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal/core/ui/buttons/cta/primary_cta_button.dart';
 import 'package:resipal/core/ui/cards/shimmer_card.dart';
 import 'package:resipal/core/ui/containers/green_box_container.dart';
+import 'package:resipal/core/ui/texts/body_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
 import 'package:resipal/core/ui/views/unknown_state_view.dart';
@@ -91,8 +92,12 @@ class _Loaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (payments.isEmpty) {
-      return const Center(
-        child: Padding(padding: EdgeInsets.only(top: 40), child: Text('No se encontraron pagos registrados.')),
+      return Center(
+        child: BodyText.medium(
+          'No se encontraron pagos registrados.',
+          color: Colors.grey.shade600,
+          textAlign: TextAlign.center,
+        ),
       );
     }
     return PaymentListView(payments);

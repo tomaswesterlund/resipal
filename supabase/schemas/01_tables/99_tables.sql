@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 -- ENABLE REAL TIME FOR ALL TABLES
 DO $$
 BEGIN

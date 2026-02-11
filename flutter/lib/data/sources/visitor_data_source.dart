@@ -33,7 +33,7 @@ class VisitorDataSource {
   //   return model;
   // }
 
-  VisitorModel getById(String id) => _cache[id]!;
+  VisitorModel? getById(String id) => _cache[id];
   
   List<VisitorModel> getByUserId(String userId) => _cache.values.where((m) => m.userId == userId).toList();
 

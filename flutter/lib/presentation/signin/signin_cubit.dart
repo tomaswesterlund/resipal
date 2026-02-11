@@ -18,23 +18,26 @@ class SigninCubit extends Cubit<SigninState> {
       await _sessionService.signInWithGoogle();
       final authUser = _sessionService.getSignedInUser();
       final userId = authUser.id;
-      
-      await ServiceLocator.initializeUserScope(userId);
-
-      final userOnboarded = UserOnboarded().call(userId);
+      final userOnboarded = await UserOnboarded().call(userId);
 
       if (userOnboarded) {
+        // If user has been onboarded we should initialize the user scope
+        // i.e. start listening to the watcher. If not we'll leave them alone
+        // and they will be started after the onboarding process has been
+        // processed completely.
+        await ServiceLocator.initializeUserScope(userId);
         final user = GetUser().call(userId);
-        emit(UserSignedInSuccessfullyState(userOnboarded: true, user: user));
+
+        if (user.community == null) {
+          emit(UserSignedInSuccessfullyState(userOnboarded: true, userJoinedCommunity: false, user: user));
+        } else {
+          emit(UserSignedInSuccessfullyState(userOnboarded: true, userJoinedCommunity: true, user: user));
+        }
       } else {
-        emit(UserSignedInSuccessfullyState(userOnboarded: false));
+        emit(UserSignedInSuccessfullyState(userOnboarded: false, userJoinedCommunity: false));
       }
     } catch (e, stack) {
-      _logger.logException(
-        exception: e,
-        stackTrace: stack,
-        featureArea: 'SigninCubit.signin',
-      );
+      _logger.logException(exception: e, stackTrace: stack, featureArea: 'SigninCubit.signin');
       emit(ErrorState());
     }
   }

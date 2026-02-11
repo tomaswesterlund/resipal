@@ -10,7 +10,6 @@ import 'package:resipal/core/ui/views/error_state_view.dart';
 import 'package:resipal/core/ui/views/loading_view.dart';
 import 'package:resipal/core/ui/views/success_view.dart';
 import 'package:resipal/core/ui/views/unknown_state_view.dart';
-import 'package:resipal/presentation/users/home/user_home_page.dart';
 import 'package:resipal/presentation/users/user_onboarding/community_setup/user_onboarding_community_setup_page.dart';
 import 'package:resipal/presentation/users/user_onboarding/user_data/user_onboarding_user_data_cubit.dart';
 import 'package:resipal/presentation/users/user_onboarding/user_data/user_onboarding_user_data_form_state.dart';
@@ -23,6 +22,7 @@ class UserOnboardingUserDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(automaticallyImplyLeading: false, title: const HeaderText.two('Onboarding')),
       body: BlocProvider<UserOnboardingUserDataCubit>(
         create: (ctx) => UserOnboardingUserDataCubit()..initialize(),
@@ -95,7 +95,7 @@ class _Form extends StatelessWidget {
                   ),
                   const SizedBox(height: 12.0),
                   EmailInputField(label: 'Correo electrónico', initialValue: formState.email, enabled: false),
-                  const SizedBox(height: 12.0),
+                  const SizedBox(height: 24.0),
                   PrimaryCtaButton(label: 'Enviar', onPressed: cubit.submit, canSubmit: formState.isValid()),
                 ],
               ),

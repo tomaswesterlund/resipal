@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:resipal/domain/entities/community_application_entity.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
 import 'package:resipal/domain/entities/ledger_entity.dart';
 import 'package:resipal/domain/entities/payment_entity.dart';
 import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/domain/enums/payment_status.dart';
+import 'package:resipal/domain/refs/community_ref.dart';
 
 class UserEntity extends Equatable {
   final String id;
@@ -12,11 +14,20 @@ class UserEntity extends Equatable {
   final String phoneNumber;
   final String emergencyPhoneNumber;
   final String email;
+  final List<CommunityApplicationEntity> applications;
   final List<InvitationEntity> invitations;
   // final List<MovementEntity> movements;
   final LedgerEntity ledger;
   final List<PaymentEntity> payments;
   final List<PropertyEntity> properties;
+
+  CommunityRef? get community {
+    if (applications.isEmpty) {
+      return null;
+    } else {
+      return applications.first.community;
+    }
+  }
 
   List<InvitationEntity> get activeInvitations => invitations.where((e) => e.canEnter).toList();
 
@@ -29,8 +40,7 @@ class UserEntity extends Equatable {
     return approvedPaymentAmountInCents;
   }
 
-  int get totalOverdueFeeInCents => -99999;
-      // properties.fold(0, (sum, property) => sum = sum + property.contract.totalOverdueFeeInCents);
+  int get totalOverdueFeeInCents => properties.fold(0, (sum, property) => sum = sum + property.totalOverdueFeeInCents);
 
   int get pendingPaymentAmountInCents {
     final pendingPayments = payments.where((p) => p.status == PaymentStatus.pendingReview);
@@ -45,6 +55,7 @@ class UserEntity extends Equatable {
     required this.phoneNumber,
     required this.emergencyPhoneNumber,
     required this.email,
+    required this.applications,
     required this.invitations,
     required this.ledger,
     required this.payments,

@@ -18,13 +18,18 @@ class UserDataSource {
     });
   }
 
-  UserModel getById(String id) => _cache[id]!;
+  UserModel? getById(String id) => _cache[id];
+
+  Future<bool> userExists(String id) async {
+    final item = await _client.from('users').select().eq('id', id).maybeSingle();
+    return item != null;
+  }
 
   Future<UserModel> fetchById(String id) async {
     final item = await _client.from('users').select().eq('id', id).single();
     final model = UserModel.fromJson(item);
 
-    _cache[model.id] = model; // Update cache
+    _cache[model.id] = model;
     return model;
   }
 
@@ -45,7 +50,5 @@ class UserDataSource {
         'p_email': email,
       },
     );
-    // Note: The watchById stream for this user ID will automatically
-    // update the cache once the record is created in Supabase.
   }
 }

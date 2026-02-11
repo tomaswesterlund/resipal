@@ -42,12 +42,11 @@ class MaintenanceFeeDataSource {
     });
   }
 
-  MaintenanceFeeModel getById(String id) => _cache[id]!;
+  MaintenanceFeeModel? getById(String id) => _cache[id];
 
   List<MaintenanceFeeModel> getByContractId(String contractId) =>
       _cache.values.where((m) => m.contractId == contractId).toList();
 
-  /// Remote fetch that also populates the cache
   Future<MaintenanceFeeModel> fetchById(String id) async {
     try {
       final item = await _client.from('maintenance_fees').select().eq('id', id).single();
