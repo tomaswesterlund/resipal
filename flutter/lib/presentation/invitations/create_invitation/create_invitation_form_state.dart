@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/domain/entities/visitor_entity.dart';
 
 class CreateInvitationFormState {

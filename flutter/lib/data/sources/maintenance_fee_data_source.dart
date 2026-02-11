@@ -7,43 +7,55 @@ class MaintenanceFeeDataSource {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
-  Future<MaintenanceFeeModel> getMaintenanceFeeById(String id) async {
-    try {
-      final item = await _client
-          .from('maintenance_fees')
-          .select()
-          .eq('id', id)
-          .single();
-      final model = MaintenanceFeeModel.fromJson(item);
+  // In-memory cache using the Maintenance Fee ID as the key
+  final Map<String, MaintenanceFeeModel> _cache = {};
+
+  Stream<MaintenanceFeeModel> watchById(String id) {
+    return _client.from('maintenance_fees').stream(primaryKey: ['id']).eq('id', id).map((data) {
+      if (data.isEmpty) {
+        throw Exception('No maintenance fee found');
+      }
+
+      final model = MaintenanceFeeModel.fromJson(data.first);
+      _cache[model.id] = model; // Update cache
       return model;
-    } catch (e, stack) {
-      _logger.logException(
-        exception: e,
-        featureArea: 'MaintenanceFeeDataSource.getMaintenanceFeeById',
-        stackTrace: stack,
-        metadata: {'id': id},
-      );
-      rethrow;
-    }
+    });
   }
 
-  Future<List<MaintenanceFeeModel>> getMaintenanceFeeByContractId(
-    String contractId,
-  ) async {
+  Stream<List<MaintenanceFeeModel>> watchByContractId(String contractId) {
+    return _client.from('maintenance_fees').stream(primaryKey: ['id']).eq('contract_id', contractId).map((data) {
+      return data.map((i) {
+        final model = MaintenanceFeeModel.fromJson(i);
+        _cache[model.id] = model; // Update cache
+        return model;
+      }).toList();
+    });
+  }
+
+  Stream<List<MaintenanceFeeModel>> watchByCommunityId(String communityId) {
+    return _client.from('maintenance_fees').stream(primaryKey: ['id']).eq('community_id', communityId).map((data) {
+      return data.map((i) {
+        final model = MaintenanceFeeModel.fromJson(i);
+        _cache[model.id] = model; // Update cache
+        return model;
+      }).toList();
+    });
+  }
+
+  MaintenanceFeeModel getById(String id) => _cache[id]!;
+
+  List<MaintenanceFeeModel> getByContractId(String contractId) =>
+      _cache.values.where((m) => m.contractId == contractId).toList();
+
+  /// Remote fetch that also populates the cache
+  Future<MaintenanceFeeModel> fetchById(String id) async {
     try {
-      final items = await _client
-          .from('maintenance_fees')
-          .select()
-          .eq('contract_id', contractId);
-      final models = items.map((i) => MaintenanceFeeModel.fromJson(i)).toList();
-      return models;
-    } catch (e, stack) {
-      _logger.logException(
-        exception: e,
-        featureArea: 'MaintenanceFeeDataSource.getMaintenanceFeeByContractId',
-        stackTrace: stack,
-        metadata: {'contractId': contractId},
-      );
+      final item = await _client.from('maintenance_fees').select().eq('id', id).single();
+      final model = MaintenanceFeeModel.fromJson(item);
+      _cache[model.id] = model;
+      return model;
+    } catch (e, s) {
+      _logger.logException(exception: e, featureArea: 'MaintenanceFeeDataSource.fetchById', stackTrace: s);
       rethrow;
     }
   }

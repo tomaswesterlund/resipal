@@ -2,12 +2,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
-import 'package:resipal/domain/repositories/payment_repository.dart';
+import 'package:resipal/domain/use_cases/watch_user_payments.dart';
 import 'package:resipal/presentation/users/home/user_payments/user_payments_state.dart';
 
 class UserPaymentsCubit extends Cubit<UserPaymentsState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
-  final PaymentRepository _paymentRepository = GetIt.I<PaymentRepository>();
   late final StreamSubscription? _streamSubscription;
 
   UserPaymentsCubit() : super(InitialState());
@@ -16,8 +15,7 @@ class UserPaymentsCubit extends Cubit<UserPaymentsState> {
     try {
       emit(LoadingState());
 
-      _streamSubscription = _paymentRepository
-          .watchPaymentsByUserId(userId)
+      _streamSubscription = WatchUserPayments().call(userId)
           .listen(
             (payments) => emit(LoadedState(payments)),
             onError: (e, s) {

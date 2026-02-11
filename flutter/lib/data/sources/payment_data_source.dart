@@ -5,20 +5,37 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class PaymentDataSource {
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
-  Stream<List<PaymentModel>> watchPayments() {
-    return _client
-        .from('payments')
-        .stream(primaryKey: ['id'])
-        .map((data) => data.map((item) => PaymentModel.fromJson(item)).toList());
-  }
+  // In-memory cache using the Payment ID as the key
+  final Map<String, PaymentModel> _cache = {};
 
-  Stream<List<PaymentModel>> watchPaymentsByUserId(String userId) {
+  // Stream<List<PaymentModel>> watchPayments() {
+  //   return _client
+  //       .from('payments')
+  //       .stream(primaryKey: ['id'])
+  //       .map((data) => data.map((item) {
+  //             final model = PaymentModel.fromJson(item);
+  //             _cache[model.id] = model; // Update cache
+  //             return model;
+  //           }).toList());
+  // }
+
+  Stream<List<PaymentModel>> watchByUserId(String userId) {
     return _client
         .from('payments')
         .stream(primaryKey: ['id'])
         .eq('user_id', userId)
-        .map((data) => data.map((item) => PaymentModel.fromJson(item)).toList());
+        .map(
+          (data) => data.map((item) {
+            final model = PaymentModel.fromJson(item);
+            _cache[model.id] = model; // Update cache
+            return model;
+          }).toList(),
+        );
   }
+
+  PaymentModel getById(String id) => _cache[id]!;
+
+  List<PaymentModel> getByUserId(String userId) => _cache.values.where((m) => m.userId == userId).toList();
 
   Future registerNewPayment({
     required String userId,
@@ -39,6 +56,8 @@ class PaymentDataSource {
         'p_receipt_path': receiptPath,
       },
     );
+    // The stream listener will automatically receive the new payment
+    // from Supabase and update our cache via the .map() calls above.
   }
 
   Future approvePayment({required String userId, required String paymentId}) async {

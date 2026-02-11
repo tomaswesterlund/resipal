@@ -1,0 +1,13 @@
+import 'package:get_it/get_it.dart';
+import 'package:resipal/data/sources/invitation_data_source.dart';
+import 'package:resipal/domain/entities/invitation_entity.dart';
+import 'package:resipal/domain/use_cases/get_invitation.dart';
+
+class GetUserInvitations {
+  final InvitationDataSource _source = GetIt.I<InvitationDataSource>();
+
+  List<InvitationEntity> call(String userId) {
+    final models = _source.getByUserId(userId);
+    return models.map((model) => GetInvitation().call(model.id)).toList();
+  }
+}

@@ -6,19 +6,23 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class InvitationDataSource {
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
-  Stream<List<InvitationModel>> watchInvitations() {
-    return _client
-        .from('invitations')
-        .stream(primaryKey: ['id'])
-        .map((data) => data.map((item) => InvitationModel.fromJson(item)).toList());
+  // In-memory cache using the Invitation ID as the key
+  final Map<String, InvitationModel> _cache = {};
+
+  Stream<List<InvitationModel>> watchByUserId(String userId) {
+    return _client.from('invitations').stream(primaryKey: ['id']).eq('user_id', userId).map((data) {
+      return data.map((item) {
+        final model = InvitationModel.fromJson(item);
+        _cache[model.id] = model; // Update cache
+        return model;
+      }).toList();
+    });
   }
 
-  Stream<List<InvitationModel>> watchInvitationsByUserId(String userId) {
-    return _client
-        .from('invitations')
-        .stream(primaryKey: ['id'])
-        .eq('user_id', userId)
-        .map((data) => data.map((item) => InvitationModel.fromJson(item)).toList());
+  InvitationModel getById(String id) => _cache[id]!;
+
+  List<InvitationModel> getByUserId(String userId) {
+    return _cache.values.where((m) => m.userId == userId).toList();
   }
 
   Future createInvitation({
@@ -38,5 +42,7 @@ class InvitationDataSource {
         'p_to_date': DateUtils.dateOnly(toDate.toUtc()).toIso8601String(),
       },
     );
+    // Note: The stream will automatically pick up the new invitation
+    // from Supabase and update the cache for us.
   }
 }

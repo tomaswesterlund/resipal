@@ -9,7 +9,7 @@ import 'package:resipal/core/ui/views/error_state_view.dart';
 import 'package:resipal/core/ui/views/loading_view.dart';
 import 'package:resipal/core/ui/views/success_view.dart';
 import 'package:resipal/core/ui/views/unknown_state_view.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/domain/entities/visitor_entity.dart';
 import 'package:resipal/presentation/invitations/create_invitation/create_invitation_cubit.dart';
 import 'package:resipal/presentation/invitations/create_invitation/create_invitation_form_state.dart';

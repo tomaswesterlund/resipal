@@ -1,12 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:resipal/domain/entities/access_log_entity.dart';
 import 'package:resipal/domain/refs/property_ref.dart';
-import 'package:resipal/domain/refs/user_ref.dart';
 import 'package:resipal/domain/refs/visitor_ref.dart';
 
 class InvitationEntity extends Equatable {
   final String id;
-  final UserRef user;
+  final String userId;
   final VisitorRef visitor;
   final PropertyRef property;
   final DateTime createdAt;
@@ -38,9 +37,9 @@ class InvitationEntity extends Equatable {
 
   int get usageCount => logs.where((log) => log.isEntry).length;
 
-  InvitationEntity({
+  const InvitationEntity({
     required this.id,
-    required this.user,
+    required this.userId,
     required this.visitor,
     required this.property,
     required this.createdAt,
@@ -52,5 +51,16 @@ class InvitationEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, user, visitor, property, createdAt, qrCodeToken, fromDate, toDate, maxEntries, logs];
+  List<Object?> get props => [
+    id,
+    userId,
+    visitor,
+    createdAt,
+    createdAt,
+    qrCodeToken,
+    fromDate,
+    toDate,
+    maxEntries,
+    logs,
+  ];
 }

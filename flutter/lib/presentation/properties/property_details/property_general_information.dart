@@ -6,7 +6,7 @@ import 'package:resipal/core/ui/texts/body_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/texts/section_header_text.dart';
 import 'package:resipal/core/ui/tiles/detail_tile.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 
 class PropertyGeneralInformation extends StatelessWidget {
   final PropertyEntity property;
@@ -34,10 +34,11 @@ class PropertyGeneralInformation extends StatelessWidget {
                   value: property.createdAt.toShortDate(),
                 ),
                 const Divider(height: 1),
+
                 DetailTile(
                   icon: Icons.person_outline,
                   label: 'Propietario',
-                  value: property.owner?.name ?? 'No hay propietario asociado.',
+                  value: property.ownerId ?? 'No hay propietario asociado.',
                 ),
               ],
             ),

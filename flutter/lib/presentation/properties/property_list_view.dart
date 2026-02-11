@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/presentation/properties/no_properties_found_view.dart';
 import 'package:resipal/presentation/properties/property_card.dart';
 

@@ -6,6 +6,8 @@ import 'package:resipal/core/ui/texts/amount_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/domain/entities/payment_entity.dart';
 import 'package:resipal/domain/enums/payment_status.dart';
+import 'package:resipal/presentation/payments/payment_details/payment_details_page.dart';
+import 'package:short_navigation/short_navigation.dart';
 
 class PaymentCard extends StatelessWidget {
   final PaymentEntity payment;
@@ -41,74 +43,55 @@ class PaymentCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.receipt_long_outlined,
-                                  size: 20,
-                                  color: AppColors.secondaryScale[400],
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Monto pagado',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.auxiliarScale[400],
                                 ),
-                                const SizedBox(width: 8),
-                                Flexible(
-                                  child: HeaderText.five(
-                                    payment.reference ?? 'Sin referencia',
-                                    color: AppColors.auxiliarScale[900]!,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                              AmountText.fromCents(
+                                payment.amountInCents,
+                                fontSize: 18,
+                                color: isApproved ? AppColors.secondary : AppColors.auxiliarScale[800]!,
+                              ),
+                            ],
                           ),
+
                           Icon(
                             isApproved
                                 ? Icons.check_circle
                                 : payment.status == PaymentStatus.pendingReview
-                                ? Icons.pending_actions_rounded
+                                ? Icons.schedule_rounded
                                 : Icons.cancel_outlined,
                             color: statusColor,
                             size: 20,
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        payment.note ?? 'Comprobante de pago adjunto',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.raleway(
-                          color: AppColors.auxiliarScale[500],
-                          fontSize: 13,
-                        ),
-                      ),
-                      const Divider(
-                        height: 24,
-                        thickness: 1,
-                        color: Color(0xFFF4F5F4),
-                      ),
+                      
+                      // Text(
+                      //   payment.note ?? 'Comprobante de pago adjunto',
+                      //   maxLines: 1,
+                      //   overflow: TextOverflow.ellipsis,
+                      //   style: GoogleFonts.raleway(color: AppColors.auxiliarScale[500], fontSize: 13),
+                      // ),
+                      const Divider(height: 12, thickness: 1, color: Color(0xFFF4F5F4)),
 
                       // Footer: Status, Date & Amount
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          // Left side: Date and Text Status
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Fecha de pago: ${payment.date.toShortDate()}',
-                                style: GoogleFonts.raleway(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.auxiliarScale[600],
-                                ),
-                              ),
-                              const SizedBox(height: 4),
                               Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 2,
-                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                 decoration: BoxDecoration(
                                   color: statusColor.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(6),
@@ -122,30 +105,32 @@ class PaymentCard extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              const SizedBox(height: 4),
+
+                              Text(
+                                'Fecha de pago: ${payment.date.toShortDate()}',
+                                style: GoogleFonts.raleway(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.auxiliarScale[600],
+                                ),
+                              ),
                             ],
                           ),
 
-                          // Right side: Amount
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Monto pagado',
-                                style: GoogleFonts.raleway(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.auxiliarScale[400],
-                                ),
-                              ),
-                              AmountText.fromCents(
-                                payment.amountInCents,
-                                fontSize: 18,
-                                color: isApproved
-                                    ? AppColors.secondary
-                                    : AppColors.auxiliarScale[800]!,
-                              ),
-                            ],
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppColors.secondary,
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              textStyle: GoogleFonts.raleway(fontWeight: FontWeight.bold, fontSize: 13),
+                            ),
+                            onPressed: () => Go.to(PaymentDetailsPage(paymentId: payment.id)),
+                            child: const Row(
+                              children: [Text('Detalles'), SizedBox(width: 4), Icon(Icons.arrow_forward_ios, size: 12)],
+                            ),
                           ),
+
+                          // Right side: Amount
                         ],
                       ),
                     ],

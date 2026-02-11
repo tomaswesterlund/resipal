@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/core/formatters/currency_formatter.dart';
 import 'package:resipal/core/ui/cards/default_card.dart';
+import 'package:resipal/core/ui/texts/body_text.dart';
 import 'package:resipal/core/ui/texts/section_header_text.dart';
 import 'package:resipal/core/ui/tiles/detail_tile.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 
 class PropertyContractView extends StatelessWidget {
   final PropertyEntity property;
@@ -11,6 +12,12 @@ class PropertyContractView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (property.contract == null) {
+      return Center(child: BodyText.medium('Ningún contrato asignado a esta propiedad.'));
+    }
+
+    final contract = property.contract!;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -20,14 +27,14 @@ class PropertyContractView extends StatelessWidget {
             padding: 0,
             child: Column(
               children: [
-                DetailTile(icon: Icons.control_camera_outlined, label: 'Nombre', value: property.contract.name),
+                DetailTile(icon: Icons.control_camera_outlined, label: 'Nombre', value: contract.name),
                 const Divider(height: 1),
-                DetailTile(icon: Icons.calendar_today_outlined, label: 'Periodo', value: property.contract.period),
+                DetailTile(icon: Icons.calendar_today_outlined, label: 'Periodo', value: contract.period),
                 const Divider(height: 1),
                 DetailTile(
                   icon: Icons.person_outline,
                   label: 'Costo (por periodo)',
-                  value: CurrencyFormatter.fromCents(property.contract.amountInCents),
+                  value: CurrencyFormatter.fromCents(contract.amountInCents),
                 ),
               ],
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/core/ui/texts/body_text.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
-import 'package:resipal/presentation/properties/maintenance_fee_card.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
+import 'package:resipal/presentation/maintenance/maintenance_fee_card.dart';
 
 class PropertyMaintenanceView extends StatelessWidget {
   final PropertyEntity property;
@@ -9,7 +9,13 @@ class PropertyMaintenanceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (property.contract.fees.isEmpty) {
+    if (property.contract == null) {
+      return Center(child: BodyText.medium('Ningún contrato asignado a esta propiedad.'));
+    }
+
+    final contract = property.contract!;
+
+    if (contract.fees.isEmpty) {
       return Padding(
         padding: const EdgeInsets.all(12.0),
         child: BodyText.medium(
@@ -19,10 +25,13 @@ class PropertyMaintenanceView extends StatelessWidget {
         ),
       );
     }
+
+    contract.fees.sort((a, b) => b.dueDate.compareTo(a.dueDate));
+
     return ListView.builder(
-      itemCount: property.contract.fees.length,
+      itemCount: contract.fees.length,
       itemBuilder: (context, index) {
-        final fee = property.contract.fees[index];
+        final fee = contract.fees[index];
         return MaintenanceFeeCard(fee);
       },
     );

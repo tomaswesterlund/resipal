@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:resipal/domain/entities/invitation_entity.dart';
 import 'package:resipal/domain/entities/ledger_entity.dart';
 import 'package:resipal/domain/entities/payment_entity.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/domain/enums/payment_status.dart';
 
 class UserEntity extends Equatable {
@@ -29,8 +29,8 @@ class UserEntity extends Equatable {
     return approvedPaymentAmountInCents;
   }
 
-  int get totalOverdueFeeInCents =>
-      properties.fold(0, (sum, property) => sum = sum + property.contract.totalOverdueFeeInCents);
+  int get totalOverdueFeeInCents => -99999;
+      // properties.fold(0, (sum, property) => sum = sum + property.contract.totalOverdueFeeInCents);
 
   int get pendingPaymentAmountInCents {
     final pendingPayments = payments.where((p) => p.status == PaymentStatus.pendingReview);

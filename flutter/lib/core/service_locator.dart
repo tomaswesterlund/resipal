@@ -13,20 +13,9 @@ import 'package:resipal/data/sources/payment_data_source.dart';
 import 'package:resipal/data/sources/property_data_source.dart';
 import 'package:resipal/data/sources/user_data_source.dart';
 import 'package:resipal/data/sources/visitor_data_source.dart';
-import 'package:resipal/domain/repositories/access_log_repository.dart';
-import 'package:resipal/domain/repositories/community_repository.dart';
-import 'package:resipal/domain/repositories/invitation_repository.dart';
-import 'package:resipal/domain/repositories/ledger_repository.dart';
-import 'package:resipal/domain/repositories/maintenance_repository.dart';
-import 'package:resipal/domain/repositories/payment_repository.dart';
-import 'package:resipal/domain/repositories/property_repository.dart';
-import 'package:resipal/domain/repositories/user_repository.dart';
-import 'package:resipal/domain/repositories/visitor_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-// Import all your services, data sources, and repositories here...
-
-final sl = GetIt.instance; // Short alias for Service Locator
+final sl = GetIt.instance;
 
 class ServiceLocator {
   static Future<void> init() async {
@@ -42,11 +31,10 @@ class ServiceLocator {
     sl.registerLazySingleton(() => ImageService());
     sl.registerLazySingleton(() => AuthService());
 
-    // 2. Data Sources
     _initDataSources();
+    // _initMappers();
 
-    // 3. Repositories
-    await _initRepositories();
+    // await _initRepositories();
   }
 
   static void _initDataSources() {
@@ -63,60 +51,34 @@ class ServiceLocator {
     sl.registerLazySingleton(() => UserDataSource());
   }
 
-  static Future<void> _initRepositories() async {
-    final communityRepository = CommunityRepository(sl<LoggerService>(), sl<CommunityDataSource>());
-    await communityRepository.initialize();
+  // static void _initMappers() {
+  //   sl.registerLazySingleton(() => CommunityMapper());
+  //   sl.registerLazySingleton(() => MaintenanceContractMapper());
+  //   sl.registerLazySingleton(() => MaintenanceFeeMapper());
+  //   sl.registerLazySingleton(() => PropertyMapper());
+  // }
 
-    final paymentRepository = PaymentRepository();
-    await paymentRepository.initialize();
+  // static Future<void> _initRepositories() async {
+  //   sl.registerLazySingleton(() => AccessLogRepository());
+  //   sl.registerLazySingleton(() => CommunityRepository());
+  //   sl.registerLazySingleton(() => MaintenanceContractRepository());
+  //   sl.registerLazySingleton(() => MaintenanceFeeRepository());
+  //   sl.registerLazySingleton(() => PaymentRepository());
+  //   // sl.registerLazySingleton(() => PropertyRepository());
+  //   sl.registerLazySingleton(() => VisitorRepository());
+  //   sl.registerLazySingleton(() => UserRepository());
+  // }
 
-    final maintenanceRepository = MaintenanceRepository(
-      sl<MaintenanceContractDataSource>(),
-      sl<MaintenanceFeeDataSource>(),
-    );
-    //maintenanceRepository.initialize();
+  static Future<void> initializeUserScope(String userId) async {
+    // TODO: Remove hard-coded community id
+    final communityId = '401989eb-2fe6-4c2f-b2e9-82f91e2e916d';
 
-    final ledgerRepository = LedgerRepository(
-      sl<LoggerService>(),
-      sl<MovementDataSource>(),
-      maintenanceRepository,
-      paymentRepository,
-    );
-    await ledgerRepository.initialize();
-
-    final propertyRepository = PropertyRepository(sl<LoggerService>(), sl<PropertyDataSource>(), maintenanceRepository);
-    await propertyRepository.initialize();
-
-    final userRepository = UserRepository(
-      sl<LoggerService>(),
-      sl<UserDataSource>(),
-      ledgerRepository,
-      paymentRepository,
-      propertyRepository,
-    );
-    await userRepository.initialize();
-
-    final visitorRepository = VisitorRepository();
-    final accessLogRepository = AccessLogRepository();
-
-    final invitationRepository = InvitationRepository(
-      sl<LoggerService>(),
-      sl<InvitationDataSource>(),
-      accessLogRepository,
-      propertyRepository,
-      userRepository,
-      visitorRepository,
-    );
-
-    // 3. Registering the fully initialized instances
-    sl.registerSingleton<AccessLogRepository>(accessLogRepository);
-    sl.registerSingleton<CommunityRepository>(communityRepository);
-    sl.registerSingleton<InvitationRepository>(invitationRepository);
-    sl.registerSingleton<MaintenanceRepository>(maintenanceRepository);
-    sl.registerSingleton<LedgerRepository>(ledgerRepository);
-    sl.registerSingleton<PaymentRepository>(paymentRepository);
-    sl.registerSingleton<PropertyRepository>(propertyRepository);
-    sl.registerSingleton<VisitorRepository>(visitorRepository);
-    sl.registerSingleton<UserRepository>(userRepository);
+    await GetIt.I<UserDataSource>().watchById(userId).first;
+    await GetIt.I<InvitationDataSource>().watchByUserId(userId).first;
+    await GetIt.I<MaintenanceContractDataSource>().watchByCommunityId(communityId).first;
+    await GetIt.I<MaintenanceFeeDataSource>().watchByCommunityId(communityId).first;
+    await GetIt.I<PropertyDataSource>().watchByOwnerId(userId).first;
+    await GetIt.I<PaymentDataSource>().watchByUserId(userId).first;
+    await GetIt.I<VisitorDataSource>().watchByUserId(userId).first;
   }
 }

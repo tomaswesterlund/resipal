@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/floating_nav_bar.dart';
 import 'package:resipal/core/ui/my_app_bar.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/presentation/properties/property_details/property_contract_view.dart';
 import 'package:resipal/presentation/properties/property_details/property_general_information.dart';
 import 'package:resipal/presentation/properties/property_details/property_maintenance_view.dart';
@@ -26,6 +26,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       backgroundColor: AppColors.background,
       appBar: MyAppBar(title: 'Detalle de Propiedad'),
       body: _pages[_currentIndex],

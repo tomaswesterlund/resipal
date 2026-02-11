@@ -2,14 +2,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
-import 'package:resipal/domain/repositories/user_repository.dart';
+import 'package:resipal/domain/use_cases/create_user.dart';
+import 'package:resipal/domain/use_cases/fetch_user.dart';
+import 'package:resipal/domain/use_cases/get_user.dart';
 import 'package:resipal/presentation/users/user_onboarding/user_data/user_onboarding_user_data_form_state.dart';
 import 'package:resipal/presentation/users/user_onboarding/user_data/user_onboarding_user_data_state.dart';
 
 class UserOnboardingUserDataCubit extends Cubit<UserOnboardingUserDataState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _loggerService = GetIt.I<LoggerService>();
-  final UserRepository _userRepository = GetIt.I<UserRepository>();
 
   UserOnboardingUserDataCubit() : super(InitialState());
 
@@ -25,24 +26,22 @@ class UserOnboardingUserDataCubit extends Cubit<UserOnboardingUserDataState> {
     try {
       emit(FormSubmittingState());
       final authUser = _authService.getSignedInUser();
-      await _userRepository.createUser(
-        id: authUser.id,
-        name: _formState.name!,
-        phoneNumber: _formState.phoneNumber!,
-        emergencyPhoneNumber: _formState.emergencyPhoneNumber!,
-        email: _formState.email!,
+      await CreateUser().call(
+        CreateUserCommand(
+          userId: authUser.id,
+          name: _formState.name!,
+          phoneNumber: _formState.phoneNumber!,
+          emergencyPhoneNumber: _formState.emergencyPhoneNumber!,
+          email: _formState.email!,
+        ),
       );
 
-      await _userRepository.fetchUser(authUser.id);
-      final user = _userRepository.getUserById(authUser.id);
+      await FetchUser().call(authUser.id);
+      final user = GetUser().call(authUser.id);
 
       emit(FormSubmittedSuccessfullyState(user));
     } catch (e, s) {
-      _loggerService.logException(
-        exception: e,
-        featureArea: 'UserOnboardingCubit.submit',
-        stackTrace: s,
-      );
+      _loggerService.logException(exception: e, featureArea: 'UserOnboardingCubit.submit', stackTrace: s);
       emit(ErrorState());
     }
   }

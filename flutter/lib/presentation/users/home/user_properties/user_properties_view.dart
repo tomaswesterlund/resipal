@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal/core/ui/cards/shimmer_card.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/presentation/properties/no_properties_found_view.dart';
 import 'package:resipal/presentation/properties/property_list_view.dart';

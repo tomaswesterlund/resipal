@@ -3,20 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/core/services/auth_service.dart';
-import 'package:resipal/domain/entities/user_property_entity.dart';
+import 'package:resipal/domain/entities/property_entity.dart';
 import 'package:resipal/domain/entities/visitor_entity.dart';
-import 'package:resipal/domain/repositories/invitation_repository.dart';
-import 'package:resipal/domain/repositories/property_repository.dart';
-import 'package:resipal/domain/repositories/visitor_repository.dart';
+import 'package:resipal/domain/use_cases/create_invitation.dart';
+import 'package:resipal/domain/use_cases/get_user_properties.dart';
+import 'package:resipal/domain/use_cases/get_user_visitors.dart';
 import 'package:resipal/presentation/invitations/create_invitation/create_invitation_form_state.dart';
 import 'package:resipal/presentation/invitations/create_invitation/create_invitation_state.dart';
 
 class CreateInvitationCubit extends Cubit<CreateInvitationState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final AuthService _authService = GetIt.I<AuthService>();
-  final InvitationRepository _invitationRepository = GetIt.I<InvitationRepository>();
-  final PropertyRepository _propertyRepository = GetIt.I<PropertyRepository>();
-  final VisitorRepository _visitorRepository = GetIt.I<VisitorRepository>();
 
   late CreateInvitationFormState _formState;
 
@@ -27,8 +24,8 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
       emit(LoadingState());
 
       final userId = _authService.getSignedInUserId();
-      final properties = await _propertyRepository.getPropertiesByOwnerId(userId);
-      final visitors = await _visitorRepository.getVisitorsByUserId(userId);
+      final properties = GetUserProperties().call(userId);
+      final visitors = GetUserVisitors().call(userId);
 
       if (properties.isEmpty) {
         emit(NoPropertiesFoundState());
@@ -53,12 +50,16 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
     try {
       emit(FormSubmittingState());
 
-      await _invitationRepository.createInvitation(
-        userId: _authService.getSignedInUserId(),
-        propertyId: _formState.property!.id,
-        visitorId: _formState.visitor!.id,
-        fromDate: _formState.dateRange!.start,
-        toDate: _formState.dateRange!.end,
+      final userId = _authService.getSignedInUserId();
+
+      await CreateInvitation().call(
+        CreateInvitationCommand(
+          userId: userId,
+          propertyId: _formState.property!.id,
+          visitorId: _formState.visitor!.id,
+          fromDate: _formState.dateRange!.start,
+          toDate: _formState.dateRange!.end,
+        ),
       );
 
       emit(FormSubmittedSuccessfullyState());

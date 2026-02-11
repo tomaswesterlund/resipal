@@ -28,7 +28,18 @@ class MaintenanceFeeDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header
-            MaintenanceFeeCard(maintenanceFee),
+            DefaultCard(
+              padding: 20,
+              child: Column(
+                children: [
+                  MaintenanceFeeIcon(maintenanceFee),
+                  const SizedBox(height: 16),
+                  AmountText(CurrencyFormatter.fromCents(maintenanceFee.amountInCents)),
+                  const SizedBox(height: 8),
+                  MaintenanceStatusPill(maintenanceFee),
+                ],
+              ),
+            ),
             const SizedBox(height: 24),
 
             SectionHeaderText(text: 'INFORMACIÓN GENERAL'),
@@ -37,25 +48,14 @@ class MaintenanceFeeDetailsPage extends StatelessWidget {
               padding: 0,
               child: Column(
                 children: [
-                  DetailTile(
-                    icon: Icons.fingerprint,
-                    label: 'ID de registro',
-                    value: maintenanceFee.id.toShortId(),
-                  ),
+                  DetailTile(icon: Icons.fingerprint, label: 'ID de registro', value: maintenanceFee.id.toShortId()),
                   const Divider(height: 1),
-                  DetailTile(
-                    icon: Icons.note_outlined,
-                    label: 'Contrato',
-                    value: maintenanceFee.contract.name,
-                  ),
+                  DetailTile(icon: Icons.note_outlined, label: 'Contrato', value: 'IMPLEEMTN CONTRACT NAME'), //maintenanceFee.contract.name),
                   const Divider(height: 1),
                   DetailTile(
                     icon: Icons.schedule_outlined,
                     label: 'Periodo',
-                    value: DateFormatters.toDateRange(
-                      maintenanceFee.fromDate,
-                      maintenanceFee.toDate,
-                    ),
+                    value: DateFormatters.toDateRange(maintenanceFee.fromDate, maintenanceFee.toDate),
                   ),
                   const Divider(height: 1),
                   DetailTile(
@@ -73,11 +73,7 @@ class MaintenanceFeeDetailsPage extends StatelessWidget {
                   ],
                   if (maintenanceFee.note != null) ...[
                     const Divider(height: 1),
-                    DetailTile(
-                      icon: Icons.note_outlined,
-                      label: 'Nota',
-                      value: maintenanceFee.note!,
-                    ),
+                    DetailTile(icon: Icons.note_outlined, label: 'Nota', value: maintenanceFee.note!),
                   ],
                 ],
               ),

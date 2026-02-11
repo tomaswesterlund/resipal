@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/core/services/logger_service.dart';
-import 'package:resipal/domain/repositories/user_repository.dart';
+import 'package:resipal/domain/use_cases/watch_user.dart';
 import 'package:resipal/presentation/users/home/user_home/user_home_state.dart';
 
 class UserHomeCubit extends Cubit<UserHomeState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
-  final UserRepository _userRepository = GetIt.I<UserRepository>();
   late final StreamSubscription? _streamSubscription;
 
   UserHomeCubit() : super(InitialState());
@@ -16,8 +15,8 @@ class UserHomeCubit extends Cubit<UserHomeState> {
   void initialize(String userId) {
     try {
       emit(LoadingState());
-      _streamSubscription = _userRepository
-          .watchUserById(userId)
+      _streamSubscription = WatchUser()
+          .call(userId)
           .listen(
             (user) => emit(LoadedState(user)),
             onError: (e, s) {
