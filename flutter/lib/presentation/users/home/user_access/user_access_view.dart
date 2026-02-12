@@ -119,8 +119,8 @@ class _Loaded extends StatelessWidget {
                   VisitorListView(visitors),
                   const SizedBox(height: 24),
                   PrimaryCtaButton(
-                    icon: Icons.person_2,
-                    label: 'Crear nuevo visitante',
+                    icon: Icons.person,
+                    label: 'Registrar visitante',
                     canSubmit: true,
                     onPressed: () => Go.to(CreateVisitorPage()),
                   ),

@@ -7,7 +7,7 @@ class CommunityDataSource {
 
   final Map<String, CommunityModel> _cache = {};
 
-  Stream<List<CommunityModel>> watchCommunities() {
+  Stream<List<CommunityModel>> watchAll() {
     return _client
         .from('communities')
         .stream(primaryKey: ['id'])
@@ -20,7 +20,7 @@ class CommunityDataSource {
         );
   }
 
-  Stream<CommunityModel> watchCommunityById(String id) {
+  Stream<CommunityModel> watchById(String id) {
     return _client.from('communities').stream(primaryKey: ['id']).eq('id', id).map((data) {
       if (data.isEmpty) {
         throw Exception('Community not found');

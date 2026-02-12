@@ -7,7 +7,7 @@ import 'package:short_navigation/short_navigation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   await ServiceLocator.init();
   runApp(MainApp());
 }

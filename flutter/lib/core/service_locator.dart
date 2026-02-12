@@ -14,6 +14,7 @@ import 'package:resipal/data/sources/payment_data_source.dart';
 import 'package:resipal/data/sources/property_data_source.dart';
 import 'package:resipal/data/sources/user_data_source.dart';
 import 'package:resipal/data/sources/visitor_data_source.dart';
+import 'package:resipal/domain/use_cases/get_user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final sl = GetIt.instance;
@@ -47,17 +48,20 @@ class ServiceLocator {
     sl.registerLazySingleton(() => UserDataSource());
   }
 
-  static Future<void> initializeUserScope(String userId) async {
-    // TODO: Remove hard-coded community id
-    final communityId = '401989eb-2fe6-4c2f-b2e9-82f91e2e916d';
-
+  static Future<void> initializeSigninScope(String userId) async {
     await GetIt.I<UserDataSource>().watchById(userId).first;
+    await GetIt.I<CommunityDataSource>().watchAll().first;
     await GetIt.I<CommunityApplicationDataSource>().watchByUserId(userId).first;
     await GetIt.I<InvitationDataSource>().watchByUserId(userId).first;
-    await GetIt.I<MaintenanceContractDataSource>().watchByCommunityId(communityId).first;
-    await GetIt.I<MaintenanceFeeDataSource>().watchByCommunityId(communityId).first;
     await GetIt.I<PropertyDataSource>().watchByOwnerId(userId).first;
     await GetIt.I<PaymentDataSource>().watchByUserId(userId).first;
     await GetIt.I<VisitorDataSource>().watchByUserId(userId).first;
+
+    final user = GetUser().call(userId);
+    final communityId = user.community.id;
+    await GetIt.I<MaintenanceContractDataSource>().watchByCommunityId(communityId).first;
+    await GetIt.I<MaintenanceFeeDataSource>().watchByCommunityId(communityId).first;
   }
+
+  // static Future<void> initializeUserScope({required String communityId, required String userId}) async {}
 }

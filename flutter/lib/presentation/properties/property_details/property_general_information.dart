@@ -25,8 +25,8 @@ class PropertyGeneralInformation extends StatelessWidget {
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 children: [
-                  Icon(Icons.house, size: 96, color: Colors.white,),
-                  HeaderText.two(property.name, color: Colors.white)
+                  Icon(Icons.house, size: 96, color: Colors.white),
+                  HeaderText.two(property.name, color: Colors.white),
                 ],
               ),
             ),
@@ -41,16 +41,16 @@ class PropertyGeneralInformation extends StatelessWidget {
                 DetailTile(icon: Icons.fingerprint, label: 'ID de Propiedad', value: property.id.toShortId()),
                 const Divider(height: 1),
                 DetailTile(
+                  icon: Icons.person_outline,
+                  label: 'Propietario',
+                  value: property.owner?.name ?? 'No hay propietario asociado.',
+                ),
+
+                const Divider(height: 1),
+                DetailTile(
                   icon: Icons.calendar_today_outlined,
                   label: 'Fecha de registro (en Resipal)',
                   value: property.createdAt.toShortDate(),
-                ),
-                const Divider(height: 1),
-
-                DetailTile(
-                  icon: Icons.person_outline,
-                  label: 'Propietario',
-                  value: property.ownerId ?? 'No hay propietario asociado.',
                 ),
               ],
             ),

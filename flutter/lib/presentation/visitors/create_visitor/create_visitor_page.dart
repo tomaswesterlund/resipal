@@ -23,7 +23,7 @@ class CreateVisitorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: 'Crear visitante'),
+      appBar: MyAppBar(title: 'Registrar visitante'),
       backgroundColor: AppColors.background,
       body: BlocProvider<CreateVisitorCubit>(
         create: (ctx) => CreateVisitorCubit()..initialize(),
@@ -40,7 +40,7 @@ class CreateVisitorPage extends StatelessWidget {
             }
 
             if (state is FormSubmittingState) {
-              return LoadingView(text: 'Procesando el nuevo visitante ...');
+              return LoadingView(title: 'Registrando el visitante ...');
             }
 
             if (state is FormSubmittedSuccessfullyState) {
@@ -82,7 +82,7 @@ class _Loaded extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Column(
         children: [
-          TextInputField(label: 'Nombre', onChanged: cubit.updateName),
+          TextInputField(label: 'Nombre', hint: 'Nombre', onChanged: cubit.updateName),
           const SizedBox(height: 24.0),
           HeaderText.four('Identificación'),
           BodyText.small('Selecciona la opción para elegir una imagen.'),
@@ -107,7 +107,8 @@ class _Loaded extends StatelessWidget {
           const SizedBox(height: 32.0),
           Center(
             child: PrimaryCtaButton(
-              label: 'CREAR VISITANTE',
+              icon: Icons.person,
+              label: 'REGISTRAR VISITANTE',
               canSubmit: formState.isValid(),
               onPressed: () => cubit.submit(),
             ),

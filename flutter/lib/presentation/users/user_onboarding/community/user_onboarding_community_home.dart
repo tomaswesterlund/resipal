@@ -9,10 +9,10 @@ import 'package:resipal/domain/entities/community_entity.dart';
 import 'package:resipal/presentation/users/user_onboarding/community/join_community/user_onboarding_join_community_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 
-class UserOnboardingCommunitySetupPage extends StatelessWidget {
+class UserOnboardingCommunityHome extends StatelessWidget {
   final List<CommunityEntity> communities;
   final Function(CommunityEntity) onCommunityJoined;
-  const UserOnboardingCommunitySetupPage({required this.communities, required this.onCommunityJoined, super.key});
+  const UserOnboardingCommunityHome({required this.communities, required this.onCommunityJoined, super.key});
 
   @override
   Widget build(BuildContext context) {

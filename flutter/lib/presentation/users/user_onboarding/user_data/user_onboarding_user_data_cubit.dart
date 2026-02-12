@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:resipal/core/service_locator.dart';
 import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
+import 'package:resipal/domain/entities/user_entity.dart';
 import 'package:resipal/domain/use_cases/create_user.dart';
 import 'package:resipal/domain/use_cases/fetch_user.dart';
 import 'package:resipal/domain/use_cases/get_user.dart';
@@ -13,7 +14,9 @@ class UserOnboardingUserDataCubit extends Cubit<UserOnboardingUserDataState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _loggerService = GetIt.I<LoggerService>();
 
-  UserOnboardingUserDataCubit() : super(InitialState());
+  final Function(UserEntity) onUserCreated;
+
+  UserOnboardingUserDataCubit({required this.onUserCreated}) : super(InitialState());
 
   late UserOnboardingUserDataFormState _formState;
 
@@ -39,7 +42,7 @@ class UserOnboardingUserDataCubit extends Cubit<UserOnboardingUserDataState> {
 
       await FetchUser().call(authUser.id);
       final user = GetUser().call(authUser.id);
-      await ServiceLocator.initializeUserScope(user.id);
+      // await ServiceLocator.initializeUserScope(user.id);
 
       emit(FormSubmittedSuccessfullyState(user));
     } catch (e, s) {

@@ -10,24 +10,16 @@ import 'package:resipal/domain/refs/community_ref.dart';
 class UserEntity extends Equatable {
   final String id;
   final DateTime createdAt;
+  final CommunityRef community;
   final String name;
   final String phoneNumber;
   final String emergencyPhoneNumber;
   final String email;
   final List<CommunityApplicationEntity> applications;
   final List<InvitationEntity> invitations;
-  // final List<MovementEntity> movements;
   final LedgerEntity ledger;
   final List<PaymentEntity> payments;
   final List<PropertyEntity> properties;
-
-  CommunityRef? get community {
-    if (applications.isEmpty) {
-      return null;
-    } else {
-      return applications.first.community;
-    }
-  }
 
   List<InvitationEntity> get activeInvitations => invitations.where((e) => e.canEnter).toList();
 
@@ -51,6 +43,7 @@ class UserEntity extends Equatable {
   const UserEntity({
     required this.id,
     required this.createdAt,
+    required this.community,
     required this.name,
     required this.phoneNumber,
     required this.emergencyPhoneNumber,

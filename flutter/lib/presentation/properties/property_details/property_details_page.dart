@@ -38,7 +38,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         },
         items: [
           FloatingNavBarItem(icon: Icons.info_outline, label: 'Información'),
-          FloatingNavBarItem(icon: Icons.house_outlined, label: 'Mantenimiento'),
+          FloatingNavBarItem(icon: Icons.house_outlined, label: 'Mantenimiento', showDanger: widget.property.hasDebt),
           FloatingNavBarItem(icon: Icons.document_scanner_outlined, label: 'Contrato'),
         ],
       ),

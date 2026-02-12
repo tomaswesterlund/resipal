@@ -24,20 +24,54 @@ class FloatingNavBar extends StatelessWidget {
           final item = items[index];
           final bool isActive = currentIndex == index;
 
+          // Inside the List.generate loop:
           return GestureDetector(
             onTap: () => onChanged(index),
             behavior: HitTestBehavior.opaque,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    // Replace AppColors.secondary with your color if needed
-                    color: isActive ? AppColors.secondaryScale[500] : Colors.transparent,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Icon(item.icon, color: isActive ? Colors.white : Colors.grey, size: 24),
+                Stack(
+                  // Wrap the container in a Stack to position the badge
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: isActive ? AppColors.secondaryScale[500] : Colors.transparent,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Icon(item.icon, color: isActive ? Colors.white : Colors.grey, size: 24),
+                    ),
+
+                    // Danger Indicator
+                    if (item.showDanger)
+                      Positioned(
+                        top: -2,
+                        right: -2,
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.white, // Border effect
+                            shape: BoxShape.circle,
+                          ),
+                          child: Container(
+                            width: 14,
+                            height: 14,
+                            decoration: const BoxDecoration(
+                              color: Colors.red, // Danger color
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                '!',
+                                style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -60,6 +94,11 @@ class FloatingNavBar extends StatelessWidget {
 class FloatingNavBarItem {
   final IconData icon;
   final String label;
+  final bool showDanger; // Added this
 
-  FloatingNavBarItem({required this.icon, required this.label});
+  FloatingNavBarItem({
+    required this.icon,
+    required this.label,
+    this.showDanger = false, // Default to false
+  });
 }

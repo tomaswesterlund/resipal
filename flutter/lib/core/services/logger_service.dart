@@ -6,7 +6,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/data/sources/error_log_data_source.dart';
 import 'package:resipal/data/models/error_log_model.dart';
-import 'package:resipal/domain/use_cases/get_user.dart';
 import 'package:uuid/uuid.dart';
 
 class LoggerService {
@@ -30,6 +29,7 @@ class LoggerService {
       final info = await PackageInfo.fromPlatform();
 
       // TODO How to get the User and Community ID into the table?
+      // GET SIGNED IN USER? GET SIGNED IN OPTIONAL USER?!
       // String? userId;
       // String? communityId;
 

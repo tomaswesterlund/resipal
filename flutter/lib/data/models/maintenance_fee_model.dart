@@ -1,6 +1,7 @@
 class MaintenanceFeeModel {
   final String id;
   final String contractId;
+  final String propertyId;
   final DateTime createdAt;
   final int amountInCents;
   final DateTime dueDate;
@@ -12,6 +13,7 @@ class MaintenanceFeeModel {
   MaintenanceFeeModel({
     required this.id,
     required this.contractId,
+    required this.propertyId,
     required this.createdAt,
     required this.amountInCents,
     required this.dueDate,
@@ -25,12 +27,11 @@ class MaintenanceFeeModel {
     return MaintenanceFeeModel(
       id: json['id'],
       contractId: json['contract_id'],
+      propertyId: json['property_id'],
       createdAt: DateTime.parse(json['created_at'].toString()),
       amountInCents: int.parse(json['amount_in_cents'].toString()),
       dueDate: DateTime.parse(json['due_date'].toString()),
-      paymentDate: json['payment_date'] == null
-          ? null
-          : DateTime.parse(json['payment_date'].toString()),
+      paymentDate: json['payment_date'] == null ? null : DateTime.parse(json['payment_date'].toString()),
       fromDate: DateTime.parse(json['from_date'].toString()),
       toDate: DateTime.parse(json['to_date'].toString()),
       note: json['note'],

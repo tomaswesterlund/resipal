@@ -1,12 +1,11 @@
-import 'package:get_it/get_it.dart';
 import 'package:resipal/data/models/community_application_model.dart';
 import 'package:resipal/domain/entities/community_application_entity.dart';
 import 'package:resipal/domain/use_cases/get_community_ref.dart';
 import 'package:resipal/domain/use_cases/get_user_ref.dart';
 
 class GetCommunityApplication {
-  final GetCommunityRef _getCommunityRef = GetIt.I<GetCommunityRef>();
-  final GetUserRef _getUserRef = GetIt.I<GetUserRef>();
+  final GetCommunityRef _getCommunityRef = GetCommunityRef();
+  final GetUserRef _getUserRef = GetUserRef();
 
   CommunityApplicationEntity fromModel(CommunityApplicationModel model) {
     return CommunityApplicationEntity(
@@ -14,7 +13,7 @@ class GetCommunityApplication {
       createdAt: model.createdAt,
       createdBy: model.createdBy,
       community: _getCommunityRef.fromId(model.communityId),
-      user: _getUserRef.fromId(model.id),
+      user: _getUserRef.fromId(model.userId),
       message: model.message,
     );
   }

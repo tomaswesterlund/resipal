@@ -43,7 +43,7 @@ class CreateInvitationPage extends StatelessWidget {
             }
 
             if (state is FormSubmittingState) {
-              return LoadingView(text: 'Procesando la nueva invitación ...');
+              return LoadingView(title: 'Procesando la nueva invitación ...');
             }
 
             if (state is FormSubmittedSuccessfullyState) {

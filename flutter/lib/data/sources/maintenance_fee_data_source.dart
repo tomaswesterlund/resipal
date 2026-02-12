@@ -47,6 +47,9 @@ class MaintenanceFeeDataSource {
   List<MaintenanceFeeModel> getByContractId(String contractId) =>
       _cache.values.where((m) => m.contractId == contractId).toList();
 
+      List<MaintenanceFeeModel> getByPropertyId(String propertyId) =>
+      _cache.values.where((m) => m.propertyId == propertyId).toList();
+
   Future<MaintenanceFeeModel> fetchById(String id) async {
     try {
       final item = await _client.from('maintenance_fees').select().eq('id', id).single();

@@ -1,22 +1,23 @@
 import 'package:get_it/get_it.dart';
+import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/data/sources/visitor_data_source.dart';
+import 'package:resipal/domain/use_cases/get_signed_in_user.dart';
 
 class CreateVisitor {
+  final AuthService _authService = GetIt.I<AuthService>();
   final VisitorDataSource _source = GetIt.I<VisitorDataSource>();
 
-  Future call(CreateVisitorCommand command) async {
+  Future call({
+    required String name,
+    required String identificationPath,
+  }) async {
+    final user = GetSignedInUser().call();
+
     await _source.createVisitor(
-      userId: command.userId,
-      name: command.name,
-      identificationPath: command.identificationPath,
+      communityId: user.community.id,
+      userId: user.id,
+      name: name,
+      identificationPath: identificationPath,
     );
   }
-}
-
-class CreateVisitorCommand {
-  final String userId;
-  final String name;
-  final String identificationPath;
-
-  CreateVisitorCommand({required this.userId, required this.name, required this.identificationPath});
 }

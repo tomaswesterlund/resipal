@@ -4,12 +4,26 @@ abstract class SigninState {}
 
 class InitialState extends SigninState {}
 
-class UserSignedInSuccessfullyState extends SigninState {
-  final bool userOnboarded;
-  final bool userJoinedCommunity;
-  final UserEntity? user;
+class UserNotSignedInState extends SigninState {}
 
-  UserSignedInSuccessfullyState({required this.userOnboarded, required this.userJoinedCommunity, this.user});
+class UserSigningInState extends SigninState {}
+
+class UserAlreadySignedInState extends SigninState {
+  final UserEntity user;
+
+  UserAlreadySignedInState(this.user);
+}
+
+class UserSignedInSuccessfullyAndOnboardedState extends SigninState {
+  final UserEntity user;
+
+  UserSignedInSuccessfullyAndOnboardedState(this.user);
+}
+
+class UserSignedInSuccessfullyButNotOnboardedState extends SigninState {
+  final String userId;
+
+  UserSignedInSuccessfullyButNotOnboardedState({required this.userId});
 }
 
 class ErrorState extends SigninState {}

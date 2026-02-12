@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:resipal/core/services/auth_service.dart';
 import 'package:resipal/core/services/image_service.dart';
 import 'package:resipal/core/services/logger_service.dart';
 import 'package:resipal/domain/use_cases/create_visitor.dart';
@@ -9,7 +8,6 @@ import 'package:resipal/presentation/visitors/create_visitor/create_visitor_form
 import 'package:resipal/presentation/visitors/create_visitor/create_visitor_state.dart';
 
 class CreateVisitorCubit extends Cubit<CreateVisitorState> {
-  final AuthService _authService = GetIt.I<AuthService>();
   final ImageService _imageService = GetIt.I<ImageService>();
   final ImagePicker _picker = ImagePicker();
   final LoggerService _logger = GetIt.I<LoggerService>();
@@ -69,13 +67,7 @@ class CreateVisitorCubit extends Cubit<CreateVisitorState> {
       emit(FormSubmittingState());
       final identificationPath = await _imageService.uploadVisitorIdentification(_formState.identificationImage!);
 
-      await CreateVisitor().call(
-        CreateVisitorCommand(
-          userId: _authService.getSignedInUserId(),
-          name: _formState.name!,
-          identificationPath: identificationPath,
-        ),
-      );
+      await CreateVisitor().call(name: _formState.name!, identificationPath: identificationPath);
 
       emit(FormSubmittedSuccessfullyState());
     } catch (e, s) {

@@ -8,7 +8,7 @@ class AuthService {
   final LoggerService _loggerService = GetIt.I<LoggerService>();
 
   User getSignedInUser() {
-    if(_client.auth.currentUser == null) {
+    if (_client.auth.currentUser == null) {
       throw Exception('No user is currently signed in.');
     }
     return _client.auth.currentUser!;
@@ -18,19 +18,18 @@ class AuthService {
 
   bool get userIsSignedIn => _client.auth.currentUser != null;
 
+  Session? get currentSession => _client.auth.currentSession;
+
+  Future refreshSession() async => await _client.auth.refreshSession();
+
   Future signInWithGoogle() async {
     try {
-      const iosClientId =
-          '381902294075-k4u2q9s5o3pa387s8ik2t7r0jepjkiss.apps.googleusercontent.com';
-      const serverClientId =
-          '381902294075-l89s5kr3vp025i7qhk3o978hna3qmnrf.apps.googleusercontent.com';
+      const iosClientId = '381902294075-k4u2q9s5o3pa387s8ik2t7r0jepjkiss.apps.googleusercontent.com';
+      const serverClientId = '381902294075-l89s5kr3vp025i7qhk3o978hna3qmnrf.apps.googleusercontent.com';
 
       final GoogleSignIn signIn = GoogleSignIn.instance;
 
-      await signIn.initialize(
-        clientId: iosClientId,
-        serverClientId: serverClientId,
-      );
+      await signIn.initialize(clientId: iosClientId, serverClientId: serverClientId);
 
       final GoogleSignInAccount googleUser;
       try {
@@ -42,10 +41,7 @@ class AuthService {
       final GoogleSignInAuthentication googleAuth = googleUser.authentication;
       final idToken = googleAuth.idToken;
 
-      final response = await _client.auth.signInWithIdToken(
-        provider: OAuthProvider.google,
-        idToken: idToken!,
-      );
+      final response = await _client.auth.signInWithIdToken(provider: OAuthProvider.google, idToken: idToken!);
 
       final currentSession = _client.auth.currentSession;
       final currentUser = _client.auth.currentUser;
@@ -71,11 +67,7 @@ class AuthService {
         }
       });
     } catch (e, s) {
-      _loggerService.logException(
-        exception: e,
-        featureArea: 'SessionService.signInWithGoogle',
-        stackTrace: s,
-      );
+      _loggerService.logException(exception: e, featureArea: 'SessionService.signInWithGoogle', stackTrace: s);
 
       rethrow;
     }

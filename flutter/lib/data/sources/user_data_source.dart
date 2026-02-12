@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -20,8 +21,17 @@ class UserDataSource {
 
   UserModel? getById(String id) => _cache[id];
 
-  Future<bool> userExists(String id) async {
+  bool userExistsInCache(String id) => _cache.containsKey(id);
+
+  Future<bool> userExistsInDatabase(String id, {bool cacheExistingUser = true}) async {
     final item = await _client.from('users').select().eq('id', id).maybeSingle();
+    
+    // Cache
+    if(cacheExistingUser && item != null) {
+      final model = UserModel.fromJson(item);
+      _cache[model.id] = model;
+    }
+    
     return item != null;
   }
 

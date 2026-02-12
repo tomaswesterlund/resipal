@@ -38,7 +38,7 @@ class RegisterPaymentPage extends StatelessWidget {
             }
 
             if (state is FormSubmittingState) {
-              return LoadingView(text: 'Procesando el nuevo pago ...');
+              return LoadingView(title: 'Procesando el nuevo pago ...');
             }
 
             if (state is FormSubmittedSuccessfullyState) {
@@ -80,9 +80,9 @@ class _Form extends StatelessWidget {
         children: [
           AmountInputField(onChanged: cubit.updateAmount),
           const SizedBox(height: 12.0),
-          TextInputField(label: 'Referencia', onChanged: cubit.updateReference),
+          TextInputField(label: 'Referencia', hint: 'Referencia', onChanged: cubit.updateReference),
           const SizedBox(height: 12.0),
-          TextInputField(label: 'Nota', onChanged: cubit.updateNote),
+          TextInputField(label: 'Nota', hint: 'Nota', onChanged: cubit.updateNote),
           const SizedBox(height: 24.0),
           HeaderText.four('Comprobante'),
           BodyText.small('Selecciona la opción para elegir una imagen.'),

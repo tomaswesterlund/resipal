@@ -1,6 +1,8 @@
 class UserModel {
   final String id;
+  final String communityId;
   final DateTime createdAt;
+
   final String name;
   final String phoneNumber;
   final String emergencyPhoneNumber;
@@ -8,7 +10,9 @@ class UserModel {
 
   UserModel({
     required this.id,
+    required this.communityId,
     required this.createdAt,
+
     required this.name,
     required this.phoneNumber,
     required this.emergencyPhoneNumber,
@@ -18,6 +22,7 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
+      communityId: json['community_id'],
       createdAt: DateTime.parse(json['created_at'].toString()),
       name: json['name'],
       phoneNumber: json['phone_number'],

@@ -13,9 +13,7 @@ class PropertyMaintenanceView extends StatelessWidget {
       return Center(child: BodyText.medium('Ningún contrato asignado a esta propiedad.'));
     }
 
-    final contract = property.contract!;
-
-    if (contract.fees.isEmpty) {
+    if (property.fees.isEmpty) {
       return Padding(
         padding: const EdgeInsets.all(12.0),
         child: BodyText.medium(
@@ -26,12 +24,12 @@ class PropertyMaintenanceView extends StatelessWidget {
       );
     }
 
-    contract.fees.sort((a, b) => b.dueDate.compareTo(a.dueDate));
+    property.fees.sort((a, b) => b.dueDate.compareTo(a.dueDate));
 
     return ListView.builder(
-      itemCount: contract.fees.length,
+      itemCount: property.fees.length,
       itemBuilder: (context, index) {
-        final fee = contract.fees[index];
+        final fee = property.fees[index];
         return MaintenanceFeeCard(fee);
       },
     );

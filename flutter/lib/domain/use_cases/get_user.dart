@@ -15,14 +15,13 @@ class GetUser {
     final model = _source.getById(id);
 
     if (model == null) {
-      if (model == null) {
-        throw Exception('User $id not found in cache. Ensure the stream is active.');
-      }
+      throw Exception('User $id not found in cache. Ensure the stream is active.');
     }
 
     return UserEntity(
       id: model.id,
       createdAt: model.createdAt,
+      community: GetCommunityRef().fromId(model.communityId),
       name: model.name,
       phoneNumber: model.phoneNumber,
       emergencyPhoneNumber: model.emergencyPhoneNumber,

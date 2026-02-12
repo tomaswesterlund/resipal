@@ -5,7 +5,7 @@ import 'package:resipal/domain/use_cases/get_community_application.dart';
 
 class GetUserCommunityApplications {
   final CommunityApplicationDataSource _source = GetIt.I<CommunityApplicationDataSource>();
-  final GetCommunityApplication _getCommunityApplication = GetIt.I<GetCommunityApplication>();
+  final GetCommunityApplication _getCommunityApplication = GetCommunityApplication();
 
   List<CommunityApplicationEntity> call(String userId) {
     final models = _source.getByUserId(userId);
