@@ -36,9 +36,9 @@ class _UserHomePageState extends State<UserHomePage> {
           setState(() => _currentPageIndex = index);
         },
         items: [
-          FloatingNavBarItem(icon: Icons.home_outlined, label: 'Home'),
-          FloatingNavBarItem(icon: Icons.attach_money, label: 'Pagos'),
-          FloatingNavBarItem(icon: Icons.door_front_door_outlined, label: 'Accesos'),
+          FloatingNavBarItem(icon: Icons.home_outlined, label: 'Home', showDanger: widget.user.hasDebt),
+          FloatingNavBarItem(icon: Icons.attach_money, label: 'Pagos', badgeCount: widget.user.pendingPayments.length),
+          FloatingNavBarItem(icon: Icons.door_front_door_outlined, label: 'Accesos', badgeCount: widget.user.activeInvitations.length),
           FloatingNavBarItem(icon: Icons.person_outline, label: 'Perfil'),
         ],
       ),

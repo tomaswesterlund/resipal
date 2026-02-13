@@ -45,7 +45,7 @@ class FloatingNavBar extends StatelessWidget {
                     ),
 
                     // Danger Indicator
-                    if (item.showDanger)
+                    if (item.showDanger) ...{
                       Positioned(
                         top: -2,
                         right: -2,
@@ -59,7 +59,7 @@ class FloatingNavBar extends StatelessWidget {
                             width: 14,
                             height: 14,
                             decoration: const BoxDecoration(
-                              color: Colors.red, // Danger color
+                              color: AppColors.danger,
                               shape: BoxShape.circle,
                             ),
                             child: const Center(
@@ -71,6 +71,33 @@ class FloatingNavBar extends StatelessWidget {
                           ),
                         ),
                       ),
+                    } else if (item.badgeCount > 0) ...{
+                      Positioned(
+                        top: -2,
+                        right: -2,
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.white, // Border effect
+                            shape: BoxShape.circle,
+                          ),
+                          child: Container(
+                            width: 14,
+                            height: 14,
+                            decoration: const BoxDecoration(
+                              color: AppColors.info,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                item.badgeCount.toString(),
+                                style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    },
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -94,11 +121,8 @@ class FloatingNavBar extends StatelessWidget {
 class FloatingNavBarItem {
   final IconData icon;
   final String label;
-  final bool showDanger; // Added this
+  final bool showDanger;
+  final int badgeCount;
 
-  FloatingNavBarItem({
-    required this.icon,
-    required this.label,
-    this.showDanger = false, // Default to false
-  });
+  FloatingNavBarItem({required this.icon, required this.label, this.showDanger = false, this.badgeCount = 0});
 }

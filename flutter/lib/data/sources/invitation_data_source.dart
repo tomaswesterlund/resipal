@@ -26,6 +26,7 @@ class InvitationDataSource {
   }
 
   Future createInvitation({
+    required String communityId,
     required String userId,
     required String propertyId,
     required String visitorId,
@@ -35,6 +36,7 @@ class InvitationDataSource {
     await _client.rpc(
       'fn_create_invitation',
       params: {
+        'p_community_id': communityId,
         'p_user_id': userId,
         'p_property_id': propertyId,
         'p_visitor_id': visitorId,

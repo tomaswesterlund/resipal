@@ -23,7 +23,7 @@ class CreateInvitationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: 'Crear invitación'),
+      appBar: MyAppBar(title: 'Registrar invitación'),
       backgroundColor: AppColors.background,
       body: BlocProvider<CreateInvitationCubit>(
         create: (ctx) => CreateInvitationCubit()..initialize(),
@@ -48,7 +48,7 @@ class CreateInvitationPage extends StatelessWidget {
 
             if (state is FormSubmittedSuccessfullyState) {
               return SuccessView(
-                title: 'Invitación creada!',
+                title: 'Invitación registrada!',
                 actionButtonLabel: 'VOLVER',
                 onActionButtonPressed: () {
                   Navigator.of(context).pop();
@@ -106,7 +106,7 @@ class _Loaded extends StatelessWidget {
             onRangeSelected: (dateRange) => cubit.onDateRangeSelected(dateRange),
           ),
           SizedBox(height: 20.0),
-          PrimaryCtaButton(label: 'Crear invitación', canSubmit: formState.canSubmit, onPressed: () => cubit.submit()),
+          PrimaryCtaButton(label: 'Registrar invitación', canSubmit: formState.canSubmit, onPressed: () => cubit.submit()),
         ],
       ),
     );

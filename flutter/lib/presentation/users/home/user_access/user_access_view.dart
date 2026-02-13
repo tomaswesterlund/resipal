@@ -91,7 +91,7 @@ class _Loaded extends StatelessWidget {
                   InvitationListView(activeInvitations),
                   const SizedBox(height: 24),
                   PrimaryCtaButton(
-                    label: 'Crear nueva invitación',
+                    label: 'Registrar invitación',
                     canSubmit: true,
                     onPressed: () => Go.to(CreateInvitationPage()),
                   ),

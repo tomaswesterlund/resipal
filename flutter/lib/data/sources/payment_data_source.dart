@@ -37,7 +37,8 @@ class PaymentDataSource {
 
   List<PaymentModel> getByUserId(String userId) => _cache.values.where((m) => m.userId == userId).toList();
 
-  Future registerNewPayment({
+  Future registerPayment({
+    required String communityId,
     required String userId,
     required int amountInCents,
     required DateTime date,
@@ -46,8 +47,9 @@ class PaymentDataSource {
     required String receiptPath,
   }) async {
     await _client.rpc(
-      'fn_register_new_payment',
+      'fn_register_payment',
       params: {
+        'p_community_id': communityId,
         'p_user_id': userId,
         'p_amount_in_cents': amountInCents,
         'p_date': date.toIso8601String(),
@@ -56,8 +58,6 @@ class PaymentDataSource {
         'p_receipt_path': receiptPath,
       },
     );
-    // The stream listener will automatically receive the new payment
-    // from Supabase and update our cache via the .map() calls above.
   }
 
   Future approvePayment({required String userId, required String paymentId}) async {

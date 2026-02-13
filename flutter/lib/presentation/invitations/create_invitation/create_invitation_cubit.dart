@@ -50,16 +50,11 @@ class CreateInvitationCubit extends Cubit<CreateInvitationState> {
     try {
       emit(FormSubmittingState());
 
-      final userId = _authService.getSignedInUserId();
-
       await CreateInvitation().call(
-        CreateInvitationCommand(
-          userId: userId,
-          propertyId: _formState.property!.id,
-          visitorId: _formState.visitor!.id,
-          fromDate: _formState.dateRange!.start,
-          toDate: _formState.dateRange!.end,
-        ),
+        propertyId: _formState.property!.id,
+        visitorId: _formState.visitor!.id,
+        fromDate: _formState.dateRange!.start,
+        toDate: _formState.dateRange!.end,
       );
 
       emit(FormSubmittedSuccessfullyState());

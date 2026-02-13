@@ -55,14 +55,11 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
       final receiptPath = await _imageService.uploadPaymentReceipt(_formState.receiptImage!);
 
       await RegisterPayment().call(
-        RegisterPaymentCommand(
-          userId: userId,
-          amountInCents: amountInCents,
-          date: DateTime.now(),
-          reference: _formState.reference,
-          note: _formState.note,
-          receiptPath: receiptPath,
-        ),
+        amountInCents: amountInCents,
+        date: DateTime.now(),
+        reference: _formState.reference,
+        note: _formState.note,
+        receiptPath: receiptPath,
       );
 
       await FetchUser().call(userId);

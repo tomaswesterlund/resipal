@@ -23,6 +23,8 @@ class UserEntity extends Equatable {
 
   List<InvitationEntity> get activeInvitations => invitations.where((e) => e.canEnter).toList();
 
+  bool get hasDebt => properties.any((p) => p.hasDebt);
+
   int get totalBalanceInCents {
     final approvedAndPaidPayments = payments.where((p) => p.status == PaymentStatus.approved);
     final approvedPaymentAmountInCents = approvedAndPaidPayments.fold(
@@ -34,8 +36,9 @@ class UserEntity extends Equatable {
 
   int get totalOverdueFeeInCents => properties.fold(0, (sum, property) => sum = sum + property.totalOverdueFeeInCents);
 
+  List<PaymentEntity> get pendingPayments => payments.where((p) => p.status == PaymentStatus.pendingReview).toList();
+
   int get pendingPaymentAmountInCents {
-    final pendingPayments = payments.where((p) => p.status == PaymentStatus.pendingReview);
     final pendingAmountInCents = pendingPayments.fold(0, (sum, payment) => sum = sum + payment.amountInCents);
     return pendingAmountInCents;
   }

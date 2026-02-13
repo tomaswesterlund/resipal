@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:resipal/core/ui/app_colors.dart';
 import 'package:resipal/core/ui/buttons/social_login_button.dart';
 import 'package:resipal/core/ui/containers/green_box_container.dart';
-import 'package:resipal/core/ui/texts/body_text.dart';
 import 'package:resipal/core/ui/texts/header_text.dart';
 import 'package:resipal/core/ui/views/error_state_view.dart';
 import 'package:resipal/core/ui/views/loading_view.dart';
@@ -12,8 +11,6 @@ import 'package:resipal/core/ui/views/unknown_state_view.dart';
 import 'package:resipal/presentation/signin/signin_cubit.dart';
 import 'package:resipal/presentation/signin/signin_state.dart';
 import 'package:resipal/presentation/users/home/user_home_page.dart';
-import 'package:resipal/presentation/users/user_onboarding/community_setup/user_onboarding_community_setup_page.dart';
-import 'package:resipal/presentation/users/user_onboarding/user_data/user_onboarding_user_data_page.dart';
 import 'package:resipal/presentation/users/user_onboarding/flow/user_onboarding_flow_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 
