@@ -1,0 +1,10 @@
+name: resipal_workspace
+environment:
+  sdk: ^3.6.0
+
+workspace:
+  - apps/resipal_user
+  - apps/resipal_admin
+  - apps/resipal_security
+  - packages/resipal_ui
+  - packages/resipal_data

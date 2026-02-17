@@ -1,0 +1,93 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "resipal",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "resipal_admin",
+            "cwd": "apps/resipal_admin",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "resipal_admin (profile mode)",
+            "cwd": "apps/resipal_admin",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "resipal_admin (release mode)",
+            "cwd": "apps/resipal_admin",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "resipal_security",
+            "cwd": "apps/resipal_security",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "resipal_security (profile mode)",
+            "cwd": "apps/resipal_security",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "resipal_security (release mode)",
+            "cwd": "apps/resipal_security",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "resipal_user",
+            "cwd": "apps/resipal_user",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "resipal_user (profile mode)",
+            "cwd": "apps/resipal_user",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "resipal_user (release mode)",
+            "cwd": "apps/resipal_user",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "resipal_core",
+            "cwd": "packages/resipal_core",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "resipal_core (profile mode)",
+            "cwd": "packages/resipal_core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "resipal_core (release mode)",
+            "cwd": "packages/resipal_core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
