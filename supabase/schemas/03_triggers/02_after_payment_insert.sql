@@ -1,0 +1,25 @@
+-- CREATE OR REPLACE FUNCTION fn_after_payment_insert()
+-- RETURNS TRIGGER AS $$
+-- BEGIN
+--     INSERT INTO public.movements (
+--         user_id,
+--         amount_in_cents,
+--         type,
+--         ref_id,
+--         created_at
+--     )
+--     VALUES (
+--         NEW.user_id,
+--         NEW.amount_in_cents,
+--         'payment',
+--         NEW.id::TEXT,
+--         NEW.created_at
+--     );
+--     RETURN NEW;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- CREATE TRIGGER trg_after_payment_insert
+-- AFTER INSERT ON public.payments
+-- FOR EACH ROW
+-- EXECUTE FUNCTION fn_after_payment_insert();

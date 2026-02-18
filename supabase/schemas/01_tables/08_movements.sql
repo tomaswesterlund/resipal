@@ -1,0 +1,12 @@
+-- CREATE TABLE movements(
+--     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+--     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+--     created_by UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id),
+--     community_id UUID NOT NULL REFERENCES communities(id),
+--     user_id uuid NOT NULL REFERENCES users(id),
+--     amount_in_cents INT NOT NULL,
+--     date TIMESTAMPTZ NOT NULL,
+--     type TEXT NOT NULL CHECK (type IN ('payment', 'maintenance_fee')),
+--     ref_id TEXT NOT NULL,
+--     description text
+-- );
