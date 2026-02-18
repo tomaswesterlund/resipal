@@ -12,7 +12,7 @@ class UserDataSource {
       if (data.isEmpty) {
         throw Exception('User not found');
       }
-      final model = UserModel.fromJson(data.first);
+      final model = UserModel.fromMap(data.first);
       _cache[model.id] = model;
       return model;
     });
@@ -24,22 +24,29 @@ class UserDataSource {
 
   Future<bool> userExistsInDatabase(String id, {bool cacheExistingUser = true}) async {
     final item = await _client.from('users').select().eq('id', id).maybeSingle();
-    
+
     // Cache
-    if(cacheExistingUser && item != null) {
-      final model = UserModel.fromJson(item);
+    if (cacheExistingUser && item != null) {
+      final model = UserModel.fromMap(item);
       _cache[model.id] = model;
     }
-    
+
     return item != null;
   }
 
-  Future<UserModel> fetchById(String id) async {
+  Future fetchAndCacheAll() async {
+    final items = await _client.from('users').select();
+    for (var item in items) {
+      final model = UserModel.fromMap(item);
+      _cache[model.id] = model;
+    }
+  }
+
+  Future fetchAndCacheById(String id) async {
     final item = await _client.from('users').select().eq('id', id).single();
-    final model = UserModel.fromJson(item);
+    final model = UserModel.fromMap(item);
 
     _cache[model.id] = model;
-    return model;
   }
 
   Future createUser({

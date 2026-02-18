@@ -11,10 +11,10 @@ class UserPropertiesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (user.registry.properties.isEmpty) {
+    if (user.propertyRegistery.properties.isEmpty) {
       return NoPropertiesFoundView();
     } else {
-      return PropertyListView(user.registry.properties);
+      return PropertyListView(user.propertyRegistery.properties);
     }
   }
 }

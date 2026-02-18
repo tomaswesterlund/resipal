@@ -9,7 +9,7 @@ import 'package:resipal_user/presentation/auth/auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final AuthService _authService = GetIt.I<AuthService>();
-  final UserScopeService _userScopeService = GetIt.I<UserScopeService>();
+  final UserSessionService _userScopeService = GetIt.I<UserSessionService>();
 
   AuthCubit() : super(InitialState());
 

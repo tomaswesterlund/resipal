@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:resipal_admin/admin_session_service.dart';
 import 'package:resipal_admin/presentation/signin/signin_state.dart';
-import 'package:resipal_core/services/admin_scope_service.dart';
 import 'package:resipal_core/services/auth_service.dart';
 import 'package:resipal_core/services/logger_service.dart';
 
 class SigninCubit extends Cubit<SigninState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
-  final AdminSessionService _scope = GetIt.I<AdminSessionService>();
+  final AdminSessionService _sessionService = GetIt.I<AdminSessionService>();
 
   SigninCubit() : super(InitialState());
 
@@ -23,7 +23,7 @@ class SigninCubit extends Cubit<SigninState> {
       final authUser = _authService.getSignedInUser();
       final userId = authUser.id;
 
-      await _scope.initializeUserScope(userId);
+      // await _sessionService.startWatchers(userId);
 
       emit(AdminSignedInSuccessfullyState());
     } catch (e, stack) {

@@ -22,9 +22,7 @@ class AuthPage extends StatelessWidget {
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (ctx, state) {
             if (state is UserSignedIn) {
-              Go.to(
-                AdminHomePage(community: state.community, user: state.user),
-              );
+              Go.to(AdminHomePage(community: state.community, user: state.user));
             }
 
             if (state is UserNotSignedIn) {
@@ -32,10 +30,7 @@ class AuthPage extends StatelessWidget {
             }
           },
           builder: (ctx, state) {
-            if (state is InitialState ||
-                state is LoadingState ||
-                state is UserSignedIn ||
-                state is UserNotSignedIn) {
+            if (state is InitialState || state is LoadingState || state is UserSignedIn || state is UserNotSignedIn) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -49,8 +44,20 @@ class AuthPage extends StatelessWidget {
               );
             }
 
-            if(state is UserIsNotAdmin) {
+            if (state is UserIsNotAdmin) {
               return AccessDeniedView();
+            }
+
+            if (state is UserHasNoAdminMemberships) {
+              return Center(child: Text('UserHasNoAdminMemberships'));
+            }
+
+            if (state is UserHasNoMemberships) {
+              return Center(child: Text('UserHasNoMemberships'));
+            }
+
+            if (state is UserHasNoApplications) {
+              return Center(child: Text('UserHasNoApplications'));
             }
 
             if (state is ErrorState) {

@@ -49,12 +49,12 @@ class PropertyDataSource {
     }
   }
 
-  Stream<List<PropertyModel>> watchByOwnerId(String ownerId) {
+  Stream<List<PropertyModel>> watchByResidentId(String residentId) {
     try {
       return _client
           .from('properties')
           .stream(primaryKey: ['id'])
-          .eq('owner_id', ownerId)
+          .eq('resident_id', residentId)
           .map(
             (data) => data.map((item) {
               final model = PropertyModel.fromJson(item);
@@ -65,7 +65,7 @@ class PropertyDataSource {
     } catch (e, s) {
       _logger.logException(
         exception: e,
-        featureArea: 'PropertyDataSource.watchByOwnerId',
+        featureArea: 'PropertyDataSource.watchByResidentId',
         stackTrace: s,
       );
       rethrow;
@@ -77,14 +77,14 @@ class PropertyDataSource {
   List<PropertyModel> getByCommunityId(String communityId) =>
       _cache.values.where((m) => m.communityId == communityId).toList();
 
-  List<PropertyModel> getByOwnerId(String ownerId) =>
-      _cache.values.where((m) => m.ownerId == ownerId).toList();
+  List<PropertyModel> getByResidentId(String residentId) =>
+      _cache.values.where((m) => m.residentId == residentId).toList();
 
-  Future<List<PropertyModel>> fetchByOwnerId(String ownerId) async {
+  Future<List<PropertyModel>> fetchByResidentId(String residentId) async {
     final data = await _client
         .from('properties')
         .select()
-        .eq('owner_id', ownerId);
+        .eq('resident_id', residentId);
     final models = data.map((item) => PropertyModel.fromJson(item)).toList();
     return models;
   }

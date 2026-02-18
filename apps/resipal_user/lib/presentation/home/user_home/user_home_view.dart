@@ -71,16 +71,16 @@ class _Loaded extends StatelessWidget {
                           children: [
                             HeaderText.two('Saldo actual', color: Colors.white),
                             AmountText.fromCents(
-                              user.ledger.totalBalanceInCents,
+                              user.paymentLedger.totalBalanceInCents,
                               color: Colors.white,
                             ),
                             const SizedBox(height: 12.0),
                             OverdueMaintenanceInfoRow(
-                              amount: user.registry.totalOverdueFeeInCents,
+                              amount: user.propertyRegistery.totalOverdueFeeInCents,
                             ),
                             const SizedBox(height: 12.0),
                             PendingPaymentsInfoRow(
-                              amount: user.ledger.pendingPaymentAmountInCents,
+                              amount: user.paymentLedger.pendingPaymentAmountInCents,
                             ),
                           ],
                         ),

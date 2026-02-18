@@ -1,16 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:resipal_admin/admin_session_service.dart';
 import 'package:resipal_admin/presentation/auth/auth_state.dart';
+import 'package:resipal_core/domain/use_cases/fetch_communities.dart';
+import 'package:resipal_core/domain/use_cases/fetch_community_applications.dart';
+import 'package:resipal_core/domain/use_cases/fetch_memberships.dart';
+import 'package:resipal_core/domain/use_cases/fetch_users.dart';
 import 'package:resipal_core/domain/use_cases/get_community.dart';
 import 'package:resipal_core/domain/use_cases/get_user.dart';
-import 'package:resipal_core/services/admin_scope_service.dart';
+import 'package:resipal_core/domain/use_cases/get_user_access_registry.dart';
+import 'package:resipal_core/domain/use_cases/user_is_onboarded.dart';
 import 'package:resipal_core/services/auth_service.dart';
 import 'package:resipal_core/services/logger_service.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final AuthService _authService = GetIt.I<AuthService>();
-  final AdminSessionService _adminScopeService = GetIt.I<AdminSessionService>();
+  final AdminSessionService _sessionService = GetIt.I<AdminSessionService>();
 
   AuthCubit() : super(InitialState());
 
@@ -21,35 +27,54 @@ class AuthCubit extends Cubit<AuthState> {
 
       if (_authService.userIsSignedIn) {
         final userId = _authService.getSignedInUserId();
-        await _adminScopeService.initializeUserScope(userId);
-        final user = GetUser().call(userId);
 
-        if (user.membership.approvedApplications.isEmpty) {
-          // TODO: Check if any pending Admin approvals. Offer to create a new community!
-          emit(UserIsNotAdmin());
+        await FetchUsers().call();
+        await FetchCommunities().call();
+        await FetchCommunityApplications().byUserId(userId);
+        await FetchMemberships().byUserId(userId);
+
+        final userOnboarded = await UserIsOnboarded().call(userId, forceFetch: true);
+        if (userOnboarded == false) {
+          emit(UserNotOnboarded());
           return;
         }
 
-        // Does user have any approved Admin Applications?
+        final userAccessRegistry = GetUserAccessRegistry().call(userId);
 
-        final application = user.membership.defaultApprovedApplication;
-        await _adminScopeService.initializeCommununityScope(
-          application.community.id,
-        );
-        final community = GetCommunity().call(application.community.id);
+        if (userAccessRegistry.adminMemberships.isNotEmpty) {
+          // TODO: Update this logic, ust get first for now
+          final membership = userAccessRegistry.adminMemberships.first;
+          _sessionService.setSelectedCommunityId(membership.community.id);
+          await _sessionService.startWatchers(userId: userId, communityId: membership.community.id);
 
-        // TODO: CHECK IF ADMIN!
+          final user = GetUser().call(userId);
+          final community = GetCommunity().call(membership.community.id);
 
-        emit(UserSignedIn(community, user));
+          emit(UserSignedIn(community, user));
+          return;
+        }
+
+        if (userAccessRegistry.memberships.isNotEmpty && userAccessRegistry.adminMemberships.isEmpty) {
+          emit(UserHasNoAdminMemberships());
+          return;
+        }
+
+        if (userAccessRegistry.memberships.isEmpty) {
+          emit(UserHasNoMemberships());
+          return;
+        }
+
+        if (userAccessRegistry.applications.isEmpty) {
+          emit(UserHasNoApplications());
+          return;
+        }
+
+        throw Exception('Unknown state!');
       } else {
         emit(UserNotSignedIn());
       }
     } catch (e, s) {
-      _logger.logException(
-        exception: e,
-        featureArea: 'AuthCubit.initialize',
-        stackTrace: s,
-      );
+      _logger.logException(exception: e, featureArea: 'AuthCubit.initialize', stackTrace: s);
       emit(ErrorState());
     }
   }

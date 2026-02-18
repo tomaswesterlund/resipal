@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:resipal_core/domain/entities/community_entity.dart';
+import 'package:resipal_core/domain/entities/community/community_entity.dart';
 import 'package:resipal_core/domain/entities/user_entity.dart';
 
 abstract class AuthState extends Equatable {
@@ -12,6 +12,14 @@ class InitialState extends AuthState {}
 class LoadingState extends AuthState {}
 
 class UserNotSignedIn extends AuthState {}
+
+class UserNotOnboarded extends AuthState {}
+
+class UserHasNoAdminMemberships extends AuthState {}
+
+class UserHasNoMemberships extends AuthState {}
+
+class UserHasNoApplications extends AuthState {}
 
 class UserIsNotAdmin extends AuthState {}
 

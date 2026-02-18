@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
-import 'package:resipal_core/services/user_scope_service.dart';
+import 'package:resipal_core/services/service_locator.dart';
 import 'package:resipal_user/presentation/auth/auth_page.dart';
+
 import 'package:short_navigation/short_navigation.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  final userScopeService = UserScopeService();
-  await userScopeService.init();
-  GetIt.instance.registerSingleton<UserScopeService>(userScopeService);
-
+  await ServiceLocator().initializeContainers();
   runApp(const MyApp());
 }
 
-// Initialize app
-// Signin
-// Load data / watchers
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

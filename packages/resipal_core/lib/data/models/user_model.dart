@@ -15,7 +15,7 @@ class UserModel {
     required this.email,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
+  factory UserModel.fromMap(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
       createdAt: DateTime.parse(json['created_at'].toString()),

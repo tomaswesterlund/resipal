@@ -7,7 +7,7 @@ import 'package:resipal_core/domain/refs/user_ref.dart';
 
 class PropertyEntity extends IdEntity {
   final CommunityRef community;
-  final UserRef? owner;
+  final UserRef? resident;
   final DateTime createdAt;
   final UserRef createdBy;
   final String name;
@@ -25,7 +25,7 @@ class PropertyEntity extends IdEntity {
   PropertyEntity({
     required super.id,
     required this.community,
-    required this.owner,
+    required this.resident,
     required this.createdAt,
     required this.createdBy,
     required this.name,

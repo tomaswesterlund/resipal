@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:resipal_core/domain/entities/payment_entity.dart';
+import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 import 'package:resipal_core/domain/enums/payment_status.dart';
 import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
 import 'package:resipal_core/presentation/shared/colors/payment_colors.dart';

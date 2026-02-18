@@ -40,7 +40,7 @@ class PropertyGeneralInformation extends StatelessWidget {
               children: [
                 DetailTile(icon: Icons.fingerprint, label: 'ID de Propiedad', value: property.id.toShortId()),
                 const Divider(height: 1),
-                DetailTile(icon: Icons.person_outline, label: 'Propietario', value: property.owner?.name ?? 'No hay propietario asociado.'),
+                DetailTile(icon: Icons.person_outline, label: 'Propietario', value: property.resident?.name ?? 'No hay propietario asociado.'),
 
                 const Divider(height: 1),
                 DetailTile(icon: Icons.calendar_today_outlined, label: 'Fecha de registro (en Resipal)', value: property.createdAt.toShortDate()),

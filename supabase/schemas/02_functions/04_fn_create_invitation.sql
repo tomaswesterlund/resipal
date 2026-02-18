@@ -20,8 +20,8 @@ BEGIN
             properties
         WHERE
             id = p_property_id
-            AND owner_id = p_user_id) THEN
-    RAISE EXCEPTION 'Property ownership error';
+            AND resident_id = p_user_id) THEN
+    RAISE EXCEPTION 'Property resident error';
 END IF;
     -- Check Visitor
     IF NOT EXISTS(

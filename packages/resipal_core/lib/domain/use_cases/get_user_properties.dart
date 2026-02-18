@@ -11,7 +11,7 @@ class GetUserProperties {
   final GetUserRef _getUserRef = GetUserRef();
 
   List<PropertyEntity> call(String userId) {
-    final models = _source.getByOwnerId(userId);
+    final models = _source.getByResidentId(userId);
     final properties = models.map((m) => GetProperty().call(m.id)).toList();
     return properties;
   }

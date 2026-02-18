@@ -3,7 +3,7 @@ CREATE TABLE properties(
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     created_by UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id),
     community_id UUID NOT NULL REFERENCES communities(id),
-    owner_id UUID REFERENCES users(id),
+    resident_id UUID REFERENCES users(id),
     contract_id UUID REFERENCES maintenance_contracts(id),
     name TEXT NOT NULL,
     description text

@@ -1,7 +1,7 @@
 class PropertyModel {
   final String id;
   final String communityId;
-  final String? ownerId;
+  final String? residentId;
   final String? contractId;
   final DateTime createdAt;
   final String createdBy;
@@ -11,7 +11,7 @@ class PropertyModel {
   PropertyModel({
     required this.id,
     required this.communityId,
-    required this.ownerId,
+    required this.residentId,
     required this.contractId,
     required this.createdAt,
     required this.createdBy,
@@ -23,7 +23,7 @@ class PropertyModel {
     return PropertyModel(
       id: json['id'],
       communityId: json['community_id'],
-      ownerId: json['owner_id'],
+      residentId: json['resident_id'],
       contractId: json['contract_id'],
       createdAt: DateTime.parse(json['created_at'].toString()),
       createdBy: json['created_by'],

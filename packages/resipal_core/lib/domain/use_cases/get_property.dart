@@ -17,14 +17,14 @@ class GetProperty {
     final contract = GetOptionalMaintenanceContract().call(property.contractId);
     final createdBy = GetUserRef().fromId(property.createdBy);
     final fees = GetPropertyMaintenanceFees().call(property.id);
-    final owner = property.ownerId == null
+    final resident = property.residentId == null
         ? null
-        : GetUserRef().fromId(property.ownerId!);
+        : GetUserRef().fromId(property.residentId!);
 
     return PropertyEntity(
       id: property.id,
       community: community,
-      owner: owner,
+      resident: resident,
       createdAt: property.createdAt,
       createdBy: createdBy,
       name: property.name,

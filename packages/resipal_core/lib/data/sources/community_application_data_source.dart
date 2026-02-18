@@ -53,9 +53,11 @@ class CommunityApplicationDataSource {
 
   CommunityApplicationModel? getById(String id) => _cache[id];
 
+  List<CommunityApplicationModel> getByCommunityId(String communityId) => _cache.values.where((c) => c.communityId == communityId).toList();
+
   List<CommunityApplicationModel> getByUserId(String userId) => _cache.values.where((c) => c.userId == userId).toList();
 
-  Future fetchAll() async {
+  Future fetchAndCacheAll() async {
     final items = await _client.from('community_applications').select();
     for (var item in items) {
       final model = CommunityApplicationModel.fromMap(item);

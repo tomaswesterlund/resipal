@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal_core/domain/entities/payment_entity.dart';
+import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 import 'package:resipal_core/presentation/payments/pages/approve_payment/approve_payment_cubit.dart';
 import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';
 import 'package:resipal_core/presentation/shared/views/error_view.dart';

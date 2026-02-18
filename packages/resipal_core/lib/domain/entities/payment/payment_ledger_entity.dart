@@ -1,4 +1,4 @@
-import 'package:resipal_core/domain/entities/payment_entity.dart';
+import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 import 'package:resipal_core/domain/enums/payment_status.dart';
 
 class PaymentLedgerEntity {

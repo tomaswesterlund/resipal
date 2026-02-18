@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resipal_core/domain/entities/payment_entity.dart';
+import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 import 'package:resipal_core/domain/enums/payment_status.dart';
 import 'package:resipal_core/helpers/formatters/date_formatters.dart';
 import 'package:resipal_core/presentation/payments/pages/payment_details/payment_details_page.dart';

@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:resipal_core/domain/entities/invitation_entity.dart';
-import 'package:resipal_core/domain/entities/payment_ledger_entity.dart';
-import 'package:resipal_core/domain/entities/property_entity.dart';
+import 'package:resipal_core/domain/entities/payment/payment_ledger_entity.dart';
 import 'package:resipal_core/domain/entities/property_registry.dart';
-import 'package:resipal_core/domain/entities/user_membership.dart';
+import 'package:resipal_core/domain/entities/user_access_registry.dart';
 
 class UserEntity extends Equatable {
   final String id;
@@ -12,10 +11,10 @@ class UserEntity extends Equatable {
   final String phoneNumber;
   final String emergencyPhoneNumber;
   final String email;
-  final UserMembership membership;
+  final UserAccessRegistry userAccessRegistry;
   final List<InvitationEntity> invitations;
-  final PaymentLedgerEntity ledger;
-  final PropertyRegistry registry;
+  final PaymentLedgerEntity paymentLedger;
+  final PropertyRegistry propertyRegistery;
 
   List<InvitationEntity> get activeInvitations =>
       invitations.where((e) => e.canEnter).toList();
@@ -28,10 +27,10 @@ class UserEntity extends Equatable {
     required this.phoneNumber,
     required this.emergencyPhoneNumber,
     required this.email,
-    required this.membership,
+    required this.userAccessRegistry,
     required this.invitations,
-    required this.ledger,
-    required this.registry,
+    required this.paymentLedger,
+    required this.propertyRegistery,
   });
 
   @override
@@ -42,9 +41,9 @@ class UserEntity extends Equatable {
     phoneNumber,
     emergencyPhoneNumber,
     email,
-    membership,
+    userAccessRegistry,
     invitations,
-    ledger,
-    registry,
+    paymentLedger,
+    propertyRegistery,
   ];
 }

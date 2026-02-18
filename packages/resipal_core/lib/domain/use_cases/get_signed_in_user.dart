@@ -8,10 +8,10 @@ class GetSignedInUser {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
 
-  UserEntity call() {
+  Future<UserEntity> call() async {
     try {
       final userId = _authService.getSignedInUserId();
-      final user = GetUser().call(userId);
+      final user = await GetUser().call(userId);
       return user;
     } catch (e, s) {
       _logger.logException(exception: e, featureArea: 'GetSignedInUser', stackTrace: s);

@@ -7,8 +7,8 @@ class WatchUser {
   final UserDataSource _source = GetIt.I<UserDataSource>();
 
   Stream<UserEntity> call(String id) {
-    return _source.watchById(id).map((model) {
-      return GetUser().call(id);
+    return _source.watchById(id).asyncMap((model) async {
+      return await GetUser().call(id);
     });
   }
 }

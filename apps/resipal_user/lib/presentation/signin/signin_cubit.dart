@@ -8,7 +8,7 @@ import 'package:resipal_user/presentation/signin/signin_state.dart';
 class SigninCubit extends Cubit<SigninState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
-  final UserScopeService _userScopeService = GetIt.I<UserScopeService>();
+  final UserSessionService _userScopeService = GetIt.I<UserSessionService>();
 
   SigninCubit() : super(InitialState());
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resipal_core/domain/entities/payment_entity.dart';
+import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 import 'package:resipal_core/presentation/payments/widgets/payment_card.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 

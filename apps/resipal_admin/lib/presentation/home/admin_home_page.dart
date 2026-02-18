@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:resipal_admin/presentation/home/admin_applications_view.dart';
 import 'package:resipal_admin/presentation/home/admin_payments_view.dart';
 import 'package:resipal_admin/presentation/home/admin_properties_view.dart';
-import 'package:resipal_admin/presentation/home/admin_users_view.dart';
-import 'package:resipal_core/domain/entities/community_entity.dart';
+import 'package:resipal_admin/presentation/home/admin_members_view.dart';
+import 'package:resipal_core/domain/entities/community/community_entity.dart';
 import 'package:resipal_core/domain/entities/user_entity.dart';
 import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
 import 'package:resipal_core/presentation/shared/floating_nav_bar.dart';
@@ -33,9 +34,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
         index: _currentPageIndex,
         children: [
           Text('Home'),
-          AdminPropertiesView(widget.community.registry),
-          AdminPaymensView(widget.community.ledger),
-          AdminUserView(),
+          AdminPropertiesView(widget.community.propertyRegistry),
+          AdminPaymensView(widget.community.paymentLedger),
+          AdminApplicationsView(),
+          AdminMembersView(widget.community.directory),
         ],
       ),
       bottomNavigationBar: FloatingNavBar(
@@ -51,9 +53,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
           FloatingNavBarItem(
             icon: Icons.attach_money,
             label: 'Pagos',
-            warningBadgeCount: widget.community.ledger.pendingPayments.length,
+            warningBadgeCount: widget.community.paymentLedger.pendingPayments.length,
           ),
-          FloatingNavBarItem(icon: Icons.people, label: 'Usuarios'),
+          FloatingNavBarItem(
+            icon: Icons.person_add_alt_1,
+            label: 'Solicitudes',
+            warningBadgeCount: widget.community.directory.pendingApplications.length
+          ),
+          FloatingNavBarItem(icon: Icons.people, label: 'Miembros'),
         ],
       ),
       drawer: Drawer(

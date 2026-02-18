@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:resipal_core/domain/entities/payment_entity.dart';
+import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 import 'package:resipal_core/domain/enums/payment_status.dart';
 import 'package:resipal_core/helpers/formatters/currency_formatter.dart';
 import 'package:resipal_core/presentation/payments/pages/approve_payment/approve_payment.dart';
