@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/domain/entities/property_entity.dart';
-import 'package:resipal_core/formatters/currency_formatter.dart';
+import 'package:resipal_core/helpers/formatters/currency_formatter.dart';
 import 'package:resipal_core/presentation/shared/cards/default_card.dart';
 import 'package:resipal_core/presentation/shared/texts/body_text.dart';
 import 'package:resipal_core/presentation/shared/texts/section_header_text.dart';

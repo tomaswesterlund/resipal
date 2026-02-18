@@ -92,6 +92,36 @@ class FloatingNavBar extends StatelessWidget {
                           ),
                         ),
                       ),
+                    } else if (item.warningBadgeCount > 0) ...{
+                      Positioned(
+                        top: -2,
+                        right: -2,
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.white, // Border effect
+                            shape: BoxShape.circle,
+                          ),
+                          child: Container(
+                            width: 14,
+                            height: 14,
+                            decoration: const BoxDecoration(
+                              color: AppColors.warning,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                item.warningBadgeCount.toString(),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     } else if (item.badgeCount > 0) ...{
                       Positioned(
                         top: -2,
@@ -149,12 +179,14 @@ class FloatingNavBarItem {
   final IconData icon;
   final String label;
   final bool showDanger;
+  final int warningBadgeCount;
   final int badgeCount;
 
   FloatingNavBarItem({
     required this.icon,
     required this.label,
     this.showDanger = false,
+    this.warningBadgeCount = 0,
     this.badgeCount = 0,
   });
 }

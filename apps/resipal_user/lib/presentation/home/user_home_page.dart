@@ -39,12 +39,12 @@ class _UserHomePageState extends State<UserHomePage> {
           FloatingNavBarItem(
             icon: Icons.home_outlined,
             label: 'Inicío',
-            showDanger: widget.user.hasDebt,
+            showDanger: widget.user.registry.hasDebt,
           ),
           FloatingNavBarItem(
             icon: Icons.attach_money,
             label: 'Pagos',
-            badgeCount: widget.user.pendingPayments.length,
+            badgeCount: widget.user.ledger.pendingPayments.length,
           ),
           FloatingNavBarItem(
             icon: Icons.door_front_door_outlined,

@@ -8,7 +8,7 @@ import 'package:resipal_core/services/logger_service.dart';
 class SigninCubit extends Cubit<SigninState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
-  final AdminScopeService _scope = GetIt.I<AdminScopeService>();
+  final AdminSessionService _scope = GetIt.I<AdminSessionService>();
 
   SigninCubit() : super(InitialState());
 

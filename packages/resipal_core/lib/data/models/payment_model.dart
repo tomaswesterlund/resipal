@@ -1,7 +1,9 @@
 class PaymentModel {
   final String id;
+  final String communityId;
   final String userId;
   final DateTime createdAt;
+  final String createdBy;
   final int amountInCents;
   final String status;
   final DateTime date;
@@ -11,8 +13,10 @@ class PaymentModel {
 
   PaymentModel({
     required this.id,
+    required this.communityId,
     required this.userId,
     required this.createdAt,
+    required this.createdBy,
     required this.amountInCents,
     required this.status,
     required this.date,
@@ -24,8 +28,10 @@ class PaymentModel {
   factory PaymentModel.fromJson(Map<String, dynamic> json) {
     return PaymentModel(
       id: json['id'],
+      communityId: json['community_id'],
       userId: json['user_id'],
       createdAt: DateTime.parse(json['created_at'].toString()),
+      createdBy: json['created_by'],
       amountInCents: int.parse(json['amount_in_cents'].toString()),
       status: json['status'],
       date: DateTime.parse(json['date'].toString()),

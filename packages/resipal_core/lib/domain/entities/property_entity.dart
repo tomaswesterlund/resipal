@@ -2,12 +2,14 @@ import 'package:resipal_core/domain/entities/id_entity.dart';
 import 'package:resipal_core/domain/entities/maintenance_contract_entity.dart';
 import 'package:resipal_core/domain/entities/maintenance_fee_entity.dart';
 import 'package:resipal_core/domain/enums/maintenance_fee_status.dart';
+import 'package:resipal_core/domain/refs/community_ref.dart';
 import 'package:resipal_core/domain/refs/user_ref.dart';
 
 class PropertyEntity extends IdEntity {
-  final String communityId;
+  final CommunityRef community;
   final UserRef? owner;
   final DateTime createdAt;
+  final UserRef createdBy;
   final String name;
   final String? description;
   final MaintenanceContractEntity? contract;
@@ -22,9 +24,10 @@ class PropertyEntity extends IdEntity {
 
   PropertyEntity({
     required super.id,
-    required this.communityId,
+    required this.community,
     required this.owner,
     required this.createdAt,
+    required this.createdBy,
     required this.name,
     required this.description,
     required this.contract,

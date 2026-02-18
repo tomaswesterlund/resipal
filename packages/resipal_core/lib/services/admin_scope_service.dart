@@ -18,14 +18,20 @@ import 'package:resipal_core/services/logger_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AdminScopeService {
+class AdminSessionService {
   final CompositeSubscription _subscriptions = CompositeSubscription();
+
+  String? currentCommunityId;
+  String? currentUserId;
 
   Future<void> init() async {
     final sl = GetIt.instance;
 
     // Supabase
-    await Supabase.initialize(url: 'https://xapfoiggbgutbmcqrgma.supabase.co', anonKey: 'sb_publishable_I1FzA8ioJ1zPOhpFjld_vA_p2Pip5pw');
+    await Supabase.initialize(
+      url: 'https://xapfoiggbgutbmcqrgma.supabase.co',
+      anonKey: 'sb_publishable_I1FzA8ioJ1zPOhpFjld_vA_p2Pip5pw',
+    );
     sl.registerSingleton<SupabaseClient>(Supabase.instance.client);
 
     // Services
@@ -49,27 +55,59 @@ class AdminScopeService {
   }
 
   Future<void> initializeUserScope(String userId) async {
+    currentUserId = userId;
+
     _subscriptions.clear();
 
     try {
-      await Future.wait([_setupSubscription(GetIt.I<UserDataSource>().watchById(userId))]);
+      await Future.wait([
+        _setupSubscription(
+          GetIt.I<CommunityDataSource>().watchAll(),
+        ),
+        _setupSubscription(GetIt.I<UserDataSource>().watchById(userId)),
+        _setupSubscription(
+          GetIt.I<CommunityApplicationDataSource>().watchByUserId(userId),
+        ),
+      ]);
     } catch (e) {}
   }
 
   Future<void> initializeCommununityScope(String communityId) async {
+    currentCommunityId = communityId;
+
     _subscriptions.clear();
 
     try {
       await Future.wait([
         //_setupSubscription(GetIt.I<UserDataSource>().watchById(userId)),
-        _setupSubscription(GetIt.I<CommunityDataSource>().watchById(communityId)),
-        _setupSubscription(GetIt.I<CommunityApplicationDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<InvitationDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<MaintenanceContractDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<MaintenanceFeeDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<PaymentDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<PropertyDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<VisitorDataSource>().watchByCommunityId(communityId)),
+        // _setupSubscription(
+        //   GetIt.I<CommunityDataSource>().watchById(communityId),
+        // ),
+        _setupSubscription(
+          GetIt.I<CommunityApplicationDataSource>().watchByCommunityId(
+            communityId,
+          ),
+        ),
+        _setupSubscription(
+          GetIt.I<InvitationDataSource>().watchByCommunityId(communityId),
+        ),
+        _setupSubscription(
+          GetIt.I<MaintenanceContractDataSource>().watchByCommunityId(
+            communityId,
+          ),
+        ),
+        _setupSubscription(
+          GetIt.I<MaintenanceFeeDataSource>().watchByCommunityId(communityId),
+        ),
+        _setupSubscription(
+          GetIt.I<PaymentDataSource>().watchByCommunityId(communityId),
+        ),
+        _setupSubscription(
+          GetIt.I<PropertyDataSource>().watchByCommunityId(communityId),
+        ),
+        _setupSubscription(
+          GetIt.I<VisitorDataSource>().watchByCommunityId(communityId),
+        ),
       ]);
     } catch (e) {}
   }

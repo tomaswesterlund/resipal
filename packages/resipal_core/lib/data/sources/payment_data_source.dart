@@ -21,7 +21,7 @@ class PaymentDataSource {
         );
   }
 
-    Stream<List<PaymentModel>> watchByCommunityId(String communityId) {
+  Stream<List<PaymentModel>> watchByCommunityId(String communityId) {
     return _client
         .from('payments')
         .stream(primaryKey: ['id'])
@@ -36,6 +36,8 @@ class PaymentDataSource {
   }
 
   PaymentModel getById(String id) => _cache[id]!;
+
+  List<PaymentModel> getByCommunityId(String communityId) => _cache.values.where((m) => m.communityId == communityId).toList();
 
   List<PaymentModel> getByUserId(String userId) => _cache.values.where((m) => m.userId == userId).toList();
 

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_core/domain/entities/payment_entity.dart';
 import 'package:resipal_core/domain/enums/payment_status.dart';
-import 'package:resipal_core/formatters/date_formatters.dart';
+import 'package:resipal_core/helpers/formatters/date_formatters.dart';
+import 'package:resipal_core/presentation/payments/pages/payment_details/payment_details_page.dart';
 import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
 import 'package:resipal_core/presentation/shared/colors/payment_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/amount_text.dart';
+import 'package:short_navigation/short_navigation.dart';
 
 class PaymentCard extends StatelessWidget {
   final PaymentEntity payment;
@@ -55,7 +57,9 @@ class PaymentCard extends StatelessWidget {
                               AmountText.fromCents(
                                 payment.amountInCents,
                                 fontSize: 18,
-                                color: isApproved ? AppColors.secondary : AppColors.auxiliarScale[800]!,
+                                color: isApproved
+                                    ? AppColors.secondary
+                                    : AppColors.auxiliarScale[800]!,
                               ),
                             ],
                           ),
@@ -71,14 +75,18 @@ class PaymentCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      
+
                       // Text(
                       //   payment.note ?? 'Comprobante de pago adjunto',
                       //   maxLines: 1,
                       //   overflow: TextOverflow.ellipsis,
                       //   style: GoogleFonts.raleway(color: AppColors.auxiliarScale[500], fontSize: 13),
                       // ),
-                      const Divider(height: 12, thickness: 1, color: Color(0xFFF4F5F4)),
+                      const Divider(
+                        height: 12,
+                        thickness: 1,
+                        color: Color(0xFFF4F5F4),
+                      ),
 
                       // Footer: Status, Date & Amount
                       Row(
@@ -89,7 +97,10 @@ class PaymentCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 2,
+                                ),
                                 decoration: BoxDecoration(
                                   color: statusColor.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(6),
@@ -119,13 +130,23 @@ class PaymentCard extends StatelessWidget {
                           TextButton(
                             style: TextButton.styleFrom(
                               foregroundColor: AppColors.secondary,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              textStyle: GoogleFonts.raleway(fontWeight: FontWeight.bold, fontSize: 13),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                              ),
+                              textStyle: GoogleFonts.raleway(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
                             ),
-                            onPressed: () => {},
-                            //() => Go.to(PaymentDetailsPage(paymentId: payment.id)),
+                            onPressed: () => Go.to(
+                              PaymentDetailsPage(paymentId: payment.id),
+                            ),
                             child: const Row(
-                              children: [Text('Detalles'), SizedBox(width: 4), Icon(Icons.arrow_forward_ios, size: 12)],
+                              children: [
+                                Text('Detalles'),
+                                SizedBox(width: 4),
+                                Icon(Icons.arrow_forward_ios, size: 12),
+                              ],
                             ),
                           ),
 

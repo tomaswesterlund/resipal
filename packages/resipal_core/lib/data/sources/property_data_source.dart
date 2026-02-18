@@ -74,6 +74,9 @@ class PropertyDataSource {
 
   PropertyModel getById(String id) => _cache[id]!;
 
+  List<PropertyModel> getByCommunityId(String communityId) =>
+      _cache.values.where((m) => m.communityId == communityId).toList();
+
   List<PropertyModel> getByOwnerId(String ownerId) =>
       _cache.values.where((m) => m.ownerId == ownerId).toList();
 

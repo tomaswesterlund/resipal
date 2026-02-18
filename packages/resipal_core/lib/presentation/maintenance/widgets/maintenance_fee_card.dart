@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/domain/entities/maintenance_fee_entity.dart';
-import 'package:resipal_core/formatters/date_formatters.dart';
+import 'package:resipal_core/helpers/formatters/date_formatters.dart';
 import 'package:resipal_core/presentation/maintenance/pages/maintenance_fee_details_page.dart';
 import 'package:resipal_core/presentation/maintenance/widgets/maintenance_status_pill.dart';
 import 'package:resipal_core/presentation/shared/colors/app_colors.dart';

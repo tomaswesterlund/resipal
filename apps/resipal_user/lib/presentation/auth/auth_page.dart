@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 import 'package:resipal_core/presentation/shared/views/error_view.dart';
 import 'package:resipal_core/presentation/shared/views/loading_view.dart';
-import 'package:resipal_core/presentation/shared/views/success_view.dart';
 import 'package:resipal_core/presentation/shared/views/unknown_state_view.dart';
 import 'package:resipal_user/presentation/auth/auth_cubit.dart';
 import 'package:resipal_user/presentation/auth/auth_state.dart';

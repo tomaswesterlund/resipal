@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:resipal_core/domain/use_cases/fetch_user.dart';
 import 'package:resipal_core/domain/use_cases/register_payment.dart';
-import 'package:resipal_core/formatters/currency_formatter.dart';
+import 'package:resipal_core/helpers/formatters/currency_formatter.dart';
 import 'package:resipal_core/presentation/payments/pages/register_payment/register_payment_form_state.dart';
 import 'package:resipal_core/presentation/payments/pages/register_payment/register_payment_state.dart';
 import 'package:resipal_core/services/auth_service.dart';

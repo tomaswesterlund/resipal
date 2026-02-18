@@ -47,7 +47,7 @@ class UserHomeView extends StatelessWidget {
 
 class _Loaded extends StatelessWidget {
   final UserEntity user;
-  const _Loaded(this.user, {super.key});
+  const _Loaded(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -71,16 +71,16 @@ class _Loaded extends StatelessWidget {
                           children: [
                             HeaderText.two('Saldo actual', color: Colors.white),
                             AmountText.fromCents(
-                              user.totalBalanceInCents,
+                              user.ledger.totalBalanceInCents,
                               color: Colors.white,
                             ),
                             const SizedBox(height: 12.0),
                             OverdueMaintenanceInfoRow(
-                              amount: user.totalOverdueFeeInCents,
+                              amount: user.registry.totalOverdueFeeInCents,
                             ),
                             const SizedBox(height: 12.0),
                             PendingPaymentsInfoRow(
-                              amount: user.pendingPaymentAmountInCents,
+                              amount: user.ledger.pendingPaymentAmountInCents,
                             ),
                           ],
                         ),

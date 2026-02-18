@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resipal_core/formatters/currency_formatter.dart';
+import 'package:resipal_core/helpers/formatters/currency_formatter.dart';
 
 class AmountText extends StatelessWidget {
   final String text;

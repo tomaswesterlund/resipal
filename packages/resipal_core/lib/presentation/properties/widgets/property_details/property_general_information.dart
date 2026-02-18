@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/domain/entities/property_entity.dart';
-import 'package:resipal_core/formatters/date_formatters.dart';
-import 'package:resipal_core/formatters/id_formatter.dart';
+import 'package:resipal_core/helpers/formatters/date_formatters.dart';
+import 'package:resipal_core/helpers/formatters/id_formatter.dart';
 import 'package:resipal_core/presentation/shared/cards/default_card.dart';
 import 'package:resipal_core/presentation/shared/cards/green_box_card.dart';
 import 'package:resipal_core/presentation/shared/texts/body_text.dart';

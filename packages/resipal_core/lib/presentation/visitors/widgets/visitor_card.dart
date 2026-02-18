@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_core/domain/entities/visitor_entity.dart';
-import 'package:resipal_core/formatters/date_formatters.dart';
+import 'package:resipal_core/helpers/formatters/date_formatters.dart';
 import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 

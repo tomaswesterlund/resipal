@@ -8,9 +8,9 @@ import 'package:short_navigation/short_navigation.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final scope = AdminScopeService();
+  final scope = AdminSessionService();
   await scope.init();
-  GetIt.instance.registerSingleton<AdminScopeService>(scope);
+  GetIt.instance.registerSingleton<AdminSessionService>(scope);
 
   runApp(const MyApp());
 }

@@ -4,6 +4,7 @@ class PropertyModel {
   final String? ownerId;
   final String? contractId;
   final DateTime createdAt;
+  final String createdBy;
   final String name;
   final String? description;
 
@@ -13,6 +14,7 @@ class PropertyModel {
     required this.ownerId,
     required this.contractId,
     required this.createdAt,
+    required this.createdBy,
     required this.name,
     required this.description,
   });
@@ -24,6 +26,7 @@ class PropertyModel {
       ownerId: json['owner_id'],
       contractId: json['contract_id'],
       createdAt: DateTime.parse(json['created_at'].toString()),
+      createdBy: json['created_by'],
       name: json['name'],
       description: json['description'],
     );

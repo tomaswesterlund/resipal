@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/domain/entities/maintenance_fee_entity.dart';
-import 'package:resipal_core/formatters/currency_formatter.dart';
-import 'package:resipal_core/formatters/date_formatters.dart';
-import 'package:resipal_core/formatters/id_formatter.dart';
+import 'package:resipal_core/helpers/formatters/currency_formatter.dart';
+import 'package:resipal_core/helpers/formatters/date_formatters.dart';
+import 'package:resipal_core/helpers/formatters/id_formatter.dart';
 import 'package:resipal_core/presentation/maintenance/widgets/maintenance_fee_icon.dart';
 import 'package:resipal_core/presentation/maintenance/widgets/maintenance_status_pill.dart';
 import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';

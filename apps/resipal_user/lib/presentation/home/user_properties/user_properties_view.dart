@@ -11,38 +11,11 @@ class UserPropertiesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (user.properties.isEmpty) {
+    if (user.registry.properties.isEmpty) {
       return NoPropertiesFoundView();
     } else {
-      return PropertyListView(user.properties);
+      return PropertyListView(user.registry.properties);
     }
-    // return BlocProvider(
-    //   create: (ctx) => UserPropertiesCubit()..intialize(user.id),
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       const HeaderText.three('Mis propiedades'),
-    //       const SizedBox(height: 16), // Spacing between header and content
-    //       BlocBuilder<UserPropertiesCubit, UserPropertiesState>(
-    //         builder: (ctx, state) {
-    //           if (state is InitialState || state is LoadingState) {
-    //             return const _Loading();
-    //           }
-
-    //           if (state is LoadedState) {
-    //             return _Loaded(state.properties);
-    //           }
-
-    //           if (state is ErrorState) {
-    //             return const ErrorView();
-    //           }
-
-    //           return UnknownStateView();
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }
 

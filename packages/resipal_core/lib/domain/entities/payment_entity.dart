@@ -1,10 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:resipal_core/domain/enums/payment_status.dart';
+import 'package:resipal_core/domain/refs/community_ref.dart';
+import 'package:resipal_core/domain/refs/user_ref.dart';
 
 class PaymentEntity extends Equatable {
   final String id;
-  final String userId;
+  final CommunityRef community;
+  final UserRef user;
   final DateTime createdAt;
+  final UserRef createdBy;
   final int amountInCents;
   final PaymentStatus status;
   final DateTime date;
@@ -14,8 +18,10 @@ class PaymentEntity extends Equatable {
 
   const PaymentEntity({
     required this.id,
-    required this.userId,
+    required this.community,
+    required this.user,
     required this.createdAt,
+    required this.createdBy,
     required this.amountInCents,
     required this.status,
     required this.date,
@@ -25,15 +31,5 @@ class PaymentEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props => [
-    id,
-    userId,
-    createdAt,
-    amountInCents,
-    status,
-    date,
-    reference,
-    note,
-    receiptPath,
-  ];
+  List<Object?> get props => [id, community, user, createdAt, createdBy, amountInCents, status, date, reference, note, receiptPath];
 }
