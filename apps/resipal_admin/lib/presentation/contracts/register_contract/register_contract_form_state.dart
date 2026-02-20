@@ -13,7 +13,7 @@ class RegisterContractFormState extends Equatable {
     this.period = 'Mensual',
   });
 
-  bool get canSubmit => name.isNotEmpty && amount > 0;
+  bool get canSubmit => name.isNotEmpty && amount >= 0;
 
   int get amountInCents => (amount * 100).toInt();
 
