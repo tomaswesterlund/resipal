@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:resipal_core/domain/typedefs.dart';
 import '../models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -49,7 +50,12 @@ class UserDataSource {
     _cache[model.id] = model;
   }
 
-  Future createUser({required String name, required String phoneNumber, required String email}) async {
-    await _client.rpc('fn_create_user', params: {'p_name': name, 'p_phone_number': phoneNumber, 'p_email': email});
+  Future<UserId> createUser({required String name, required String phoneNumber, required String email}) async {
+    final userId = await _client.rpc(
+      'fn_create_user',
+      params: {'p_name': name, 'p_phone_number': phoneNumber, 'p_email': email},
+    );
+
+    return userId;
   }
 }

@@ -22,6 +22,7 @@ class SuccessView extends StatelessWidget {
       padding: const EdgeInsets.all(36.0),
       child: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Green Checkmark Icon
@@ -43,7 +44,7 @@ class SuccessView extends StatelessWidget {
             HeaderText.two(title),
             if (subtitle != null) ...[
               const SizedBox(height: 12),
-              BodyText.small(subtitle!),
+              BodyText.small(subtitle!, textAlign: TextAlign.center,),
             ],
       
             const SizedBox(height: 40),

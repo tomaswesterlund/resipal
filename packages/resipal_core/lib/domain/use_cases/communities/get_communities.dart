@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:resipal_core/data/sources/community_data_source.dart';
 import 'package:resipal_core/data/sources/membership_data_source.dart';
 import 'package:resipal_core/domain/entities/community/community_entity.dart';
-import 'package:resipal_core/domain/use_cases/get_community.dart';
+import 'package:resipal_core/domain/use_cases/communities/get_community.dart';
 
 class GetCommunities {
   final CommunityDataSource _communityDataSource = GetIt.I<CommunityDataSource>();

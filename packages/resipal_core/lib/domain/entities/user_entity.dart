@@ -9,7 +9,7 @@ class UserEntity extends Equatable {
   final DateTime createdAt;
   final String name;
   final String phoneNumber;
-  final String emergencyPhoneNumber;
+  final String? emergencyPhoneNumber;
   final String email;
   final UserAccessRegistry userAccessRegistry;
   final List<InvitationEntity> invitations;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resipal_admin/presentation/contracts/contract_list/contract_list_page.dart';
 import 'package:resipal_admin/presentation/home/admin_applications_view.dart';
 import 'package:resipal_admin/presentation/home/admin_overview.dart';
 import 'package:resipal_admin/presentation/home/admin_payments_view.dart';
@@ -37,7 +38,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
       body: IndexedStack(
         index: _currentPageIndex,
         children: [
-          AdminOverview(community: widget.community),
+          AdminOverview(community: widget.community, user: widget.user),
           AdminPropertiesView(widget.community.propertyRegistry),
           AdminPaymensView(widget.community.paymentLedger),
           AdminApplicationsView(widget.community.directory.pendingApplications),
@@ -89,7 +90,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     const SizedBox(height: 16),
 
                     _buildDrawerItem(icon: Icons.settings_applications_outlined, label: 'Comunidad', onTap: () {}),
-                    _buildDrawerItem(icon: Icons.description_outlined, label: 'Contratos', onTap: () {}),
+                    _buildDrawerItem(icon: Icons.description_outlined, label: 'Contratos', onTap: () => Go.to(ContractListPage())),
                     _buildDrawerItem(icon: Icons.apartment_outlined, label: 'Propiedades', onTap: () {}),
                     _buildDrawerItem(icon: Icons.manage_accounts_outlined, label: 'Usuarios', onTap: () {}),
 

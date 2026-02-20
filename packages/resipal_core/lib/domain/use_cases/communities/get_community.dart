@@ -5,9 +5,9 @@ import 'package:resipal_core/domain/entities/community/community_entity.dart';
 import 'package:resipal_core/domain/entities/payment/payment_ledger_entity.dart';
 import 'package:resipal_core/domain/entities/property_registry.dart';
 import 'package:resipal_core/domain/use_cases/get_applications.dart';
-import 'package:resipal_core/domain/use_cases/get_community_members.dart';
-import 'package:resipal_core/domain/use_cases/get_community_payments.dart';
-import 'package:resipal_core/domain/use_cases/get_community_properties.dart';
+import 'package:resipal_core/domain/use_cases/get_memberships.dart';
+import 'package:resipal_core/domain/use_cases/payments/get_payments.dart';
+import 'package:resipal_core/domain/use_cases/properties/get_properties.dart';
 
 class GetCommunity {
   final CommunityDataSource _source = GetIt.I<CommunityDataSource>();
@@ -20,14 +20,13 @@ class GetCommunity {
     }
 
     final applications = GetApplications().byCommunityId(communityId);
-    final members = GetCommunityMembers().call(communityId);
-    final payments = GetCommunityPayments().call(communityId);
-    final properties = GetCommunityProperties().call(communityId);
+    final members = GetMemberships().byCommunityId(communityId);
+    final payments = GetPayments().byCommunityId(communityId);
+    final properties = GetProperties().byCommunityId(communityId);
 
     return CommunityEntity(
       id: model.id,
       name: model.name,
-      key: model.key,
       location: model.location,
       description: model.description,
 

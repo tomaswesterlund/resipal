@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resipal_admin/presentation/onboarding/registration/onboarding_registration_cubit.dart';
-import 'package:resipal_admin/presentation/onboarding/registration/onboarding_registration_state.dart';
+import 'package:resipal_admin/presentation/onboarding/community_registration/onboarding_community_registration_page.dart';
+import 'package:resipal_admin/presentation/onboarding/user_registration/onboarding_user_registration_cubit.dart';
+import 'package:resipal_admin/presentation/onboarding/user_registration/onboarding_user_registration_state.dart';
 import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/inputs/phone_number_input_field.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
@@ -11,20 +12,21 @@ import 'package:resipal_core/presentation/shared/inputs/text_input_field.dart';
 import 'package:resipal_core/presentation/shared/views/error_view.dart';
 import 'package:resipal_core/presentation/shared/views/loading_view.dart';
 import 'package:resipal_core/presentation/shared/views/success_view.dart';
+import 'package:short_navigation/short_navigation.dart';
 
-class OnboardingRegistrationPage extends StatelessWidget {
-  const OnboardingRegistrationPage({super.key});
+class OnboardingUserRegistrationPage extends StatelessWidget {
+  const OnboardingUserRegistrationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OnboardingRegistrationCubit()..initialize(),
-      child: BlocListener<OnboardingRegistrationCubit, OnboardingRegistrationState>(
+      create: (context) => OnboardingUserRegistrationCubit()..initialize(),
+      child: BlocListener<OnboardingUserRegistrationCubit, OnboardingUserRegistrationState>(
         listener: (context, state) {},
         child: Scaffold(
           backgroundColor: BaseAppColors.background,
           appBar: const MyAppBar(title: 'Perfil de Administrador', automaticallyImplyLeading: false),
-          body: BlocBuilder<OnboardingRegistrationCubit, OnboardingRegistrationState>(
+          body: BlocBuilder<OnboardingUserRegistrationCubit, OnboardingUserRegistrationState>(
             builder: (context, state) {
               if (state is InitialState || state is FormSubmittingState) {
                 return const Center(child: CircularProgressIndicator());
@@ -39,10 +41,13 @@ class OnboardingRegistrationPage extends StatelessWidget {
 
               if (state is FormSubmittedSuccessfully) {
                 return SuccessView(
-                  title: '¡Todo listo!',
-                  subtitle: 'Tu perfil ha sido creado con éxito. Ya puedes comenzar a gestionar tu comunidad.',
-                  actionButtonLabel: 'Ir al Panel Principal',
-                  onActionButtonPressed: () {},
+                  title: '¡Perfil creado!',
+                  subtitle:
+                      'Tu información de administrador se ha guardado correctamente. Ahora, vamos a registrar tu comunidad para empezar a gestionar.',
+                  actionButtonLabel: 'Registrar mi Comunidad',
+                  onActionButtonPressed: () {
+                    Go.to(const OnboardingCommunityRegistrationPage());
+                  },
                 );
               }
 
@@ -52,7 +57,7 @@ class OnboardingRegistrationPage extends StatelessWidget {
 
               if (state is FormEditingState) {
                 final form = state.formstate;
-                final cubit = context.read<OnboardingRegistrationCubit>();
+                final cubit = context.read<OnboardingUserRegistrationCubit>();
 
                 return SingleChildScrollView(
                   padding: const EdgeInsets.all(24.0),

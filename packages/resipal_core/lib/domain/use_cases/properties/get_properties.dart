@@ -7,6 +7,18 @@ class GetProperties {
   final PropertyDataSource _source = GetIt.I<PropertyDataSource>();
   final GetProperty _getProperty = GetProperty();
 
+  List<PropertyEntity> byCommunityId(String userId) {
+    final models = _source.getByCommunityId(userId);
+    final payments = models.map((m) => _getProperty.call(m.id)).toList();
+    return payments;
+  }
+
+  List<PropertyEntity> byResidentId(String userId) {
+    final models = _source.getByResidentId(userId);
+    final payments = models.map((m) => _getProperty.call(m.id)).toList();
+    return payments;
+  }
+
   List<PropertyEntity> byByCommunityAndResidentId({required String communityId, required String residentId}) {
     final properties = _source.getByCommunityAndResidentId(communityId: communityId, residentId: residentId);
     final list = properties.map((x) => _getProperty.call(x.id)).toList();

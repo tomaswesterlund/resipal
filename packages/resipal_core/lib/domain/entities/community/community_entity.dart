@@ -6,7 +6,6 @@ import 'package:resipal_core/domain/entities/property_registry.dart';
 class CommunityEntity {
   final String id;
   final String name;
-  final String key;
   final String location;
   final String? description;
   final PaymentLedgerEntity paymentLedger;
@@ -16,7 +15,6 @@ class CommunityEntity {
   CommunityEntity({
     required this.id,
     required this.name,
-    required this.key,
     required this.location,
     required this.description,
     required this.paymentLedger,

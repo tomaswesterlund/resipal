@@ -3,7 +3,7 @@ import 'package:resipal_core/data/sources/user_data_source.dart';
 import 'package:resipal_core/domain/entities/payment/payment_ledger_entity.dart';
 import 'package:resipal_core/domain/entities/property_registry.dart';
 import 'package:resipal_core/domain/entities/user_entity.dart';
-import 'package:resipal_core/domain/use_cases/get_payments.dart';
+import 'package:resipal_core/domain/use_cases/payments/get_payments.dart';
 import 'package:resipal_core/domain/use_cases/get_user_access_registry.dart';
 import 'package:resipal_core/domain/use_cases/get_user_invitations.dart';
 import 'package:resipal_core/domain/use_cases/get_user_properties.dart';

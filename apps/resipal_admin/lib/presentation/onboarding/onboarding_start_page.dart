@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resipal_admin/presentation/onboarding/registration/onboarding_registration_page.dart';
+import 'package:resipal_admin/presentation/onboarding/user_registration/onboarding_user_registration_page.dart';
 import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
@@ -57,7 +57,7 @@ class OnboardingStartPage extends StatelessWidget {
                   backgroundColor: const Color(0xFF1A4644),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                 ),
-                onPressed: () =>Go.to(OnboardingRegistrationPage()),
+                onPressed: () =>Go.to(OnboardingUserRegistrationPage()),
                 child: Text(
                   'Comenzar ahora',
                   style: GoogleFonts.raleway(color: Colors.white, fontWeight: FontWeight.bold),
@@ -113,7 +113,7 @@ class OnboardingStartPage extends StatelessWidget {
                   backgroundColor: const Color(0xFF1A4644),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                 ),
-                onPressed: () => Go.to(OnboardingRegistrationPage()),
+                onPressed: () => Go.to(OnboardingUserRegistrationPage()),
                 child: Text(
                   'Comenzar ahora',
                   style: GoogleFonts.raleway(color: Colors.white, fontWeight: FontWeight.bold),

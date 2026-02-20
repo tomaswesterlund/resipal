@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:resipal_core/domain/entities/contract_entity.dart';
 import 'package:resipal_core/domain/entities/resident_entity.dart';
@@ -35,6 +36,10 @@ class RegisterPropertyPage extends StatelessWidget {
             //if (state is FormSubmittedSuccessfully) {}
           },
           builder: (ctx, state) {
+            if (state is NoContractsFound) {
+              return _NoContractsFound();
+            }
+
             if (state is FormEditingState) {
               return _Form(state.formState);
             }
@@ -124,7 +129,6 @@ class _Form extends StatelessWidget {
           ),
           const SizedBox(height: 24.0),
 
-
           // HeaderText.four('Foto de la propiedad'),
           // BodyText.small('Selecciona la opción para elegir una imagen.'),
           // const SizedBox(height: 16.0),
@@ -138,13 +142,75 @@ class _Form extends StatelessWidget {
           //     onGallery: () => cubit.pickImage(ImageSource.gallery),
           //   ),
           // const SizedBox(height: 24.0),
-          
           Center(
             child: PrimaryCtaButton(
               label: 'REGISTRAR PROPIEDAD',
               icon: Icons.add_home,
               canSubmit: formState.canSubmit,
               onPressed: () => cubit.submit(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NoContractsFound extends StatelessWidget {
+  const _NoContractsFound({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Visual indicator for missing configuration
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(color: BaseAppColors.secondary.withOpacity(0.1), shape: BoxShape.circle),
+            child: Icon(Icons.description_outlined, size: 64, color: BaseAppColors.secondary),
+          ),
+          const SizedBox(height: 32),
+
+          HeaderText.four('No hay contratos activos', textAlign: TextAlign.center, color: const Color(0xFF1A4644)),
+          const SizedBox(height: 16),
+
+          Text(
+            'Para registrar una propiedad, primero necesitas definir al menos un tipo de contrato (ej: Mensualidad, Mantenimiento).',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.raleway(fontSize: 15, color: Colors.grey.shade600, height: 1.5),
+          ),
+          const SizedBox(height: 48),
+
+          // Action to fix the missing requirement
+          SizedBox(
+            width: double.infinity,
+            height: 55,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1A4644),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              ),
+              onPressed: () {
+                // TODO: Navigate to Contract Creation Page
+                // Go.to(const RegisterContractPage());
+              },
+              child: Text(
+                'Configurar Contratos',
+                style: GoogleFonts.raleway(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              'Volver',
+              style: GoogleFonts.raleway(color: Colors.grey.shade500, fontWeight: FontWeight.w600),
             ),
           ),
         ],

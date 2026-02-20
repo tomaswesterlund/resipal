@@ -3,7 +3,7 @@ class UserModel {
   final DateTime createdAt;
   final String name;
   final String phoneNumber;
-  final String emergencyPhoneNumber;
+  final String? emergencyPhoneNumber;
   final String email;
 
   UserModel({

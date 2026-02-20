@@ -15,11 +15,7 @@ class UserNotSignedIn extends AuthState {}
 
 class UserNotOnboarded extends AuthState {}
 
-class UserHasNoAdminMemberships extends AuthState {}
-
-class UserHasNoMemberships extends AuthState {}
-
-class UserHasNoApplications extends AuthState {}
+class UserHasNoAdminMembership extends AuthState {}
 
 class UserIsNotAdmin extends AuthState {}
 

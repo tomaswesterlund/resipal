@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/data/sources/membership_data_source.dart';
 import 'package:resipal_core/domain/entities/membership_entity.dart';
-import 'package:resipal_core/domain/use_cases/get_community_ref.dart';
+import 'package:resipal_core/domain/use_cases/communities/get_community_ref.dart';
 import 'package:resipal_core/domain/use_cases/get_resident.dart';
 import 'package:resipal_core/domain/use_cases/get_user.dart';
 import 'package:resipal_core/domain/use_cases/get_user_ref.dart';

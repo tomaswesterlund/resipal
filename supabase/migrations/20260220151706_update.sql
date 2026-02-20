@@ -1,11 +1,12 @@
-CREATE OR REPLACE FUNCTION fn_create_user(
-  p_name TEXT, 
-  p_email TEXT, 
-  p_phone_number TEXT
-)
-RETURNS UUID 
-SECURITY DEFINER -- Ensures it has permission to write to the users table
-LANGUAGE plpgsql AS $$
+drop function if exists "public"."fn_create_user"(p_user_id uuid, p_name text, p_email text, p_phone_number text);
+
+set check_function_bodies = off;
+
+CREATE OR REPLACE FUNCTION public.fn_create_user(p_name text, p_email text, p_phone_number text)
+ RETURNS uuid
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+AS $function$
 DECLARE
   new_user_id UUID;
 BEGIN
@@ -23,4 +24,7 @@ BEGIN
 
     RETURN new_user_id;
 END;
-$$;
+$function$
+;
+
+

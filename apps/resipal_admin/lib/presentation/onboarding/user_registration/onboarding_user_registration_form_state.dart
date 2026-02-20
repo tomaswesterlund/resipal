@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class OnboardingRegistrationFormState extends Equatable {
+class OnboardingUserRegistrationFormState extends Equatable {
   final String name;
   final String phoneNumber;
   final String email;
@@ -13,10 +13,10 @@ class OnboardingRegistrationFormState extends Equatable {
     return true;
   }
 
-  OnboardingRegistrationFormState({this.name = '', this.phoneNumber = '', this.email = ''});
+  OnboardingUserRegistrationFormState({this.name = '', this.phoneNumber = '', this.email = ''});
 
-  OnboardingRegistrationFormState copyWith({String? name, String? phoneNumber, String? email}) {
-    return OnboardingRegistrationFormState(
+  OnboardingUserRegistrationFormState copyWith({String? name, String? phoneNumber, String? email}) {
+    return OnboardingUserRegistrationFormState(
       name: name ?? this.name,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,

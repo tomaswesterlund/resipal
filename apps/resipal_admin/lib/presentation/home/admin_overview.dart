@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_core/domain/entities/community/community_entity.dart';
+import 'package:resipal_core/domain/entities/user_entity.dart';
 import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 
 class AdminOverview extends StatelessWidget {
   final CommunityEntity community;
+  final UserEntity user;
 
-  const AdminOverview({required this.community, super.key});
+  const AdminOverview({required this.community, required this.user, super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        HeaderText.four('¡Bienvenido, Administrador!'),
+        HeaderText.four('¡Bienvenido, ${user.name}!'),
         const SizedBox(height: 4),
         Text(
           community.name,
-          style: GoogleFonts.raleway(
-            color: BaseAppColors.auxiliarScale[500],
-            fontWeight: FontWeight.w600,
-          ),
+          style: GoogleFonts.raleway(color: BaseAppColors.auxiliarScale[500], fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 24),
-        
+
         // --- Metric Grid ---
         GridView.count(
           padding: EdgeInsets.zero,
@@ -49,13 +48,13 @@ class AdminOverview extends StatelessWidget {
             ),
           ],
         ),
-        
+
         const SizedBox(height: 24),
-        
+
         // --- Action Required Section ---
         HeaderText.five('Acciones Pendientes'),
         const SizedBox(height: 12),
-        
+
         _buildActionTile(
           context,
           title: 'Pagos por revisar',
@@ -138,10 +137,7 @@ class AdminOverview extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: GoogleFonts.raleway(
-                fontWeight: FontWeight.bold,
-                color: BaseAppColors.auxiliarScale[800],
-              ),
+              style: GoogleFonts.raleway(fontWeight: FontWeight.bold, color: BaseAppColors.auxiliarScale[800]),
             ),
           ),
           Container(
@@ -152,11 +148,7 @@ class AdminOverview extends StatelessWidget {
             ),
             child: Text(
               count.toString(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
             ),
           ),
         ],

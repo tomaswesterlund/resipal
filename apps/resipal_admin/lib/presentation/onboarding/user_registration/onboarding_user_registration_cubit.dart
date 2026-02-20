@@ -1,18 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:resipal_admin/presentation/onboarding/registration/onboarding_registration_form_state.dart';
-import 'package:resipal_admin/presentation/onboarding/registration/onboarding_registration_state.dart';
+import 'package:resipal_admin/presentation/onboarding/user_registration/onboarding_user_registration_form_state.dart';
+import 'package:resipal_admin/presentation/onboarding/user_registration/onboarding_user_registration_state.dart';
+import 'package:resipal_core/domain/use_cases/fetch_user.dart';
 import 'package:resipal_core/domain/use_cases/users/create_user.dart';
 import 'package:resipal_core/services/auth_service.dart';
 import 'package:resipal_core/services/logger_service.dart';
 
-class OnboardingRegistrationCubit extends Cubit<OnboardingRegistrationState> {
+class OnboardingUserRegistrationCubit extends Cubit<OnboardingUserRegistrationState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final AuthService _authService = GetIt.I<AuthService>();
 
-  OnboardingRegistrationCubit() : super(InitialState());
+  OnboardingUserRegistrationCubit() : super(InitialState());
 
-  OnboardingRegistrationFormState _formState = OnboardingRegistrationFormState();
+  OnboardingUserRegistrationFormState _formState = OnboardingUserRegistrationFormState();
 
   void initialize() {
     try {
@@ -47,7 +48,14 @@ class OnboardingRegistrationCubit extends Cubit<OnboardingRegistrationState> {
       }
 
       emit(FormSubmittingState());
-      await CreateUser().call(name: _formState.name, phoneNumber: _formState.phoneNumber, email: _formState.email);
+      final userId = await CreateUser().call(
+        name: _formState.name,
+        phoneNumber: _formState.phoneNumber,
+        email: _formState.email,
+      );
+
+      await FetchUser().call(userId);
+
       emit(FormSubmittedSuccessfully());
     } catch (e, s) {
       _logger.logException(
