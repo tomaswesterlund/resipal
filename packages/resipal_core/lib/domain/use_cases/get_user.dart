@@ -3,9 +3,9 @@ import 'package:resipal_core/data/sources/user_data_source.dart';
 import 'package:resipal_core/domain/entities/payment/payment_ledger_entity.dart';
 import 'package:resipal_core/domain/entities/property_registry.dart';
 import 'package:resipal_core/domain/entities/user_entity.dart';
+import 'package:resipal_core/domain/use_cases/get_payments.dart';
 import 'package:resipal_core/domain/use_cases/get_user_access_registry.dart';
 import 'package:resipal_core/domain/use_cases/get_user_invitations.dart';
-import 'package:resipal_core/domain/use_cases/get_user_payments.dart';
 import 'package:resipal_core/domain/use_cases/get_user_properties.dart';
 
 class GetUser {
@@ -19,7 +19,7 @@ class GetUser {
     }
 
     final userAccessRegistry = GetUserAccessRegistry().call(user.id);
-    final payments = GetUserPayments().call(id);
+    final payments = GetPayments().byUserId(user.id);
     final properties = GetUserProperties().call(id);
 
     return UserEntity(

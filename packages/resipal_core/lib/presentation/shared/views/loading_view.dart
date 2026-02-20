@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/resipal_logo.dart';
 import 'package:resipal_core/presentation/shared/texts/body_text.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
@@ -21,8 +21,8 @@ class LoadingView extends StatelessWidget {
           const SizedBox(
             width: 120,
             child: LinearProgressIndicator(
-              backgroundColor: AppColors.background,
-              color: AppColors.secondary,
+              backgroundColor: BaseAppColors.background,
+              color: BaseAppColors.secondary,
               minHeight: 2,
             ),
           ),

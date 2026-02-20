@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_core/domain/entities/invitation_entity.dart';
 import 'package:resipal_core/helpers/formatters/date_formatters.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 
 class InvitationCard extends StatelessWidget {
@@ -22,16 +22,16 @@ class InvitationCard extends StatelessWidget {
     IconData statusIcon;
 
     if (isActive) {
-      statusColor = AppColors.success;
-      borderColor = AppColors.successScale[200]!;
+      statusColor = BaseAppColors.success;
+      borderColor = BaseAppColors.successScale[200]!;
       statusIcon = Icons.check_circle_rounded;
     } else if (isUpcoming) {
-      statusColor = AppColors.warning;
-      borderColor = AppColors.warningScale[200]!;
+      statusColor = BaseAppColors.warning;
+      borderColor = BaseAppColors.warningScale[200]!;
       statusIcon = Icons.schedule_rounded; // Clock icon for upcoming
     } else {
-      statusColor = AppColors.danger;
-      borderColor = AppColors.dangerScale[200]!;
+      statusColor = BaseAppColors.danger;
+      borderColor = BaseAppColors.dangerScale[200]!;
       statusIcon = Icons.history_rounded;
     }
 
@@ -46,7 +46,7 @@ class InvitationCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.auxiliarScale[900]!.withOpacity(0.04),
+            color: BaseAppColors.auxiliarScale[900]!.withOpacity(0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -77,13 +77,13 @@ class InvitationCard extends StatelessWidget {
                                 Icon(
                                   Icons.qr_code_2_rounded,
                                   size: 20,
-                                  color: AppColors.secondaryScale[400],
+                                  color: BaseAppColors.secondaryScale[400],
                                 ),
                                 const SizedBox(width: 8),
                                 Flexible(
                                   child: HeaderText.five(
                                     invitation.visitor.name,
-                                    color: AppColors.auxiliarScale[900]!,
+                                    color: BaseAppColors.auxiliarScale[900]!,
                                   ),
                                 ),
                               ],
@@ -97,14 +97,14 @@ class InvitationCard extends StatelessWidget {
                       Text(
                         'Propiedad: ${invitation.property.name}',
                         style: GoogleFonts.raleway(
-                          color: AppColors.auxiliarScale[500],
+                          color: BaseAppColors.auxiliarScale[500],
                           fontSize: 13,
                         ),
                       ),
                       Divider(
                         height: 24,
                         thickness: 1,
-                        color: AppColors.auxiliarScale[100],
+                        color: BaseAppColors.auxiliarScale[100],
                       ),
 
                       // Footer: Dates and Action
@@ -119,7 +119,7 @@ class InvitationCard extends StatelessWidget {
                                 style: GoogleFonts.raleway(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.auxiliarScale[400],
+                                  color: BaseAppColors.auxiliarScale[400],
                                 ),
                               ),
                               Text(
@@ -130,14 +130,14 @@ class InvitationCard extends StatelessWidget {
                                 style: GoogleFonts.raleway(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.auxiliarScale[800],
+                                  color: BaseAppColors.auxiliarScale[800],
                                 ),
                               ),
                             ],
                           ),
                           TextButton(
                             style: TextButton.styleFrom(
-                              foregroundColor: AppColors.secondary,
+                              foregroundColor: BaseAppColors.secondary,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
                               ),

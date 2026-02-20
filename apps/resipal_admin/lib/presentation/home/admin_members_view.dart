@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/domain/entities/community/community_directory_entity.dart';
-import 'package:resipal_core/presentation/memberships/member_card.dart';
+import 'package:resipal_core/presentation/memberships/membership_card.dart';
 import 'package:resipal_core/presentation/shared/texts/body_text.dart';
 
 class AdminMembersView extends StatelessWidget {

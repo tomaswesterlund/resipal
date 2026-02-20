@@ -11,11 +11,8 @@ class AdminPropertiesView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (registry.properties.isEmpty) {
       return NoPropertiesFoundView();
-    } else {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: PropertyListView(registry.properties),
-      );
     }
+
+    return Padding(padding: const EdgeInsets.symmetric(horizontal: 8.0), child: PropertyListView(registry.properties));
   }
 }

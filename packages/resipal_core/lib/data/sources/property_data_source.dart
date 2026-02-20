@@ -40,11 +40,7 @@ class PropertyDataSource {
             }).toList(),
           );
     } catch (e, s) {
-      _logger.logException(
-        exception: e,
-        featureArea: 'PropertyDataSource.watchByCommunityId',
-        stackTrace: s,
-      );
+      _logger.logException(exception: e, featureArea: 'PropertyDataSource.watchByCommunityId', stackTrace: s);
       rethrow;
     }
   }
@@ -63,11 +59,7 @@ class PropertyDataSource {
             }).toList(),
           );
     } catch (e, s) {
-      _logger.logException(
-        exception: e,
-        featureArea: 'PropertyDataSource.watchByResidentId',
-        stackTrace: s,
-      );
+      _logger.logException(exception: e, featureArea: 'PropertyDataSource.watchByResidentId', stackTrace: s);
       rethrow;
     }
   }
@@ -80,12 +72,33 @@ class PropertyDataSource {
   List<PropertyModel> getByResidentId(String residentId) =>
       _cache.values.where((m) => m.residentId == residentId).toList();
 
+  List<PropertyModel> getByCommunityAndResidentId({required String communityId, required String residentId}) =>
+      _cache.values.where((x) => x.communityId == communityId && x.residentId == residentId).toList();
+
   Future<List<PropertyModel>> fetchByResidentId(String residentId) async {
-    final data = await _client
-        .from('properties')
-        .select()
-        .eq('resident_id', residentId);
+    final data = await _client.from('properties').select().eq('resident_id', residentId);
     final models = data.map((item) => PropertyModel.fromJson(item)).toList();
     return models;
+  }
+
+  Future registerProperty({
+    required String communityId,
+    required String residentId,
+    required String contractId,
+    required String name,
+    String? description,
+  }) async {
+    final data = await _client.rpc(
+      'fn_register_property',
+      params: {
+        'p_community_id': communityId,
+        'p_resident_id': residentId,
+        'p_contract_id': contractId,
+        'p_name': name,
+        'p_description': description,
+      },
+    );
+
+    int k = 0;
   }
 }

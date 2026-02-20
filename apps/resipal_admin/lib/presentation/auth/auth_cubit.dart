@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_admin/admin_session_service.dart';
 import 'package:resipal_admin/presentation/auth/auth_state.dart';
+import 'package:resipal_core/domain/use_cases/fetch_applications.dart';
 import 'package:resipal_core/domain/use_cases/fetch_communities.dart';
-import 'package:resipal_core/domain/use_cases/fetch_community_applications.dart';
 import 'package:resipal_core/domain/use_cases/fetch_memberships.dart';
 import 'package:resipal_core/domain/use_cases/fetch_users.dart';
 import 'package:resipal_core/domain/use_cases/get_community.dart';
@@ -30,10 +30,10 @@ class AuthCubit extends Cubit<AuthState> {
 
         await FetchUsers().call();
         await FetchCommunities().call();
-        await FetchCommunityApplications().byUserId(userId);
+        await FetchApplications().byUserId(userId);
         await FetchMemberships().byUserId(userId);
 
-        final userOnboarded = await UserIsOnboarded().call(userId, forceFetch: true);
+        final userOnboarded = await UserIsOnboarded().call(userId);
         if (userOnboarded == false) {
           emit(UserNotOnboarded());
           return;

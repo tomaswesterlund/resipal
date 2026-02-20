@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 
 class DetailTile extends StatelessWidget {
   final IconData icon;
@@ -19,7 +19,7 @@ class DetailTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       // Use the passed color, or fallback to primary
-      leading: Icon(icon, color: color ?? AppColors.secondary, size: 22),
+      leading: Icon(icon, color: color ?? BaseAppColors.secondary, size: 22),
       title: Text(
         label,
         style: const TextStyle(

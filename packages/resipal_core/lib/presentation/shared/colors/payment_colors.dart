@@ -1,19 +1,19 @@
 import 'dart:ui';
 import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 import 'package:resipal_core/domain/enums/payment_status.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 
 class PaymentColors {
   static Color getColor(PaymentEntity payment) {
     switch (payment.status) {
       case PaymentStatus.approved:
-        return AppColors.success;
+        return BaseAppColors.success;
       case PaymentStatus.pendingReview:
-        return AppColors.warning;
+        return BaseAppColors.warning;
       case PaymentStatus.cancelled:
-        return AppColors.danger;
+        return BaseAppColors.danger;
       case PaymentStatus.unknown:
-        return AppColors.info;
+        return BaseAppColors.info;
     }
   }
 }

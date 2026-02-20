@@ -4,6 +4,6 @@ CREATE TABLE users(
     created_by UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id),
     name text NOT NULL,
     phone_number text NOT NULL,
-    emergency_phone_number text NOT NULL,
+    emergency_phone_number text NULL,
     email text NOT NULL
 );

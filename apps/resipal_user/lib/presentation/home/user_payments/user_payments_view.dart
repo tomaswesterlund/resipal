@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resipal_core/domain/entities/payment_entity.dart';
+import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 import 'package:resipal_core/presentation/payments/pages/register_payment/register_payment_page.dart';
 import 'package:resipal_core/presentation/payments/views/payment_list_view.dart';
 import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';
 import 'package:resipal_core/presentation/shared/cards/shimmer_card.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/containers/green_box_container.dart';
 import 'package:resipal_core/presentation/shared/texts/body_text.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
@@ -60,7 +60,7 @@ class UserPaymentsView extends StatelessWidget {
                           style: GoogleFonts.raleway(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.secondary,
+                            color: BaseAppColors.secondary,
                           ),
                         ),
                       ),

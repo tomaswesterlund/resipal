@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/domain/entities/user_entity.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 
 class UserHomeHeader extends StatelessWidget {
@@ -10,7 +10,7 @@ class UserHomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.background,
+      color: BaseAppColors.background,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Row(

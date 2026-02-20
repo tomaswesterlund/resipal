@@ -49,22 +49,7 @@ class UserDataSource {
     _cache[model.id] = model;
   }
 
-  Future createUser({
-    required String userId,
-    required String name,
-    required String phoneNumber,
-    required String emergencyPhoneNumber,
-    required String email,
-  }) async {
-    await _client.rpc(
-      'fn_create_user',
-      params: {
-        'p_user_id': userId,
-        'p_name': name,
-        'p_phone_number': phoneNumber,
-        'p_emergency_phone_number': emergencyPhoneNumber,
-        'p_email': email,
-      },
-    );
+  Future createUser({required String name, required String phoneNumber, required String email}) async {
+    await _client.rpc('fn_create_user', params: {'p_name': name, 'p_phone_number': phoneNumber, 'p_email': email});
   }
 }

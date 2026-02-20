@@ -4,7 +4,7 @@ import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 import 'package:resipal_core/domain/enums/payment_status.dart';
 import 'package:resipal_core/helpers/formatters/date_formatters.dart';
 import 'package:resipal_core/presentation/payments/pages/payment_details/payment_details_page.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/colors/payment_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/amount_text.dart';
 import 'package:short_navigation/short_navigation.dart';
@@ -51,15 +51,15 @@ class PaymentCard extends StatelessWidget {
                                 style: GoogleFonts.raleway(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.auxiliarScale[400],
+                                  color: BaseAppColors.auxiliarScale[400],
                                 ),
                               ),
                               AmountText.fromCents(
                                 payment.amountInCents,
                                 fontSize: 18,
                                 color: isApproved
-                                    ? AppColors.secondary
-                                    : AppColors.auxiliarScale[800]!,
+                                    ? BaseAppColors.secondary
+                                    : BaseAppColors.auxiliarScale[800]!,
                               ),
                             ],
                           ),
@@ -121,7 +121,7 @@ class PaymentCard extends StatelessWidget {
                                 style: GoogleFonts.raleway(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.auxiliarScale[600],
+                                  color: BaseAppColors.auxiliarScale[600],
                                 ),
                               ),
                             ],
@@ -129,7 +129,7 @@ class PaymentCard extends StatelessWidget {
 
                           TextButton(
                             style: TextButton.styleFrom(
-                              foregroundColor: AppColors.secondary,
+                              foregroundColor: BaseAppColors.secondary,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
                               ),

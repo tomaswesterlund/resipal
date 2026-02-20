@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 
 class FloatingNavBar extends StatelessWidget {
   final int currentIndex;
@@ -50,7 +50,7 @@ class FloatingNavBar extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: isActive
-                            ? AppColors.secondaryScale[500]
+                            ? BaseAppColors.secondaryScale[500]
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -76,7 +76,7 @@ class FloatingNavBar extends StatelessWidget {
                             width: 14,
                             height: 14,
                             decoration: const BoxDecoration(
-                              color: AppColors.danger,
+                              color: BaseAppColors.danger,
                               shape: BoxShape.circle,
                             ),
                             child: const Center(
@@ -106,7 +106,7 @@ class FloatingNavBar extends StatelessWidget {
                             width: 14,
                             height: 14,
                             decoration: const BoxDecoration(
-                              color: AppColors.warning,
+                              color: BaseAppColors.warning,
                               shape: BoxShape.circle,
                             ),
                             child: Center(
@@ -136,7 +136,7 @@ class FloatingNavBar extends StatelessWidget {
                             width: 14,
                             height: 14,
                             decoration: const BoxDecoration(
-                              color: AppColors.info,
+                              color: BaseAppColors.info,
                               shape: BoxShape.circle,
                             ),
                             child: Center(
@@ -162,7 +162,7 @@ class FloatingNavBar extends StatelessWidget {
                     fontSize: 11,
                     fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
                     color: isActive
-                        ? AppColors.secondaryScale[500]
+                        ? BaseAppColors.secondaryScale[500]
                         : Colors.grey,
                   ),
                 ),

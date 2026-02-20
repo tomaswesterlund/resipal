@@ -1,0 +1,16 @@
+drop function if exists "public"."fn_create_user"(p_user_id uuid, p_name text, p_email text, p_phone_number text, p_emergency_phone_number text);
+
+set check_function_bodies = off;
+
+CREATE OR REPLACE FUNCTION public.fn_create_user(p_name text, p_email text, p_phone_number text)
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    INSERT INTO users (name, email, phone_number)
+    VALUES (p_name, p_email, p_phone_number);
+END;
+$function$
+;
+
+

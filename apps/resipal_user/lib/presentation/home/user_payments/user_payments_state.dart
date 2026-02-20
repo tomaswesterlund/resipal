@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:resipal_core/domain/entities/payment_entity.dart';
+import 'package:resipal_core/domain/entities/payment/payment_entity.dart';
 
 abstract class UserPaymentsState extends Equatable {
   @override

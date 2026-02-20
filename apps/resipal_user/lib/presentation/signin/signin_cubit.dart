@@ -2,13 +2,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/services/auth_service.dart';
 import 'package:resipal_core/services/logger_service.dart';
-import 'package:resipal_core/services/user_scope_service.dart';
 import 'package:resipal_user/presentation/signin/signin_state.dart';
+import 'package:resipal_user/user_session_service.dart';
 
 class SigninCubit extends Cubit<SigninState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
-  final UserSessionService _userScopeService = GetIt.I<UserSessionService>();
+  final UserSessionService _sessionService = GetIt.I<UserSessionService>();
 
   SigninCubit() : super(InitialState());
 
@@ -24,7 +24,7 @@ class SigninCubit extends Cubit<SigninState> {
       final authUser = _authService.getSignedInUser();
       final userId = authUser.id;
 
-      await _userScopeService.initializeUserScope(userId);
+      await _sessionService.initializeUserScope(userId);
 
       emit(UserSignedInSuccessfullyState());
     } catch (e, stack) {

@@ -1,15 +1,15 @@
-enum CommunityApplicationStatus {
+enum ApplicationStatus {
   approved,
   pendingReview,
   rejected,
   revoked;
 
-  static CommunityApplicationStatus fromString(String value) {
+  static ApplicationStatus fromString(String value) {
     return switch (value) {
-      'approved' => CommunityApplicationStatus.approved,
-      'pending_review' => CommunityApplicationStatus.pendingReview,
-      'rejected' => CommunityApplicationStatus.rejected,
-      'revoked' => CommunityApplicationStatus.revoked,
+      'approved' => ApplicationStatus.approved,
+      'pending_review' => ApplicationStatus.pendingReview,
+      'rejected' => ApplicationStatus.rejected,
+      'revoked' => ApplicationStatus.revoked,
       _ => throw UnimplementedError('Unknown UserCommunityStatus: $value'),
     };
   }

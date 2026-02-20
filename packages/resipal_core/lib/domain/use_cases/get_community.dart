@@ -4,7 +4,7 @@ import 'package:resipal_core/domain/entities/community/community_directory_entit
 import 'package:resipal_core/domain/entities/community/community_entity.dart';
 import 'package:resipal_core/domain/entities/payment/payment_ledger_entity.dart';
 import 'package:resipal_core/domain/entities/property_registry.dart';
-import 'package:resipal_core/domain/use_cases/get_community_applications.dart';
+import 'package:resipal_core/domain/use_cases/get_applications.dart';
 import 'package:resipal_core/domain/use_cases/get_community_members.dart';
 import 'package:resipal_core/domain/use_cases/get_community_payments.dart';
 import 'package:resipal_core/domain/use_cases/get_community_properties.dart';
@@ -19,7 +19,7 @@ class GetCommunity {
       throw Exception('Community $communityId not found in cache. Ensure the stream is active.');
     }
 
-    final applications = GetCommunityApplications().byCommunityId(communityId);
+    final applications = GetApplications().byCommunityId(communityId);
     final members = GetCommunityMembers().call(communityId);
     final payments = GetCommunityPayments().call(communityId);
     final properties = GetCommunityProperties().call(communityId);

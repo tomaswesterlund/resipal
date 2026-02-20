@@ -1,0 +1,15 @@
+import 'package:get_it/get_it.dart';
+import 'package:resipal_core/data/sources/property_data_source.dart';
+import 'package:resipal_core/domain/entities/property_entity.dart';
+import 'package:resipal_core/domain/use_cases/get_property.dart';
+
+class GetProperties {
+  final PropertyDataSource _source = GetIt.I<PropertyDataSource>();
+  final GetProperty _getProperty = GetProperty();
+
+  List<PropertyEntity> byByCommunityAndResidentId({required String communityId, required String residentId}) {
+    final properties = _source.getByCommunityAndResidentId(communityId: communityId, residentId: residentId);
+    final list = properties.map((x) => _getProperty.call(x.id)).toList();
+    return list;
+  }
+}

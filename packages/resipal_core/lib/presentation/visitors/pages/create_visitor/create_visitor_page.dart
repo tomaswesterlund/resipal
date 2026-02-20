@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';
 import 'package:resipal_core/presentation/shared/inputs/images/image_picker_buttons.dart';
 import 'package:resipal_core/presentation/shared/inputs/images/image_preview.dart';
@@ -24,7 +24,7 @@ class CreateVisitorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: 'Registrar visitante'),
-      backgroundColor: AppColors.background,
+      backgroundColor: BaseAppColors.background,
       body: BlocProvider<CreateVisitorCubit>(
         create: (ctx) => CreateVisitorCubit()..initialize(),
         child: BlocConsumer<CreateVisitorCubit, CreateVisitorState>(

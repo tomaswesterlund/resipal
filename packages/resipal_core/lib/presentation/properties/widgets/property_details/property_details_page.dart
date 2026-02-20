@@ -3,7 +3,7 @@ import 'package:resipal_core/domain/entities/property_entity.dart';
 import 'package:resipal_core/presentation/properties/widgets/property_details/property_contract_view.dart';
 import 'package:resipal_core/presentation/properties/widgets/property_details/property_general_information.dart';
 import 'package:resipal_core/presentation/properties/widgets/property_details/property_maintenance_view.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/floating_nav_bar.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
 
@@ -23,7 +23,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: AppColors.background,
+      backgroundColor: BaseAppColors.background,
       appBar: MyAppBar(title: 'Detalle de Propiedad'),
       body: _pages[_currentIndex],
 

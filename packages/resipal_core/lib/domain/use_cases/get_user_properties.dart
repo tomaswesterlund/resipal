@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/data/sources/property_data_source.dart';
 import 'package:resipal_core/domain/entities/property_entity.dart';
-import 'package:resipal_core/domain/use_cases/get_maintenance_contract.dart';
+import 'package:resipal_core/domain/use_cases/get_contract.dart';
 import 'package:resipal_core/domain/use_cases/get_property.dart';
 import 'package:resipal_core/domain/use_cases/get_property_maintenance_fees.dart';
 import 'package:resipal_core/domain/use_cases/get_user_ref.dart';

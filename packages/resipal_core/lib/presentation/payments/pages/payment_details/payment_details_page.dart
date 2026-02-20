@@ -6,7 +6,7 @@ import 'package:resipal_core/presentation/payments/pages/payment_details/payment
 import 'package:resipal_core/presentation/payments/pages/payment_details/payment_details_state.dart';
 import 'package:resipal_core/presentation/payments/widgets/payment_header.dart';
 import 'package:resipal_core/presentation/shared/cards/default_card.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/images/receipt_preview.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
 import 'package:resipal_core/presentation/shared/texts/section_header_text.dart';
@@ -22,7 +22,7 @@ class PaymentDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: BaseAppColors.background,
       appBar: MyAppBar(title: 'Detalle de Pago'),
       body: BlocProvider(
         create: (ctx) => PaymentDetailsCubit()..initialize(paymentId),

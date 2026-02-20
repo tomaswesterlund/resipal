@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:get_it/get_it.dart';
+import 'package:resipal_core/data/resipal_subabase.dart';
 import 'package:resipal_core/data/sources/access_log_data_source.dart';
-import 'package:resipal_core/data/sources/community_member_data_source.dart';
+import 'package:resipal_core/data/sources/membership_data_source.dart';
 import 'package:resipal_core/data/sources/error_log_data_source.dart';
-import 'package:resipal_core/data/sources/maintenance_contract_data_source.dart';
+import 'package:resipal_core/data/sources/contract_data_source.dart';
 import 'package:resipal_core/data/sources/maintenance_fee_data_source.dart';
 import 'package:resipal_core/data/sources/movement_data_source.dart';
 import 'package:resipal_core/data/sources/user_data_source.dart';
-import 'package:resipal_core/data/sources/community_application_data_source.dart';
+import 'package:resipal_core/data/sources/application_data_source.dart';
 import 'package:resipal_core/data/sources/community_data_source.dart';
 import 'package:resipal_core/data/sources/invitation_data_source.dart';
 import 'package:resipal_core/data/sources/payment_data_source.dart';
@@ -22,12 +23,10 @@ class ServiceLocator {
   Future<void> initializeContainers() async {
     final sl = GetIt.instance;
 
-    // Supabase
-    await Supabase.initialize(
-      url: 'https://xapfoiggbgutbmcqrgma.supabase.co',
-      anonKey: 'sb_publishable_I1FzA8ioJ1zPOhpFjld_vA_p2Pip5pw',
-    );
-    sl.registerSingleton<SupabaseClient>(Supabase.instance.client);
+    final supabase = ResipalSupabase();
+    await supabase.init();
+    sl.registerSingleton<ResipalSupabase>(supabase);
+    sl.registerSingleton<SupabaseClient>(supabase.client);
 
     // Services
     sl.registerLazySingleton(() => LoggerService());
@@ -36,12 +35,12 @@ class ServiceLocator {
 
     // Data sources
     sl.registerLazySingleton(() => AccessLogDataSource());
-    sl.registerLazySingleton(() => CommunityApplicationDataSource());
+    sl.registerLazySingleton(() => ApplicationDataSource());
     sl.registerLazySingleton(() => MembershipDataSource());
     sl.registerLazySingleton(() => CommunityDataSource());
     sl.registerLazySingleton(() => ErrorLogDataSource());
     sl.registerLazySingleton(() => InvitationDataSource());
-    sl.registerLazySingleton(() => MaintenanceContractDataSource());
+    sl.registerLazySingleton(() => ContractDataSource());
     sl.registerLazySingleton(() => MaintenanceFeeDataSource());
     sl.registerLazySingleton(() => MovementDataSource());
     sl.registerLazySingleton(() => PaymentDataSource());

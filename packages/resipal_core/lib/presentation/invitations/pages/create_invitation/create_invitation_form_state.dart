@@ -26,11 +26,7 @@ class CreateInvitationFormState {
     this.dateRange,
   });
 
-  CreateInvitationFormState copyWith({
-    PropertyEntity? property,
-    VisitorEntity? visitor,
-    DateTimeRange? dateRange,
-  }) {
+  CreateInvitationFormState copyWith({PropertyEntity? property, VisitorEntity? visitor, DateTimeRange? dateRange}) {
     return CreateInvitationFormState(
       properties: properties,
       visitors: visitors,

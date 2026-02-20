@@ -3,9 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:resipal_core/data/models/error_log_model.dart';
 import 'package:resipal_core/data/sources/error_log_data_source.dart';
-import 'package:uuid/uuid.dart';
 
 class LoggerService {
   // final AuthService _authService = GetIt.I<AuthService>();
@@ -27,23 +25,7 @@ class LoggerService {
     try {
       final info = await PackageInfo.fromPlatform();
 
-      // TODO How to get the User and Community ID into the table?
-      // GET SIGNED IN USER? GET SIGNED IN OPTIONAL USER?!
-      // String? userId;
-      // String? communityId;
-
-      // if (_authService.userIsSignedIn) {
-      //   final user = GetUser().call(_authService.getSignedInUserId());
-
-      //   userId = user.id;
-      //   communityId = user.community.id;
-      // }
-
-      final errorLog = ErrorLogModel(
-        id: Uuid().v4(),
-        createdBy: null,
-        createdAt: DateTime.now(),
-        communityId: null,
+      await _errorDataSource.logError(
         errorMessage: exception.toString(),
         stackTrace: stackTrace?.toString(),
         platform: kIsWeb ? 'web' : Platform.operatingSystem,
@@ -51,8 +33,6 @@ class LoggerService {
         featureArea: featureArea,
         metadata: metadata,
       );
-
-      await _errorDataSource.insert(errorLog);
     } catch (e) {
       // Fallback if the DataSource or Network fails
       _logger.w('Failed to upload log to Supabase: $e');

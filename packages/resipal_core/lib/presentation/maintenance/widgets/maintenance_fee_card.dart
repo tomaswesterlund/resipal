@@ -3,7 +3,7 @@ import 'package:resipal_core/domain/entities/maintenance_fee_entity.dart';
 import 'package:resipal_core/helpers/formatters/date_formatters.dart';
 import 'package:resipal_core/presentation/maintenance/pages/maintenance_fee_details_page.dart';
 import 'package:resipal_core/presentation/maintenance/widgets/maintenance_status_pill.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/colors/maintenance_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/amount_text.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
@@ -46,7 +46,7 @@ class MaintenanceFeeCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              HeaderText.five(DateFormatters.toDateRange(fee.fromDate, fee.toDate), color: AppColors.auxiliarScale[900]!),
+                              HeaderText.five(DateFormatters.toDateRange(fee.fromDate, fee.toDate), color: BaseAppColors.auxiliarScale[900]!),
                               const SizedBox(height: 2),
                               Text('Vence el ${fee.dueDate.toShortDate()}', style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
                               if (fee.note != null && fee.note!.isNotEmpty) ...[
@@ -67,7 +67,7 @@ class MaintenanceFeeCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            AmountText.fromCents(fee.amountInCents, fontSize: 17, color: AppColors.auxiliarScale[900]!),
+                            AmountText.fromCents(fee.amountInCents, fontSize: 17, color: BaseAppColors.auxiliarScale[900]!),
                             const SizedBox(height: 6),
                             // Reusing your existing Pill component
                             MaintenanceStatusPill(fee),

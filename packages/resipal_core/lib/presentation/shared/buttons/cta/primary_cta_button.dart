@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 
 class PrimaryCtaButton extends StatelessWidget {
   final String label;
@@ -23,9 +23,9 @@ class PrimaryCtaButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: canSubmit ? onPressed : null,
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary, // Using your brand teal
+        backgroundColor: BaseAppColors.primary, // Using your brand teal
         foregroundColor: Colors.white,
-        disabledBackgroundColor: AppColors.primary.withOpacity(
+        disabledBackgroundColor: BaseAppColors.primary.withOpacity(
           0.3,
         ), // Softened teal for disabled state
         disabledForegroundColor: Colors.white.withOpacity(0.6),

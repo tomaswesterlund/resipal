@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:get_it/get_it.dart';
-import 'package:resipal_core/data/sources/maintenance_contract_data_source.dart';
+import 'package:resipal_core/data/sources/application_data_source.dart';
+import 'package:resipal_core/data/sources/contract_data_source.dart';
 import 'package:resipal_core/data/sources/maintenance_fee_data_source.dart';
 import 'package:resipal_core/data/sources/user_data_source.dart';
-import 'package:resipal_core/data/sources/community_application_data_source.dart';
 import 'package:resipal_core/data/sources/community_data_source.dart';
 import 'package:resipal_core/data/sources/invitation_data_source.dart';
 import 'package:resipal_core/data/sources/payment_data_source.dart';
@@ -23,7 +23,7 @@ class UserSessionService {
       await Future.wait([
         _setupSubscription(GetIt.I<UserDataSource>().watchById(userId)),
         _setupSubscription(GetIt.I<CommunityDataSource>().watchAll()),
-        _setupSubscription(GetIt.I<CommunityApplicationDataSource>().watchByUserId(userId)),
+        _setupSubscription(GetIt.I<ApplicationDataSource>().watchByUserId(userId)),
         _setupSubscription(GetIt.I<InvitationDataSource>().watchByUserId(userId)),
         _setupSubscription(GetIt.I<PaymentDataSource>().watchByUserId(userId)),
         _setupSubscription(GetIt.I<VisitorDataSource>().watchByUserId(userId)),
@@ -47,7 +47,7 @@ class UserSessionService {
 
     for (var p in properties) {
       if (p.contractId != null) {
-        dependencyFutures.add(_setupSubscription(GetIt.I<MaintenanceContractDataSource>().watchById(p.contractId!)));
+        dependencyFutures.add(_setupSubscription(GetIt.I<ContractDataSource>().watchById(p.contractId!)));
       }
       dependencyFutures.add(_setupSubscription(GetIt.I<MaintenanceFeeDataSource>().watchByPropertyId(p.id)));
     }

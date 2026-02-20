@@ -6,7 +6,7 @@ import 'package:resipal_core/domain/entities/visitor_entity.dart';
 import 'package:resipal_core/presentation/invitations/pages/create_invitation/create_invitation_page.dart';
 import 'package:resipal_core/presentation/invitations/views/invitation_list_view.dart';
 import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/containers/green_box_container.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 import 'package:resipal_core/presentation/shared/views/error_view.dart';
@@ -66,7 +66,7 @@ class _Loaded extends StatelessWidget {
             ),
           ),
           Container(
-            color: AppColors.background,
+            color: BaseAppColors.background,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -83,7 +83,7 @@ class _Loaded extends StatelessWidget {
                           style: GoogleFonts.raleway(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.secondary,
+                            color: BaseAppColors.secondary,
                           ),
                         ),
                       ),
@@ -111,7 +111,7 @@ class _Loaded extends StatelessWidget {
                           style: GoogleFonts.raleway(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.secondary,
+                            color: BaseAppColors.secondary,
                           ),
                         ),
                       ),

@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:resipal_core/data/sources/community_member_data_source.dart';
+import 'package:resipal_core/data/sources/membership_data_source.dart';
 
 class FetchMemberships {
   final MembershipDataSource _source = GetIt.I<MembershipDataSource>();

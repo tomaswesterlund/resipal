@@ -1,0 +1,166 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:resipal_core/domain/entities/community/community_entity.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
+import 'package:resipal_core/presentation/shared/texts/header_text.dart';
+
+class AdminOverview extends StatelessWidget {
+  final CommunityEntity community;
+
+  const AdminOverview({required this.community, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        HeaderText.four('¡Bienvenido, Administrador!'),
+        const SizedBox(height: 4),
+        Text(
+          community.name,
+          style: GoogleFonts.raleway(
+            color: BaseAppColors.auxiliarScale[500],
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 24),
+        
+        // --- Metric Grid ---
+        GridView.count(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          childAspectRatio: 1.5,
+          children: [
+            _buildStatCard(
+              'Propiedades',
+              community.propertyRegistry.count.toString(),
+              Icons.home_work_outlined,
+              BaseAppColors.secondary,
+            ),
+            _buildStatCard(
+              'Miembros',
+              community.directory.members.length.toString(),
+              Icons.people_outline,
+              BaseAppColors.secondary,
+            ),
+          ],
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // --- Action Required Section ---
+        HeaderText.five('Acciones Pendientes'),
+        const SizedBox(height: 12),
+        
+        _buildActionTile(
+          context,
+          title: 'Pagos por revisar',
+          count: community.paymentLedger.pendingPayments.length,
+          icon: Icons.receipt_long_outlined,
+          color: BaseAppColors.warning,
+        ),
+        const SizedBox(height: 12),
+        _buildActionTile(
+          context,
+          title: 'Solicitudes de ingreso',
+          count: community.directory.pendingApplications.length,
+          icon: Icons.person_add_outlined,
+          color: BaseAppColors.info,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatCard(String label, String value, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: BaseAppColors.auxiliarScale[100]!),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(icon, color: color, size: 24),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: GoogleFonts.raleway(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: BaseAppColors.auxiliarScale[900],
+                ),
+              ),
+              Text(
+                label,
+                style: GoogleFonts.raleway(
+                  fontSize: 12,
+                  color: BaseAppColors.auxiliarScale[500],
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionTile(
+    BuildContext context, {
+    required String title,
+    required int count,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: color.withOpacity(0.2)),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: color.withOpacity(0.1),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              title,
+              style: GoogleFonts.raleway(
+                fontWeight: FontWeight.bold,
+                color: BaseAppColors.auxiliarScale[800],
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: count > 0 ? color : BaseAppColors.auxiliarScale[100],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              count.toString(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

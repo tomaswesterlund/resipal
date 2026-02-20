@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:resipal_admin/admin_session_service.dart';
 import 'package:resipal_admin/presentation/signin/signin_state.dart';
 import 'package:resipal_core/services/auth_service.dart';
@@ -27,6 +28,13 @@ class SigninCubit extends Cubit<SigninState> {
 
       emit(AdminSignedInSuccessfullyState());
     } catch (e, stack) {
+      if (e is GoogleSignInException) {
+        if(e.code == GoogleSignInExceptionCode.canceled) {
+          emit(InitialState());
+          return;
+        }
+      }
+
       _logger.logException(exception: e, stackTrace: stack, featureArea: 'SigninCubit.signin');
       emit(ErrorState());
     }

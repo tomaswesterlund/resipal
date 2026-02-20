@@ -37,9 +37,13 @@ class PaymentDataSource {
 
   PaymentModel getById(String id) => _cache[id]!;
 
-  List<PaymentModel> getByCommunityId(String communityId) => _cache.values.where((m) => m.communityId == communityId).toList();
+  List<PaymentModel> getByCommunityId(String communityId) =>
+      _cache.values.where((m) => m.communityId == communityId).toList();
 
   List<PaymentModel> getByUserId(String userId) => _cache.values.where((m) => m.userId == userId).toList();
+
+  List<PaymentModel> byCommunityAndUserId({required String communityId, required String userId}) =>
+      _cache.values.where((x) => x.communityId == communityId && x.userId == userId).toList();
 
   Future registerPayment({
     required String communityId,

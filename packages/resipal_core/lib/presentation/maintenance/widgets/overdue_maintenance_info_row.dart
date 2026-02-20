@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/amount_text.dart';
 import 'package:resipal_core/presentation/shared/texts/body_text.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
@@ -14,27 +14,27 @@ class OverdueMaintenanceInfoRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.dangerScale[50], // Soft red background
+        color: BaseAppColors.dangerScale[50], // Soft red background
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.dangerScale[100]!),
+        border: Border.all(color: BaseAppColors.dangerScale[100]!),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             Icons.error_outline_rounded,
-            color: AppColors.dangerScale[600],
+            color: BaseAppColors.dangerScale[600],
             size: 16,
           ),
           const SizedBox(width: 8),
           BodyText.tiny(
             'Monto adeudado: ',
-            color: AppColors.dangerScale[700]!,
+            color: BaseAppColors.dangerScale[700]!,
             fontWeight: FontWeight.bold,
           ),
           AmountText.fromCents(
             amount,
-            color: AppColors.dangerScale[800]!,
+            color: BaseAppColors.dangerScale[800]!,
             fontSize: 12,
           ),
           const SizedBox(width: 8),
@@ -42,7 +42,7 @@ class OverdueMaintenanceInfoRow extends StatelessWidget {
             onTap: () => _showOverdueExplanation(context),
             child: Icon(
               Icons.help_outline_rounded,
-              color: AppColors.dangerScale[300],
+              color: BaseAppColors.dangerScale[300],
               size: 16,
             ),
           ),
@@ -58,7 +58,7 @@ class OverdueMaintenanceInfoRow extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
-            Icon(Icons.warning_rounded, color: AppColors.danger),
+            Icon(Icons.warning_rounded, color: BaseAppColors.danger),
             const SizedBox(width: 12),
             Expanded(child: HeaderText.four('Cuotas Vencidas')),
           ],
@@ -72,7 +72,7 @@ class OverdueMaintenanceInfoRow extends StatelessWidget {
             child: Text(
               'ENTENDIDO',
               style: TextStyle(
-                color: AppColors.dangerScale[700],
+                color: BaseAppColors.dangerScale[700],
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.1,
               ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_core/domain/entities/visitor_entity.dart';
 import 'package:resipal_core/helpers/formatters/date_formatters.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 
 class VisitorCard extends StatelessWidget {
@@ -18,7 +18,7 @@ class VisitorCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.secondaryScale[100]!, width: 1),
+        border: Border.all(color: BaseAppColors.secondaryScale[100]!, width: 1),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
@@ -27,7 +27,7 @@ class VisitorCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // 1. Status Indicator Side Bar (Using brand secondary color)
-              Container(width: 6, color: AppColors.secondary),
+              Container(width: 6, color: BaseAppColors.secondary),
 
               // 2. Main Content
               Expanded(
@@ -45,13 +45,13 @@ class VisitorCard extends StatelessWidget {
                                 Icon(
                                   Icons.person_outline_rounded,
                                   size: 20,
-                                  color: AppColors.secondaryScale[400],
+                                  color: BaseAppColors.secondaryScale[400],
                                 ),
                                 const SizedBox(width: 8),
                                 Flexible(
                                   child: HeaderText.five(
                                     visitor.name,
-                                    color: AppColors.auxiliarScale[900]!,
+                                    color: BaseAppColors.auxiliarScale[900]!,
                                   ),
                                 ),
                               ],
@@ -60,7 +60,7 @@ class VisitorCard extends StatelessWidget {
                           // Optional: Badge icon to indicate ID is registered
                           Icon(
                             Icons.badge_outlined,
-                            color: AppColors.secondaryScale[300],
+                            color: BaseAppColors.secondaryScale[300],
                             size: 18,
                           ),
                         ],
@@ -76,7 +76,7 @@ class VisitorCard extends StatelessWidget {
                       Divider(
                         height: 24,
                         thickness: 1,
-                        color: AppColors.auxiliarScale[100],
+                        color: BaseAppColors.auxiliarScale[100],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,7 +89,7 @@ class VisitorCard extends StatelessWidget {
                                 style: GoogleFonts.raleway(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.auxiliarScale[400],
+                                  color: BaseAppColors.auxiliarScale[400],
                                 ),
                               ),
                               const Text(
@@ -104,7 +104,7 @@ class VisitorCard extends StatelessWidget {
                           ),
                           TextButton(
                             style: TextButton.styleFrom(
-                              foregroundColor: AppColors.secondary,
+                              foregroundColor: BaseAppColors.secondary,
                               textStyle: GoogleFonts.raleway(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,

@@ -7,12 +7,16 @@ class PhoneNumberInputField extends StatelessWidget {
   final String hint;
   final String? initialValue;
   final Function(String)? onChanged;
+  final bool isRequired;
+  final String? helpText;
 
   const PhoneNumberInputField({
     required this.label,
     this.hint = "(555) 000-0000",
     this.initialValue,
     this.onChanged,
+    this.isRequired = false,
+    this.helpText,
     super.key,
   });
 
@@ -21,38 +25,48 @@ class PhoneNumberInputField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // --- Consistent Label Row ---
         Padding(
           padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
-          child: Text(
-            label,
-            style: GoogleFonts.raleway(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF1A4644),
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                label,
+                style: GoogleFonts.raleway(fontSize: 14.0, fontWeight: FontWeight.w600, color: const Color(0xFF1A4644)),
+              ),
+              if (isRequired)
+                Text(
+                  ' *',
+                  style: GoogleFonts.raleway(color: Colors.red, fontWeight: FontWeight.bold),
+                ),
+              if (helpText != null) ...[
+                const SizedBox(width: 6),
+                GestureDetector(
+                  onTap: () => _showHelpDialog(context),
+                  child: Icon(Icons.help_outline_rounded, size: 16, color: Colors.grey.shade600),
+                ),
+              ],
+            ],
           ),
         ),
+
+        // --- Standardized TextFormField ---
         TextFormField(
-          onChanged: onChanged,
           initialValue: initialValue,
+          onChanged: onChanged,
           keyboardType: TextInputType.phone,
           inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly, // Only allow numbers
-            LengthLimitingTextInputFormatter(10),   // Limit to 10 digits
-            PhoneInputFormatter(),                  // Custom masking logic
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(10),
+            PhoneInputFormatter(),
           ],
           style: GoogleFonts.raleway(fontSize: 16.0, color: Colors.black87),
           decoration: InputDecoration(
             prefixIcon: const Icon(Icons.phone_outlined, color: Color(0xFF1A4644)),
             hintText: hint,
-            hintStyle: GoogleFonts.raleway(
-              fontSize: 16.0,
-              color: Colors.grey.shade400,
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 24.0,
-              vertical: 18.0,
-            ),
+            hintStyle: GoogleFonts.raleway(fontSize: 16.0, color: Colors.grey.shade400),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide(color: Colors.grey.shade300),
@@ -72,13 +86,29 @@ class PhoneNumberInputField extends StatelessWidget {
       ],
     );
   }
+
+  // --- Matching Help Dialog Logic ---
+  void _showHelpDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(label, style: GoogleFonts.raleway(fontWeight: FontWeight.bold)),
+        content: Text(helpText!, style: GoogleFonts.raleway()),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Entendido', style: TextStyle(color: Color(0xFF1A4644))),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-/// Custom formatter to handle (XXX) XXX-XXXX
 class PhoneInputFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     final text = newValue.text;
 
     if (newValue.selection.baseOffset == 0) return newValue;

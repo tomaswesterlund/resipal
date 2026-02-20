@@ -1,11 +1,14 @@
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:resipal_core/data/resipal_subabase.dart';
 import 'package:resipal_core/services/logger_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
-  final SupabaseClient _client = GetIt.I<SupabaseClient>();
+  final ResipalSupabase _resipalSupabase = GetIt.I<ResipalSupabase>();
   final LoggerService _loggerService = GetIt.I<LoggerService>();
+
+  SupabaseClient get _client => _resipalSupabase.client;
 
   User getSignedInUser() {
     if (_client.auth.currentUser == null) {
@@ -68,5 +71,10 @@ class AuthService {
 
       rethrow;
     }
+  }
+
+  Future signout() async {
+    await _client.auth.signOut(scope: SignOutScope.global);
+    // await _client.auth.refreshSession();
   }
 }

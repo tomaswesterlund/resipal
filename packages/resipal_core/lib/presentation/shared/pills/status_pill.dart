@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 
 class StatusPill extends StatelessWidget {
   final Widget child;
@@ -17,8 +17,8 @@ class StatusPill extends StatelessWidget {
   factory StatusPill.success({required Widget child, IconData? icon}) {
     return StatusPill._(
       child: child,
-      primaryColor: AppColors.success,
-      secondaryColor: AppColors.surface,
+      primaryColor: BaseAppColors.success,
+      secondaryColor: BaseAppColors.surface,
       icon: icon ?? Icons.check_circle_outline_rounded,
     );
   }
@@ -26,8 +26,8 @@ class StatusPill extends StatelessWidget {
   factory StatusPill.warning({required Widget child, IconData? icon}) {
     return StatusPill._(
       child: child,
-      primaryColor: AppColors.warning,
-      secondaryColor: AppColors.surface,
+      primaryColor: BaseAppColors.warning,
+      secondaryColor: BaseAppColors.surface,
       icon: icon ?? Icons.history_toggle_off_rounded,
     );
   }
@@ -35,8 +35,8 @@ class StatusPill extends StatelessWidget {
   factory StatusPill.danger({required Widget child, IconData? icon}) {
     return StatusPill._(
       child: child,
-      primaryColor: AppColors.danger,
-      secondaryColor: AppColors.surface,
+      primaryColor: BaseAppColors.danger,
+      secondaryColor: BaseAppColors.surface,
       icon: icon ?? Icons.error_outline_rounded,
     );
   }
@@ -44,8 +44,8 @@ class StatusPill extends StatelessWidget {
   factory StatusPill.info({required Widget child, IconData? icon}) {
     return StatusPill._(
       child: child,
-      primaryColor: AppColors.info,
-      secondaryColor: AppColors.surface,
+      primaryColor: BaseAppColors.info,
+      secondaryColor: BaseAppColors.surface,
       icon: icon ?? Icons.info_outline_rounded,
     );
   }

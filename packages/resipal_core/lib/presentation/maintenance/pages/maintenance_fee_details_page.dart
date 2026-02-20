@@ -7,7 +7,7 @@ import 'package:resipal_core/presentation/maintenance/widgets/maintenance_fee_ic
 import 'package:resipal_core/presentation/maintenance/widgets/maintenance_status_pill.dart';
 import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';
 import 'package:resipal_core/presentation/shared/cards/default_card.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
 import 'package:resipal_core/presentation/shared/texts/amount_text.dart';
 import 'package:resipal_core/presentation/shared/texts/section_header_text.dart';
@@ -20,7 +20,7 @@ class MaintenanceFeeDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: BaseAppColors.background,
       appBar: MyAppBar(title: 'Detalle de Cuota'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),

@@ -6,7 +6,7 @@ class UserCommunityEntity {
   final String createdBy;
   final String userId;
   final String communityId;
-  final CommunityApplicationStatus status;
+  final ApplicationStatus status;
   final DateTime joinedAt;
 
   UserCommunityEntity({

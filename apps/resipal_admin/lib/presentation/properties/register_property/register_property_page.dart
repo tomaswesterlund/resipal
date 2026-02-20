@@ -1,0 +1,154 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:resipal_core/domain/entities/contract_entity.dart';
+import 'package:resipal_core/domain/entities/resident_entity.dart';
+import 'package:resipal_core/domain/refs/user_ref.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
+import 'register_property_cubit.dart';
+import 'register_property_form_state.dart';
+import 'register_property_state.dart';
+import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';
+import 'package:resipal_core/presentation/shared/inputs/entry_dropdown_field.dart';
+import 'package:resipal_core/presentation/shared/inputs/images/image_picker_buttons.dart';
+import 'package:resipal_core/presentation/shared/inputs/images/image_preview.dart';
+import 'package:resipal_core/presentation/shared/inputs/text_input_field.dart';
+import 'package:resipal_core/presentation/shared/my_app_bar.dart';
+import 'package:resipal_core/presentation/shared/texts/body_text.dart';
+import 'package:resipal_core/presentation/shared/texts/header_text.dart';
+import 'package:resipal_core/presentation/shared/views/error_view.dart';
+import 'package:resipal_core/presentation/shared/views/loading_view.dart';
+import 'package:resipal_core/presentation/shared/views/success_view.dart';
+import 'package:resipal_core/presentation/shared/views/unknown_state_view.dart';
+
+class RegisterPropertyPage extends StatelessWidget {
+  const RegisterPropertyPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: MyAppBar(title: 'Registrar una propiedad'),
+      body: BlocProvider<RegisterPropertyCubit>(
+        create: (ctx) => RegisterPropertyCubit()..initialize(),
+        child: BlocConsumer<RegisterPropertyCubit, RegisterPropertyState>(
+          listener: (ctx, state) {
+            //if (state is FormSubmittedSuccessfully) {}
+          },
+          builder: (ctx, state) {
+            if (state is FormEditingState) {
+              return _Form(state.formState);
+            }
+
+            if (state is FormSubmittingState) {
+              return LoadingView(title: 'Registrando nueva propiedad ...');
+            }
+
+            if (state is FormSubmittedSuccessfullyState) {
+              return SuccessView(
+                title: '¡Propiedad registrada!',
+                // subtitle:
+                //     'Tu comprobante está siendo revisado por administración.',
+                actionButtonLabel: 'VOLVER',
+                onActionButtonPressed: () {
+                  Navigator.of(context).pop();
+                },
+              );
+            }
+
+            if (state is ErrorState) {
+              return ErrorView();
+            }
+
+            return UnknownStateView();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _Form extends StatelessWidget {
+  final RegisterPropertyFormState formState;
+  const _Form(this.formState, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<RegisterPropertyCubit>();
+
+    return SingleChildScrollView(
+      // Added scroll for smaller screens
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextInputField(
+            label: 'Nombre',
+            hint: 'Ej: Lote o Casa 143',
+            isRequired: true,
+            helpText:
+                'Este es el nombre oficial que aparecerá en los reportes, recibos de pago y comunicaciones para los residentes.',
+            onChanged: cubit.updateName,
+          ),
+          const SizedBox(height: 20.0),
+          EntityDropdownField<ContractEntity>(
+            label: "Seleccionar contrato",
+            isRequired: true,
+            helpText:
+                "Vincula un contrato legal vigente a este registro. Este campo es obligatorio para habilitar el seguimiento de pagos y vigencia de la estancia.",
+            items: formState.contracts,
+            value: null,
+            itemLabel: (contract) => contract.name,
+            onChanged: (contract) => cubit.onContractSelected(contract),
+          ),
+          SizedBox(height: 20.0),
+
+          EntityDropdownField<UserRef>(
+            label: "Seleccionar residente",
+            isRequired: false,
+            helpText:
+                "Busca y selecciona al residente responsable de esta unidad. Si no aparece en la lista, asegúrate de que haya sido dado de alta previamente en el directorio.",
+            items: formState.residents,
+            value: null,
+            itemLabel: (resident) => resident.name,
+            onChanged: (resident) => cubit.onResidentSelected(resident),
+          ),
+          SizedBox(height: 20.0),
+
+          TextInputField(
+            label: 'Descripción',
+            hint: 'Breve descripción de la propiedad...',
+            isRequired: false,
+            helpText:
+                'Puedes incluir detalles adicionales como la ubicación de la torre, puntos de referencia o notas internas para la administración.',
+            onChanged: cubit.updateDescription,
+          ),
+          const SizedBox(height: 24.0),
+
+
+          // HeaderText.four('Foto de la propiedad'),
+          // BodyText.small('Selecciona la opción para elegir una imagen.'),
+          // const SizedBox(height: 16.0),
+
+          // // --- Image Selection / Preview Area ---
+          // if (formState.receiptImage != null)
+          //   ImagePreview(imagePath: formState.receiptImage!.path, onDelete: () => cubit.removeImage)
+          // else
+          //   ImagePickerButtons(
+          //     onCamera: () => cubit.pickImage(ImageSource.camera),
+          //     onGallery: () => cubit.pickImage(ImageSource.gallery),
+          //   ),
+          // const SizedBox(height: 24.0),
+          
+          Center(
+            child: PrimaryCtaButton(
+              label: 'REGISTRAR PROPIEDAD',
+              icon: Icons.add_home,
+              canSubmit: formState.canSubmit,
+              onPressed: () => cubit.submit(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

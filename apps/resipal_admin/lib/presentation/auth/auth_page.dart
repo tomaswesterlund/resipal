@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_admin/presentation/auth/auth_cubit.dart';
 import 'package:resipal_admin/presentation/auth/auth_state.dart';
 import 'package:resipal_admin/presentation/home/admin_home_page.dart';
+import 'package:resipal_admin/presentation/onboarding/onboarding_start_page.dart';
 import 'package:resipal_admin/presentation/signin/signin_page.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 import 'package:resipal_core/presentation/shared/views/access_denied_view.dart';
@@ -28,9 +29,13 @@ class AuthPage extends StatelessWidget {
             if (state is UserNotSignedIn) {
               Go.to(SigninPage());
             }
+
+            if (state is UserNotOnboarded) {
+              Go.to(OnboardingStartPage());
+            }
           },
           builder: (ctx, state) {
-            if (state is InitialState || state is LoadingState || state is UserSignedIn || state is UserNotSignedIn) {
+            if (state is InitialState || state is LoadingState || state is UserSignedIn || state is UserNotSignedIn || state is UserNotOnboarded) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

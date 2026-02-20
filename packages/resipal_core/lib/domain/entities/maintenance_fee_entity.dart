@@ -1,9 +1,9 @@
 import 'package:resipal_core/domain/enums/maintenance_fee_status.dart';
-import 'package:resipal_core/domain/refs/maintenance_contract_ref.dart';
+import 'package:resipal_core/domain/refs/contract_ref.dart';
 
 class MaintenanceFeeEntity {
   final String id;
-  final MaintenanceContractRef contract;
+  final ContractRef contract;
   final DateTime createdAt;
   final int amountInCents;
   final DateTime dueDate;

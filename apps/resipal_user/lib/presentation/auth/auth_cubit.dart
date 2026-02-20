@@ -3,13 +3,13 @@ import 'package:get_it/get_it.dart';
 import 'package:resipal_core/domain/use_cases/get_user.dart';
 import 'package:resipal_core/services/auth_service.dart';
 import 'package:resipal_core/services/logger_service.dart';
-import 'package:resipal_core/services/user_scope_service.dart';
 import 'package:resipal_user/presentation/auth/auth_state.dart';
+import 'package:resipal_user/user_session_service.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final AuthService _authService = GetIt.I<AuthService>();
-  final UserSessionService _userScopeService = GetIt.I<UserSessionService>();
+  final UserSessionService _sessionService = GetIt.I<UserSessionService>();
 
   AuthCubit() : super(InitialState());
 
@@ -20,7 +20,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       if (_authService.userIsSignedIn) {
         final userId = _authService.getSignedInUserId();
-        await _userScopeService.initializeUserScope(userId);
+        await _sessionService.initializeUserScope(userId);
         final user = GetUser().call(userId);
         emit(UserSignedIn(user));
       } else {

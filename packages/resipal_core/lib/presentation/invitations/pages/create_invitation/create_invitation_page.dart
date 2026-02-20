@@ -6,7 +6,7 @@ import 'package:resipal_core/presentation/invitations/pages/create_invitation/cr
 import 'package:resipal_core/presentation/invitations/pages/create_invitation/create_invitation_form_state.dart';
 import 'package:resipal_core/presentation/invitations/pages/create_invitation/create_invitation_state.dart';
 import 'package:resipal_core/presentation/properties/views/no_properties_found_view.dart';
-import 'package:resipal_core/presentation/shared/colors/app_colors.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';
 import 'package:resipal_core/presentation/shared/inputs/date_range_picker_field.dart';
 import 'package:resipal_core/presentation/shared/inputs/entry_dropdown_field.dart';
@@ -24,7 +24,7 @@ class CreateInvitationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: 'Registrar invitación'),
-      backgroundColor: AppColors.background,
+      backgroundColor: BaseAppColors.background,
       body: BlocProvider<CreateInvitationCubit>(
         create: (ctx) => CreateInvitationCubit()..initialize(),
         child: BlocConsumer<CreateInvitationCubit, CreateInvitationState>(
