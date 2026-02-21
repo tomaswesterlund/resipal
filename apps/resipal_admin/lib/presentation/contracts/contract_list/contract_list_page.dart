@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_admin/presentation/contracts/register_contract/register_contract_page.dart';
+import 'package:resipal_admin/shared/buttons/primary_cta_button.dart';
 import 'package:resipal_core/domain/entities/contract_entity.dart';
 import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
@@ -44,9 +45,7 @@ class ContractListPage extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: const Color(0xFF1A4644),
-          onPressed: () {
-            // Navigate to Create Contract
-          },
+          onPressed: () => Go.to(RegisterContractPage()),
           child: const Icon(Icons.add, color: Colors.white),
         ),
       ),
@@ -185,22 +184,7 @@ class _Empty extends StatelessWidget {
           ),
           const SizedBox(height: 48),
 
-          // Primary Action: Create Contract
-          SizedBox(
-            width: double.infinity,
-            height: 55,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1A4644),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              ),
-              onPressed: () => Go.to(RegisterContractPage()),
-              child: Text(
-                'Configurar mi primer contrato',
-                style: GoogleFonts.raleway(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-            ),
-          ),
+          PrimaryCtaButton(label: 'Configurar mi primer contrato', onPressed: () => Go.to(RegisterContractPage())),
         ],
       ),
     );

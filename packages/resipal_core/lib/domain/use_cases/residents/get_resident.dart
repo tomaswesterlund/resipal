@@ -10,12 +10,10 @@ class GetResident {
     final user = GetUserRef().fromId(userId);
     final payments = GetPayments().byCommunityAndUserId(communityId: communityId, userId: userId);
     final ledger = PaymentLedgerEntity(payments);
-    
+
     final properties = GetProperties().byByCommunityAndResidentId(communityId: communityId, residentId: userId);
     final registry = PropertyRegistry(properties);
 
-    return ResidentEntity(user: user, 
-    paymentLedger: ledger,
-    propertyRegistery: registry);
+    return ResidentEntity(id: user.id, user: user, paymentLedger: ledger, propertyRegistery: registry);
   }
 }

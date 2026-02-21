@@ -5,11 +5,11 @@ CREATE OR REPLACE FUNCTION fn_register_property(
     p_name TEXT, 
     p_description TEXT
 )
-RETURNS properties
+RETURNS UUID -- Changed from 'properties' table type to 'UUID'
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    new_row properties;
+    new_property_id UUID; -- Changed variable type
 BEGIN
     INSERT INTO properties(
         created_by, 
@@ -27,8 +27,8 @@ BEGIN
         p_name, 
         p_description
     )
-    RETURNING * INTO new_row;
+    RETURNING id INTO new_property_id; -- Only return the id column
 
-    RETURN new_row;
+    RETURN new_property_id;
 END;
 $$;

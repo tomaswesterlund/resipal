@@ -107,14 +107,14 @@ class _Form extends StatelessWidget {
           ),
           SizedBox(height: 20.0),
 
-          EntityDropdownField<UserRef>(
+          EntityDropdownField<ResidentEntity>(
             label: "Seleccionar residente",
             isRequired: false,
             helpText:
                 "Busca y selecciona al residente responsable de esta unidad. Si no aparece en la lista, asegúrate de que haya sido dado de alta previamente en el directorio.",
             items: formState.residents,
             value: null,
-            itemLabel: (resident) => resident.name,
+            itemLabel: (resident) => resident.user.name,
             onChanged: (resident) => cubit.onResidentSelected(resident),
           ),
           SizedBox(height: 20.0),

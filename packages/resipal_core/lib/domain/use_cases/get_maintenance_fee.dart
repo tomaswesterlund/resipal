@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/data/sources/maintenance_fee_data_source.dart';
 import 'package:resipal_core/domain/entities/maintenance_fee_entity.dart';
-import 'package:resipal_core/domain/use_cases/get_contract_ref.dart';
+import 'package:resipal_core/domain/use_cases/contracts/get_contract_ref.dart';
 
 class GetMaintenanceFee {
   final MaintenanceFeeDataSource _source = GetIt.I<MaintenanceFeeDataSource>();

@@ -5,7 +5,7 @@ import 'package:resipal_core/domain/enums/payment_status.dart';
 import 'package:resipal_core/domain/use_cases/communities/get_community_ref.dart';
 import 'package:resipal_core/domain/use_cases/get_user_ref.dart';
 
-class GetPayment {
+class GetPaymentById {
   final PaymentDataSource _source = GetIt.I<PaymentDataSource>();
 
   PaymentEntity call(String id) {

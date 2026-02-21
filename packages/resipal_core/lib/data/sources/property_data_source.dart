@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:resipal_core/domain/typedefs.dart';
 import 'package:resipal_core/services/logger_service.dart';
 import '../models/property_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -17,7 +18,7 @@ class PropertyDataSource {
         .map(
           (data) => data
               .map((item) {
-                final model = PropertyModel.fromJson(item);
+                final model = PropertyModel.fromMap(item);
                 _cache[model.id] = model;
                 return model;
               })
@@ -34,7 +35,7 @@ class PropertyDataSource {
           .eq('community_id', communityId)
           .map(
             (data) => data.map((item) {
-              final model = PropertyModel.fromJson(item);
+              final model = PropertyModel.fromMap(item);
               _cache[model.id] = model;
               return model;
             }).toList(),
@@ -53,7 +54,7 @@ class PropertyDataSource {
           .eq('resident_id', residentId)
           .map(
             (data) => data.map((item) {
-              final model = PropertyModel.fromJson(item);
+              final model = PropertyModel.fromMap(item);
               _cache[model.id] = model;
               return model;
             }).toList(),
@@ -75,20 +76,33 @@ class PropertyDataSource {
   List<PropertyModel> getByCommunityAndResidentId({required String communityId, required String residentId}) =>
       _cache.values.where((x) => x.communityId == communityId && x.residentId == residentId).toList();
 
-  Future<List<PropertyModel>> fetchByResidentId(String residentId) async {
+  Future<PropertyModel> fetchAndCacheById(String id) async {
+    final item = await _client.from('properties').select().eq('id', id).single();
+    final model = PropertyModel.fromMap(item);
+    _cache[model.id] = model;
+    return model;
+  }
+
+  Future<List<PropertyModel>> fetchAndCacheByResidentId(String residentId) async {
     final data = await _client.from('properties').select().eq('resident_id', residentId);
-    final models = data.map((item) => PropertyModel.fromJson(item)).toList();
+
+    final models = data.map((item) {
+      final model = PropertyModel.fromMap(item);
+      _cache[model.id] = model;
+      return model;
+    }).toList();
+
     return models;
   }
 
-  Future registerProperty({
+  Future<PropertyId> registerProperty({
     required String communityId,
     required String residentId,
     required String contractId,
     required String name,
     String? description,
   }) async {
-    final data = await _client.rpc(
+    final propertyId = await _client.rpc(
       'fn_register_property',
       params: {
         'p_community_id': communityId,
@@ -99,6 +113,6 @@ class PropertyDataSource {
       },
     );
 
-    int k = 0;
+    return propertyId;
   }
 }

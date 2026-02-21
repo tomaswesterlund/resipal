@@ -45,7 +45,7 @@ class CommunityDataSource {
     }
   }
 
-    Future fetchAndCacheById(String id) async {
+  Future fetchAndCacheById(String id) async {
     final item = await _client.from('communities').select().eq('id', id).single();
     final model = CommunityModel.fromMap(item);
 

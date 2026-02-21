@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:resipal_core/domain/entities/id_entity.dart';
 
-class ContractEntity extends IdEntity {
+class ContractEntity extends IdEntity implements Equatable {
   final String name;
   final DateTime createdAt;
   final String period;
@@ -26,4 +27,17 @@ class ContractEntity extends IdEntity {
       'description': description,
     };
   }
+
+  @override
+  List<Object?> get props => [
+    id, // From IdEntity
+    name,
+    createdAt,
+    period,
+    amountInCents,
+    description,
+  ];
+
+  @override
+  bool get stringify => true;
 }

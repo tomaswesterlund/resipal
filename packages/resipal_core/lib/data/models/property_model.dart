@@ -19,7 +19,7 @@ class PropertyModel {
     required this.description,
   });
 
-  factory PropertyModel.fromJson(Map<String, dynamic> json) {
+  factory PropertyModel.fromMap(Map<String, dynamic> json) {
     return PropertyModel(
       id: json['id'],
       communityId: json['community_id'],

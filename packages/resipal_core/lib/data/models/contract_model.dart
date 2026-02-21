@@ -20,7 +20,7 @@ class ContractModel {
     required this.description,
   });
 
-  factory ContractModel.fromJson(Map<String, dynamic> json) {
+  factory ContractModel.fromMap(Map<String, dynamic> json) {
     return ContractModel(
       id: json['id'],
       communityId: json['community_id'],

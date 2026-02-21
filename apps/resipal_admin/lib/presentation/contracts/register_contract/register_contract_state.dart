@@ -18,10 +18,4 @@ class FormSubmittingState extends RegisterContractState {}
 
 class FormSubmittedSuccessfullyState extends RegisterContractState {}
 
-class ErrorState extends RegisterContractState {
-  final String message;
-  ErrorState(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}
+class ErrorState extends RegisterContractState {}

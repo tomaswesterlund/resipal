@@ -1,36 +1,50 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:resipal_core/domain/entities/contract_entity.dart';
+import 'package:resipal_admin/admin_session_service.dart';
+import 'package:resipal_core/domain/use_cases/contracts/watch_contracts.dart';
 import 'package:resipal_core/services/logger_service.dart';
 import 'contract_list_state.dart';
 
 class ContractListCubit extends Cubit<ContractListState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
-  // Assuming a GetContracts use case exists or similar logic
-  // final GetContracts _getContracts = GetIt.I<GetContracts>();
+  final AdminSessionService _sessionService = GetIt.I<AdminSessionService>();
+
+  final WatchContracts _watchContracts = WatchContracts();
+  StreamSubscription? _streamSubscription;
 
   ContractListCubit() : super(InitialState());
 
   Future<void> initialize() async {
     try {
       emit(LoadingState());
-      
-      // Simulate API call or replace with actual use case
-      // final contracts = await _getContracts.call();
-      final contracts = <ContractEntity>[]; // Placeholder
 
-      if (contracts.isEmpty) {
-        emit(EmptyState());
-      } else {
-        emit(LoadedState(contracts));
-      }
+      final communityId = _sessionService.selectedCommunityId;
+
+      _streamSubscription = _watchContracts
+          .byCommunityId(communityId)
+          .listen(
+            (contracts) {
+              if (contracts.isEmpty) {
+                emit(EmptyState());
+              } else {
+                emit(LoadedState(contracts));
+              }
+            },
+            onError: (e, s) {
+              _logger.logException(exception: e, stackTrace: s, featureArea: 'ContractListCubit.initialize / listener');
+              emit(ErrorState('No se pudieron cargar los contratos'));
+            },
+          );
     } catch (e, s) {
-      _logger.logException(
-        exception: e,
-        stackTrace: s,
-        featureArea: 'ContractListCubit.initialize',
-      );
+      _logger.logException(exception: e, stackTrace: s, featureArea: 'ContractListCubit.initialize');
       emit(ErrorState('No se pudieron cargar los contratos'));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _streamSubscription?.cancel();
+    return super.close();
   }
 }

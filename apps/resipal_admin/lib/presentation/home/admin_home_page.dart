@@ -3,10 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_admin/presentation/contracts/contract_list/contract_list_page.dart';
 import 'package:resipal_admin/presentation/home/admin_applications_view.dart';
 import 'package:resipal_admin/presentation/home/admin_overview.dart';
-import 'package:resipal_admin/presentation/home/admin_payments_view.dart';
-import 'package:resipal_admin/presentation/home/admin_properties_view.dart';
 import 'package:resipal_admin/presentation/home/admin_members_view.dart';
+import 'package:resipal_admin/presentation/payments/payment_list/payment_list_view.dart';
+import 'package:resipal_admin/presentation/payments/register_payment/register_payment_page.dart';
+import 'package:resipal_admin/presentation/properties/property_list/property_list_view.dart';
 import 'package:resipal_admin/presentation/properties/register_property/register_property_page.dart';
+import 'package:resipal_admin/shared/app_colors.dart';
 import 'package:resipal_core/domain/entities/community/community_entity.dart';
 import 'package:resipal_core/domain/entities/user_entity.dart';
 import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
@@ -34,13 +36,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
     return Scaffold(
       appBar: MyAppBar(title: _getAppBarTitle(), actions: _getAppBarActions()),
       extendBody: true,
-      backgroundColor: BaseAppColors.background,
+      backgroundColor: AppColors.background,
       body: IndexedStack(
         index: _currentPageIndex,
         children: [
           AdminOverview(community: widget.community, user: widget.user),
-          AdminPropertiesView(widget.community.propertyRegistry),
-          AdminPaymensView(widget.community.paymentLedger),
+          PropertyListView(),
+          PaymentListView(),
           AdminApplicationsView(widget.community.directory.pendingApplications),
           AdminMembersView(widget.community.directory),
         ],
@@ -90,7 +92,11 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     const SizedBox(height: 16),
 
                     _buildDrawerItem(icon: Icons.settings_applications_outlined, label: 'Comunidad', onTap: () {}),
-                    _buildDrawerItem(icon: Icons.description_outlined, label: 'Contratos', onTap: () => Go.to(ContractListPage())),
+                    _buildDrawerItem(
+                      icon: Icons.description_outlined,
+                      label: 'Contratos',
+                      onTap: () => Go.to(ContractListPage()),
+                    ),
                     _buildDrawerItem(icon: Icons.apartment_outlined, label: 'Propiedades', onTap: () {}),
                     _buildDrawerItem(icon: Icons.manage_accounts_outlined, label: 'Usuarios', onTap: () {}),
 
@@ -155,6 +161,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
         return FloatingActionButton(
           backgroundColor: BaseAppColors.secondaryScale[500],
           onPressed: () => Go.to(RegisterPropertyPage()),
+          child: const Icon(Icons.add, color: Colors.white),
+        );
+      case 2: // Payments
+        return FloatingActionButton(
+          backgroundColor: BaseAppColors.secondaryScale[500],
+          onPressed: () => Go.to(RegisterPaymentPage()),
           child: const Icon(Icons.add, color: Colors.white),
         );
       // case 2: // Payments

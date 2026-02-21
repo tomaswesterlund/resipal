@@ -1,11 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/data/sources/property_data_source.dart';
 import 'package:resipal_core/domain/entities/property_entity.dart';
-import 'package:resipal_core/domain/use_cases/get_property.dart';
+import 'package:resipal_core/domain/use_cases/properties/get_property_by_id.dart';
 
 class GetProperties {
   final PropertyDataSource _source = GetIt.I<PropertyDataSource>();
-  final GetProperty _getProperty = GetProperty();
+  final GetPropertyById _getProperty = GetPropertyById();
 
   List<PropertyEntity> byCommunityId(String userId) {
     final models = _source.getByCommunityId(userId);

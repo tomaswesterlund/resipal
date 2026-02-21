@@ -4,7 +4,7 @@ class RegisterContractFormState extends Equatable {
   final String name;
   final double amount;
   final String description;
-  final String period; // Fixed to "Mensual"
+  final String period;
 
   const RegisterContractFormState({
     this.name = '',
@@ -14,8 +14,6 @@ class RegisterContractFormState extends Equatable {
   });
 
   bool get canSubmit => name.isNotEmpty && amount >= 0;
-
-  int get amountInCents => (amount * 100).toInt();
 
   RegisterContractFormState copyWith({
     String? name,

@@ -5,7 +5,7 @@ import 'package:resipal_admin/presentation/onboarding/community_registration/onb
 import 'package:resipal_admin/presentation/onboarding/community_registration/onboarding_community_registration_state.dart';
 import 'package:resipal_core/domain/use_cases/communities/create_community.dart';
 import 'package:resipal_core/domain/use_cases/communities/fetch_community.dart';
-import 'package:resipal_core/domain/use_cases/communities/get_community.dart';
+import 'package:resipal_core/domain/use_cases/communities/get_community_by_id.dart';
 import 'package:resipal_core/domain/use_cases/get_user.dart';
 import 'package:resipal_core/services/auth_service.dart';
 import 'package:resipal_core/services/logger_service.dart';
@@ -57,7 +57,7 @@ class OnboardingCommunityRegistrationCubit extends Cubit<OnboardingCommunityRegi
       );
 
       await FetchCommunity().call(communityId);
-      final community = GetCommunity().call(communityId);
+      final community = GetCommunityById().call(communityId);
       final user = GetUser().call(userId);
 
       await _sessionService.startWatchers(userId: userId, communityId: community.id);

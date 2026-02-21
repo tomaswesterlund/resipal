@@ -4,10 +4,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:resipal_admin/admin_session_service.dart';
 import 'package:resipal_core/domain/entities/contract_entity.dart';
 import 'package:resipal_core/domain/entities/resident_entity.dart';
-import 'package:resipal_core/domain/refs/user_ref.dart';
-import 'package:resipal_core/domain/use_cases/get_contracts.dart';
+import 'package:resipal_core/domain/use_cases/contracts/get_contracts_by_community.dart';
+import 'package:resipal_core/domain/use_cases/properties/fetch_property_by_id.dart';
 import 'package:resipal_core/domain/use_cases/properties/register_property.dart';
-import 'package:resipal_core/services/auth_service.dart';
+import 'package:resipal_core/domain/use_cases/residents/get_residents_by_community.dart';
 import 'register_property_form_state.dart';
 import 'register_property_state.dart';
 import 'package:resipal_core/services/image_service.dart';
@@ -25,14 +25,16 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
   late RegisterPropertyFormState _formState;
 
   void initialize() {
-    final contracts = GetContracts().byCommunityId(_sessionService.selectedCommunityId);
+    final contracts = GetContractsByCommunity().call(_sessionService.selectedCommunityId);
 
     if (contracts.isEmpty) {
       emit(NoContractsFound());
       return;
     }
 
-    _formState = RegisterPropertyFormState(residents: [], contracts: contracts);
+    final residents = GetResidentsByCommunity().call(_sessionService.selectedCommunityId);
+
+    _formState = RegisterPropertyFormState(residents: residents, contracts: contracts);
     emit(FormEditingState(_formState));
   }
 
@@ -41,7 +43,7 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
     emit(FormEditingState(_formState));
   }
 
-  void onResidentSelected(UserRef? newResident) {
+  void onResidentSelected(ResidentEntity? newResident) {
     _formState = _formState.copyWith(resident: newResident);
     emit(FormEditingState(_formState));
   }
@@ -91,13 +93,15 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
       emit(FormSubmittingState());
       final communityId = _sessionService.selectedCommunityId;
 
-      await RegisterProperty().call(
+      final propertyId = await RegisterProperty().call(
         communityId: communityId,
         residentId: _formState.resident!.id,
         contractId: _formState.contract!.id,
         name: _formState.name!,
-        description: _formState.description
+        description: _formState.description,
       );
+
+      await FetchPropertyById().call(propertyId);
 
       emit(FormSubmittedSuccessfullyState());
     } catch (e, s) {
@@ -105,7 +109,8 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
         exception: e,
         stackTrace: s,
         featureArea: 'RegisterPropertyCubit.submit',
-        metadata: _formState.toMap(),
+        // TODO: Add metadata
+        //metadata: _formState.toString(),
       );
       emit(ErrorState());
     }

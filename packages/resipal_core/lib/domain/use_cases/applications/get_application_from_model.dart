@@ -4,11 +4,11 @@ import 'package:resipal_core/domain/enums/community_application_status.dart';
 import 'package:resipal_core/domain/use_cases/communities/get_community_ref.dart';
 import 'package:resipal_core/domain/use_cases/get_user_ref.dart';
 
-class GetApplication {
+class GetApplicationFromModel {
   final GetCommunityRef _getCommunityRef = GetCommunityRef();
   final GetUserRef _getUserRef = GetUserRef();
 
-  ApplicationEntity fromModel(ApplicationModel model) {
+  ApplicationEntity call(ApplicationModel model) {
     return ApplicationEntity(
       id: model.id,
       createdAt: model.createdAt,

@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:resipal_core/domain/entities/contract_entity.dart';
+import 'package:resipal_core/domain/entities/resident_entity.dart';
 import 'package:resipal_core/domain/refs/user_ref.dart';
 
 class RegisterPropertyFormState extends Equatable {
-  final List<UserRef> residents;
+  final List<ResidentEntity> residents;
   final List<ContractEntity> contracts;
 
-  final UserRef? resident;
+  final ResidentEntity? resident;
   final ContractEntity? contract;
   final String? name;
   final String? description;
@@ -24,12 +25,12 @@ class RegisterPropertyFormState extends Equatable {
     this.contract,
     this.resident,
     this.name,
-    this.description
+    this.description,
   });
 
   RegisterPropertyFormState copyWith({
     ContractEntity? contract,
-    UserRef? resident,
+    ResidentEntity? resident,
 
     String? name,
     String? description,
@@ -41,21 +42,9 @@ class RegisterPropertyFormState extends Equatable {
       contract: contract ?? this.contract,
       resident: resident ?? this.resident,
       name: name ?? this.name,
-      description: description ?? this.description
+      description: description ?? this.description,
     );
   }
-
-    Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'residents': residents.map((x) => x.toMap()).toList(),
-      'contracts': contracts.map((x) => x.toMap()).toList(),
-      'resident': resident?.toMap(),
-      'contract': contract?.toMap(),
-      'name': name,
-      'description': description,
-    };
-  }
-
 
   @override
   String toString() {
