@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resipal_admin/shared/app_colors.dart';
 import 'package:resipal_core/domain/entities/community/community_entity.dart';
 import 'package:resipal_core/domain/entities/user_entity.dart';
-import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 
 class AdminOverview extends StatelessWidget {
@@ -20,7 +20,7 @@ class AdminOverview extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           community.name,
-          style: GoogleFonts.raleway(color: BaseAppColors.auxiliarScale[500], fontWeight: FontWeight.w600),
+          style: GoogleFonts.raleway(color: AppColors.auxiliarScale[500], fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 24),
 
@@ -38,13 +38,13 @@ class AdminOverview extends StatelessWidget {
               'Propiedades',
               community.propertyRegistry.count.toString(),
               Icons.home_work_outlined,
-              BaseAppColors.secondary,
+              AppColors.secondary,
             ),
             _buildStatCard(
               'Miembros',
               community.directory.members.length.toString(),
               Icons.people_outline,
-              BaseAppColors.secondary,
+              AppColors.secondary,
             ),
           ],
         ),
@@ -60,7 +60,7 @@ class AdminOverview extends StatelessWidget {
           title: 'Pagos por revisar',
           count: community.paymentLedger.pendingPayments.length,
           icon: Icons.receipt_long_outlined,
-          color: BaseAppColors.warning,
+          color: AppColors.warning,
         ),
         const SizedBox(height: 12),
         _buildActionTile(
@@ -68,7 +68,7 @@ class AdminOverview extends StatelessWidget {
           title: 'Solicitudes de ingreso',
           count: community.directory.pendingApplications.length,
           icon: Icons.person_add_outlined,
-          color: BaseAppColors.info,
+          color: AppColors.info,
         ),
       ],
     );
@@ -80,7 +80,7 @@ class AdminOverview extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: BaseAppColors.auxiliarScale[100]!),
+        border: Border.all(color: AppColors.auxiliarScale[100]!),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,14 +95,14 @@ class AdminOverview extends StatelessWidget {
                 style: GoogleFonts.raleway(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: BaseAppColors.auxiliarScale[900],
+                  color: AppColors.auxiliarScale[900],
                 ),
               ),
               Text(
                 label,
                 style: GoogleFonts.raleway(
                   fontSize: 12,
-                  color: BaseAppColors.auxiliarScale[500],
+                  color: AppColors.auxiliarScale[500],
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -137,13 +137,13 @@ class AdminOverview extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: GoogleFonts.raleway(fontWeight: FontWeight.bold, color: BaseAppColors.auxiliarScale[800]),
+              style: GoogleFonts.raleway(fontWeight: FontWeight.bold, color: AppColors.auxiliarScale[800]),
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: count > 0 ? color : BaseAppColors.auxiliarScale[100],
+              color: count > 0 ? color : AppColors.auxiliarScale[100],
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(

@@ -27,6 +27,8 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
   void initialize() {
     final contracts = GetContractsByCommunity().call(_sessionService.selectedCommunityId);
 
+    // TODO: Watch Contracts here ...
+
     if (contracts.isEmpty) {
       emit(NoContractsFound());
       return;

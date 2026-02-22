@@ -29,7 +29,7 @@ class PropertyListView extends StatelessWidget {
 
           if (state is LoadedState) {
             return ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               itemCount: state.properties.length,
               itemBuilder: (context, index) => PropertyCard(state.properties[index]),
             );

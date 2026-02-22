@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';
+import 'package:resipal_admin/shared/app_colors.dart';
+import 'package:resipal_admin/shared/buttons/primary_cta_button.dart';
 import 'package:resipal_core/presentation/shared/inputs/text_input_field.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
 import 'package:resipal_core/presentation/shared/views/error_view.dart';
@@ -17,6 +18,7 @@ class RegisterContractPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(title: 'Nuevo Contrato'),
+      backgroundColor: AppColors.background,
       body: BlocProvider(
         create: (context) => RegisterContractCubit(),
         child: BlocConsumer<RegisterContractCubit, RegisterContractState>(
@@ -93,13 +95,7 @@ class _ContractForm extends StatelessWidget {
             onChanged: cubit.updateDescription,
           ),
           const SizedBox(height: 48),
-          Center(
-            child: PrimaryCtaButton(
-              label: 'CREAR CONTRATO',
-              canSubmit: formState.canSubmit,
-              onPressed: () => cubit.submit(),
-            ),
-          ),
+          PrimaryCtaButton(label: 'CREAR CONTRATO', canSubmit: formState.canSubmit, onPressed: () => cubit.submit()),
         ],
       ),
     );

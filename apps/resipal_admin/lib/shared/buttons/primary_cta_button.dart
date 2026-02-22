@@ -5,17 +5,18 @@ import 'package:resipal_admin/shared/app_colors.dart';
 class PrimaryCtaButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
-  final bool canSubmit; // Added
+  final bool canSubmit;
 
   const PrimaryCtaButton({
     required this.label,
     required this.onPressed,
-    this.canSubmit = false, // Default to false
+    this.canSubmit = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+
 
     return SizedBox(
       width: double.infinity,

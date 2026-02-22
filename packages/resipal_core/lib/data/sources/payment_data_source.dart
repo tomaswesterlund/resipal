@@ -7,6 +7,23 @@ class PaymentDataSource {
 
   final Map<String, PaymentModel> _cache = {};
 
+  Stream<PaymentModel> watchById(String id) {
+    return _client
+        .from('payments')
+        .stream(primaryKey: ['id'])
+        .eq('id', id)
+        .map(
+          (data) => data
+              .map((item) {
+                final model = PaymentModel.fromMap(item);
+                _cache[model.id] = model;
+                return model;
+              })
+              .toList()
+              .first,
+        );
+  }
+
   Stream<List<PaymentModel>> watchByUserId(String userId) {
     return _client
         .from('payments')
@@ -14,7 +31,7 @@ class PaymentDataSource {
         .eq('user_id', userId)
         .map(
           (data) => data.map((item) {
-            final model = PaymentModel.fromJson(item);
+            final model = PaymentModel.fromMap(item);
             _cache[model.id] = model; // Update cache
             return model;
           }).toList(),
@@ -28,7 +45,7 @@ class PaymentDataSource {
         .eq('community_id', communityId)
         .map(
           (data) => data.map((item) {
-            final model = PaymentModel.fromJson(item);
+            final model = PaymentModel.fromMap(item);
             _cache[model.id] = model; // Update cache
             return model;
           }).toList(),
@@ -42,8 +59,15 @@ class PaymentDataSource {
 
   List<PaymentModel> getByUserId(String userId) => _cache.values.where((m) => m.userId == userId).toList();
 
-  List<PaymentModel> byCommunityAndUserId({required String communityId, required String userId}) =>
+  List<PaymentModel> getByCommunityAndUserId({required String communityId, required String userId}) =>
       _cache.values.where((x) => x.communityId == communityId && x.userId == userId).toList();
+
+  Future<PaymentModel> fetchAndCacheById(String id) async {
+    final item = await _client.from('payments').select().eq('id', id).single();
+    final model = PaymentModel.fromMap(item);
+    _cache[model.id] = model;
+    return model;
+  }
 
   Future registerPayment({
     required String communityId,
@@ -68,7 +92,14 @@ class PaymentDataSource {
     );
   }
 
-  Future approvePayment({required String userId, required String paymentId}) async {
-    await _client.rpc('fn_approve_payment', params: {'p_user_id': userId, 'p_payment_id': paymentId});
+  Future confirmPaymentReceived({
+    required String communityId,
+    required String userId,
+    required String paymentId,
+  }) async {
+    await _client.rpc(
+      'fn_confirm_payment_received',
+      params: {'p_community_id': communityId, 'p_user_id': userId, 'p_payment_id': paymentId},
+    );
   }
 }

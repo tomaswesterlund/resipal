@@ -25,7 +25,7 @@ class PaymentModel {
     required this.receiptPath
   });
 
-  factory PaymentModel.fromJson(Map<String, dynamic> json) {
+  factory PaymentModel.fromMap(Map<String, dynamic> json) {
     return PaymentModel(
       id: json['id'],
       communityId: json['community_id'],

@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:resipal_admin/presentation/contracts/register_contract/register_contract_page.dart';
+import 'package:resipal_admin/shared/app_colors.dart';
+import 'package:resipal_admin/shared/buttons/primary_cta_button.dart';
 import 'package:resipal_core/domain/entities/contract_entity.dart';
 import 'package:resipal_core/domain/entities/resident_entity.dart';
-import 'package:resipal_core/domain/refs/user_ref.dart';
 import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'register_property_cubit.dart';
 import 'register_property_form_state.dart';
 import 'register_property_state.dart';
-import 'package:resipal_core/presentation/shared/buttons/cta/primary_cta_button.dart';
 import 'package:resipal_core/presentation/shared/inputs/entry_dropdown_field.dart';
-import 'package:resipal_core/presentation/shared/inputs/images/image_picker_buttons.dart';
-import 'package:resipal_core/presentation/shared/inputs/images/image_preview.dart';
 import 'package:resipal_core/presentation/shared/inputs/text_input_field.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
-import 'package:resipal_core/presentation/shared/texts/body_text.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 import 'package:resipal_core/presentation/shared/views/error_view.dart';
 import 'package:resipal_core/presentation/shared/views/loading_view.dart';
@@ -29,6 +27,7 @@ class RegisterPropertyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: 'Registrar una propiedad'),
+      backgroundColor: AppColors.background,
       body: BlocProvider<RegisterPropertyCubit>(
         create: (ctx) => RegisterPropertyCubit()..initialize(),
         child: BlocConsumer<RegisterPropertyCubit, RegisterPropertyState>(
@@ -145,7 +144,7 @@ class _Form extends StatelessWidget {
           Center(
             child: PrimaryCtaButton(
               label: 'REGISTRAR PROPIEDAD',
-              icon: Icons.add_home,
+              // icon: Icons.add_home,
               canSubmit: formState.canSubmit,
               onPressed: () => cubit.submit(),
             ),
@@ -193,10 +192,7 @@ class _NoContractsFound extends StatelessWidget {
                 backgroundColor: const Color(0xFF1A4644),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               ),
-              onPressed: () {
-                // TODO: Navigate to Contract Creation Page
-                // Go.to(const RegisterContractPage());
-              },
+              onPressed: () => Go.to(RegisterContractPage()),
               child: Text(
                 'Configurar Contratos',
                 style: GoogleFonts.raleway(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),

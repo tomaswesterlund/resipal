@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resipal_admin/presentation/payments/payment_card.dart';
 import 'package:resipal_admin/presentation/payments/payment_tile.dart';
+import 'package:resipal_admin/shared/app_colors.dart';
+import 'package:resipal_admin/shared/buttons/primary_cta_button.dart';
+import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
+import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 import 'package:resipal_core/presentation/shared/views/error_view.dart';
 import 'package:resipal_core/presentation/shared/views/loading_view.dart';
 import 'payment_list_cubit.dart';
@@ -22,11 +27,12 @@ class PaymentListView extends StatelessWidget {
 
           if (state is LoadedState) {
             return ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: state.payments.length,
               separatorBuilder: (_, __) => const SizedBox(height: 8),
-              itemBuilder: (context, index) => PaymentTile(state.payments[index]),
+              itemBuilder: (context, index) => PaymentCard(state.payments[index]),
             );
           }
           return const SizedBox.shrink();
@@ -46,9 +52,9 @@ class _EmptyPayments extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Column(
           children: [
-            Icon(Icons.history, size: 48, color: Colors.grey.shade300),
+            Icon(Icons.history, size: 48, color: AppColors.secondary),
             const SizedBox(height: 16),
-            Text('No hay historial de pagos registrado.', style: GoogleFonts.raleway(color: Colors.grey.shade500)),
+            Text('No hay historial de pagos registrados.', style: GoogleFonts.raleway(color: AppColors.secondary)),
           ],
         ),
       ),

@@ -20,7 +20,7 @@ class GetPayments {
   }
 
   List<PaymentEntity> byCommunityAndUserId({required String communityId, required String userId}) {
-    final models = _source.byCommunityAndUserId(communityId: communityId, userId: userId);
+    final models = _source.getByCommunityAndUserId(communityId: communityId, userId: userId);
     final payments = models.map((m) => _getPayment.call(m.id)).toList();
     return payments;
   }

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_admin/admin_session_service.dart';
-import 'package:resipal_core/domain/use_cases/contracts/watch_contracts.dart';
+import 'package:resipal_core/domain/use_cases/contracts/watch_contracts_by_community.dart';
 import 'package:resipal_core/services/logger_service.dart';
 import 'contract_list_state.dart';
 
@@ -10,7 +10,7 @@ class ContractListCubit extends Cubit<ContractListState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final AdminSessionService _sessionService = GetIt.I<AdminSessionService>();
 
-  final WatchContracts _watchContracts = WatchContracts();
+  final WatchContractsByCommunity _watchContractsByCommunity = WatchContractsByCommunity();
   StreamSubscription? _streamSubscription;
 
   ContractListCubit() : super(InitialState());
@@ -21,8 +21,8 @@ class ContractListCubit extends Cubit<ContractListState> {
 
       final communityId = _sessionService.selectedCommunityId;
 
-      _streamSubscription = _watchContracts
-          .byCommunityId(communityId)
+      _streamSubscription = _watchContractsByCommunity
+          .call(communityId)
           .listen(
             (contracts) {
               if (contracts.isEmpty) {

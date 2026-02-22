@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 
 class FloatingNavBar extends StatelessWidget {
   final int currentIndex;
   final List<FloatingNavBarItem> items;
   final Function(int) onChanged;
 
+  // Color Inputs
+  final Color backgroundColor;
+  final Color activeColor;
+  final Color inactiveColor;
+  final Color dangerColor;
+  final Color warningColor;
+  final Color infoColor;
+  final Color badgeTextColor;
+
   const FloatingNavBar({
     super.key,
     required this.currentIndex,
     required this.onChanged,
     required this.items,
+    // Defaulting to your theme scale/colors
+    this.backgroundColor = Colors.white,
+    this.activeColor = const Color(0xFF3B4856), // secondaryScale[500]
+    this.inactiveColor = Colors.grey,
+    this.dangerColor = const Color(0xFFE74C3C), // danger
+    this.warningColor = const Color(0xFFF1C40F), // warning
+    this.infoColor = const Color(0xFF3498DB), // info
+    this.badgeTextColor = Colors.white,
   });
 
   @override
@@ -19,15 +35,9 @@ class FloatingNavBar extends StatelessWidget {
       height: 90,
       margin: const EdgeInsets.fromLTRB(24, 0, 24, 30),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 20, offset: const Offset(0, 10))],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -35,7 +45,6 @@ class FloatingNavBar extends StatelessWidget {
           final item = items[index];
           final bool isActive = currentIndex == index;
 
-          // Inside the List.generate loop:
           return GestureDetector(
             onTap: () => onChanged(index),
             behavior: HitTestBehavior.opaque,
@@ -43,116 +52,35 @@ class FloatingNavBar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Stack(
-                  // Wrap the container in a Stack to position the badge
                   clipBehavior: Clip.none,
                   children: [
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: isActive
-                            ? BaseAppColors.secondaryScale[500]
-                            : Colors.transparent,
+                        color: isActive ? activeColor : Colors.transparent,
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      child: Icon(
-                        item.icon,
-                        color: isActive ? Colors.white : Colors.grey,
-                        size: 24,
-                      ),
+                      child: Icon(item.icon, color: isActive ? backgroundColor : inactiveColor, size: 24),
                     ),
 
-                    // Danger Indicator
-                    if (item.showDanger) ...{
+                    // Badge Logic
+                    if (item.showDanger || item.warningBadgeCount > 0 || item.badgeCount > 0)
                       Positioned(
                         top: -2,
                         right: -2,
-                        child: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            color: Colors.white, // Border effect
-                            shape: BoxShape.circle,
-                          ),
-                          child: Container(
-                            width: 14,
-                            height: 14,
-                            decoration: const BoxDecoration(
-                              color: BaseAppColors.danger,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                '!',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
+                        child: _BadgeIndicator(
+                          color: item.showDanger
+                              ? dangerColor
+                              : (item.warningBadgeCount > 0 ? warningColor : infoColor),
+                          text: item.showDanger
+                              ? '!'
+                              : (item.warningBadgeCount > 0
+                                    ? item.warningBadgeCount.toString()
+                                    : item.badgeCount.toString()),
+                          borderColor: backgroundColor,
+                          textColor: badgeTextColor,
                         ),
                       ),
-                    } else if (item.warningBadgeCount > 0) ...{
-                      Positioned(
-                        top: -2,
-                        right: -2,
-                        child: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            color: Colors.white, // Border effect
-                            shape: BoxShape.circle,
-                          ),
-                          child: Container(
-                            width: 14,
-                            height: 14,
-                            decoration: const BoxDecoration(
-                              color: BaseAppColors.warning,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Text(
-                                item.warningBadgeCount.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    } else if (item.badgeCount > 0) ...{
-                      Positioned(
-                        top: -2,
-                        right: -2,
-                        child: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            color: Colors.white, // Border effect
-                            shape: BoxShape.circle,
-                          ),
-                          child: Container(
-                            width: 14,
-                            height: 14,
-                            decoration: const BoxDecoration(
-                              color: BaseAppColors.info,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Text(
-                                item.badgeCount.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    },
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -161,15 +89,42 @@ class FloatingNavBar extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-                    color: isActive
-                        ? BaseAppColors.secondaryScale[500]
-                        : Colors.grey,
+                    color: isActive ? activeColor : inactiveColor,
                   ),
                 ),
               ],
             ),
           );
         }),
+      ),
+    );
+  }
+}
+
+/// Internal helper for the circular badges
+class _BadgeIndicator extends StatelessWidget {
+  final Color color;
+  final String text;
+  final Color borderColor;
+  final Color textColor;
+
+  const _BadgeIndicator({required this.color, required this.text, required this.borderColor, required this.textColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(color: borderColor, shape: BoxShape.circle),
+      child: Container(
+        width: 14,
+        height: 14,
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(color: textColor, fontSize: 10, fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
     );
   }

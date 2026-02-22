@@ -11,7 +11,6 @@ import 'package:resipal_admin/presentation/properties/register_property/register
 import 'package:resipal_admin/shared/app_colors.dart';
 import 'package:resipal_core/domain/entities/community/community_entity.dart';
 import 'package:resipal_core/domain/entities/user_entity.dart';
-import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/floating_nav_bar.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
@@ -54,26 +53,37 @@ class _AdminHomePageState extends State<AdminHomePage> {
             _currentPageIndex = index;
           });
         },
+        // --- Color Inputs from AppColors ---
+        backgroundColor: AppColors.surface,
+        activeColor: AppColors.secondaryScale[500]!, // Rich Slate
+        inactiveColor: AppColors.grayscale[400]!, // Subtle Gray
+        dangerColor: AppColors.danger,
+        warningColor: AppColors.warning,
+        infoColor: AppColors.info,
+        badgeTextColor: Colors.white,
+
         items: [
-          FloatingNavBarItem(icon: Icons.house, label: 'Inicío'),
-          FloatingNavBarItem(icon: Icons.house, label: 'Propiedades'),
+          FloatingNavBarItem(icon: Icons.dashboard_outlined, label: 'Início'),
+          FloatingNavBarItem(icon: Icons.apartment_rounded, label: 'Propiedades'),
           FloatingNavBarItem(
-            icon: Icons.attach_money,
+            icon: Icons.account_balance_wallet_outlined,
             label: 'Pagos',
+            // Using warning (Yellow) for pending payments
             warningBadgeCount: widget.community.paymentLedger.pendingPayments.length,
           ),
           FloatingNavBarItem(
-            icon: Icons.person_add_alt_1,
+            icon: Icons.person_add_alt_1_outlined,
             label: 'Solicitudes',
-            warningBadgeCount: widget.community.directory.pendingApplications.length,
+            // Using info (Blue) or warning for applications
+            badgeCount: widget.community.directory.pendingApplications.length,
           ),
-          FloatingNavBarItem(icon: Icons.people, label: 'Miembros'),
+          FloatingNavBarItem(icon: Icons.groups_outlined, label: 'Miembros'),
         ],
       ),
       floatingActionButton: _getFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       drawer: Drawer(
-        backgroundColor: BaseAppColors.background,
+        backgroundColor: AppColors.background,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
         ),
@@ -107,7 +117,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     _buildDrawerItem(
                       icon: Icons.logout_rounded,
                       label: 'Cerrar Sesión',
-                      color: BaseAppColors.danger,
+                      color: AppColors.danger,
                       onTap: () {},
                     ),
                   ],
@@ -120,7 +130,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 'Resipal Admin v1.0.4',
-                style: GoogleFonts.raleway(fontSize: 10, color: BaseAppColors.auxiliarScale[400]),
+                style: GoogleFonts.raleway(fontSize: 10, color: AppColors.auxiliarScale[400]),
               ),
             ),
           ],
@@ -159,13 +169,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
     switch (_currentPageIndex) {
       case 1: // Properties
         return FloatingActionButton(
-          backgroundColor: BaseAppColors.secondaryScale[500],
+          backgroundColor: AppColors.secondaryScale[500],
           onPressed: () => Go.to(RegisterPropertyPage()),
           child: const Icon(Icons.add, color: Colors.white),
         );
       case 2: // Payments
         return FloatingActionButton(
-          backgroundColor: BaseAppColors.secondaryScale[500],
+          backgroundColor: AppColors.secondaryScale[500],
           onPressed: () => Go.to(RegisterPaymentPage()),
           child: const Icon(Icons.add, color: Colors.white),
         );
@@ -191,7 +201,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
       width: double.infinity,
       padding: const EdgeInsets.only(top: 60, left: 24, bottom: 24, right: 24),
       decoration: BoxDecoration(
-        color: BaseAppColors.secondary,
+        color: AppColors.secondary,
         borderRadius: const BorderRadius.only(bottomRight: Radius.circular(40)),
       ),
       child: Column(
@@ -211,7 +221,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 
   Widget _buildDrawerItem({required IconData icon, required String label, required VoidCallback onTap, Color? color}) {
-    final itemColor = color ?? BaseAppColors.auxiliarScale[700]!;
+    final itemColor = color ?? AppColors.auxiliarScale[700]!;
 
     return ListTile(
       leading: Icon(icon, color: itemColor, size: 22),
