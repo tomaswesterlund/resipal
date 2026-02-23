@@ -19,7 +19,7 @@ class ContractListCubit extends Cubit<ContractListState> {
     try {
       emit(LoadingState());
 
-      final communityId = _sessionService.selectedCommunityId;
+      final communityId = _sessionService.communityId;
 
       _streamSubscription = _watchContractsByCommunity
           .call(communityId)

@@ -25,7 +25,7 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
   late RegisterPropertyFormState _formState;
 
   void initialize() {
-    final contracts = GetContractsByCommunity().call(_sessionService.selectedCommunityId);
+    final contracts = GetContractsByCommunity().call(_sessionService.communityId);
 
     // TODO: Watch Contracts here ...
 
@@ -34,7 +34,7 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
       return;
     }
 
-    final residents = GetResidentsByCommunity().call(_sessionService.selectedCommunityId);
+    final residents = GetResidentsByCommunity().call(_sessionService.communityId);
 
     _formState = RegisterPropertyFormState(residents: residents, contracts: contracts);
     emit(FormEditingState(_formState));
@@ -93,7 +93,7 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
       }
 
       emit(FormSubmittingState());
-      final communityId = _sessionService.selectedCommunityId;
+      final communityId = _sessionService.communityId;
 
       final propertyId = await RegisterProperty().call(
         communityId: communityId,

@@ -20,7 +20,7 @@ class PaymentListCubit extends Cubit<PaymentListState> {
     _subscription?.cancel();
 
     _subscription = _watchPayments
-        .call(_sessionService.selectedCommunityId)
+        .call(_sessionService.communityId)
         .listen(
           (payments) {
             if (payments.isEmpty) {

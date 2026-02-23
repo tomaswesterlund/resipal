@@ -15,9 +15,9 @@ class LoggerService {
   );
 
   Future logException({
-    required dynamic exception,
     required String featureArea,
-    required StackTrace? stackTrace,
+    required dynamic exception,
+    StackTrace? stackTrace,
     Map<String, dynamic>? metadata,
   }) async {
     _logger.e('Exception in $featureArea', error: exception, stackTrace: stackTrace);

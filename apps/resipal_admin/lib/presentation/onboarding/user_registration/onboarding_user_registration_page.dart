@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_admin/presentation/onboarding/community_registration/onboarding_community_registration_page.dart';
 import 'package:resipal_admin/presentation/onboarding/user_registration/onboarding_user_registration_cubit.dart';
 import 'package:resipal_admin/presentation/onboarding/user_registration/onboarding_user_registration_state.dart';
+import 'package:resipal_admin/shared/buttons/primary_cta_button.dart';
+import 'package:resipal_admin/shared/views/success_view.dart';
 import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/inputs/phone_number_input_field.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
@@ -11,7 +13,6 @@ import 'package:resipal_core/presentation/shared/texts/header_text.dart';
 import 'package:resipal_core/presentation/shared/inputs/text_input_field.dart';
 import 'package:resipal_core/presentation/shared/views/error_view.dart';
 import 'package:resipal_core/presentation/shared/views/loading_view.dart';
-import 'package:resipal_core/presentation/shared/views/success_view.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class OnboardingUserRegistrationPage extends StatelessWidget {
@@ -91,26 +92,12 @@ class OnboardingUserRegistrationPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
 
-                      // Read-only Email display
                       _ReadOnlyEmailField(email: form.email),
 
                       const SizedBox(height: 48),
-
-                      SizedBox(
-                        width: double.infinity,
-                        height: 55,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF1A4644),
-                            disabledBackgroundColor: Colors.grey.shade300,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                          ),
-                          onPressed: form.canSubmit ? () => cubit.submit() : null,
-                          child: Text(
-                            'Finalizar Registro',
-                            style: GoogleFonts.raleway(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ),
+                      PrimaryCtaButton(
+                        label: 'Finalizar Registro',
+                        onPressed: form.canSubmit ? () => cubit.submit() : null,
                       ),
                     ],
                   ),

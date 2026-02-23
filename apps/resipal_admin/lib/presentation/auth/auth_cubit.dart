@@ -44,7 +44,6 @@ class AuthCubit extends Cubit<AuthState> {
         if (userAccessRegistry.adminMemberships.isNotEmpty) {
           // TODO: Update this logic, ust get first for now
           final membership = userAccessRegistry.adminMemberships.first;
-          _sessionService.setSelectedCommunityId(membership.community.id);
           await _sessionService.startWatchers(userId: userId, communityId: membership.community.id);
 
           final user = GetUser().call(userId);

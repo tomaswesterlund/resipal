@@ -25,7 +25,11 @@ class ConfirmPaymentButton extends StatelessWidget {
           }
 
           if (state is SubmittingState) {
-            return PrimaryCtaButton(label: 'Procesando...', canSubmit: false, onPressed: () {});
+            return PrimaryCtaButton(
+                label: 'Confirmar pago recibido',
+                canSubmit: false,
+                isLoading: true,
+              );
           }
 
           if (state is SubmittedSuccessfullyState) {

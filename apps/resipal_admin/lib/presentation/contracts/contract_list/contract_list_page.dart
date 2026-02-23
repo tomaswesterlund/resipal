@@ -6,10 +6,10 @@ import 'package:resipal_admin/presentation/contracts/register_contract/register_
 import 'package:resipal_admin/shared/buttons/primary_cta_button.dart';
 import 'package:resipal_admin/shared/loading/loading_bar.dart';
 import 'package:resipal_admin/shared/state_switcher.dart';
+import 'package:resipal_admin/shared/views/error_view.dart';
 import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/my_app_bar.dart';
 import 'package:resipal_core/presentation/shared/texts/header_text.dart';
-import 'package:resipal_core/presentation/shared/views/error_view.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'contract_list_cubit.dart';
 import 'contract_list_state.dart';

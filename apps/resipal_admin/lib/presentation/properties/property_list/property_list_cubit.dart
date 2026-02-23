@@ -19,7 +19,7 @@ class PropertyListCubit extends Cubit<PropertyListState> {
     try {
       emit(LoadingState());
 
-      final communityId = _sessionService.selectedCommunityId;
+      final communityId = _sessionService.communityId;
 
       _streamSubscription = _watchProperties
           .call(communityId)

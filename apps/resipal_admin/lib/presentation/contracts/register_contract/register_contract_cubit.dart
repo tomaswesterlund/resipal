@@ -44,7 +44,7 @@ class RegisterContractCubit extends Cubit<RegisterContractState> {
     emit(FormSubmittingState());
     try {
       final contractId = await CreateContract().call(
-        communityId: _sessionService.selectedCommunityId,
+        communityId: _sessionService.communityId,
         name: form.name,
         amountInCents: CurrencyFormatter.toAmountInCents(form.amount),
         period: 'monthly',
