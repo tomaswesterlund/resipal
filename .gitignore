@@ -1,0 +1,62 @@
+# -------------------------------------------------------------------
+# Flutter / Dart
+# -------------------------------------------------------------------
+# Automatically ignores all build folders in apps/ and packages/
+**/build/
+**/.dart_tool/
+**/.packages
+**/.pub-cache/
+**/.pub/
+**/pubspec.lock
+# Exception: You might want to keep pubspec.lock in apps, 
+# but usually in monorepos we ignore them to let Melos handle it.
+
+# -------------------------------------------------------------------
+# IDEs
+# -------------------------------------------------------------------
+# VS Code
+.vscode/
+**/.history/
+**/.ionide/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+**/.idea/
+
+# -------------------------------------------------------------------
+# OS Specific
+# -------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------------------------------------------------
+# Mobile Specific Artifacts
+# -------------------------------------------------------------------
+**/ios/.generated/
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Pods/
+**/ios/.symlinks/
+**/android/local.properties
+**/android/key.properties
+**/*.keystore
+**/*.jks
+
+# -------------------------------------------------------------------
+# Supabase & Environment
+# -------------------------------------------------------------------
+# Ignore local Supabase state but keep migrations
+supabase/.temp/
+.env
+.env.*
+!.env.example
+
+# -------------------------------------------------------------------
+# Monorepo / Melos
+# -------------------------------------------------------------------
+melos_resipal.iml
+.melos/
