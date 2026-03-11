@@ -30,17 +30,16 @@ class PropertyHeader extends StatelessWidget {
           const SizedBox(height: 20),
 
           // Métricas Financieras de la Propiedad
-          Row(
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildFinanceItem(
-                'DEUDA ACTUAL',
-                property.totalDebtAmountInCents,
-                onPrimary,
-                accentColor: property.hasDebt ? Colors.redAccent : Colors.greenAccent,
+              OverlineText('Deuda actual', color: Colors.white.withOpacity(0.8)),
+              const SizedBox(height: 4),
+              AmountText(
+                amountInCents: property.totalDebtAmountInCents,
+                fontSize: 42,
+                color: Colors.white,
               ),
-              _buildFinanceItem('TOTAL PAGADO', property.totalPaidAmountInCents, onPrimary),
-              _buildFinanceItem('CUOTAS', property.fees.length, onPrimary, isCurrency: false),
             ],
           ),
 
@@ -82,28 +81,6 @@ class PropertyHeader extends StatelessWidget {
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFinanceItem(String label, int value, Color baseColor, {Color? accentColor, bool isCurrency = true}) {
-    return Expanded(
-      child: Column(
-        children: [
-          OverlineText(label, color: baseColor.withOpacity(0.7)),
-          const SizedBox(height: 4),
-          if (isCurrency)
-            AmountText(
-              amountInCents: value,
-              fontSize: 16,
-              color: (value != 0 && accentColor != null) ? accentColor : baseColor,
-            )
-          else
-            Text(
-              value.toString(),
-              style: TextStyle(color: baseColor, fontSize: 16, fontWeight: FontWeight.bold),
-            ),
         ],
       ),
     );

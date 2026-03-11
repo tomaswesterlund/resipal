@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resipal_core/src/presentation/roles/roles_legend.dart';
+import 'package:resipal_core/src/presentation/roles/roles_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:wester_kit/lib.dart';
@@ -97,26 +99,26 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           const SizedBox(height: 16),
                           _buildDrawerItem(
                             context,
-                            icon: Icons.settings_applications_outlined,
+                            icon: Icons.location_city_rounded,
                             label: 'Comunidad',
                             onTap: () => Go.to(CommunityDetailsPage(community: community)),
                           ),
                           _buildDrawerItem(
                             context,
-                            icon: Icons.description_outlined,
+                            icon: Icons.description,
                             label: 'Contratos',
                             onTap: () => Go.to(ContractsPage(community.contracts)),
                           ),
                           _buildDrawerItem(
                             context,
-                            icon: Icons.manage_accounts_outlined,
+                            icon: Icons.people,
                             label: 'Miembros',
                             onTap: () => Go.to(MemberListPage(directory: community.memberDirectory)),
                           ),
 
                           _buildDrawerItem(
                             context,
-                            icon: Icons.apartment_outlined,
+                            icon: Icons.house,
                             label: 'Propiedades',
                             onTap: () => Go.to(PropertiesPage(community.propertyRegistry.properties)),
                           ),
@@ -126,6 +128,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             icon: Icons.bar_chart_outlined,
                             label: 'Reportes',
                             onTap: () => Go.to(ReportsPage()),
+                          ),
+
+                          _buildDrawerItem(
+                            context,
+                            icon: Icons.manage_accounts,
+                            label: 'Roles',
+                            onTap: () => Go.to(RolesPage()),
                           ),
                           _buildDrawerItem(
                             context,
@@ -180,28 +189,42 @@ class _AdminHomePageState extends State<AdminHomePage> {
         return [IconButton(icon: const Icon(Icons.notifications_none), onPressed: () {})];
       case 1:
         return [
-          IconButton(icon: const Icon(Icons.help), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
           IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterPropertyPage())),
         ];
       case 2:
         return [
-          IconButton(icon: const Icon(Icons.help), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () => InfoPopup.show(
+              context,
+              title: 'Información de Pagos',
+              message:
+                  'Los pagos que se encuentran en revisión tienen que ser aprobados por un administrador. El saldo total del miembro no se verá afectado hasta que un administrador verifique el comprobante y apruebe el pago.',
+              icon: Icons.info_outline,
+              iconColor: Theme.of(context).colorScheme.primary,
+            ),
+          ),
           IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterPaymentPage())),
         ];
       case 3:
         return [
-          IconButton(icon: const Icon(Icons.help), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
+          // IconButton(icon: const Icon(Icons.help), onPressed: () {}),
+          // IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
           IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterApplicationPage())),
         ];
 
       case 4:
         return [
-          IconButton(icon: const Icon(Icons.help), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
-          // IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterUserPage())),
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () => InfoPopup.show(
+              context,
+              title: 'Información de Miembros',
+              message:
+                  'Para registrar a un miembro, primero debes crear una nueva solicitud. El futuro miembro recibirá una invitación y, al aceptarla, se unirá automáticamente a la comunidad.',
+              icon: Icons.info_outline,
+            ),
+          ),
         ];
       default:
         return [];

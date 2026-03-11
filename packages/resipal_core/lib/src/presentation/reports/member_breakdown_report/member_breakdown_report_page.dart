@@ -93,12 +93,17 @@ class MemberBreakdownReportPage extends StatelessWidget {
             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
             children: [
               _buildStatBox('Miembros', '${state.members.length}'),
+              pw.SizedBox(width: 4),
               _buildStatBox('Propiedades', '${state.members.fold(0, (sum, m) => sum + m.propertyRegistry.count)}'),
+              pw.SizedBox(width: 4),
+              _buildStatBox('Saldo total', '${CurrencyFormatter.fromCents(state.community.totalBalanceInCents)}'),
+              pw.SizedBox(width: 4),
               _buildStatBox(
                 'Pagos por Revisar',
                 formatCurrency.format(state.totalPendingCents / 100),
                 valueColor: PdfColors.orange,
               ),
+              pw.SizedBox(width: 4),
               _buildStatBox(
                 'Deuda Total',
                 formatCurrency.format(state.totalDebtCents / 100),
@@ -203,7 +208,7 @@ class MemberBreakdownReportPage extends StatelessWidget {
                       child: _SummaryHeader(state),
                     ),
                     state.members.isEmpty ? const _EmptyReport() : _ReportList(members: state.members),
-                    // SizedBox(height: 96.0),
+                    const SizedBox(height: 48.0),
                   ],
                 ),
               );

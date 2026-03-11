@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/members/member_role_icons.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
@@ -66,7 +67,7 @@ class MemberCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          _buildRoleBadges(context),
+                          MemberRoleIcons(member: member)
                         ],
                       ),
 
@@ -148,21 +149,4 @@ class MemberCard extends StatelessWidget {
     );
   }
 
-  Widget _buildRoleBadges(BuildContext context) {
-    final iconColor = Theme.of(context).colorScheme.outline;
-    return Row(
-      children: [
-        if (member.isAdmin) _buildSmallIcon(Icons.admin_panel_settings_outlined, iconColor),
-        if (member.isSecurity) _buildSmallIcon(Icons.shield_outlined, iconColor),
-        if (member.isResident) _buildSmallIcon(Icons.home_work_outlined, iconColor),
-      ],
-    );
-  }
-
-  Widget _buildSmallIcon(IconData icon, Color color) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 6),
-      child: Icon(icon, size: 18, color: color),
-    );
-  }
 }

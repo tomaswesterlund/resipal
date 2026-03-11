@@ -118,8 +118,8 @@ class _Loaded extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 96),
           ],
+          const SizedBox(height: 48.0),
         ],
       ),
     );

@@ -69,7 +69,7 @@ class _Loaded extends StatelessWidget {
           DefaultCard(
             child: Column(
               children: [
-                DetailTile(icon: Icons.business_rounded, label: 'Nombre', value: community.name),
+                DetailTile(icon: Icons.location_city_rounded, label: 'Nombre', value: community.name),
                 Divider(height: 1, color: colorScheme.outlineVariant),
                 DetailTile(icon: Icons.location_on_rounded, label: 'Ubicación', value: community.location),
                 Divider(height: 1, color: colorScheme.outlineVariant),

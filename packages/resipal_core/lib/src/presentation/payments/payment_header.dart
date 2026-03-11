@@ -82,10 +82,10 @@ class PaymentHeader extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const OverlineText('REALIZADO POR', color: Colors.white),
+                    const OverlineText('PAGADO POR', color: Colors.white),
                     const SizedBox(height: 2),
                     BodyText.small(
-                      payment.createdBy.name,
+                      payment.user.name,
                       color: onPrimary.withOpacity(0.8),
                     ),
                   ],

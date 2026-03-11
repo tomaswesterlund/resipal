@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/applications/application_tile.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/ui/texts/header_text.dart';
 
@@ -17,8 +18,11 @@ class ApplicationListView extends StatelessWidget {
       child: ListView.separated(
         padding: const EdgeInsets.only(top: 0, bottom: 96),
         itemCount: applications.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 8),
-        itemBuilder: (context, index) => ApplicationCard(applications[index]),
+        separatorBuilder: (_, __) => const SizedBox(height: 4),
+        itemBuilder: (context, index) {
+          final application = applications[index];
+          return ApplicationTile(application: application);
+        }
       ),
     );
   }

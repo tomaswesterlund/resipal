@@ -22,6 +22,7 @@ class MemberEntity {
     required this.isSecurity,
   });
 
+  bool get hasDebt => propertyRegistry.hasDebt;
   int get totalMemberBalanceInCents => paymentLedger.totalPaymentBalanceInCents - propertyRegistry.totalDebtAmountInCents - propertyRegistry.totalPaidAmountInCents;
 
   Map<String, dynamic> toMap() {

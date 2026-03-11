@@ -66,20 +66,121 @@ class _ContractHeaderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final onPrimary = colorScheme.onPrimary;
 
-    return DefaultCard(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            const StatusBadge(color: Colors.blue, label: 'Contrato Activo'),
-            const SizedBox(height: 16),
-            HeaderText.three(contract.name, textAlign: TextAlign.center),
-            const SizedBox(height: 8),
-            AmountText(amountInCents: contract.amountInCents, fontSize: 32, textAlign: TextAlign.center, color: Colors.black),
-            BodyText.small('Monto base estipulado', color: colorScheme.onSurfaceVariant),
-          ],
-        ),
+    return GradientCard(
+      child: Column(
+        children: [
+          // Sección Superior: Icono y Nombre del Contrato
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.description_outlined,
+                color: Colors.white,
+                size: 48,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    OverlineText('CONTRATO DE MANTENIMIENTO', color: onPrimary.withOpacity(0.7)),
+                    HeaderText.two(
+                      contract.name,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+          Divider(color: Colors.white.withOpacity(0.2), height: 1),
+          const SizedBox(height: 20),
+
+          // Métricas del Contrato
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildContractStat(
+                'MONTO BASE',
+                CurrencyFormatter.fromCents(contract.amountInCents),
+                onPrimary,
+                icon: Icons.attach_money_rounded,
+              ),
+              _buildContractStat(
+                'PERIODICIDAD',
+                'Mensual', 
+                onPrimary,
+                icon: Icons.repeat_rounded,
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+          Divider(color: Colors.white.withOpacity(0.2), height: 1),
+          const SizedBox(height: 16),
+
+          // Sección Inferior: Estatus Legal
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const OverlineText('TIPO DE PROPIEDAD', color: Colors.white),
+                    const SizedBox(height: 2),
+                    BodyText.small(
+                      'Residencial', // O el dato dinámico correspondiente
+                      color: onPrimary.withOpacity(0.8),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const OverlineText('ESTADO LEGAL', color: Colors.white),
+                  const SizedBox(height: 4),
+                  const StatusBadge(
+                    label: 'CONTRATO ACTIVO',
+                    color: Colors.white, // Resalta sobre el gradiente
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContractStat(String label, String value, Color baseColor, {required IconData icon}) {
+    return Expanded(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 10, color: baseColor.withOpacity(0.6)),
+              const SizedBox(width: 4),
+              OverlineText(label, color: baseColor.withOpacity(0.6)),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              color: baseColor,
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

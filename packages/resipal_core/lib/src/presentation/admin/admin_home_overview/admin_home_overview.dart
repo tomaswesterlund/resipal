@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/payments/payments_page.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
 class HomeOverview extends StatelessWidget {
@@ -95,7 +97,7 @@ class HomeOverview extends StatelessWidget {
                       icon: Icons.receipt_long_outlined,
                       // Replaces AppColors.warning with Terracotta/Secondary
                       color: colorScheme.surfaceTint,
-                      onPressed: onPendingPaymentsPressed,
+                      onPressed: () => Go.to(PaymentsPage(payments: community.paymentLedger.payments)),
                     ),
                     const SizedBox(height: 12),
                     ActionTile(
@@ -104,7 +106,7 @@ class HomeOverview extends StatelessWidget {
                       icon: Icons.person_add_outlined,
                       // Replaces AppColors.info with System/Info Tertiary
                       color: colorScheme.surfaceTint,
-                      onPressed: onPendingApplicationsPressed,
+                      onPressed: () => Go.to(ApplicationListPage(applications: community.applications,)),
                     ),
 
                     const SizedBox(height: 48),

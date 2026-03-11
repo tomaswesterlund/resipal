@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:resipal_core/src/presentation/properties/property_card.dart';
+import 'package:resipal_core/src/presentation/properties/property_tile.dart';
 import 'package:resipal_core/src/presentation/properties/register_property/register_property_page.dart';
 import 'package:wester_kit/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
@@ -67,11 +68,14 @@ class _PropertyListViewState extends State<PropertyListView> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: filteredProperties.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 8),
-                itemBuilder: (context, index) => PropertyCard(filteredProperties[index]),
+                separatorBuilder: (_, _) => const SizedBox(height: 4),
+                itemBuilder: (context, index) {
+                  final property = filteredProperties[index];
+                  return PropertyTile(property: property);
+                },
               ),
 
-            const SizedBox(height: 96.0),
+            const SizedBox(height: 48.0),
           ],
         ),
       ),

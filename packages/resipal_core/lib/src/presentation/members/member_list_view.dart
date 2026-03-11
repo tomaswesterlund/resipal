@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:resipal_core/src/presentation/members/member_card.dart';
+import 'package:resipal_core/src/presentation/members/member_tile.dart';
 import 'package:wester_kit/lib.dart';
 
 class MemberListView extends StatefulWidget {
@@ -29,11 +30,14 @@ class _MemberListViewState extends State<MemberListView> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: widget.members.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 8),
-              itemBuilder: (context, index) => MemberCard(widget.members[index]),
+              separatorBuilder: (_, _) => const SizedBox(height: 4),
+              itemBuilder: (context, index) {
+                final member = widget.members[index];
+                return MemberTile(member: member);
+              }
             ),
 
-            const SizedBox(height: 96.0),
+            const SizedBox(height: 48.0),
           ],
         ),
       ),

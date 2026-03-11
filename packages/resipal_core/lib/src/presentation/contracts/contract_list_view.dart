@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/contracts/contract_tile.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/ui/texts/header_text.dart';
 
@@ -48,7 +49,10 @@ class ContractListView extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12.0, 16.0, 12.0, 100.0),
       itemCount: contracts.length,
       separatorBuilder: (context, index) => const SizedBox(height: 8),
-      itemBuilder: (context, index) => ContractCard(contracts[index]),
+      itemBuilder: (context, index) {
+        final contract = contracts[index];
+        return ContractTile(contract: contract);
+      }
     );
   }
 }
