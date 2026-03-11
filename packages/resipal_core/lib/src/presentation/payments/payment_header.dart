@@ -8,37 +8,124 @@ class PaymentHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final onPrimary = colorScheme.onPrimary;
 
     return GradientCard(
       child: Column(
         children: [
-          // Using a white-themed version of your icon/status for the gradient
-          PaymentIcon(payment),
-          const SizedBox(height: 24),
-
-          OverlineText('Monto de la transacción', color: colorScheme.onPrimary.withOpacity(0.7)),
-          const SizedBox(height: 8),
-          AmountText(
-            amountInCents: payment.amountInCents,
-            fontSize: 36,
-            // Keeping it white for maximum contrast on the primary gradient
-            color: colorScheme.onPrimary,
-            textAlign: TextAlign.center,
+          // Sección Superior: Icono y Monto Principal
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.attach_money_outlined,
+                color: Colors.white,
+                size: 48,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    OverlineText('MONTO PAGADO', color: onPrimary.withOpacity(0.7)),
+                    AmountText(
+                      amountInCents: payment.amountInCents,
+                      fontSize: 32,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-
-          // Reusing your existing pill but ensuring it pops against the background
-          PaymentStatusPill(payment),
 
           const SizedBox(height: 16),
-          Divider(height: 1, color: colorScheme.onPrimary.withOpacity(0.2)),
+          Divider(color: Colors.white.withOpacity(0.2), height: 1),
+          const SizedBox(height: 20),
+
+          // Detalles de la Transacción
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // _buildTransactionItem(
+              //   'MÉTODO',
+              //   payment.method.display, // Asumiendo que el enum tiene display
+              //   onPrimary,
+              //   icon: Icons.account_balance_wallet_outlined,
+              // ),
+              _buildTransactionItem(
+                'FECHA DE PAGO',
+                payment.date.toShortDate(),
+                onPrimary,
+                icon: Icons.calendar_today_rounded,
+              ),
+              _buildTransactionItem(
+                'REF',
+                payment.reference?.isNotEmpty == true ? payment.reference! : 'Sin referencia',
+                onPrimary,
+                icon: Icons.tag_rounded,
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+          Divider(color: Colors.white.withOpacity(0.2), height: 1),
           const SizedBox(height: 16),
 
+          // Sección Inferior: Usuario y Estatus
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Identidad de quien realizó el pago
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const OverlineText('REALIZADO POR', color: Colors.white),
+                    const SizedBox(height: 2),
+                    BodyText.small(
+                      payment.createdBy.name,
+                      color: onPrimary.withOpacity(0.8),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Estatus del Pago (Pill de WesterKit)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const OverlineText('ESTATUS', color: Colors.white),
+                  const SizedBox(height: 4),
+                  PaymentStatusPill(payment), 
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTransactionItem(String label, String value, Color baseColor, {required IconData icon}) {
+    return Expanded(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 10, color: baseColor.withOpacity(0.6)),
+              const SizedBox(width: 4),
+              OverlineText(label, color: baseColor.withOpacity(0.6)),
+            ],
+          ),
+          const SizedBox(height: 4),
           BodyText.small(
-            'Referencia: ${payment.id.substring(0, 8).toUpperCase()}',
-            color: colorScheme.onPrimary.withOpacity(0.6),
+            value,
+            color: baseColor,
+            fontWeight: FontWeight.bold,
+            // maxLines: 1,
           ),
         ],
       ),

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal_core/src/presentation/properties/property_list_view.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:wester_kit/lib.dart';
-import 'member_details_cubit.dart';
-import 'member_details_state.dart';
+
 
 class MemberDetailsPage extends StatefulWidget {
   final MemberEntity member;
@@ -108,8 +106,8 @@ class _Overview extends StatelessWidget {
               children: [
                 DetailTile(
                   icon: Icons.account_balance_wallet_outlined,
-                  label: 'Balance Total',
-                  value: CurrencyFormatter.fromCents(member.paymentLedger.totalPaymentBalanceInCents),
+                  label: 'SALDO TOTAL',
+                  value: CurrencyFormatter.fromCents(member.totalMemberBalanceInCents),
                 ),
                 Divider(height: 1, color: colorScheme.outlineVariant),
                 DetailTile(

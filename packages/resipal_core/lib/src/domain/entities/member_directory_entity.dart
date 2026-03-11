@@ -6,7 +6,7 @@ class MemberDirectoryEntity {
   MemberDirectoryEntity(this.members);
 
   bool get isEmpty => members.isEmpty;
-  int get length => members.length;
+  int get count => members.length;
 
   List<MemberEntity> get admins => members; //users.where((m) => m.isAdmin).toList();
   List<MemberEntity> get securityStaff => members; //users.where((m) => m.isSecurity).toList();

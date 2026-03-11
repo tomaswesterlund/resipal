@@ -19,7 +19,7 @@ class ApplicationDetailsPage extends StatelessWidget {
         appBar: const MyAppBar(title: 'Detalle de Solicitud'),
         body: BlocBuilder<ApplicationDetailsCubit, ApplicationDetailsState>(
           builder: (ctx, state) {
-            return StateSwitcher(child: _buildStateWidget(state));
+            return _buildStateWidget(state);
           },
         ),
       ),
@@ -131,15 +131,9 @@ class _Loaded extends StatelessWidget {
 
           // Message Section
           if (application.message.isNotEmpty) ...[
-            const SectionHeaderText(text: 'MENSAJE / MOTIVACIÓN'),
+            const SectionHeaderText(text: 'MENSAJE'),
             DefaultCard(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  application.message,
-                  style: theme.textTheme.bodyLarge?.copyWith(color: colorScheme.onSurface, height: 1.4),
-                ),
-              ),
+              child: Padding(padding: const EdgeInsets.all(16.0), child: BodyText.medium(application.message)),
             ),
             const SizedBox(height: 20),
           ],

@@ -11,6 +11,9 @@ class CommunityEntity {
   final PropertyRegistry propertyRegistry;
   final MemberDirectoryEntity memberDirectory;
 
+  int get totalBalanceInCents =>
+      memberDirectory.members.fold(0, (sum, item) => sum = sum + item.totalMemberBalanceInCents);
+
   CommunityEntity({
     required this.id,
     required this.name,

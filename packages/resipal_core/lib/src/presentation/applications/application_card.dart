@@ -37,19 +37,30 @@ class ApplicationCard extends StatelessWidget {
                     children: [
                       // --- Header: Applicant Name & Roles ---
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                HeaderText.five(application.name, color: colorScheme.onSurface),
-                                const SizedBox(height: 2),
-                                StatusBadge(color: statusColor, label: application.status.display)
-                              ],
-                            ),
+                          Icon(Icons.document_scanner, size: 36, color: colorScheme.onPrimaryContainer),
+                          SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              OverlineText('Nombre'),
+                              HeaderText.five(application.name, color: colorScheme.onSurface),
+                              
+                            ],
                           ),
+                          Spacer(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              OverlineText('Estatus'),
+                              SizedBox(height: 2),
+                              StatusBadge(color: statusColor, label: application.status.display),
+                            ],
+                          ),
+                          SizedBox(width: 12),
                           _buildRoleIcons(context),
+                          SizedBox(width: 12),
                         ],
                       ),
 
@@ -91,7 +102,6 @@ class ApplicationCard extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildInfoRow(IconData icon, String text, BuildContext context) {
     return Row(

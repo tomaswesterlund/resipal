@@ -122,7 +122,7 @@ class MemberBreakdownReportPage extends StatelessWidget {
               3: pw.Alignment.centerRight,
               4: pw.Alignment.centerRight,
             },
-            headers: ['Nombre', 'Propiedad', 'Balance', 'Pendiente', 'Deuda'],
+            headers: ['Nombre', 'Propiedad', 'Saldo', 'Pendiente', 'Deuda'],
             data: tableData,
             cellDecoration: (index, data, rowNum) {
               // rowNum es 1-based y el 0 es el header, por lo que restamos 1 para nuestro array
@@ -195,17 +195,17 @@ class MemberBreakdownReportPage extends StatelessWidget {
             if (state is MemberBreakdownReportErrorState) return const ErrorView();
 
             if (state is MemberBreakdownReportLoadedState) {
-              return Column(
-                children: [
-                  _SummaryHeader(
-                    balance: state.totalBalanceCents,
-                    debt: state.totalDebtCents,
-                    pending: state.totalPendingCents,
-                    count: state.members.length,
-                  ),
-                  Expanded(child: state.members.isEmpty ? const _EmptyReport() : _ReportList(members: state.members)),
-                  SizedBox(height: 96.0),
-                ],
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: _SummaryHeader(state),
+                    ),
+                    state.members.isEmpty ? const _EmptyReport() : _ReportList(members: state.members),
+                    // SizedBox(height: 96.0),
+                  ],
+                ),
               );
             }
             return const UnknownStateView();
@@ -217,54 +217,108 @@ class MemberBreakdownReportPage extends StatelessWidget {
 }
 
 class _SummaryHeader extends StatelessWidget {
-  final int balance;
-  final int debt;
-  final int pending; // Added
-  final int count;
+  final MemberBreakdownReportLoadedState state;
 
-  const _SummaryHeader({required this.balance, required this.debt, required this.pending, required this.count});
+  const _SummaryHeader(this.state);
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Container(
-      color: colorScheme.surface,
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal, // Prevent overflow if screen is narrow
-        child: Row(
+    final pendingAmount = state.community.paymentLedger.pendingPaymentAmountInCents;
+    final totalDebt = state.community.propertyRegistry.totalDebtAmountInCents;
+
+    return GradientCard(
+      child: Column(
+        children: [
+          OverlineText('SALDO TOTAL EN COMUNIDAD', color: colorScheme.onPrimary.withOpacity(0.7)),
+          const SizedBox(height: 8),
+          AmountText(
+            amountInCents: state.totalBalanceCents,
+            fontSize: 42,
+            color: colorScheme.onPrimary,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+
+          Divider(color: colorScheme.onPrimary.withOpacity(0.2), height: 1),
+          const SizedBox(height: 24),
+
+          // Secondary Financial Metrics
+          Row(
+            children: [
+              Expanded(
+                child: _HeaderMiniStat(
+                  label: 'POR REVISAR',
+                  value: CurrencyFormatter.fromCents(pendingAmount),
+                  icon: Icons.hourglass_empty_rounded,
+                  accentColor: Colors.orangeAccent,
+                ),
+              ),
+              Container(width: 1, height: 40, color: colorScheme.onPrimary.withOpacity(0.1)),
+              Expanded(
+                child: _HeaderMiniStat(
+                  label: 'DEUDA TOTAL',
+                  value: CurrencyFormatter.fromCents(totalDebt),
+                  icon: Icons.trending_down_rounded,
+                  accentColor: Colors.redAccent,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 24),
+
+          Row(
+            children: [
+              Expanded(
+                child: _HeaderMiniStat(
+                  label: 'MIEMBROS',
+                  value: state.members.length.toString(),
+                  icon: Icons.people,
+                  accentColor: Colors.white,
+                ),
+              ),
+              Container(width: 1, height: 40, color: colorScheme.onPrimary.withOpacity(0.1)),
+              Expanded(
+                child: _HeaderMiniStat(
+                  label: 'PROPIEDADES',
+                  value: state.community.propertyRegistry.count.toString(),
+                  icon: Icons.house,
+                  accentColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HeaderMiniStat extends StatelessWidget {
+  final String label;
+  final String value;
+  final IconData icon;
+  final Color accentColor;
+
+  const _HeaderMiniStat({required this.label, required this.value, required this.icon, required this.accentColor});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _HeaderItem(label: 'REGISTROS', value: count.toString()),
-            const SizedBox(width: 24),
-            _HeaderItem(
-              label: 'BALANCE',
-              customValue: AmountText(
-                amountInCents: balance,
-                fontSize: 16,
-                color: balance > 0 ? colorScheme.tertiary : Colors.black,
-              ),
-            ),
-            const SizedBox(width: 24),
-            _HeaderItem(
-              label: 'POR REVISAR',
-              customValue: AmountText(
-                amountInCents: pending,
-                fontSize: 16,
-                color: pending > 0 ? Colors.orange.shade700 : Colors.black,
-              ),
-            ),
-            const SizedBox(width: 24),
-            _HeaderItem(
-              label: 'DEUDA',
-              customValue: AmountText(
-                amountInCents: debt,
-                fontSize: 16,
-                color: debt > 0 ? colorScheme.error : Colors.black,
-              ),
-            ),
+            Icon(icon, size: 14, color: accentColor),
+            const SizedBox(width: 6),
+            OverlineText(label, color: colorScheme.onPrimary.withOpacity(0.6)),
           ],
         ),
-      ),
+        const SizedBox(height: 4),
+        HeaderText.two(value, color: Colors.white)
+      ],
     );
   }
 }
@@ -296,13 +350,6 @@ class _MemberReportTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (pendingAmount > 0)
-                  const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: Icon(Icons.hourglass_empty_rounded, color: Colors.orange, size: 18),
-                  ),
-                if (member.propertyRegistry.hasDebt)
-                  Icon(Icons.warning_amber_rounded, color: colorScheme.error, size: 20),
               ],
             ),
             const Divider(height: 24),
@@ -310,7 +357,7 @@ class _MemberReportTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _AmountColumn(
-                  label: 'BALANCE TOTAL',
+                  label: 'SALDO TOTAL',
                   cents: member.paymentLedger.totalPaymentBalanceInCents,
                   color: colorScheme.tertiary,
                 ),
@@ -340,7 +387,9 @@ class _ReportList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemCount: members.length,
       separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemBuilder: (ctx, index) => _MemberReportTile(members[index]),

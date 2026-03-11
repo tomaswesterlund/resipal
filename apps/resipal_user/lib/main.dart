@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
-import 'package:resipal_core/services/service_locator.dart';
 import 'package:resipal_user/presentation/auth/auth_page.dart';
 
 import 'package:short_navigation/short_navigation.dart';

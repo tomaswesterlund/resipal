@@ -13,8 +13,6 @@ class MemberCard extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    // Financial Logic from Entity
-    // Assuming MemberEntity or UserRef provides these values via resipal_core
     final bool hasDebt = member.propertyRegistry.hasDebt;
     final Color statusColor = hasDebt ? colorScheme.error : colorScheme.tertiary;
 
@@ -56,6 +54,8 @@ class MemberCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Icon(Icons.person, size: 36, color: colorScheme.onPrimaryContainer),
+                          SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,9 +82,31 @@ class MemberCard extends StatelessWidget {
                               children: [
                                 _buildAmountColumn(
                                   context,
-                                  label: 'BALANCE',
+                                  label: 'SALDO',
                                   cents: member.totalMemberBalanceInCents,
-                                  color: colorScheme.tertiary,
+                                  color: member.totalMemberBalanceInCents > 0
+                                      ? colorScheme.tertiary
+                                      : (member.totalMemberBalanceInCents < 0
+                                            ? colorScheme.error
+                                            : colorScheme.outline),
+                                ),
+                                SizedBox(width: 10),
+                                _buildAmountColumn(
+                                  context,
+                                  label: 'PAGOS POR REVISAR',
+                                  cents: member.paymentLedger.pendingPaymentAmountInCents,
+                                  color: member.paymentLedger.pendingPaymentAmountInCents > 0
+                                      ? Colors.orange.shade700
+                                      : colorScheme.outline,
+                                ),
+                                SizedBox(width: 10),
+                                _buildAmountColumn(
+                                  context,
+                                  label: 'DEUDA VENCIDA',
+                                  cents: member.propertyRegistry.totalDebtAmountInCents,
+                                  color: member.propertyRegistry.totalDebtAmountInCents > 0
+                                      ? colorScheme.error
+                                      : colorScheme.outline,
                                 ),
                               ],
                             ),
@@ -121,16 +143,16 @@ class MemberCard extends StatelessWidget {
             color: theme.colorScheme.outline,
           ),
         ),
-        AmountText(amountInCents: cents, fontSize: 16),
+        AmountText(amountInCents: cents, fontSize: 12, color: color),
       ],
     );
   }
 
   Widget _buildRoleBadges(BuildContext context) {
-    final iconColor = Theme.of(context).colorScheme.outlineVariant;
+    final iconColor = Theme.of(context).colorScheme.outline;
     return Row(
       children: [
-        if (member.isAdmin) _buildSmallIcon(Icons.admin_panel_settings, iconColor),
+        if (member.isAdmin) _buildSmallIcon(Icons.admin_panel_settings_outlined, iconColor),
         if (member.isSecurity) _buildSmallIcon(Icons.shield_outlined, iconColor),
         if (member.isResident) _buildSmallIcon(Icons.home_work_outlined, iconColor),
       ],

@@ -43,11 +43,11 @@ enum ApplicationStatus {
   /// Returns the semantic color for badges/indicators
   Color color(ColorScheme colors) {
     return switch (this) {
-      ApplicationStatus.approved => colors.tertiary,       // Success Green
-      ApplicationStatus.invited => colors.primary,        // Resipal Blue/Green
-      ApplicationStatus.pendingApproval => colors.secondary, // Warning Amber
-      ApplicationStatus.rejected => colors.error,         // Danger Red
-      ApplicationStatus.revoked => colors.outline,       // Neutral Grey
+      ApplicationStatus.approved => colors.tertiary,
+      ApplicationStatus.invited => colors.primary,
+      ApplicationStatus.pendingApproval => colors.secondary,
+      ApplicationStatus.rejected => colors.error,
+      ApplicationStatus.revoked => colors.outline,
     };
   }
 }

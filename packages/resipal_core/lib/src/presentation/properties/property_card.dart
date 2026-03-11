@@ -39,27 +39,31 @@ class PropertyCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Row(
                               children: [
-                                HeaderText.five(property.name, color: colorScheme.primary),
-                                Text(
-                                  property.resident?.name ?? 'Sin residente asignado',
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: colorScheme.outline,
-                                  ),
+                                Icon(Icons.house_outlined, size: 36, color: colorScheme.onPrimaryContainer),
+                                SizedBox(width: 12),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    OverlineText('PROPIEDAD'),
+                                    HeaderText.five(property.name, color: colorScheme.primary),
+                                  ],
                                 ),
+                                Spacer(),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    OverlineText('RESIDENTE'),
+                                    BodyText.small(property.resident?.name ?? 'Sin residente asignado'),
+                                  ],
+                                ),
+                                
                               ],
                             ),
-                          ),
-                          Icon(
-                            status.icon, // From Enum
-                            color: statusColor,
-                            size: 22,
                           ),
                         ],
                       ),
@@ -81,7 +85,11 @@ class PropertyCard extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 2),
-                              AmountText(amountInCents: property.totalDebtAmountInCents, fontSize: 18, color: statusColor),
+                              AmountText(
+                                amountInCents: property.totalDebtAmountInCents,
+                                fontSize: 18,
+                                color: statusColor,
+                              ),
                             ],
                           ),
                           ActionLink(

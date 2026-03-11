@@ -10,50 +10,101 @@ class PropertyHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final onPrimary = colorScheme.onPrimary;
 
     return GradientCard(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            // Property Identification
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home_work_outlined, size: 16, color: colorScheme.onPrimary),
-                const SizedBox(width: 8),
-                HeaderText.one(property.name, color: colorScheme.onPrimary),
-              ],
-            ),
-            const SizedBox(height: 4),
+      child: Column(
+        children: [
+          // Sección Superior: Icono y Nombre de Propiedad
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.home_work_outlined, color: Colors.white, size: 48),
+              const SizedBox(width: 12),
+              Expanded(child: HeaderText.two(property.name, color: Colors.white)),
+            ],
+          ),
 
-            // Resident Info
-            if (property.resident != null)
-              BodyText.medium(property.resident!.name, color: colorScheme.onPrimary.withOpacity(0.8))
-            else
-              const StatusBadge(color: Colors.orange, label: 'SIN RESIDENTE'),
+          const SizedBox(height: 16),
+          Divider(color: Colors.white.withOpacity(0.2), height: 1),
+          const SizedBox(height: 20),
 
-            const SizedBox(height: 24),
-            Divider(height: 1, color: colorScheme.onPrimary.withOpacity(0.2)),
-            const SizedBox(height: 24),
+          // Métricas Financieras de la Propiedad
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildFinanceItem(
+                'DEUDA ACTUAL',
+                property.totalDebtAmountInCents,
+                onPrimary,
+                accentColor: property.hasDebt ? Colors.redAccent : Colors.greenAccent,
+              ),
+              _buildFinanceItem('TOTAL PAGADO', property.totalPaidAmountInCents, onPrimary),
+              _buildFinanceItem('CUOTAS', property.fees.length, onPrimary, isCurrency: false),
+            ],
+          ),
 
-            // Financial Status Section
-            OverlineText('Deuda Pendiente', color: colorScheme.onPrimary.withOpacity(0.7)),
-            const SizedBox(height: 8),
+          const SizedBox(height: 20),
+          Divider(color: Colors.white.withOpacity(0.2), height: 1),
+          const SizedBox(height: 16),
+
+          // Sección Inferior: Residente y Estatus
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Columna Residente
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const OverlineText('RESIDENTE', color: Colors.white),
+                    const SizedBox(height: 2),
+                    BodyText.small(
+                      property.resident?.name ?? 'SIN ASIGNAR',
+                      color: property.resident == null ? Colors.orangeAccent : onPrimary.withOpacity(0.8),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Columna Estatus de Pago
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const OverlineText('ESTATUS', color: Colors.white),
+                  const SizedBox(height: 4),
+                  StatusBadge(
+                    label: property.propertyPaymentStatus.display,
+                    color: property.propertyPaymentStatus.color(colorScheme),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFinanceItem(String label, int value, Color baseColor, {Color? accentColor, bool isCurrency = true}) {
+    return Expanded(
+      child: Column(
+        children: [
+          OverlineText(label, color: baseColor.withOpacity(0.7)),
+          const SizedBox(height: 4),
+          if (isCurrency)
             AmountText(
-              amountInCents: property.totalDebtAmountInCents,
-              fontSize: 36,
-              // We use a white-ish color for debt on gradient to keep it legible
-              color: property.hasDebt ? Colors.white : Colors.greenAccent,
-              textAlign: TextAlign.center,
+              amountInCents: value,
+              fontSize: 16,
+              color: (value != 0 && accentColor != null) ? accentColor : baseColor,
+            )
+          else
+            Text(
+              value.toString(),
+              style: TextStyle(color: baseColor, fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 4),
-            BodyText.small(
-              property.hasDebt ? 'Saldo por liquidar' : 'Sin adeudos pendientes',
-              color: colorScheme.onPrimary.withOpacity(0.7),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }

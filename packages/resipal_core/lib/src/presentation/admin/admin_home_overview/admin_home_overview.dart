@@ -62,7 +62,7 @@ class HomeOverview extends StatelessWidget {
                         Expanded(
                           child: StatCard(
                             label: 'Usuarios',
-                            value: community.memberDirectory.length.toString(),
+                            value: community.memberDirectory.count.toString(),
                             icon: Icons.people_outline,
                           ),
                         ),
@@ -72,7 +72,7 @@ class HomeOverview extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: StatCard(label: 'Balance total', value: '-1', icon: Icons.home_work_outlined),
+                          child: StatCard(label: 'Saldo total', value: CurrencyFormatter.fromCents(community.totalBalanceInCents), icon: Icons.home_work_outlined),
                         ),
                         SizedBox(width: 12.0),
                         Expanded(

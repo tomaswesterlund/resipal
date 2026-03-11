@@ -74,7 +74,7 @@ class _Form extends StatelessWidget {
             helpText: "Vincula un contrato legal vigente a este registro...",
             items: formState.contracts,
             value: null,
-            itemLabelBuilder: (contract) => contract.name,
+            itemLabelBuilder: (contract) => "${CurrencyFormatter.fromCents(contract.amountInCents)}: ${contract.name}",
             onChanged: (contract) => cubit.onContractSelected(contract),
           ),
           const SizedBox(height: 20.0),

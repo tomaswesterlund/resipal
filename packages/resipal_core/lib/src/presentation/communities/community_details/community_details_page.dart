@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/communities/community_header.dart';
 import 'package:wester_kit/lib.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -60,7 +61,7 @@ class _Loaded extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Visual Header for Community
-          _CommunityHeader(community),
+          CommunityHeader(community),
 
           const SizedBox(height: 32),
 
@@ -97,38 +98,6 @@ class _Loaded extends StatelessWidget {
             ),
             const SizedBox(height: 20),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-class _CommunityHeader extends StatelessWidget {
-  final CommunityEntity community;
-  const _CommunityHeader(this.community);
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: colorScheme.outlineVariant),
-      ),
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: colorScheme.primaryContainer,
-            child: Icon(Icons.location_city_rounded, size: 40, color: colorScheme.primary),
-          ),
-          const SizedBox(height: 16),
-          HeaderText.four(community.name, textAlign: TextAlign.center),
-          const SizedBox(height: 4),
-          BodyText.medium(community.location, color: colorScheme.outline),
         ],
       ),
     );

@@ -41,49 +41,20 @@ class PaymentCard extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'MONTO PAGADO',
-                                  style: theme.textTheme.labelSmall?.copyWith(
-                                    fontSize: 9,
-                                    letterSpacing: 0.5,
-                                    fontWeight: FontWeight.w800,
-                                    color: colorScheme.outline,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: [
-                                    AmountText(amountInCents: payment.amountInCents, fontSize: 18, color: statusColor),
-                                    const SizedBox(width: 6),
-                                    Expanded(
-                                      child: Text(
-                                        'de ${payment.user.name}',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: theme.textTheme.bodyMedium?.copyWith(
-                                          color: colorScheme.outline,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          Icon(Icons.attach_money, size: 36, color: colorScheme.onPrimaryContainer),
+                          SizedBox(width: 12),
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              OverlineText('MONTO PAGADO'),
+                              HeaderText.five(CurrencyFormatter.fromCents(payment.amountInCents), color: statusColor),
+                            ],
                           ),
-                          Icon(
-                            isApproved
-                                ? Icons.check_circle
-                                : payment.status == PaymentStatus.pendingReview
-                                ? Icons.schedule_rounded
-                                : Icons.cancel_outlined,
-                            color: statusColor,
-                            size: 20,
+                          Spacer(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [OverlineText('RESIDENTE'), BodyText.small(payment.user.name)],
                           ),
                         ],
                       ),
@@ -115,7 +86,7 @@ class PaymentCard extends StatelessWidget {
                               ),
                               const SizedBox(height: 6),
                               Text(
-                                'Fecha: ${payment.date.toShortDate()}',
+                                'Fecha de pago: ${payment.date.toShortDate()}',
                                 style: theme.textTheme.labelSmall?.copyWith(
                                   color: colorScheme.outline,
                                   fontWeight: FontWeight.w600,
