@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/domain/entities/user_entity.dart';
 import 'package:resipal_core/presentation/maintenance/widgets/overdue_maintenance_info_row.dart';
-import 'package:resipal_core/presentation/payments/widgets/pending_payments_info_row.dart';
 import 'package:resipal_core/presentation/shared/cards/green_box_card.dart';
 import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
 import 'package:resipal_core/presentation/shared/texts/amount_text.dart';

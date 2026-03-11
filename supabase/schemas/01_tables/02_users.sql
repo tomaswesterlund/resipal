@@ -1,5 +1,5 @@
 CREATE TABLE users(
-    id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY REFERENCES auth.users(id),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     created_by UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id),
     name text NOT NULL,
