@@ -12,7 +12,8 @@ class RegisterPropertyFormState extends Equatable {
   final String? description;
 
   bool get canSubmit {
-    if (contract == null) return false;
+    if (resident != null && contract == null) return false;
+    if (resident == null && contract != null) return false;
     if (name == null) return false;
     return true;
   }

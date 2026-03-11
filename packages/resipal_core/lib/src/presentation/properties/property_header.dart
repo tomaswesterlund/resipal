@@ -60,7 +60,7 @@ class PropertyHeader extends StatelessWidget {
                     const OverlineText('RESIDENTE', color: Colors.white),
                     const SizedBox(height: 2),
                     BodyText.small(
-                      property.resident?.name ?? 'SIN ASIGNAR',
+                      property.resident?.name ?? 'SIN RESIDENTE',
                       color: property.resident == null ? Colors.orangeAccent : onPrimary.withOpacity(0.8),
                     ),
                   ],

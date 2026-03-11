@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/presentation/contracts/register_contract/register_contract_page.dart';
 import 'package:wester_kit/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
-import 'register_property_cubit.dart';
-import 'register_property_form_state.dart';
-import 'register_property_state.dart';
 
 class RegisterPropertyPage extends StatelessWidget {
   const RegisterPropertyPage({super.key});
@@ -64,33 +60,35 @@ class _Form extends StatelessWidget {
             label: 'Nombre',
             hint: 'Ej: Lote o Casa 143',
             isRequired: true,
-            helpText: 'Este es el nombre oficial que aparecerá en los reportes y recibos.',
+            helpText: 'El nombre oficial que aparecerá en los reportes y recibos.',
             onChanged: cubit.updateName,
-          ),
-          const SizedBox(height: 20.0),
-          EntityDropdownField<ContractEntity>(
-            label: "Seleccionar contrato",
-            isRequired: true,
-            helpText: "Vincula un contrato legal vigente a este registro...",
-            items: formState.contracts,
-            value: null,
-            itemLabelBuilder: (contract) => "${CurrencyFormatter.fromCents(contract.amountInCents)}: ${contract.name}",
-            onChanged: (contract) => cubit.onContractSelected(contract),
           ),
           const SizedBox(height: 20.0),
           EntityDropdownField<ResidentEntity>(
             label: "Seleccionar residente",
             isRequired: false,
-            helpText: "Busca y selecciona al residente...",
+            helpText: "Vincula un residente a esta propiedad.",
             items: formState.residents,
             value: null,
             itemLabelBuilder: (resident) => resident.user.name,
             onChanged: (resident) => cubit.onResidentSelected(resident),
           ),
           const SizedBox(height: 20.0),
+          EntityDropdownField<ContractEntity>(
+            label: "Seleccionar contrato",
+            isRequired: true,
+            readOnly: formState.resident == null ? true : false,
+            helpText: "Vincula un contrato a esta propiedad. Solo obligatorio si la propiedad tiene un residente vinculado.",
+            items: formState.contracts,
+            value: null,
+            itemLabelBuilder: (contract) => "${CurrencyFormatter.fromCents(contract.amountInCents)}: ${contract.name}",
+            onChanged: (contract) => cubit.onContractSelected(contract),
+          ),
+
+          const SizedBox(height: 20.0),
           TextInputField(
             label: 'Descripción',
-            hint: 'Breve descripción de la propiedad...',
+            hint: 'Breve descripción de la propiedad ...',
             isRequired: false,
             helpText: 'Detalles adicionales o notas internas para administración.',
             onChanged: cubit.updateDescription,

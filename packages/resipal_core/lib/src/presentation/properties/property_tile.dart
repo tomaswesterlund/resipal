@@ -62,7 +62,7 @@ class PropertyTile extends StatelessWidget {
                   children: [
                     const OverlineText('Residente'),
                     BodyText.medium(
-                      property.resident?.name ?? 'Sin asignar',
+                      property.resident?.name ?? 'Sin residente',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       color: property.resident == null 

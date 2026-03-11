@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal_core/presentation/shared/buttons/social_login_button.dart';
-import 'package:resipal_core/presentation/shared/colors/base_app_colors.dart';
-import 'package:resipal_core/presentation/shared/containers/green_box_container.dart';
-import 'package:resipal_core/presentation/shared/resipal_logo.dart';
-import 'package:resipal_core/presentation/shared/texts/header_text.dart';
-import 'package:resipal_core/presentation/shared/views/error_view.dart';
-import 'package:resipal_core/presentation/shared/views/loading_view.dart';
-import 'package:resipal_core/presentation/shared/views/unknown_state_view.dart';
 import 'package:resipal_user/presentation/signin/signin_cubit.dart';
 import 'package:resipal_user/presentation/signin/signin_state.dart';
+import 'package:resipal_core/lib.dart';
+import 'package:wester_kit/lib.dart';
 
 class SigninPage extends StatelessWidget {
   const SigninPage({super.key});
@@ -31,21 +25,21 @@ class SigninPage extends StatelessWidget {
             //   Go.to(UserHomePage(user: state.user));
             // }
 
-            if (state is UserSignedInSuccessfullyState) {
+            if (state is SigninUserSignedInSuccessfullyState) {
               //Go.to(UserHomePage(user: state.user));
               int k = 0;
             }
           },
           builder: (context, state) {
-            if (state is InitialState) {
+            if (state is SigninInitialState) {
               return _Signin();
             }
 
-            if (state is UserSigningInState) {
+            if (state is SigninUserSigningInState) {
               return LoadingView(title: 'Iniciando sesión', description: 'Estamos configurando tu espacio...');
             }
 
-            if (state is ErrorState) {
+            if (state is SigninErrorState) {
               return ErrorView();
             }
 

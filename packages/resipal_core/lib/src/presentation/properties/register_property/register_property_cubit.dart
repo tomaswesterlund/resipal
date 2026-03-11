@@ -89,8 +89,8 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
 
       final propertyId = await RegisterProperty().call(
         communityId: communityId,
-        residentId: _formState.resident!.id,
-        contractId: _formState.contract!.id,
+        residentId: _formState.resident?.id,
+        contractId: _formState.contract?.id,
         name: _formState.name!,
         description: _formState.description,
       );

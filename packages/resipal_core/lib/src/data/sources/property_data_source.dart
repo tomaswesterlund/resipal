@@ -95,24 +95,35 @@ class PropertyDataSource {
     return models;
   }
 
-  Future<PropertyId> registerProperty({
+  Future<PropertyId> upsert({
     required String communityId,
-    required String residentId,
-    required String contractId,
+    required String? residentId,
+    required String? contractId,
     required String name,
-    String? description,
+    required String? description,
   }) async {
-    final propertyId = await _client.rpc(
-      'fn_register_property',
-      params: {
-        'p_community_id': communityId,
-        'p_resident_id': residentId,
-        'p_contract_id': contractId,
-        'p_name': name,
-        'p_description': description,
-      },
-    );
+    try {
+      // 1. Usamos .select().single() para obtener la fila procesada
+      final data = await _client
+          .from('properties')
+          .upsert({
+            'community_id': communityId,
+            'contract_id': contractId,
+            'resident_id': residentId,
+            'name': name,
+            'description': description,
+          })
+          .select()
+          .single();
 
-    return propertyId;
+      final model = PropertyModel.fromMap(data);
+
+      _cache[model.id] = model;
+
+      return model.id;
+    } catch (e, s) {
+      _logger.error(exception: e, featureArea: 'ApplicationDataSource.upsert', stackTrace: s);
+      rethrow;
+    }
   }
 }
