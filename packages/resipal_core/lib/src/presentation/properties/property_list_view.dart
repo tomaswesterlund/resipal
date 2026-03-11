@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/presentation/properties/property_card.dart';
-import 'package:resipal_core/src/presentation/properties/property_tile.dart';
-import 'package:resipal_core/src/presentation/properties/register_property/register_property_page.dart';
 import 'package:wester_kit/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class PropertyListView extends StatefulWidget {
   final List<PropertyEntity> properties;
+  final bool showRegisterProperty;
 
-  const PropertyListView(this.properties, {super.key});
+  const PropertyListView(this.properties, {this.showRegisterProperty = false, super.key});
 
   @override
   State<PropertyListView> createState() => _PropertyListViewState();
@@ -42,7 +40,7 @@ class _PropertyListViewState extends State<PropertyListView> {
     // 2. Sort by name
     filteredProperties.sort((a, b) => a.name.compareTo(b.name));
 
-    if (widget.properties.isEmpty) return const _Empty();
+    if (widget.properties.isEmpty) return _Empty(showRegisterProperty: widget.showRegisterProperty);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -85,7 +83,7 @@ class _PropertyListViewState extends State<PropertyListView> {
   Widget _buildEmptyFilterState(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    
+
     // Use Green if "Con deuda" filter is active but empty (Success state)
     final bool isSuccessState = _selectedFilter.value == true;
     final Color stateColor = isSuccessState ? Colors.green.shade600 : colorScheme.primary;
@@ -95,20 +93,15 @@ class _PropertyListViewState extends State<PropertyListView> {
       child: Column(
         children: [
           Icon(
-            isSuccessState ? Icons.verified_user_outlined : Icons.search_off_outlined, 
-            color: stateColor.withOpacity(0.5), 
+            isSuccessState ? Icons.verified_user_outlined : Icons.search_off_outlined,
+            color: stateColor.withOpacity(0.5),
             size: 48,
           ),
           const SizedBox(height: 12),
           Text(
-            isSuccessState 
-                ? '¡Excelente! No hay propiedades con deuda.' 
-                : 'No hay unidades que coincidan',
+            isSuccessState ? '¡Excelente! No hay propiedades con deuda.' : 'No hay unidades que coincidan',
             textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.inverseSurface, 
-              fontWeight: FontWeight.w500,
-            ),
+            style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface, fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -117,7 +110,8 @@ class _PropertyListViewState extends State<PropertyListView> {
 }
 
 class _Empty extends StatelessWidget {
-  const _Empty();
+  final bool showRegisterProperty;
+  const _Empty({required this.showRegisterProperty});
 
   @override
   Widget build(BuildContext context) {
@@ -132,31 +126,31 @@ class _Empty extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: colorScheme.primary.withOpacity(0.1), 
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(color: colorScheme.primary.withOpacity(0.1), shape: BoxShape.circle),
               child: Icon(Icons.home_work_outlined, size: 64, color: colorScheme.primary),
             ),
             const SizedBox(height: 32),
-            HeaderText.four(
-              'Sin propiedades', 
-              textAlign: TextAlign.center, 
-              color: colorScheme.primary,
-            ),
+            HeaderText.four('Sin propiedades', textAlign: TextAlign.center, color: colorScheme.primary),
             const SizedBox(height: 16),
             Text(
-              'Aún no has dado de alta ninguna unidad en esta sección.',
+              'Aún no se ha dado de alta ninguna propiedad.',
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Si eres residente, por favor comunícate con un administrador para que te registre una.',
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface),
             ),
             const SizedBox(height: 32),
-            TextButton.icon(
-              onPressed: () => Go.to(const RegisterPropertyPage()),
-              icon: const Icon(Icons.add),
-              label: const Text('Registrar propiedad'),
-              style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
-            ),
+            if (showRegisterProperty)
+              TextButton.icon(
+                onPressed: () => Go.to(const RegisterPropertyPage()),
+                icon: const Icon(Icons.add),
+                label: const Text('Registrar propiedad'),
+                style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
+              ),
           ],
         ),
       ),

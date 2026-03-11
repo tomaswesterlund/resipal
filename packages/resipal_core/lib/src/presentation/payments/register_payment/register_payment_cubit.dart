@@ -14,7 +14,7 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
 
   late RegisterPaymentFormState _formState;
 
-  Future initialize() async {
+  Future initialize(ResidentEntity? resident) async {
     final residents = GetResidentsByCommunity().call(_sessionService.communityId);
 
     if (residents.isEmpty) {
@@ -22,7 +22,7 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
       return;
     }
 
-    _formState = RegisterPaymentFormState(residents: residents, payDate: DateTime.now());
+    _formState = RegisterPaymentFormState(residents: residents, payDate: DateTime.now(), resident: resident, isResidentReadOnly: resident != null);
     emit(RegisterPaymentFormEditingState(_formState));
   }
 

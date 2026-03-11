@@ -61,8 +61,9 @@ class _Signin extends StatelessWidget {
       backgroundColor: context.colors.scheme.surface,
       body: Column(
         children: [
-          // --- Brand Header ---
-          GreenBoxContainer(
+          GradientCard(
+            padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+            borderRadius: 0,
             child: SafeArea(
               child: Container(
                 width: double.infinity,
@@ -81,13 +82,12 @@ class _Signin extends StatelessWidget {
               ),
             ),
           ),
-
           // --- Login Actions ---
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
-                HeaderText.four('Bienvenido de nuevo', color: context.colors.scheme.secondary),
+                HeaderText.four('Bienvenido de nuevo'),
                 const SizedBox(height: 8),
                 Text(
                   'Inicia sesión para gestionar tus propiedades o tu comunidad',

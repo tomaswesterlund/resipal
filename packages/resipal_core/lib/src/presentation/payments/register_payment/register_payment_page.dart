@@ -5,7 +5,8 @@ import 'package:resipal_core/lib.dart';
 import 'package:wester_kit/lib.dart';
 
 class RegisterPaymentPage extends StatelessWidget {
-  const RegisterPaymentPage({super.key});
+  final ResidentEntity? resident;
+  const RegisterPaymentPage({this.resident, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class RegisterPaymentPage extends StatelessWidget {
       appBar: const MyAppBar(title: 'Registrar Pago'),
       backgroundColor: colorScheme.background,
       body: BlocProvider(
-        create: (context) => RegisterPaymentCubit()..initialize(),
+        create: (context) => RegisterPaymentCubit()..initialize(resident),
         child: BlocConsumer<RegisterPaymentCubit, RegisterPaymentState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -63,6 +64,7 @@ class _Form extends StatelessWidget {
           EntityDropdownField<ResidentEntity>(
             label: 'Residente',
             isRequired: true,
+            readOnly: formState.isResidentReadOnly,
             helpText: 'Selecciona el residente que hizo este pago.',
             itemLabelBuilder: (resident) => resident.user.name,
             items: formState.residents,
@@ -91,7 +93,7 @@ class _Form extends StatelessWidget {
 
           const SizedBox(height: 24),
           TextInputField(
-            label: 'Nota Interna',
+            label: 'Nota',
             hint: 'Ej: Pago adelantado de marzo',
             maxLines: 2,
             onChanged: cubit.updateNote,

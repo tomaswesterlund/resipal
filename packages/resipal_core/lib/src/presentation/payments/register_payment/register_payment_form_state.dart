@@ -6,6 +6,8 @@ import 'package:resipal_core/lib.dart';
 class RegisterPaymentFormState extends Equatable {
   final List<ResidentEntity> residents;
   final ResidentEntity? resident;
+
+  final bool isResidentReadOnly;
   final double amount;
   final DateTime? payDate;
   final String reference;
@@ -15,6 +17,7 @@ class RegisterPaymentFormState extends Equatable {
   const RegisterPaymentFormState({
     required this.residents,
     this.resident,
+    required this.isResidentReadOnly,
     this.amount = 0.0,
     this.payDate,
     this.reference = '',
@@ -22,13 +25,15 @@ class RegisterPaymentFormState extends Equatable {
     this.receiptImage,
   });
 
-  bool get canSubmit => resident != null && amount > 0 && payDate != null && reference.isNotEmpty && receiptImage != null;
+  bool get canSubmit =>
+      resident != null && amount > 0 && payDate != null && reference.isNotEmpty && receiptImage != null;
 
   int get amountInCents => (amount * 100).toInt();
 
   RegisterPaymentFormState copyWith({
     List<ResidentEntity>? residents,
     ResidentEntity? resident,
+    bool? isResidentReadOnly,
     double? amount,
     DateTime? payDate,
     String? reference,
@@ -38,6 +43,7 @@ class RegisterPaymentFormState extends Equatable {
     return RegisterPaymentFormState(
       residents: residents ?? this.residents,
       resident: resident ?? this.resident,
+      isResidentReadOnly: isResidentReadOnly ?? this.isResidentReadOnly,
       amount: amount ?? this.amount,
       payDate: payDate ?? this.payDate,
       reference: reference ?? this.reference,
@@ -50,7 +56,7 @@ class RegisterPaymentFormState extends Equatable {
     return <String, dynamic>{
       'residentId': resident?.user.id,
       'amount': amount,
-      'payDate': payDate,
+      'payDate': payDate?.toIso8601String(),
       'reference': reference,
       'note': note,
       'receiptImage': receiptImage?.path,
@@ -58,5 +64,5 @@ class RegisterPaymentFormState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [residents, resident, amount, payDate, reference, note, receiptImage];
+  List<Object?> get props => [residents, resident, isResidentReadOnly, amount, payDate, reference, note, receiptImage];
 }

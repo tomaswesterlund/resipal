@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/presentation/payments/payment_card.dart';
-import 'package:resipal_core/src/presentation/payments/register_payment/register_payment_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
@@ -69,12 +67,10 @@ class _PaymentListViewState extends State<PaymentListView> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: filteredPayments.length,
                 separatorBuilder: (_, _) => const SizedBox(height: 4),
-                itemBuilder: (context, index)  {
+                itemBuilder: (context, index) {
                   final payment = filteredPayments[index];
                   return PaymentTile(payment: payment);
-                  //PaymentCard(),
-                }
-                
+                },
               ),
 
             const SizedBox(height: 48.0),
@@ -126,7 +122,7 @@ class _Empty extends StatelessWidget {
             HeaderText.four('Sin pagos', textAlign: TextAlign.center, color: colorScheme.primary),
             const SizedBox(height: 16),
             Text(
-              'Aún no has registrado ningún pago en esta sección.',
+              'Aún no se ha registrado ningún pago.',
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface),
             ),

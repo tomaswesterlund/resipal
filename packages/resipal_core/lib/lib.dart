@@ -236,7 +236,6 @@ export 'src/presentation/reports/member_breakdown_report/member_breakdown_report
 export 'src/presentation/reports/member_breakdown_report/member_breakdown_report_page.dart';
 export 'src/presentation/reports/member_breakdown_report/member_breakdown_report_state.dart';
 export 'src/presentation/reports/reports_page.dart';
-export 'src/presentation/resident/resident_home/resident_home_page.dart';
 export 'src/presentation/roles/roles_legend.dart';
 export 'src/presentation/roles/roles_page.dart';
 export 'src/presentation/settings/settings_page.dart';

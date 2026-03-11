@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:resipal_resident/app_colors.dart';
-import 'package:resipal_resident/presentation/auth/auth_page.dart';
+import 'package:resipal_resident/presentation/auth/auth_gate.dart';
 
 import 'package:short_navigation/short_navigation.dart';
 
@@ -141,7 +141,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Scaffold(backgroundColor: AppColors.surface, body: AuthPage()),
+      home: Scaffold(backgroundColor: AppColors.surface, body: AuthGate()),
     );
   }
 }
