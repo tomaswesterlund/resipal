@@ -57,7 +57,7 @@ class OnboardingCommunityRegistrationCubit extends Cubit<OnboardingCommunityRegi
       final community = GetCommunityById().call(communityId);
       final user = GetUserById().call(userId);
 
-      await _sessionService.startWatchers(userId: userId, communityId: community.id);
+      await _sessionService.startCommunityWatchers(userId: userId, communityId: community.id);
 
       emit(OnboardingCommunityRegistrationFormSubmittedSuccessfully(community: community, user: user));
     } catch (e, s) {

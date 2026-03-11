@@ -32,7 +32,7 @@ class SessionService {
   // STREAMIN
   final CompositeSubscription _subscriptions = CompositeSubscription();
 
-  Future<void> startWatchers({required String communityId, required String userId}) async {
+  Future<void> startCommunityWatchers({required String communityId, required String userId}) async {
     // 1. Clean up any existing session before starting a new one
     await stopWatchers();
 
