@@ -1,7 +1,4 @@
-# -------------------------------------------------------------------
-# Flutter / Dart
-# -------------------------------------------------------------------
-# Automatically ignores all build folders in apps/ and packages/
+key.properties
 **/build/
 **/.dart_tool/
 **/.packages
