@@ -40,7 +40,7 @@ class AuthGate extends StatelessWidget {
 
           // 5. Success -> The Main Admin Dashboard
           if (state is UserSignedIn) {
-            return HomePage(member: state.member);
+            return ResidentHomePage(member: state.member);
           }
 
           if (state is AuthGateErrorState) return const ErrorView();

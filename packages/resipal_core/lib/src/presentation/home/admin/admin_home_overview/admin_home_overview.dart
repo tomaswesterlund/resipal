@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/presentation/payments/payments_page.dart';
+import 'package:resipal_core/src/presentation/home/admin/admin_home_overview/admin_home_overview_cubit.dart';
+import 'package:resipal_core/src/presentation/home/admin/admin_home_overview/admin_home_overview_state.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
-class HomeOverview extends StatelessWidget {
+class AdminHomeOverview extends StatelessWidget {
   final CommunityEntity community;
   final UserEntity user;
   final VoidCallback onPendingPaymentsPressed;
   final VoidCallback onPendingApplicationsPressed;
 
-  const HomeOverview({
+  const AdminHomeOverview({
     required this.community,
     required this.user,
     required this.onPendingPaymentsPressed,
@@ -25,10 +26,10 @@ class HomeOverview extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return BlocProvider(
-      create: (context) => HomeOverviewCubit()..initialize(community, user),
+      create: (context) => AdminHomeOverviewCubit()..initialize(community, user),
       child: Scaffold(
         backgroundColor: colorScheme.background,
-        body: BlocBuilder<HomeOverviewCubit, AdminHomeOverviewState>(
+        body: BlocBuilder<AdminHomeOverviewCubit, AdminHomeOverviewState>(
           builder: (context, state) {
             if (state is AdminHomeOverviewLoadingState) return const LoadingView();
             if (state is AdminHomeOverviewErrorState) return const ErrorView();
@@ -74,7 +75,11 @@ class HomeOverview extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: StatCard(label: 'Saldo total', value: CurrencyFormatter.fromCents(community.totalBalanceInCents), icon: Icons.home_work_outlined),
+                          child: StatCard(
+                            label: 'Saldo total',
+                            value: CurrencyFormatter.fromCents(community.totalBalanceInCents),
+                            icon: Icons.home_work_outlined,
+                          ),
                         ),
                         SizedBox(width: 12.0),
                         Expanded(
@@ -106,7 +111,7 @@ class HomeOverview extends StatelessWidget {
                       icon: Icons.person_add_outlined,
                       // Replaces AppColors.info with System/Info Tertiary
                       color: colorScheme.surfaceTint,
-                      onPressed: () => Go.to(ApplicationListPage(applications: community.applications,)),
+                      onPressed: () => Go.to(ApplicationListPage(applications: community.applications)),
                     ),
 
                     const SizedBox(height: 48),

@@ -2,8 +2,9 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/home/admin/admin_home_overview/admin_home_overview_state.dart';
 
-class HomeOverviewCubit extends Cubit<AdminHomeOverviewState> {
+class AdminHomeOverviewCubit extends Cubit<AdminHomeOverviewState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
   final SessionService _sessionService = GetIt.I<SessionService>();
@@ -11,7 +12,7 @@ class HomeOverviewCubit extends Cubit<AdminHomeOverviewState> {
   final WatchCommunityById _watchCommunityById = WatchCommunityById();
   StreamSubscription? _streamSubscription;
 
-  HomeOverviewCubit() : super(AdminHomeOverviewInitialState());
+  AdminHomeOverviewCubit() : super(AdminHomeOverviewInitialState());
 
   Future<void> initialize(CommunityEntity community, UserEntity user) async {
     try {

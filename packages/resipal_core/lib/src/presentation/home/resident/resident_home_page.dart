@@ -1,20 +1,19 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
-
-import 'package:resipal_resident/presentation/home/home_overview.dart';
+import 'package:resipal_core/src/presentation/home/resident/resident_home_overview.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
-class HomePage extends StatefulWidget {
+class ResidentHomePage extends StatefulWidget {
   final MemberEntity member;
-  const HomePage({required this.member, super.key});
+  const ResidentHomePage({required this.member, super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ResidentHomePage> createState() => _ResidentHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ResidentHomePageState extends State<ResidentHomePage> {
   int _currentPageIndex = 0;
 
   @override
@@ -25,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         index: _currentPageIndex,
         children: [
-          HomeOverview(member: widget.member),
+          ResidentHomeOverview(member: widget.member),
           PropertyListView(widget.member.propertyRegistry.properties),
           PaymentListView(widget.member.paymentLedger.payments),
           Text('ACESSOS!'),
