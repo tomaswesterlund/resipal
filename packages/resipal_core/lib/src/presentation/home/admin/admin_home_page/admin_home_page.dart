@@ -65,7 +65,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     icon: Icons.home_work_outlined,
                     label: 'Propiedades',
                     showDanger: community.propertyRegistry.hasOverdueFees,
-                    warningBadgeCount: community.propertyRegistry.withPendingFees.length,
+                    warningBadgeCount: community.propertyRegistry.withDueFees.length,
                   ),
                   FloatingNavBarItem(
                     icon: Icons.attach_money,

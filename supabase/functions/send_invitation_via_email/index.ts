@@ -36,7 +36,7 @@ serve(async (req) => {
                    style="height: 40px;">
             </a>
             
-            <a href="https://play.google.com/store/apps/details?id=com.resipal.resident">
+            <a href="https://play.google.com/store/apps/details?id=app.resipal.resident">
               <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
                    alt="Get it on Google Play" 
                    style="height: 60px; margin-top: -10px; vertical-align: middle;">

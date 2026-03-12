@@ -23,7 +23,15 @@ class MemberEntity {
   });
 
   bool get hasDebt => propertyRegistry.hasDebt;
-  int get totalMemberBalanceInCents => paymentLedger.totalPaymentBalanceInCents - propertyRegistry.totalDebtAmountInCents - propertyRegistry.totalPaidAmountInCents;
+  int get totalMemberBalanceInCents {
+    final a = paymentLedger.totalPaymentBalanceInCents;
+    final b = propertyRegistry.totalDebtAmountInCents;
+    final c = propertyRegistry.totalPaidAmountInCents;
+
+    return paymentLedger.totalPaymentBalanceInCents -
+        propertyRegistry.totalDebtAmountInCents -
+        propertyRegistry.totalPaidAmountInCents;
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

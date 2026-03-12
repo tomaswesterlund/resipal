@@ -181,7 +181,7 @@ export 'src/presentation/home/admin/admin_home_page/admin_home_page.dart';
 export 'src/presentation/home/admin/admin_home_page/admin_home_page_cubit.dart';
 export 'src/presentation/home/admin/admin_home_page/admin_home_page_state.dart';
 export 'src/presentation/home/resident/resident_home_overview.dart';
-export 'src/presentation/home/resident/resident_home_page.dart';
+export 'src/presentation/home/resident/home_page/resident_home_page.dart';
 export 'src/presentation/maintenance/maintenance_fee_card.dart';
 export 'src/presentation/maintenance/maintenance_fee_details/maintenance_fee_details_cubit.dart';
 export 'src/presentation/maintenance/maintenance_fee_details/maintenance_fee_details_page.dart';

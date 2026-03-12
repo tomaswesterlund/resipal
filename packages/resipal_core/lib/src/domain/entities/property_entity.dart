@@ -58,7 +58,7 @@ class PropertyEntity extends IdEntity {
       return PropertyPaymentStatus.overdue;
     }
 
-    if (hasPendingFees) {
+    if (hasDueFees) {
       return PropertyPaymentStatus.due;
     }
 
@@ -67,6 +67,6 @@ class PropertyEntity extends IdEntity {
 
   bool get hasDebt => totalDebtAmountInCents > 0;
   bool get hasOverdueFees => fees.any((x) => x.status == MaintenanceFeeStatus.overdue);
-  bool get hasPendingFees => fees.any((x) => x.status == MaintenanceFeeStatus.pending);
+  bool get hasDueFees => fees.any((x) => x.status == MaintenanceFeeStatus.pending);
   List<MaintenanceFeeEntity> get pendingFees => fees.where((x) => x.status == MaintenanceFeeStatus.pending).toList();
 }
