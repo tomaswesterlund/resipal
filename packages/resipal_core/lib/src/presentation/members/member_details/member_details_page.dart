@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resipal_core/src/presentation/properties/property_list_view.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:wester_kit/lib.dart';

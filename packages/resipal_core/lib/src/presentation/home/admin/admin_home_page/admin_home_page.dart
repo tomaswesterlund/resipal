@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal_core/src/presentation/home/admin/admin_home_overview/admin_home_overview.dart';
-import 'package:resipal_core/src/presentation/home/admin/admin_home_page/admin_home_page_cubit.dart';
-import 'package:resipal_core/src/presentation/home/admin/admin_home_page/admin_home_page_state.dart';
+import 'package:resipal_core/src/presentation/properties/property_list_view.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:wester_kit/lib.dart';
@@ -111,7 +109,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           WkDrawerItem(
                             icon: Icons.people,
                             label: 'Miembros',
-                            onTap: () => Go.to(MemberListPage(directory: community.memberDirectory)),
+                            onTap: () => Go.to(MembersPage(directory: community.memberDirectory)),
                           ),
                           WkDrawerItem(
                             icon: Icons.house,

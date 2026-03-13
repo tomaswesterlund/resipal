@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/properties/property_list_view.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/ui/my_app_bar.dart';
 
