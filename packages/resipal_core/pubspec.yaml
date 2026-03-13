@@ -33,6 +33,7 @@ dependencies:
   open_file: ^3.5.11
   path_provider: ^2.1.5
   awesome_flutter_extensions: ^2.0.1
+  pretty_qr_code: ^3.6.0
 
 dev_dependencies:
   flutter_test:

@@ -17,9 +17,9 @@ class AuthGateUserNotOnboarded extends AuthGateState {}
 class AuthGateUserHasNoResidentMembership extends AuthGateState {}
 
 class UserSignedIn extends AuthGateState {
-  final MemberEntity member;
+  final ResidentMemberEntity resident;
 
-  UserSignedIn(this.member);
+  UserSignedIn(this.resident);
 }
 
 class AuthGateErrorState extends AuthGateState {}

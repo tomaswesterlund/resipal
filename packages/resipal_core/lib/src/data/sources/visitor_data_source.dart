@@ -21,7 +21,7 @@ class VisitorDataSource {
         );
   }
 
-    Stream<List<VisitorModel>> watchByCommunityId(String communityId) {
+  Stream<List<VisitorModel>> watchByCommunityId(String communityId) {
     return _client
         .from('visitors')
         .stream(primaryKey: ['id'])
@@ -37,12 +37,23 @@ class VisitorDataSource {
 
   VisitorModel? getById(String id) => _cache[id];
 
-  List<VisitorModel> getByUserId(String userId) => _cache.values.where((m) => m.userId == userId).toList();
+  List<VisitorModel> getByCommunityIdAndUserId({required String communityId, required String userId}) =>
+      _cache.values.where((x) => x.communityId == communityId && x.userId == userId).toList();
 
-  Future createVisitor({required String communityId, required String userId, required String name, required String identificationPath}) async {
+  Future createVisitor({
+    required String communityId,
+    required String userId,
+    required String name,
+    required String identificationPath,
+  }) async {
     await _client.rpc(
       'fn_create_visitor',
-      params: {'p_community_id': communityId, 'p_user_id': userId, 'p_name': name, 'p_identification_path': identificationPath},
+      params: {
+        'p_community_id': communityId,
+        'p_user_id': userId,
+        'p_name': name,
+        'p_identification_path': identificationPath,
+      },
     );
   }
 }

@@ -3,10 +3,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:resipal_core/lib.dart';
 
 class RegisterPropertyFormState extends Equatable {
-  final List<ResidentEntity> residents;
+  final List<ResidentMemberEntity> residents;
   final List<ContractEntity> contracts;
 
-  final ResidentEntity? resident;
+  final ResidentMemberEntity? resident;
   final ContractEntity? contract;
   final String? name;
   final String? description;
@@ -29,7 +29,7 @@ class RegisterPropertyFormState extends Equatable {
 
   RegisterPropertyFormState copyWith({
     ContractEntity? contract,
-    ResidentEntity? resident,
+    ResidentMemberEntity? resident,
 
     String? name,
     String? description,

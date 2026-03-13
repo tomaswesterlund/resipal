@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/src/data/sources/visitor_data_source.dart';
 import 'package:resipal_core/src/domain/entities/visitor_entity.dart';
-import 'package:resipal_core/src/domain/use_cases/get_visitor.dart';
+import 'package:resipal_core/src/domain/use_cases/visitors/get_visitor.dart';
 import 'package:resipal_core/src/services/logger_service.dart';
 
 class WatchUserVisitors {

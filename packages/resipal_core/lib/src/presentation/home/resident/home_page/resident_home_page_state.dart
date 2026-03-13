@@ -12,12 +12,12 @@ class ResidentLoadingState extends ResidentHomePageState {}
 
 class ResidentLoadedState extends ResidentHomePageState {
   final CommunityEntity community;
-  final MemberEntity member;
+  final ResidentMemberEntity resident;
 
-  ResidentLoadedState(this.community, this.member);
+  ResidentLoadedState(this.community, this.resident);
 
   @override
-  List<Object?> get props => [community, member];
+  List<Object?> get props => [community, resident];
 }
 
 class ResidentEmptyState extends ResidentHomePageState {}

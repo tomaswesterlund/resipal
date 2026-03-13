@@ -18,7 +18,7 @@ class InvitationDataSource {
     });
   }
 
-    Stream<List<InvitationModel>> watchByCommunityId(String communityId) {
+  Stream<List<InvitationModel>> watchByCommunityId(String communityId) {
     return _client.from('invitations').stream(primaryKey: ['id']).eq('community_id', communityId).map((data) {
       return data.map((item) {
         final model = InvitationModel.fromJson(item);
@@ -28,11 +28,10 @@ class InvitationDataSource {
     });
   }
 
-
   InvitationModel? getById(String id) => _cache[id];
 
-  List<InvitationModel> getByUserId(String userId) {
-    return _cache.values.where((m) => m.userId == userId).toList();
+  List<InvitationModel> getByCommunityIdAndUserId({required String communityId, required String userId}) {
+    return _cache.values.where((x) => x.communityId == communityId && x.userId == userId).toList();
   }
 
   Future createInvitation({

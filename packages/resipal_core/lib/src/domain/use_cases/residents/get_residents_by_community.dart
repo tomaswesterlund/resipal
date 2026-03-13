@@ -3,12 +3,15 @@ import 'package:resipal_core/lib.dart';
 
 class GetResidentsByCommunity {
   final MembershipDataSource _source = GetIt.I<MembershipDataSource>();
-  final GetResidentByUserId _getResidentByUserId = GetResidentByUserId();
+  final GetResidentByCommunityIdAndUserId _getResidentByCommunityIdAndUserId = GetResidentByCommunityIdAndUserId();
 
-  List<ResidentEntity> call(String communityId) {
+  List<ResidentMemberEntity> call(String communityId) {
     final memberships = _source.getByCommunityId(communityId);
     final residents = memberships.where((x) => x.isResident);
-    final entities = residents.map((x) => _getResidentByUserId(x.userId)).toList();
+
+    final entities = residents
+        .map((x) => _getResidentByCommunityIdAndUserId.call(communityId: x.communityId, userId: x.userId))
+        .toList();
 
     return entities;
   }

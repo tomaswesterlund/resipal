@@ -37,7 +37,7 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
     emit(RegisterPropertyFormEditingState(_formState));
   }
 
-  void onResidentSelected(ResidentEntity? newResident) {
+  void onResidentSelected(ResidentMemberEntity? newResident) {
     _formState = _formState.copyWith(resident: newResident);
     emit(RegisterPropertyFormEditingState(_formState));
   }
@@ -89,7 +89,7 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
 
       final propertyId = await RegisterProperty().call(
         communityId: communityId,
-        residentId: _formState.resident?.id,
+        residentId: _formState.resident?.user.id,
         contractId: _formState.contract?.id,
         name: _formState.name!,
         description: _formState.description,

@@ -14,7 +14,8 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
 
   late RegisterPaymentFormState _formState;
 
-  Future initialize(ResidentEntity? resident) async {
+  Future initialize(ResidentMemberEntity? resident) async {
+    
     final residents = GetResidentsByCommunity().call(_sessionService.communityId);
 
     if (residents.isEmpty) {
@@ -26,7 +27,7 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
     emit(RegisterPaymentFormEditingState(_formState));
   }
 
-  void updateResident(ResidentEntity? newResident) {
+  void updateResident(ResidentMemberEntity? newResident) {
     _formState = _formState.copyWith(resident: newResident);
     emit(RegisterPaymentFormEditingState(_formState));
   }
@@ -85,7 +86,7 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
       final imagePath = await _imageService.uploadPaymentReceipt(
         xFile: _formState.receiptImage!,
         communityId: _sessionService.communityId,
-        residentId: _formState.resident!.id,
+        residentId: _formState.resident!.user.id,
       );
 
       await RegisterPayment().call(

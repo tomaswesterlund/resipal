@@ -5,7 +5,7 @@ import 'package:resipal_core/lib.dart';
 import 'package:wester_kit/lib.dart';
 
 class RegisterPaymentPage extends StatelessWidget {
-  final ResidentEntity? resident;
+  final ResidentMemberEntity? resident;
   const RegisterPaymentPage({this.resident, super.key});
 
   @override
@@ -61,7 +61,7 @@ class _Form extends StatelessWidget {
       padding: const EdgeInsets.all(24.0),
       child: Column(
         children: [
-          EntityDropdownField<ResidentEntity>(
+          EntityDropdownField<ResidentMemberEntity>(
             label: 'Residente',
             isRequired: true,
             readOnly: formState.isResidentReadOnly,

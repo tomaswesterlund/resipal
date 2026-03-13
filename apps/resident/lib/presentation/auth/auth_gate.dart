@@ -38,8 +38,8 @@ class AuthGate extends StatelessWidget {
 
           // 5. Success -> The Main Admin Dashboard
           if (state is UserSignedIn) {
-            final community = GetCommunityById().call(state.member.community.id);
-            return ResidentHomePage(community: community, member: state.member);
+            final community = GetCommunityById().call(state.resident.community.id);
+            return ResidentHomePage(community: community, resident: state.resident);
           }
 
           if (state is AuthGateErrorState) return const ErrorView();

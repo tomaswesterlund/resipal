@@ -4,8 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:resipal_core/lib.dart';
 
 class RegisterPaymentFormState extends Equatable {
-  final List<ResidentEntity> residents;
-  final ResidentEntity? resident;
+  final List<ResidentMemberEntity> residents;
+  final ResidentMemberEntity? resident;
 
   final bool isResidentReadOnly;
   final double amount;
@@ -31,8 +31,8 @@ class RegisterPaymentFormState extends Equatable {
   int get amountInCents => (amount * 100).toInt();
 
   RegisterPaymentFormState copyWith({
-    List<ResidentEntity>? residents,
-    ResidentEntity? resident,
+    List<ResidentMemberEntity>? residents,
+    ResidentMemberEntity? resident,
     bool? isResidentReadOnly,
     double? amount,
     DateTime? payDate,

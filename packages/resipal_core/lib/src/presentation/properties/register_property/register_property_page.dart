@@ -64,7 +64,7 @@ class _Form extends StatelessWidget {
             onChanged: cubit.updateName,
           ),
           const SizedBox(height: 20.0),
-          EntityDropdownField<ResidentEntity>(
+          EntityDropdownField<ResidentMemberEntity>(
             label: "Seleccionar residente",
             isRequired: false,
             helpText: "Vincula un residente a esta propiedad.",

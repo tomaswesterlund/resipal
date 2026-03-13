@@ -3,7 +3,7 @@ import 'package:resipal_core/src/data/models/invitation_model.dart';
 import 'package:resipal_core/src/data/sources/invitation_data_source.dart';
 import 'package:resipal_core/src/domain/entities/invitation_entity.dart';
 import 'package:resipal_core/src/domain/use_cases/properties/get_property_ref.dart';
-import 'package:resipal_core/src/domain/use_cases/get_visitor_ref.dart';
+import 'package:resipal_core/src/domain/use_cases/visitors/get_visitor_ref.dart';
 
 class GetInvitation {
   final InvitationDataSource _source = GetIt.I<InvitationDataSource>();

@@ -67,12 +67,12 @@ class AuthGateCubit extends Cubit<AuthGateState> {
 
       // Success: Start real-time watchers for this specific community
       final community = memberships.first.community;
-      final member = GetMemberByUserAndCommunityId().call(communityId: community.id, userId: userId);
+      final resident = GetResidentByCommunityIdAndUserId().call(communityId: community.id, userId: userId);
       
 
       await _sessionService.startCommunityWatchers(userId: userId, communityId: community.id);
 
-      emit(UserSignedIn(member));
+      emit(UserSignedIn(resident));
     } catch (e) {
       emit(AuthGateErrorState());
     }
