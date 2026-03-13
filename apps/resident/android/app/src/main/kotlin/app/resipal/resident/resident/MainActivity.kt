@@ -1,4 +1,4 @@
-package app.resipal.resident.resident
+package app.resipal.resident
 
 import io.flutter.embedding.android.FlutterActivity
 
