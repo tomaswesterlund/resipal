@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/domain/use_cases/residents/get_resident_by_property_id.dart';
 
 class CanPayMaintenanceFee {
   final LoggerService _logger = GetIt.I<LoggerService>();
@@ -7,7 +8,7 @@ class CanPayMaintenanceFee {
 
   bool call({required String maintenanceFeeId}) {
     final fee = GetMaintenanceFee().call(maintenanceFeeId);
-    final member = GetPropertyMember().call(propertyId: fee.property.id);
+    final member = GetResidentByPropertyId().call(propertyId: fee.property.id);
     final property = GetPropertyById().call(fee.property.id);
 
     // 1. Check Balance

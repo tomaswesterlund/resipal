@@ -39,7 +39,7 @@ class _ResidentHomePageState extends State<ResidentHomePage> {
             body: IndexedStack(
               index: _currentPageIndex,
               children: [
-                ResidentHomeOverview(member: resident),
+                ResidentHomeOverview(resident: resident),
                 PropertyListView(resident.propertyRegistry.properties),
                 PaymentListView(resident.paymentLedger.payments),
                 AccessOverview(invitations: resident.invitations, visitors: resident.visitors),

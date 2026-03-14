@@ -5,8 +5,7 @@ class MemberEntity {
   final String name;
   final CommunityRef community;
   final UserRef user;
-  final PaymentLedgerEntity paymentLedger;
-  final PropertyRegistry propertyRegistry;
+  
   final bool isAdmin;
   final bool isResident;
   final bool isSecurity;
@@ -15,31 +14,20 @@ class MemberEntity {
     required this.name,
     required this.community,
     required this.user,
-    required this.paymentLedger,
-    required this.propertyRegistry,
     required this.isAdmin,
     required this.isResident,
     required this.isSecurity,
   });
 
-  bool get hasDebt => propertyRegistry.hasDebt;
-  int get totalMemberBalanceInCents {
-    final a = paymentLedger.totalPaymentBalanceInCents;
-    final b = propertyRegistry.totalDebtAmountInCents;
-    final c = propertyRegistry.totalPaidAmountInCents;
 
-    return paymentLedger.totalPaymentBalanceInCents -
-        propertyRegistry.totalDebtAmountInCents -
-        propertyRegistry.totalPaidAmountInCents;
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
       'community': community.toMap(),
       'user': user.toMap(),
-      'paymentLedger': paymentLedger.toMap(),
-      'propertyRegistry': propertyRegistry.toMap(),
+      // 'paymentLedger': paymentLedger.toMap(),
+      // 'propertyRegistry': propertyRegistry.toMap(),
       'isAdmin': isAdmin,
       'isResident': isResident,
       'isSecurity': isSecurity,

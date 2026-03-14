@@ -39,28 +39,28 @@ class MemberHeader extends StatelessWidget {
           const SizedBox(height: 20),
 
           // Métricas Financieras
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildFinanceItem(
-                'SALDO TOTAL',
-                member.totalMemberBalanceInCents,
-                onPrimary,
-              ),
-              _buildFinanceItem(
-                'POR REVISAR',
-                member.paymentLedger.pendingPaymentAmountInCents,
-                onPrimary,
-                accentColor: Colors.orangeAccent,
-              ),
-              _buildFinanceItem(
-                'DEUDA',
-                member.propertyRegistry.totalDebtAmountInCents,
-                onPrimary,
-                accentColor: Colors.redAccent,
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     _buildFinanceItem(
+          //       'SALDO TOTAL',
+          //       member.totalMemberBalanceInCents,
+          //       onPrimary,
+          //     ),
+          //     _buildFinanceItem(
+          //       'POR REVISAR',
+          //       member.paymentLedger.pendingPaymentAmountInCents,
+          //       onPrimary,
+          //       accentColor: Colors.orangeAccent,
+          //     ),
+          //     _buildFinanceItem(
+          //       'DEUDA',
+          //       member.propertyRegistry.totalDebtAmountInCents,
+          //       onPrimary,
+          //       accentColor: Colors.redAccent,
+          //     ),
+          //   ],
+          // ),
 
           const SizedBox(height: 20),
           Divider(color: Colors.white.withOpacity(0.2), height: 1),

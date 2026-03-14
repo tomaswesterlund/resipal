@@ -8,15 +8,11 @@ class GetMemberByUserAndCommunityId {
     final membership = _source.getByCommunityAndUserId(communityId: communityId, userId: userId);
     final communityRef = GetCommunityRefById().call(communityId: communityId);
     final userRef = GetUserRefById().call(userId: userId);
-    final payments = GetPaymentByUserId().call(userId: userId);
-    final properties = GetPropertiesByResidentId().call(residentId: userId);
 
     return MemberEntity(
       name: userRef.name,
       community: communityRef,
       user: userRef,
-      paymentLedger: PaymentLedgerEntity(payments),
-      propertyRegistry: PropertyRegistry(properties),
       isAdmin: membership.isAdmin,
       isResident: membership.isResident,
       isSecurity: membership.isSecurity,

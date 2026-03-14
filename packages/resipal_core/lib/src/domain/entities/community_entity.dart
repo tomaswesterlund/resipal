@@ -11,8 +11,10 @@ class CommunityEntity {
   final PropertyRegistry propertyRegistry;
   final MemberDirectoryEntity memberDirectory;
 
-  int get totalBalanceInCents =>
-      memberDirectory.members.fold(0, (sum, item) => sum = sum + item.totalMemberBalanceInCents);
+  int get totalBalanceInCents {
+    final residents = memberDirectory.members.whereType<ResidentMemberEntity>();
+    return residents.fold(0, (sum, item) => sum = sum + item.totalMemberBalanceInCents);
+  }
 
   CommunityEntity({
     required this.id,

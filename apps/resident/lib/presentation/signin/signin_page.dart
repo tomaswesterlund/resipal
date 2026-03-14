@@ -73,10 +73,8 @@ class _Signin extends StatelessWidget {
                     ResipalLogo(),
                     const SizedBox(height: 16),
                     HeaderText.giga('Resipal', color: Colors.white),
-                    const Text(
-                      'Bienvenido a tu hogar',
-                      style: TextStyle(color: Colors.white70, fontSize: 14, letterSpacing: 0.5),
-                    ),
+                    SizedBox(height: 4,),
+                    HeaderText.two('Resident', color: Colors.white),
                   ],
                 ),
               ),

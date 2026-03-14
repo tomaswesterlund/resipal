@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-enum LogoColor { blue, green }
+enum LogoColor { blue, green, red }
 
 enum LogoType { png, svg }
 

@@ -1,6 +1,4 @@
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/domain/use_cases/invitations/get_invitation_by_community_id_and_user_id.dart';
-import 'package:resipal_core/src/domain/use_cases/properties/get_properties_by_community_and_resident_id.dart';
 
 class GetResidentByCommunityIdAndUserId {
   ResidentMemberEntity call({required String communityId, required String userId}) {

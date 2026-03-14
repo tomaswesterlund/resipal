@@ -25,7 +25,7 @@ class ReportsPage extends StatelessWidget {
                   'Listado detallado de la comunidad con desglose de propiedades. Incluye balances totales, pagos por revisar y un estado de cuenta individualizado por cada predio vinculado.',
               icon: Icons.people_alt_rounded,
               iconColor: colorScheme.primary,
-              onTap: () => Go.to(MemberBreakdownReportPage()),
+              onTap: () => Go.to(ResidentBreakdownReportPage()),
             ),
 
             // const SizedBox(height: 16),

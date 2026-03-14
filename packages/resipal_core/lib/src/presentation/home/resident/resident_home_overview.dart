@@ -4,8 +4,8 @@ import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
 class ResidentHomeOverview extends StatelessWidget {
-  final MemberEntity member;
-  const ResidentHomeOverview({required this.member, super.key});
+  final ResidentMemberEntity resident;
+  const ResidentHomeOverview({required this.resident, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +16,10 @@ class ResidentHomeOverview extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              HeaderText.four('¡Bienvenido, ${member.user.name}!'),
+              HeaderText.four('¡Bienvenido, ${resident.user.name}!'),
               const SizedBox(height: 4),
               Text(
-                member.community.name,
+                resident.community.name,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: Theme.of(context).colorScheme.outline,
                   fontWeight: FontWeight.w600,
@@ -58,7 +58,7 @@ class ResidentHomeOverview extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 4),
-                    AmountText(amountInCents: member.totalMemberBalanceInCents, color: Colors.white, fontSize: 32),
+                    AmountText(amountInCents: resident.totalMemberBalanceInCents, color: Colors.white, fontSize: 32),
 
                     const SizedBox(height: 24),
                     Divider(color: Colors.white.withOpacity(0.2)),
@@ -70,7 +70,7 @@ class ResidentHomeOverview extends StatelessWidget {
                         Expanded(
                           child: _FinancialDetail(
                             label: 'EN REVISIÓN',
-                            amount: member.paymentLedger.pendingPaymentAmountInCents,
+                            amount: resident.paymentLedger.pendingPaymentAmountInCents,
                             helpText:
                                 'Pagos que has registrado pero que aún están pendientes de validación por la administración.',
                           ),
@@ -81,8 +81,8 @@ class ResidentHomeOverview extends StatelessWidget {
                         Expanded(
                           child: _FinancialDetail(
                             label: 'DEUDA TOTAL',
-                            amount: member.propertyRegistry.totalDebtAmountInCents,
-                            isAlert: member.hasDebt,
+                            amount: resident.propertyRegistry.totalDebtAmountInCents,
+                            isAlert: resident.hasDebt,
                             helpText:
                                 'Monto total de cuotas, multas o cargos vencidos que no presentan un pago asociado.',
                           ),
@@ -105,18 +105,18 @@ class ResidentHomeOverview extends StatelessWidget {
                     children: [
                       ActionTile(
                         title: 'Propiedades con deuda',
-                        count: member.propertyRegistry.withOverduesFees.length,
+                        count: resident.propertyRegistry.withOverduesFees.length,
                         icon: Icons.house_outlined,
                         color: Theme.of(context).colorScheme.primary,
-                        onPressed: () => Go.to(PropertiesPage(member.propertyRegistry.properties)),
+                        onPressed: () => Go.to(PropertiesPage(resident.propertyRegistry.properties)),
                       ),
                       SizedBox(height: 4),
                       ActionTile(
                         title: 'Pagos en revisión',
-                        count: member.paymentLedger.pendingPayments.length,
+                        count: resident.paymentLedger.pendingPayments.length,
                         icon: Icons.attach_money,
                         color: Theme.of(context).colorScheme.primary,
-                        onPressed: () => Go.to(PaymentsPage(payments: member.paymentLedger.payments)),
+                        onPressed: () => Go.to(PaymentsPage(payments: resident.paymentLedger.payments)),
                       ),
                       SizedBox(height: 4),
                       ActionTile(
