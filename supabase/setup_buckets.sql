@@ -1,6 +1,6 @@
--- NOTE: Supabase CLI ignores this INSERT into the migration file so it must be created manually:
--- Create a new migration file and copy-and-paste the data.
-
+/* **************** */
+/* PAYMENT          */
+/* **************** */
 -- Create the bucket (named 'payments')
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('payments', 'payments', false)
@@ -50,6 +50,66 @@ WITH CHECK (
     AND EXISTS (
         SELECT 1 FROM public.memberships
         WHERE community_id::text = (storage.foldername(name))[2] -- communityId is index [2]
+        AND user_id = auth.uid()
+    )
+);
+
+
+
+/* **************** */
+/* VISITORS         */
+/* **************** */
+
+-- 1. Crear el bucket 'visitors'
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('visitors', 'visitors', false)
+ON CONFLICT (id) DO NOTHING;
+
+-- 2. Política de Administrador: Gestión total dentro de su comunidad
+-- Estructura: identifications/[communityId]/[userId]/...
+CREATE POLICY "Admins can manage visitor data in their communities" 
+ON storage.objects 
+FOR ALL 
+TO authenticated 
+USING (
+  bucket_id = 'visitors' 
+  AND (storage.foldername(name))[1] = 'identifications'
+  AND EXISTS (
+    SELECT 1 FROM public.memberships
+    WHERE community_id::text = (storage.foldername(name))[2] -- communityId ahora es índice [2]
+    AND user_id = auth.uid()
+    AND is_admin = true
+  )
+);
+
+-- 3. Política de Usuario: Ver su propia información
+CREATE POLICY "Users can view their own visitor data" 
+ON storage.objects
+FOR SELECT 
+TO authenticated
+USING (
+    bucket_id = 'visitors'
+    AND (storage.foldername(name))[1] = 'identifications'
+    AND (storage.foldername(name))[3] = auth.uid()::text -- userId ahora es índice [3]
+    AND EXISTS (
+        SELECT 1 FROM public.memberships
+        WHERE community_id::text = (storage.foldername(name))[2] -- communityId ahora es índice [2]
+        AND user_id = auth.uid()
+    )
+);
+
+-- 4. Política de Usuario: Subir su propia información
+CREATE POLICY "Users can upload their own visitor data" 
+ON storage.objects
+FOR INSERT 
+TO authenticated
+WITH CHECK (
+    bucket_id = 'visitors'
+    AND (storage.foldername(name))[1] = 'identifications'
+    AND (storage.foldername(name))[3] = auth.uid()::text -- userId ahora es índice [3]
+    AND EXISTS (
+        SELECT 1 FROM public.memberships
+        WHERE community_id::text = (storage.foldername(name))[2] -- communityId ahora es índice [2]
         AND user_id = auth.uid()
     )
 );

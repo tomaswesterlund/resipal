@@ -1,5 +1,6 @@
 import 'package:resipal_core/lib.dart';
 import 'package:resipal_core/src/domain/use_cases/invitations/get_invitation_by_community_id_and_user_id.dart';
+import 'package:resipal_core/src/domain/use_cases/properties/get_properties_by_community_and_resident_id.dart';
 
 class GetResidentByCommunityIdAndUserId {
   ResidentMemberEntity call({required String communityId, required String userId}) {
@@ -10,7 +11,7 @@ class GetResidentByCommunityIdAndUserId {
     final payments = GetPayments().byCommunityAndUserId(communityId: communityId, userId: userId);
     final ledger = PaymentLedgerEntity(payments);
 
-    final properties = GetProperties().byByCommunityAndResidentId(communityId: communityId, residentId: userId);
+    final properties = GetPropertiesByCommunityAndResidentId().call(communityId: communityId, residentId: userId);
     final registry = PropertyRegistry(properties);
     final invitations = GetInvitationByCommunityIdAndUserId().call(communityId: communityId, userId: userId);
     final visitors = GetVisitorsByCommunityIdAndUserId().call(communityId: communityId, userId: userId);

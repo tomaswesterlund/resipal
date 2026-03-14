@@ -29,19 +29,22 @@ class ImageService {
     return uploadImage(bucket: 'payments', folder: folder, xFile: xFile);
   }
 
-  Future<String> uploadVisitorIdentification(XFile xFile) =>
-      uploadImage(bucket: 'visitors', folder: 'identifications', xFile: xFile);
+  Future<String> uploadVisitorIdentification({
+    required XFile xFile,
+    required String communityId,
+    required String residentId,
+  }) {
+    final folder = 'identifications/$communityId/$residentId';
+    return uploadImage(bucket: 'visitors', folder: folder, xFile: xFile);
+  }
 
   Future<String> getSignedUrl({required String bucket, required String path}) async {
     try {
-      final String signedUrl = await _client.storage
-        .from(bucket)
-        .createSignedUrl(path, 60); 
-        
-    return signedUrl;
-    
+      final String signedUrl = await _client.storage.from(bucket).createSignedUrl(path, 60);
+
+      return signedUrl;
     } catch (e, s) {
-      _logger.error(exception: e, featureArea: 'ImageService.getSignedUrl', stackTrace: s, metadata: { 'path' : path});
+      _logger.error(exception: e, featureArea: 'ImageService.getSignedUrl', stackTrace: s, metadata: {'path': path});
       rethrow;
     }
   }

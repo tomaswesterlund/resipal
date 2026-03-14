@@ -9,5 +9,5 @@ CREATE TABLE invitations(
     qr_code_token uuid NOT NULL,
     from_date timestamptz NOT NULL,
     to_date timestamptz NOT NULL,
-    max_entries int NOT NULL
+    max_entries int NULL
 );

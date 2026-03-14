@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/visitors/register_visitor/register_visitor_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
@@ -39,14 +40,23 @@ class AccessOverview extends StatelessWidget {
           if (invitations.isEmpty)
             const _MiniEmptyState(message: 'No hay invitaciones registradas')
           else
-            ...invitations.take(3).map((inv) => InvitationTile(invitation: inv)),
+          ...(List<InvitationEntity>.from(
+              invitations,
+            )..sort((a, b) => b.createdAt.compareTo(a.createdAt))).take(3).map((inv) => InvitationTile(invitation: inv)),
 
           const SizedBox(height: 16),
-          SecondaryButton(
-            label: 'Registrar invitación',
-            onPressed: () {
-              // Go.to(const RegisterInvitationPage());
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: SecondaryButton(
+                    label: 'Registrar invitación',
+                    onPressed: () => Go.to(RegisterInvitationPage()),
+                  ),
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 32),
@@ -69,17 +79,23 @@ class AccessOverview extends StatelessWidget {
           if (visitors.isEmpty)
             const _MiniEmptyState(message: 'No hay registros de visitantes')
           else
-            ...visitors.take(3).map((vis) => VisitorTile(visitor: vis)),
+            ...(List<VisitorEntity>.from(
+              visitors,
+            )..sort((a, b) => b.createdAt.compareTo(a.createdAt))).take(3).map((vis) => VisitorTile(visitor: vis)),
 
           const SizedBox(height: 16),
-          SecondaryButton(
-            label: 'Registrar visitante',
-            onPressed: () {
-              // Go.to(const RegisterVisitorPage());
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: SecondaryButton(label: 'Registrar visitante', onPressed: () => Go.to(RegisterVisitorPage())),
+                ),
+              ],
+            ),
           ),
 
-          const SizedBox(height: 96),
+          const SizedBox(height: 144),
         ],
       ),
     );

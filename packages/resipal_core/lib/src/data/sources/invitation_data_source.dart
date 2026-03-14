@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import '../models/invitation_model.dart';
+import 'package:resipal_core/lib.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class InvitationDataSource {
+  final LoggerService _logger = GetIt.I<LoggerService>();
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
   final Map<String, InvitationModel> _cache = {};
@@ -11,7 +11,7 @@ class InvitationDataSource {
   Stream<List<InvitationModel>> watchByUserId(String userId) {
     return _client.from('invitations').stream(primaryKey: ['id']).eq('user_id', userId).map((data) {
       return data.map((item) {
-        final model = InvitationModel.fromJson(item);
+        final model = InvitationModel.fromMap(item);
         _cache[model.id] = model; // Update cache
         return model;
       }).toList();
@@ -21,7 +21,7 @@ class InvitationDataSource {
   Stream<List<InvitationModel>> watchByCommunityId(String communityId) {
     return _client.from('invitations').stream(primaryKey: ['id']).eq('community_id', communityId).map((data) {
       return data.map((item) {
-        final model = InvitationModel.fromJson(item);
+        final model = InvitationModel.fromMap(item);
         _cache[model.id] = model;
         return model;
       }).toList();
@@ -34,26 +34,40 @@ class InvitationDataSource {
     return _cache.values.where((x) => x.communityId == communityId && x.userId == userId).toList();
   }
 
-  Future createInvitation({
+  Future<InvitationId> upsert({
     required String communityId,
     required String userId,
     required String propertyId,
     required String visitorId,
+    required String qrCodeToken,
     required DateTime fromDate,
     required DateTime toDate,
+    required int? maxEntries,
   }) async {
-    await _client.rpc(
-      'fn_create_invitation',
-      params: {
-        'p_community_id': communityId,
-        'p_user_id': userId,
-        'p_property_id': propertyId,
-        'p_visitor_id': visitorId,
-        'p_from_date': DateUtils.dateOnly(fromDate.toUtc()).toIso8601String(),
-        'p_to_date': DateUtils.dateOnly(toDate.toUtc()).toIso8601String(),
-      },
-    );
-    // Note: The stream will automatically pick up the new invitation
-    // from Supabase and update the cache for us.
+    try {
+      final data = await _client
+          .from('invitations')
+          .upsert({
+            'community_id': communityId,
+            'user_id': userId,
+            'property_id': propertyId,
+            'visitor_id': visitorId,
+            'qr_code_token': qrCodeToken,
+            'from_date': fromDate.toIso8601String(),
+            'to_date': toDate.toIso8601String(),
+            'max_entries': maxEntries,
+          })
+          .select()
+          .single();
+
+      final model = InvitationModel.fromMap(data);
+
+      _cache[model.id] = model;
+
+      return model.id;
+    } catch (e, s) {
+      _logger.error(exception: e, featureArea: 'InvitationDataSource.upsert', stackTrace: s);
+      rethrow;
+    }
   }
 }

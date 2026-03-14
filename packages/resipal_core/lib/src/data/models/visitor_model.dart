@@ -18,7 +18,7 @@ class VisitorModel {
     required this.identificationPath,
   });
 
-  factory VisitorModel.fromJson(Map<String, dynamic> json) {
+  factory VisitorModel.fromMap(Map<String, dynamic> json) {
     return VisitorModel(
       id: json['id'],
       communityId: json['community_id'],

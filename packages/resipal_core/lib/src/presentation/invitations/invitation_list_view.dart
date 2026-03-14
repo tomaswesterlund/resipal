@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/presentation/invitations/invitation_tile.dart';
+import 'package:resipal_core/src/domain/enums/invitation_status.dart';
 import 'package:wester_kit/lib.dart';
 
 class InvitationListView extends StatefulWidget {
@@ -13,26 +13,27 @@ class InvitationListView extends StatefulWidget {
 }
 
 class _InvitationListViewState extends State<InvitationListView> {
-  late FilterSelectorItem<bool?> _selectedFilter;
-  late List<FilterSelectorItem<bool?>> _filterOptions;
+  late FilterSelectorItem<InvitationStatus?> _selectedFilter;
+  late List<FilterSelectorItem<InvitationStatus?>> _filterOptions;
 
   @override
   void initState() {
     super.initState();
     _filterOptions = [
       const FilterSelectorItem(label: 'Todas', value: null),
-      const FilterSelectorItem(label: 'Activas', value: true),
-      const FilterSelectorItem(label: 'Expiradas', value: false),
+      const FilterSelectorItem(label: 'Activas', value: InvitationStatus.active),
+      const FilterSelectorItem(label: 'Próximas', value: InvitationStatus.upcoming),
+      const FilterSelectorItem(label: 'Expiradas', value: InvitationStatus.expired),
     ];
     _selectedFilter = _filterOptions.first;
   }
 
   @override
   Widget build(BuildContext context) {
-    // 1. Lógica de Filtrado
+    // 1. Lógica de Filtrado usando el nuevo enum
     final filtered = _selectedFilter.value == null
-        ? widget.invitations
-        : widget.invitations.where((i) => i.isActive == _selectedFilter.value).toList();
+        ? List<InvitationEntity>.from(widget.invitations)
+        : widget.invitations.where((i) => i.status == _selectedFilter.value).toList();
 
     // 2. Ordenamiento: Por fecha de creación (Nuevas primero)
     filtered.sort((a, b) => b.createdAt.compareTo(a.createdAt));
@@ -44,7 +45,7 @@ class _InvitationListViewState extends State<InvitationListView> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            FilterSelector<bool?>(
+            FilterSelector<InvitationStatus?>(
               options: _filterOptions,
               selectedValue: _selectedFilter,
               onSelected: (newItem) => setState(() => _selectedFilter = newItem),

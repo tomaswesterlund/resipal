@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/presentation/invitations/invitation_details_page.dart';
+import 'package:resipal_core/src/domain/enums/invitation_status.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
-import 'package:intl/intl.dart';
 
 class InvitationTile extends StatelessWidget {
   final InvitationEntity invitation;
@@ -13,8 +12,7 @@ class InvitationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final String dateRange =
-        "${DateFormat('dd/MM').format(invitation.fromDate)} - ${DateFormat('dd/MM').format(invitation.toDate)}";
+    final status = invitation.status;
 
     return Card(
       elevation: 2,
@@ -27,8 +25,8 @@ class InvitationTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
           child: Row(
             children: [
-              // 1. Icono con Estatus Visual
-              _buildStatusIcon(colorScheme),
+              // 1. Icono dinámico según el Enum
+              _buildStatusIcon(colorScheme, status),
               const SizedBox(width: 16),
 
               // 2. Info del Visitante y Propiedad
@@ -43,25 +41,24 @@ class InvitationTile extends StatelessWidget {
                 ),
               ),
 
-              // 3. Info de Uso y Vigencia
+              // 3. StatusBadge y Contador de Uso
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    StatusBadge(
-                      label: invitation.canEnter ? 'VÁLIDA' : 'EXPIRADA',
-                      color: invitation.canEnter ? Colors.green : colorScheme.error,
-                    ),
+                    StatusBadge(label: status.display.toUpperCase(), color: status.color(colorScheme)),
                     const SizedBox(height: 4),
                     BodyText.small(
-                      'Uso: ${invitation.usageCount}/${invitation.maxEntries}',
+                      invitation.maxEntries == null
+                          ? 'Ilimitada'
+                          : 'Uso: ${invitation.usageCount} / ${invitation.maxEntries}',
                       color: colorScheme.onSurfaceVariant,
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 8),
-              const Icon(Icons.chevron_right_rounded, size: 20, color: Colors.black),
+              Icon(Icons.chevron_right_rounded, size: 20, color: colorScheme.onSurface.withOpacity(0.5)),
             ],
           ),
         ),
@@ -69,19 +66,13 @@ class InvitationTile extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusIcon(ColorScheme colorScheme) {
-    final bool canEnter = invitation.canEnter;
+  Widget _buildStatusIcon(ColorScheme colorScheme, InvitationStatus status) {
+    final statusColor = status.color(colorScheme);
+
     return Container(
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: (canEnter ? colorScheme.primary : colorScheme.error).withOpacity(0.1),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        canEnter ? Icons.confirmation_number_outlined : Icons.block_outlined,
-        size: 20,
-        color: canEnter ? colorScheme.primary : colorScheme.error,
-      ),
+      decoration: BoxDecoration(color: statusColor.withOpacity(0.1), shape: BoxShape.circle),
+      child: Icon(status.icon, size: 20, color: statusColor),
     );
   }
 }

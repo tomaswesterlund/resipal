@@ -9,7 +9,7 @@ class InvitationModel {
   final String qrCodeToken;
   final DateTime fromDate;
   final DateTime toDate;
-  final int maxEntries;
+  final int? maxEntries;
 
   InvitationModel({
     required this.id,
@@ -25,7 +25,7 @@ class InvitationModel {
     required this.maxEntries,
   });
 
-  factory InvitationModel.fromJson(Map<String, dynamic> json) {
+  factory InvitationModel.fromMap(Map<String, dynamic> json) {
     return InvitationModel(
       id: json['id'],
       communityId: json['community_id'],
@@ -37,7 +37,7 @@ class InvitationModel {
       qrCodeToken: json['qr_code_token'],
       fromDate: DateTime.parse(json['from_date'].toString()),
       toDate: DateTime.parse(json['to_date'].toString()),
-      maxEntries: int.parse(json['max_entries'].toString()),
+      maxEntries: json['max_entries'] != null ? int.parse(json['max_entries'].toString()) : null,
     );
   }
 }

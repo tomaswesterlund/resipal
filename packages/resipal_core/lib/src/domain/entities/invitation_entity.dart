@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:resipal_core/src/domain/entities/access_log_entity.dart';
+import 'package:resipal_core/src/domain/enums/invitation_status.dart';
 import 'package:resipal_core/src/domain/refs/property_ref.dart';
 import 'package:resipal_core/src/domain/refs/visitor_ref.dart';
 
@@ -12,28 +13,26 @@ class InvitationEntity extends Equatable {
   final String qrCodeToken;
   final DateTime fromDate;
   final DateTime toDate;
-  final int maxEntries;
+  final int? maxEntries;
   final List<AccessLogEntity> logs;
 
-  bool get isActive => canEnter || isUpcoming;
-
-  bool get isUpcoming => fromDate.isAfter(DateTime.now());
-
-  bool get canEnter {
+  InvitationStatus get status {
     final now = DateTime.now();
-    final isAfterOrEqualFrom = now.isAfter(fromDate) || now.isAtSameMomentAs(fromDate);
-    final isBeforeOrEqualTo = now.isBefore(toDate) || now.isAtSameMomentAs(toDate);
 
-    final hasEntriesLeft = usageCount < maxEntries;
-    return isWithinDateRange && hasEntriesLeft && isAfterOrEqualFrom && isBeforeOrEqualTo;
+    if (now.isAfter(toDate) || (maxEntries != null && usageCount >= maxEntries!)) {
+      return InvitationStatus.expired;
+    }
+
+    if (now.isBefore(fromDate)) {
+      return InvitationStatus.upcoming;
+    }
+
+    return InvitationStatus.active;
   }
 
-  int get remainingEntries => maxEntries - usageCount;
-
-  bool get isWithinDateRange {
-    final now = DateTime.now();
-    return now.isAfter(fromDate) && now.isBefore(toDate);
-  }
+  bool get isActive => status == InvitationStatus.active;
+  bool get isUpcoming => status == InvitationStatus.upcoming;
+  int get remainingEntries => maxEntries == null ? 999 : maxEntries! - usageCount;
 
   int get usageCount => logs.where((log) => log.isEntry).length;
 
@@ -55,7 +54,7 @@ class InvitationEntity extends Equatable {
     id,
     userId,
     visitor,
-    createdAt,
+    property,
     createdAt,
     qrCodeToken,
     fromDate,
