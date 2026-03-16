@@ -15,7 +15,7 @@ class InvitationTile extends StatelessWidget {
     final status = invitation.status;
 
     return Card(
-      elevation: 2,
+      elevation: 1,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(

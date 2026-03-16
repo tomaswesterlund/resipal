@@ -38,7 +38,7 @@ class AuthGate extends StatelessWidget {
 
           // 5. Success -> The Main Admin Dashboard
           if (state is UserSignedIn) {
-            final community = GetCommunityById().call(state.resident.community.id);
+            // final community = GetCommunityById().call(state.resident.community.id);
             return SecurityHomePage();
           }
 

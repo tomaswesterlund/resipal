@@ -12,67 +12,79 @@ class MemberTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Text('IMPLEMENT MemberTile!)');
 
-    // // Lógica visual basada en deuda
-    // final Color statusColor = member.hasDebt
-    //     ? colorScheme.error
-    //     : Colors.green; 
+    // Lógica visual: Usamos el primary para un look institucional 
+    // o podrías cambiarlo a 'error' si detectas alguna condición especial en el futuro.
+    final Color accentColor = colorScheme.primary; 
 
-    // return Card(
-    //   elevation: 2,
-    //   margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-    //   child: InkWell(
-    //     borderRadius: BorderRadius.circular(12),
-    //     onTap: () => Go.to(MemberDetailsPage(member: member)),
-    //     child: Container(
-    //       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-    //       child: Row(
-    //         children: [
-    //           // 1. Icono de Perfil
-    //           Container(
-    //             padding: const EdgeInsets.all(10),
-    //             decoration: BoxDecoration(color: statusColor.withOpacity(0.1), shape: BoxShape.circle),
-    //             child: Icon(Icons.person_outline_rounded, size: 20, color: statusColor),
-    //           ),
-    //           const SizedBox(width: 16),
+    return Card(
+      elevation: 1,
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: colorScheme.outlineVariant, width: 1),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        // Asumiendo que MemberDetailsPage acepta la nueva MemberEntity
+        onTap: () => Go.to(MemberDetailsPage(member: member)),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          child: Row(
+            children: [
+              // 1. Icono de Perfil con el nuevo color Primary (Oxford Blue)
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: accentColor.withOpacity(0.1), 
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.person_outline_rounded, 
+                  size: 20, 
+                  color: accentColor,
+                ),
+              ),
+              const SizedBox(width: 16),
 
-    //           // 2. Columna: Nombre
-    //           Expanded(
-    //             flex: 4,
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 const OverlineText('Nombre'),
-    //                 HeaderText.five(
-    //                   member.name,
-    //                   color: colorScheme.onSurface,
-    //                   maxLines: 1,
-    //                   overflow: TextOverflow.ellipsis,
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
+              // 2. Columna: Información del Miembro
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const OverlineText('Nombre'),
+                    HeaderText.five(
+                      member.name,
+                      color: colorScheme.onSurface,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
 
-    //           const SizedBox(width: 12),
+              const SizedBox(width: 12),
 
-    //           // 3. Columna: Roles
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               const OverlineText('Roles'),
-    //               const SizedBox(height: 4), // Espacio para alinear con el texto del header
-    //               MemberRoleIcons(member: member, size: 16),
-    //             ],
-    //           ),
+              // 3. Columna: Roles (Usando tus iconos de rol existentes)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const OverlineText('Roles'),
+                  const SizedBox(height: 4),
+                  MemberRoleIcons(member: member, size: 18),
+                ],
+              ),
 
-    //           const SizedBox(width: 12),
-    //           const Icon(Icons.chevron_right_rounded, size: 20, color: Colors.black54),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
+              const SizedBox(width: 12),
+              Icon(
+                Icons.chevron_right_rounded, 
+                size: 20, 
+                color: colorScheme.onSurfaceVariant.withOpacity(0.5),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

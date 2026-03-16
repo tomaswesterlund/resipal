@@ -16,7 +16,7 @@ class PropertyTile extends StatelessWidget {
     final Color statusColor = property.propertyPaymentStatus.color(colorScheme);
 
     return Card(
-      elevation: 2,
+      elevation: 1,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(

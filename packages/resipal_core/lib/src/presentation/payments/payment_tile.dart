@@ -14,9 +14,12 @@ class PaymentTile extends StatelessWidget {
     final Color statusColor = payment.status.color(colorScheme);
 
     return Card(
-      elevation: 2,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), // Aumentado un poco el vertical para que respire la sombra
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 0,
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: colorScheme.outlineVariant, width: 1),
+      ),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () => Go.to(PaymentDetailsPage(payment: payment)),
@@ -39,15 +42,11 @@ class PaymentTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const OverlineText('Monto pagado'),
-                    AmountText(
-                      amountInCents: payment.amountInCents,
-                      fontSize: 16,
-                      color: statusColor,
-                    ),
+                    AmountText(amountInCents: payment.amountInCents, fontSize: 16, color: statusColor),
                   ],
                 ),
               ),
-              SizedBox(width: 8,),
+              SizedBox(width: 8),
 
               // 3. Columna: Usuario
               Expanded(
@@ -56,11 +55,7 @@ class PaymentTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const OverlineText('Pagado por'),
-                    BodyText.medium(
-                      payment.user.name, 
-                      maxLines: 1, 
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    BodyText.medium(payment.user.name, maxLines: 1, overflow: TextOverflow.ellipsis),
                   ],
                 ),
               ),
@@ -71,10 +66,7 @@ class PaymentTile extends StatelessWidget {
                 children: [
                   const OverlineText('Fecha'),
                   const SizedBox(height: 2),
-                  BodyText.tiny(
-                    payment.date.toShortDate(),
-                    color: colorScheme.outline,
-                  ),
+                  BodyText.tiny(payment.date.toShortDate(), color: colorScheme.outline),
                 ],
               ),
 
