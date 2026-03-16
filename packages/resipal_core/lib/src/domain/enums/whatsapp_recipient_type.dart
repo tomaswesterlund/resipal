@@ -1,0 +1,1 @@
+enum WhatsappRecipientType { group, individual }

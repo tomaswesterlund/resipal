@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/domain/entities/members/admin_member_entity.dart';
 
 abstract class AdminHomePageState extends Equatable {
   @override
@@ -11,13 +12,14 @@ class AdminInitialState extends AdminHomePageState {}
 class AdminLoadingState extends AdminHomePageState {}
 
 class AdminLoadedState extends AdminHomePageState {
+  final AdminMemberEntity admin;
   final CommunityEntity community;
-  final UserEntity user;
+  
 
-  AdminLoadedState(this.community, this.user);
+  AdminLoadedState(this.admin, this.community);
 
   @override
-  List<Object?> get props => [community];
+  List<Object?> get props => [admin, community];
 }
 
 class AdminEmptyState extends AdminHomePageState {}

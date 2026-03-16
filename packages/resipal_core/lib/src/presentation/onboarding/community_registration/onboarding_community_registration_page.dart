@@ -34,7 +34,7 @@ class OnboardingCommunityRegistrationPage extends StatelessWidget {
                 subtitle: 'El registro ha sido exitoso. Ahora puedes empezar a registrar propiedades y pagos.',
                 actionButtonLabel: 'Continuar',
                 onActionButtonPressed: () {
-                  Go.to(AdminHomePage(community: state.community, user: state.user));
+                  Go.to(AdminHomePage(admin: state.admin, community: state.community));
                 },
               );
             }

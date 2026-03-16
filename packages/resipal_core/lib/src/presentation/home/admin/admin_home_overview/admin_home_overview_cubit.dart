@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/domain/entities/members/admin_member_entity.dart';
 import 'package:resipal_core/src/presentation/home/admin/admin_home_overview/admin_home_overview_state.dart';
 
 class AdminHomeOverviewCubit extends Cubit<AdminHomeOverviewState> {
@@ -14,15 +15,15 @@ class AdminHomeOverviewCubit extends Cubit<AdminHomeOverviewState> {
 
   AdminHomeOverviewCubit() : super(AdminHomeOverviewInitialState());
 
-  Future<void> initialize(CommunityEntity community, UserEntity user) async {
+  Future<void> initialize(CommunityEntity community, AdminMemberEntity admin) async {
     try {
-      emit(AdminHomeOverviewLoadedState(community: community, user: user));
+      emit(AdminHomeOverviewLoadedState(community: community, admin: admin));
 
       _streamSubscription = _watchCommunityById
           .call(communityId: community.id)
           .listen(
             (community) {
-              emit(AdminHomeOverviewLoadedState(community: community, user: user));
+              emit(AdminHomeOverviewLoadedState(community: community, admin: admin));
             },
             onError: (e, s) {
               _logger.error(exception: e, stackTrace: s, featureArea: 'HomeOverviewCubit.initialize / listener');

@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/domain/entities/notification_entity.dart';
 
 class MemberEntity {
   final String name;
   final CommunityRef community;
   final UserRef user;
-  
   final bool isAdmin;
   final bool isResident;
   final bool isSecurity;
@@ -18,8 +18,6 @@ class MemberEntity {
     required this.isResident,
     required this.isSecurity,
   });
-
-
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

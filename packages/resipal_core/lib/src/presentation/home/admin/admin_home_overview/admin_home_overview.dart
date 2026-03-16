@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/presentation/home/admin/admin_home_overview/admin_home_overview_cubit.dart';
-import 'package:resipal_core/src/presentation/home/admin/admin_home_overview/admin_home_overview_state.dart';
+import 'package:resipal_core/src/domain/entities/members/admin_member_entity.dart';
 import 'package:wester_kit/lib.dart';
 
 class AdminHomeOverview extends StatelessWidget {
+  final AdminMemberEntity admin;
   final CommunityEntity community;
-  final UserEntity user;
   final VoidCallback onPendingPaymentsPressed;
   final VoidCallback onPendingApplicationsPressed;
 
   const AdminHomeOverview({
+    required this.admin,
     required this.community,
-    required this.user,
     required this.onPendingPaymentsPressed,
     required this.onPendingApplicationsPressed,
     super.key,
@@ -25,7 +24,7 @@ class AdminHomeOverview extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return BlocProvider(
-      create: (context) => AdminHomeOverviewCubit()..initialize(community, user),
+      create: (context) => AdminHomeOverviewCubit()..initialize(community, admin),
       child: Scaffold(
         backgroundColor: colorScheme.background,
         body: BlocBuilder<AdminHomeOverviewCubit, AdminHomeOverviewState>(
@@ -42,7 +41,7 @@ class AdminHomeOverview extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // --- SALUDO Y COMUNIDAD ---
-                    HeaderText.four('¡Bienvenido, ${state.user.name.split(' ')[0]}!'),
+                    HeaderText.four('¡Bienvenido, ${state.admin.name.split(' ')[0]}!'),
                     const SizedBox(height: 4),
                     Text(
                       community.name,

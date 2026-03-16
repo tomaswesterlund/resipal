@@ -1,4 +1,5 @@
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/domain/use_cases/whatsapp/send_individual_whatsapp_message.dart';
 
 class CreateApplicationAndSendInvitations {
   Future call(CreateApplicationDto dto) async {
@@ -9,6 +10,9 @@ class CreateApplicationAndSendInvitations {
       message: dto.message,
       communityId: dto.communityId,
     );
-    // Send WhatsApp
+    await SendIndividualWhatsappMessage().call(
+      phoneNumber: dto.phoneNumber,
+      message: '!Hola! Favor de unir nuestra comunidad!',
+    );
   }
 }

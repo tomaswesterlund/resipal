@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/domain/entities/members/admin_member_entity.dart';
 
 abstract class OnboardingCommunityRegistrationState extends Equatable {
   @override
@@ -20,10 +21,11 @@ class OnboardingCommunityRegistrationFormEditingState extends OnboardingCommunit
 class OnboardingCommunityRegistrationFormSubmittingState extends OnboardingCommunityRegistrationState {}
 
 class OnboardingCommunityRegistrationFormSubmittedSuccessfully extends OnboardingCommunityRegistrationState {
+  final AdminMemberEntity admin;
   final CommunityEntity community;
-  final UserEntity user;
+  
 
-  OnboardingCommunityRegistrationFormSubmittedSuccessfully({required this.community, required this.user});
+  OnboardingCommunityRegistrationFormSubmittedSuccessfully({required this.admin, required this.community});
 }
 
 class OnboardingCommunityRegistrationErrorState extends OnboardingCommunityRegistrationState {}

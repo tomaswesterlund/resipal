@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/domain/use_cases/admin/get_admin_member_by_community_id_and_user_id.dart';
 
 class OnboardingCommunityRegistrationCubit extends Cubit<OnboardingCommunityRegistrationState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
@@ -54,12 +55,13 @@ class OnboardingCommunityRegistrationCubit extends Cubit<OnboardingCommunityRegi
 
       await FetchCommunity().call(communityId);
       await FetchUsers().call(); // TODO Switch to listen by Community ID (we'll need Memberships)
+
+      final admin = GetAdminMemberByCommunityIdAndUserId().call(communityId: communityId, userId: userId);
       final community = GetCommunityById().call(communityId);
-      final user = GetUserById().call(userId);
 
       await _sessionService.startCommunityWatchers(userId: userId, communityId: community.id);
 
-      emit(OnboardingCommunityRegistrationFormSubmittedSuccessfully(community: community, user: user));
+      emit(OnboardingCommunityRegistrationFormSubmittedSuccessfully(admin: admin, community: community));
     } catch (e, s) {
       _logger.error(
         exception: e,

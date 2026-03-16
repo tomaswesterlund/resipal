@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal_core/src/presentation/properties/property_list_view.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:wester_kit/lib.dart';
@@ -8,10 +7,10 @@ import 'package:wester_kit/lib.dart';
 enum HomePage { home, properties, payments, applications, members }
 
 class AdminHomePage extends StatefulWidget {
+  final AdminMemberEntity admin;
   final CommunityEntity community;
-  final UserEntity user;
 
-  const AdminHomePage({required this.community, required this.user, super.key});
+  const AdminHomePage({required this.admin, required this.community, super.key});
 
   @override
   State<AdminHomePage> createState() => _AdminHomePageState();
@@ -26,24 +25,66 @@ class _AdminHomePageState extends State<AdminHomePage> {
     final colorScheme = theme.colorScheme;
 
     return BlocProvider(
-      create: (context) => AdminHomePageCubit()..initialize(widget.community, widget.user),
+      create: (context) => AdminHomePageCubit()..initialize(widget.admin, widget.community),
       child: BlocBuilder<AdminHomePageCubit, AdminHomePageState>(
         builder: (context, state) {
+          final admin = (state is AdminLoadedState) ? state.admin : widget.admin;
           final community = (state is AdminLoadedState) ? state.community : widget.community;
-          final user = (state is AdminLoadedState) ? state.user : widget.user;
 
           return Scaffold(
-            appBar: MyAppBar(title: _getAppBarTitle(), actions: _getAppBarActions()),
+            appBar: MyAppBar(
+              title: _getAppBarTitle(),
+              actions: [
+                if (_currentPageIndex == HomePage.home.index)
+                  IconButton(
+                    icon: Badge(
+                      // We only show the badge if there are unread notifications
+                      isLabelVisible: admin.unreadNotifications.length > 0,
+                      label: Text(admin.unreadNotifications.length.toString()),
+                      child: const Icon(Icons.notifications_none),
+                    ),
+                    onPressed: () => Go.to(NotificationsPage(notifications: admin.notifications)),
+                  ),
+                if (_currentPageIndex == HomePage.properties.index)
+                  IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterPropertyPage())),
+                if (_currentPageIndex == HomePage.payments.index) ...[
+                  IconButton(
+                    icon: const Icon(Icons.info_outline),
+                    onPressed: () => InfoPopup.show(
+                      context,
+                      title: 'Información de Pagos',
+                      message:
+                          'Los pagos que se encuentran en revisión tienen que ser aprobados por un administrador. El saldo total del miembro no se verá afectado hasta que un administrador verifique el comprobante y apruebe el pago.',
+                      icon: Icons.info_outline,
+                      iconColor: colorScheme.primary,
+                    ),
+                  ),
+                  IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterPaymentPage())),
+                ],
+                if (_currentPageIndex == HomePage.applications.index)
+                  IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterApplicationPage())),
+                if (_currentPageIndex == HomePage.members.index)
+                  IconButton(
+                    icon: const Icon(Icons.info_outline),
+                    onPressed: () => InfoPopup.show(
+                      context,
+                      title: 'Información de Miembros',
+                      message:
+                          'Para registrar a un miembro, primero debes crear una nueva solicitud. El futuro miembro recibirá una invitación y, al aceptarla, se unirá automáticamente a la comunidad.',
+                      icon: Icons.info_outline,
+                    ),
+                  ),
+              ],
+            ),
             extendBody: true,
             backgroundColor: colorScheme.background,
             body: IndexedStack(
               index: _currentPageIndex,
               children: [
                 AdminHomeOverview(
+                  admin: admin,
                   community: community,
-                  user: user,
-                  onPendingApplicationsPressed: () =>
-                      setState(() => _currentPageIndex = HomePage.applications.index),
+                  onPendingApplicationsPressed: () => setState(() => _currentPageIndex = HomePage.applications.index),
                   onPendingPaymentsPressed: () => setState(() => _currentPageIndex = HomePage.payments.index),
                 ),
                 PropertyListView(community.propertyRegistry.properties),
@@ -53,7 +94,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               ],
             ),
             bottomNavigationBar: Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 0.0, left: 0.0, right: 0.0),
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom, left: 0.0, right: 0.0),
               child: FloatingNavBar(
                 currentIndex: _currentPageIndex,
                 onChanged: (index) => setState(() => _currentPageIndex = index),
@@ -79,7 +120,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ],
               ),
             ),
-            drawer:Drawer (
+            drawer: Drawer(
               backgroundColor: colorScheme.background,
               width: MediaQuery.of(context).size.width * 0.85,
               shape: const RoundedRectangleBorder(
@@ -87,7 +128,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               ),
               child: Column(
                 children: [
-                  WkDrawerHeader(name: community.name, email: user.email),
+                  WkDrawerHeader(name: community.name, email: admin.user.email),
                   Expanded(
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
@@ -145,6 +186,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             color: colorScheme.error,
                             onTap: () => context.read<AdminHomePageCubit>().signout(),
                           ),
+                          const Padding(padding: EdgeInsets.symmetric(vertical: 20.0), child: Divider(thickness: 1)),
+                          const SectionHeaderText(text: 'Debug'),
+                          const SizedBox(height: 16),
+                          WkDrawerItem(
+                            icon: Icons.message,
+                            label: 'WhatsApp',
+                            onTap: () => Go.to(const SendWhatsappMessagePage()),
+                          ),
                           const SizedBox(height: 12.0),
                           Center(
                             child: Text(
@@ -168,51 +217,5 @@ class _AdminHomePageState extends State<AdminHomePage> {
   String _getAppBarTitle() {
     const titles = ['Resipal - Administrator', 'Propiedades', 'Pagos', 'Solicitudes', 'Miembros'];
     return titles[_currentPageIndex];
-  }
-
-  List<Widget> _getAppBarActions() {
-    switch (_currentPageIndex) {
-      case 0:
-        return [IconButton(icon: const Icon(Icons.notifications_none), onPressed: () {})];
-      case 1:
-        return [IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterPropertyPage()))];
-      case 2:
-        return [
-          IconButton(
-            icon: const Icon(Icons.info_outline),
-            onPressed: () => InfoPopup.show(
-              context,
-              title: 'Información de Pagos',
-              message:
-                  'Los pagos que se encuentran en revisión tienen que ser aprobados por un administrador. El saldo total del miembro no se verá afectado hasta que un administrador verifique el comprobante y apruebe el pago.',
-              icon: Icons.info_outline,
-              iconColor: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-          IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterPaymentPage())),
-        ];
-      case 3:
-        return [
-          // IconButton(icon: const Icon(Icons.help), onPressed: () {}),
-          // IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterApplicationPage())),
-        ];
-
-      case 4:
-        return [
-          IconButton(
-            icon: const Icon(Icons.info_outline),
-            onPressed: () => InfoPopup.show(
-              context,
-              title: 'Información de Miembros',
-              message:
-                  'Para registrar a un miembro, primero debes crear una nueva solicitud. El futuro miembro recibirá una invitación y, al aceptarla, se unirá automáticamente a la comunidad.',
-              icon: Icons.info_outline,
-            ),
-          ),
-        ];
-      default:
-        return [];
-    }
   }
 }

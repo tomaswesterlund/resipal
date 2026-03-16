@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/data/sources/notification_data_source.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SessionService {
@@ -53,6 +54,7 @@ class SessionService {
         _setupSubscription(GetIt.I<InvitationDataSource>().watchByCommunityId(communityId)),
         _setupSubscription(GetIt.I<MaintenanceFeeDataSource>().watchByCommunityId(communityId)),
         _setupSubscription(GetIt.I<MembershipDataSource>().watchByCommunityId(communityId)),
+        _setupSubscription(GetIt.I<NotificationDataSource>().watchByCommunityId(communityId)),
         _setupSubscription(GetIt.I<PaymentDataSource>().watchByCommunityId(communityId)),
         _setupSubscription(GetIt.I<PropertyDataSource>().watchByCommunityId(communityId)),
         _setupSubscription(GetIt.I<VisitorDataSource>().watchByCommunityId(communityId)),

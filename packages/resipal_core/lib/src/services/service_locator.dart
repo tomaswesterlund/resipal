@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/data/sources/notification_data_source.dart';
+import 'package:resipal_core/src/data/sources/whatsapp_data_source.dart';
 import 'package:resipal_core/src/data/supabase_config.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -23,11 +25,12 @@ class ServiceLocator {
     sl.registerLazySingleton(() => AccessLogDataSource());
     sl.registerLazySingleton(() => ApplicationDataSource());
     sl.registerLazySingleton(() => CommunityDataSource());
+    sl.registerLazySingleton(() => ContractDataSource());
     sl.registerLazySingleton(() => EmailInvitationDataSource());
     sl.registerLazySingleton(() => EmailLogDataSource());
-    sl.registerLazySingleton(() => LogDataSource());
     sl.registerLazySingleton(() => InvitationDataSource());
-    sl.registerLazySingleton(() => ContractDataSource());
+    sl.registerLazySingleton(() => LogDataSource());
+    sl.registerLazySingleton(() => NotificationDataSource());
     sl.registerLazySingleton(() => MaintenanceFeeDataSource());
     sl.registerLazySingleton(() => MembershipDataSource());
     sl.registerLazySingleton(() => MovementDataSource());
@@ -35,5 +38,6 @@ class ServiceLocator {
     sl.registerLazySingleton(() => PropertyDataSource());
     sl.registerLazySingleton(() => VisitorDataSource());
     sl.registerLazySingleton(() => UserDataSource());
+    sl.registerLazySingleton(() => WhatsAppDataSource());
   }
 }
