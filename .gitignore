@@ -1,3 +1,16 @@
+# -------------------------------------------------------------------
+# Platform Folders (Ignore Android & iOS completely)
+# -------------------------------------------------------------------
+**/android/
+**/ios/
+**/linux/
+**/macos/
+**/windows/
+**/web/
+
+# -------------------------------------------------------------------
+# Flutter/Dart Build & Cache
+# -------------------------------------------------------------------
 key.properties
 **/build/
 **/.dart_tool/
@@ -5,18 +18,13 @@ key.properties
 **/.pub-cache/
 **/.pub/
 **/pubspec.lock
-# Exception: You might want to keep pubspec.lock in apps, 
-# but usually in monorepos we ignore them to let Melos handle it.
 
 # -------------------------------------------------------------------
 # IDEs
 # -------------------------------------------------------------------
-# VS Code
 .vscode/
 **/.history/
 **/.ionide/
-
-# Android Studio / IntelliJ
 .idea/
 *.iml
 *.iws
@@ -27,26 +35,18 @@ key.properties
 # OS Specific
 # -------------------------------------------------------------------
 .DS_Store
+.DS_Store?
+**/.DS_Store
+**/._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
 Thumbs.db
-
-# -------------------------------------------------------------------
-# Mobile Specific Artifacts
-# -------------------------------------------------------------------
-**/ios/.generated/
-**/ios/Flutter/ephemeral/
-**/ios/Flutter/Generated.xcconfig
-**/ios/Flutter/flutter_export_environment.sh
-**/ios/Pods/
-**/ios/.symlinks/
-**/android/local.properties
-**/android/key.properties
-**/*.keystore
-**/*.jks
 
 # -------------------------------------------------------------------
 # Supabase & Environment
 # -------------------------------------------------------------------
-# Ignore local Supabase state but keep migrations
 supabase/.temp/
 .env
 .env.*
@@ -57,16 +57,3 @@ supabase/.temp/
 # -------------------------------------------------------------------
 melos_resipal.iml
 .melos/
-
-# -------------------------------------------------------------------
-# OS Specific (macOS)
-# -------------------------------------------------------------------
-.DS_Store
-.DS_Store?
-**/.DS_Store
-**/._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
