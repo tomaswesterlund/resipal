@@ -7,6 +7,7 @@ class LogDataSource {
 
   /// Persists an Error/Exception log to the database
   Future<void> logError({
+    required String level,
     required String errorMessage,
     String? stackTrace,
     required String platform,
@@ -16,7 +17,7 @@ class LogDataSource {
   }) async {
     await _insertLog(
       message: errorMessage,
-      level: 'ERROR',
+      level: level,
       stackTrace: stackTrace,
       platform: platform,
       appVersion: appVersion,

@@ -1,21 +1,19 @@
-import 'package:resipal_core/src/domain/enums/direction_type.dart';
-import 'package:resipal_core/src/domain/refs/invitation_ref.dart';
+import 'package:equatable/equatable.dart';
+import 'package:resipal_core/lib.dart';
 
-class AccessLogEntity {
+class AccessLogEntity extends Equatable {
   final String id;
-  final InvitationRef invitation;
   final DateTime createdAt;
-  final DirectionType direction;
+  final AccessLogDirection direction;
   final DateTime timestamp;
-
-  bool get isEntry => direction == DirectionType.entry;
-  bool get isExit => direction == DirectionType.exit;
 
   AccessLogEntity({
     required this.id,
-    required this.invitation,
     required this.createdAt,
     required this.direction,
     required this.timestamp,
   });
+  
+  @override
+  List<Object?> get props => [id, createdAt, direction, timestamp];
 }

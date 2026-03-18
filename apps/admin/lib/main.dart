@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resipal_admin/app_colors.dart';
+import 'package:resipal_admin/firebase_options.dart';
 import 'package:resipal_admin/presentation/auth/auth_gate.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
@@ -11,11 +13,11 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
+  // Setup Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   // Setup Supabase
-  final supabaseConfig = SupabaseConfig(
-    url: dotenv.get('SUPABASE_URL'),
-    anonKey: dotenv.get('SUPABASE_ANON_KEY'),
-  );
+  final supabaseConfig = SupabaseConfig(url: dotenv.get('SUPABASE_URL'), anonKey: dotenv.get('SUPABASE_ANON_KEY'));
   GetIt.instance.registerSingleton<SupabaseConfig>(supabaseConfig);
 
   // Setup Auth Config
@@ -80,57 +82,17 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.background,
         textTheme: TextTheme(
           // HEADINGS (TÍTULOS)
-          displayLarge: GoogleFonts.raleway(
-            fontSize: 48,
-            height: 54 / 48,
-            fontWeight: FontWeight.w700,
-          ),
-          headlineLarge: GoogleFonts.raleway(
-            fontSize: 32,
-            height: 40 / 32,
-            fontWeight: FontWeight.bold,
-          ),
-          headlineMedium: GoogleFonts.raleway(
-            fontSize: 24,
-            height: 32 / 24,
-            fontWeight: FontWeight.bold
-          ),
-          headlineSmall: GoogleFonts.raleway(
-            fontSize: 20,
-            height: 28 / 20,
-            fontWeight: FontWeight.bold,
-          ),
-          titleLarge: GoogleFonts.raleway(
-            fontSize: 18,
-            height: 24 / 18,
-            fontWeight: FontWeight.bold,
-          ),
-          titleMedium: GoogleFonts.raleway(
-            fontSize: 16,
-            height: 20 / 16,
-            fontWeight: FontWeight.bold,
-          ),
-          titleSmall: GoogleFonts.raleway(
-            fontSize: 14,
-            height: 16 / 14,
-            fontWeight: FontWeight.bold,
-          ),
+          displayLarge: GoogleFonts.raleway(fontSize: 48, height: 54 / 48, fontWeight: FontWeight.w700),
+          headlineLarge: GoogleFonts.raleway(fontSize: 32, height: 40 / 32, fontWeight: FontWeight.bold),
+          headlineMedium: GoogleFonts.raleway(fontSize: 24, height: 32 / 24, fontWeight: FontWeight.bold),
+          headlineSmall: GoogleFonts.raleway(fontSize: 20, height: 28 / 20, fontWeight: FontWeight.bold),
+          titleLarge: GoogleFonts.raleway(fontSize: 18, height: 24 / 18, fontWeight: FontWeight.bold),
+          titleMedium: GoogleFonts.raleway(fontSize: 16, height: 20 / 16, fontWeight: FontWeight.bold),
+          titleSmall: GoogleFonts.raleway(fontSize: 14, height: 16 / 14, fontWeight: FontWeight.bold),
 
-          bodyLarge: GoogleFonts.raleway(
-            fontSize: 18,
-            height: 28 / 18,
-            fontWeight: FontWeight.normal,
-          ),
-          bodyMedium: GoogleFonts.raleway(
-            fontSize: 16,
-            height: 24 / 16,
-            fontWeight: FontWeight.normal,
-          ),
-          bodySmall: GoogleFonts.raleway(
-            fontSize: 14,
-            height: 20 / 14,
-            fontWeight: FontWeight.normal,
-          ),
+          bodyLarge: GoogleFonts.raleway(fontSize: 18, height: 28 / 18, fontWeight: FontWeight.normal),
+          bodyMedium: GoogleFonts.raleway(fontSize: 16, height: 24 / 16, fontWeight: FontWeight.normal),
+          bodySmall: GoogleFonts.raleway(fontSize: 14, height: 20 / 14, fontWeight: FontWeight.normal),
           labelSmall: GoogleFonts.poppins(
             // Caption / Tiny
             fontSize: 12,

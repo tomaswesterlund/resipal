@@ -18,6 +18,7 @@ class ServiceLocator {
     // Services
     sl.registerLazySingleton(() => AuthService());
     sl.registerLazySingleton(() => ImageService());
+    sl.registerLazySingleton(() => NotificationService());
     sl.registerLazySingleton(() => LoggerService());
     sl.registerLazySingleton(() => PdfService());
 

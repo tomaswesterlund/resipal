@@ -7,8 +7,8 @@ import 'package:resipal_core/src/domain/use_cases/residents/watch_resident_by_co
 class ResidentHomePageCubit extends Cubit<ResidentHomePageState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
+  final NotificationService _notificationService = GetIt.I<NotificationService>();
   final GetCommunityById _getCommunityById = GetCommunityById();
-  final WatchResidentByCommunityIdAndUserId _watchResidentByCommunityIdAndUserId = WatchResidentByCommunityIdAndUserId();
   StreamSubscription? _streamSubscription;
 
   ResidentHomePageCubit() : super(ResidentInitialState());
@@ -16,8 +16,9 @@ class ResidentHomePageCubit extends Cubit<ResidentHomePageState> {
   Future<void> initialize(CommunityEntity community, ResidentMemberEntity resident) async {
     try {
       emit(ResidentLoadedState(community, resident));
+      await _notificationService.initialize(userId: resident.user.id);
 
-      _streamSubscription = _watchResidentByCommunityIdAndUserId
+      _streamSubscription = WatchResidentByCommunityIdAndUserId()
           .call(communityId: resident.community.id, userId: resident.user.id)
           .listen(
             (resident) {

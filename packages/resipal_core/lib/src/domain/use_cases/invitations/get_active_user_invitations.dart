@@ -1,15 +1,13 @@
 import 'package:get_it/get_it.dart';
-import 'package:resipal_core/src/data/sources/invitation_data_source.dart';
-import 'package:resipal_core/src/domain/entities/invitation_entity.dart';
-import 'package:resipal_core/src/domain/use_cases/get_invitation.dart';
+import 'package:resipal_core/lib.dart';
 
 class GetActiveInvitationsByCommunityIdAndUserId {
   final InvitationDataSource _source = GetIt.I<InvitationDataSource>();
-  final GetInvitation _getInvitation = GetInvitation();
+  final GetInvitationById _getInvitationById = GetInvitationById();
 
   List<InvitationEntity> call({required String communityId, required String userId}) {
     final models = _source.getByCommunityIdAndUserId(communityId: communityId, userId: userId);
-    final all = models.map((model) => _getInvitation.fromModel(model)).toList();
+    final all = models.map((model) => _getInvitationById.call(model.id)).toList();
     return all.where((i) => i.isActive).toList();
   }
 }

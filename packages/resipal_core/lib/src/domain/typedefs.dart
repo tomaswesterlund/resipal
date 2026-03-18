@@ -3,6 +3,7 @@ typedef CommunityId = String;
 typedef ContractId = String;
 typedef InvitationId = String;
 typedef MembershipId = String;
+typedef PaymentId = String;
 typedef PropertyId = String;
 typedef UserId = String;
 typedef VisitorId = String;

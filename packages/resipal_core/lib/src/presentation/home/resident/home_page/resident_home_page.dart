@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/presentation/properties/property_list_view.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
@@ -28,12 +27,14 @@ class _ResidentHomePageState extends State<ResidentHomePage> {
       create: (context) => ResidentHomePageCubit()..initialize(widget.community, widget.resident),
       child: BlocBuilder<ResidentHomePageCubit, ResidentHomePageState>(
         builder: (context, state) {
-          // Extraemos el member actualizado del estado, o usamos el inicial de las props
+          if(state is ResidentErrorState) {
+            return ErrorView();
+          }
           final community = (state is ResidentLoadedState) ? state.community : widget.community;
           final resident = (state is ResidentLoadedState) ? state.resident : widget.resident;
 
           return Scaffold(
-            appBar: MyAppBar(title: _getAppBarTitle(), actions: _getAppBarActions(context)),
+            appBar: MyAppBar(title: _getAppBarTitle(), actions: _getAppBarActions(context, resident)),
             extendBody: true,
             backgroundColor: colorScheme.background,
             body: IndexedStack(
@@ -42,7 +43,7 @@ class _ResidentHomePageState extends State<ResidentHomePage> {
                 ResidentHomeOverview(resident: resident),
                 PropertyListView(resident.propertyRegistry.properties),
                 PaymentListView(resident.paymentLedger.payments),
-                AccessOverview(invitations: resident.invitations, visitors: resident.visitors),
+                AccessOverview(accessRegistry: resident.accessRegistry),
               ],
             ),
             drawer: Drawer(
@@ -123,10 +124,10 @@ class _ResidentHomePageState extends State<ResidentHomePage> {
     return titles[_currentPageIndex];
   }
 
-  List<Widget> _getAppBarActions(BuildContext context) {
+  List<Widget> _getAppBarActions(BuildContext context, ResidentMemberEntity resident) {
     switch (_currentPageIndex) {
       case 0:
-        return [IconButton(icon: const Icon(Icons.notifications_none), onPressed: () {})];
+        return [IconButton(icon: const Icon(Icons.notifications_none), onPressed: () => Go.to(NotificationsPage(resident.notifications)))];
       case 2: // Pestaña de Pagos
         return [IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(const RegisterPaymentPage()))];
       default:

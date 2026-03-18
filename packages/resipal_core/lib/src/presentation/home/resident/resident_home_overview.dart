@@ -121,7 +121,7 @@ class ResidentHomeOverview extends StatelessWidget {
                       SizedBox(height: 4),
                       ActionTile(
                         title: 'Accesos activos',
-                        count: 99,
+                        count: resident.accessRegistry.activeInvitations.length,
                         icon: Icons.door_front_door_outlined,
                         color: Theme.of(context).colorScheme.primary,
                         onPressed: () {},

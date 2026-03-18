@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:resipal_core/src/data/models/contract_model.dart';
+import 'package:resipal_core/src/data/models/contract/contract_model.dart';
 import 'package:resipal_core/src/data/sources/contract_data_source.dart';
 import 'package:resipal_core/src/domain/refs/contract_ref.dart';
 

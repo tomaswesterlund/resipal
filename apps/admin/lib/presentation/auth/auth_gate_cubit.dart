@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gotrue/src/constants.dart';
@@ -8,6 +7,7 @@ import 'package:resipal_core/lib.dart';
 
 class AuthGateCubit extends Cubit<AuthGateState> {
   final AuthService _authService = GetIt.I<AuthService>();
+  final LoggerService _logger = GetIt.I<LoggerService>();
   final SessionService _sessionService = GetIt.I<SessionService>();
   StreamSubscription? _authSubscription;
 
@@ -70,11 +70,17 @@ class AuthGateCubit extends Cubit<AuthGateState> {
       // Success: Start real-time watchers for this specific community
       final community = GetCommunityById().call(memberships.first.community.id);
 
-      await _sessionService.startCommunityWatchers(userId: userId, communityId: community.id);
+      await _sessionService.startCommunityWatchers(
+        app: ResipalApplication.admin,
+        userId: userId,
+        communityId: community.id,
+      );
 
       final admin = GetAdminMemberByCommunityIdAndUserId().call(communityId: community.id, userId: userId);
+
       emit(UserSignedIn(admin: admin, community: community));
     } catch (e) {
+      _logger.error(featureArea: 'AuthGateCubit._onUserSignedIn', exception: e);
       emit(ErrorState());
     }
   }

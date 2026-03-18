@@ -59,7 +59,11 @@ class OnboardingCommunityRegistrationCubit extends Cubit<OnboardingCommunityRegi
       final admin = GetAdminMemberByCommunityIdAndUserId().call(communityId: communityId, userId: userId);
       final community = GetCommunityById().call(communityId);
 
-      await _sessionService.startCommunityWatchers(userId: userId, communityId: community.id);
+      await _sessionService.startCommunityWatchers(
+        app: ResipalApplication.admin,
+        userId: userId,
+        communityId: community.id,
+      );
 
       emit(OnboardingCommunityRegistrationFormSubmittedSuccessfully(admin: admin, community: community));
     } catch (e, s) {

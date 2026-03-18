@@ -1,10 +1,11 @@
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/domain/entities/access_registery.dart';
 
 class ResidentMemberEntity extends MemberEntity {
-  final List<InvitationEntity> invitations;
+  final AccessRegistry accessRegistry;
+  final List<NotificationEntity> notifications;
   final PaymentLedgerEntity paymentLedger;
   final PropertyRegistry propertyRegistry;
-  final List<VisitorEntity> visitors;
 
   ResidentMemberEntity({
     required super.name,
@@ -13,18 +14,14 @@ class ResidentMemberEntity extends MemberEntity {
     required super.isAdmin,
     required super.isResident,
     required super.isSecurity,
-    required this.invitations,
+    required this.accessRegistry,
+    required this.notifications,
     required this.paymentLedger,
     required this.propertyRegistry,
-    required this.visitors,
   });
 
   bool get hasDebt => propertyRegistry.hasDebt;
   int get totalMemberBalanceInCents {
-    final a = paymentLedger.totalPaymentBalanceInCents;
-    final b = propertyRegistry.totalDebtAmountInCents;
-    final c = propertyRegistry.totalPaidAmountInCents;
-
     return paymentLedger.totalPaymentBalanceInCents -
         propertyRegistry.totalDebtAmountInCents -
         propertyRegistry.totalPaidAmountInCents;

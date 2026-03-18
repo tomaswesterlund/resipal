@@ -8,11 +8,11 @@ class InvitationDataSource {
 
   final Map<String, InvitationModel> _cache = {};
 
-  Stream<List<InvitationModel>> watchByUserId(String userId) {
-    return _client.from('invitations').stream(primaryKey: ['id']).eq('user_id', userId).map((data) {
+  Stream<List<InvitationModel>> watchById(String id) {
+    return _client.from('invitations').stream(primaryKey: ['id']).eq('id', id).map((data) {
       return data.map((item) {
         final model = InvitationModel.fromMap(item);
-        _cache[model.id] = model; // Update cache
+        _cache[model.id] = model;
         return model;
       }).toList();
     });
@@ -28,7 +28,9 @@ class InvitationDataSource {
     });
   }
 
-  InvitationModel? getById(String id) => _cache[id];
+  InvitationModel? getOptionalById(String id) => _cache[id];
+
+  InvitationModel? getOptionalByQrCodeToken(String qrCodeToken) => _cache.values.where((x) => x.qrCodeToken == qrCodeToken).singleOrNull;
 
   List<InvitationModel> getByCommunityIdAndUserId({required String communityId, required String userId}) {
     return _cache.values.where((x) => x.communityId == communityId && x.userId == userId).toList();

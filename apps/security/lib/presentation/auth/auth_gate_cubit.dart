@@ -73,7 +73,9 @@ class AuthGateCubit extends Cubit<AuthGateState> {
       final community = membership.community;
       final resident = GetResidentByCommunityIdAndUserId().call(communityId: community.id, userId: userId);
 
-      await _sessionService.startCommunityWatchers(userId: userId, communityId: community.id);
+      await _sessionService.startCommunityWatchers(
+        app: ResipalApplication.security,
+        userId: userId, communityId: community.id);
 
       emit(UserSignedIn(resident));
     } catch (e) {}

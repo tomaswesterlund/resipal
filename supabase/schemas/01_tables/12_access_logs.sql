@@ -4,6 +4,6 @@ CREATE TABLE access_logs(
     created_by UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id),
     community_id UUID NOT NULL REFERENCES communities(id),
     invitation_id uuid NOT NULL REFERENCES invitations(id),
-    direction text NOT NULL,
+    direction text NOT NULL CHECK (direction IN ('entry', 'exit')),
     timestamp timestamptz NOT NULL
 );

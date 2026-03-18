@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:resipal_core/src/data/models/community/upsert_community_model.dart';
 import 'package:resipal_core/src/domain/typedefs.dart';
-import '../models/community_model.dart';
+import '../models/community/community_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CommunityDataSource {
@@ -52,21 +53,9 @@ class CommunityDataSource {
     _cache[model.id] = model;
   }
 
-  // CREATE OR REPLACE FUNCTION fn_create_community(p_name text, p_description text, p_location text)
-
-  /// Creates a new community and its first membership.
-  /// Returns the [UUID] of the newly created community.
-  Future<CommunityId> createCommunity({
-    required String name,
-    required String? description,
-    required String location
-  }) async {
-    final communityId = await _client.rpc<String>(
-      'fn_create_community',
-      params: {'p_name': name, 'p_description': description, 'p_location': location},
-    );
-
-    return communityId;
+  Future<CommunityId> upsert(UpsertCommunityModel model) async {
+    final response = await _client.from('communities').upsert(model.toMap()).select('id').single();
+    return response['id'] as UserId;
   }
 
   Future joinCommunity({required String userId, required String communityId}) async {

@@ -7,7 +7,7 @@ class UserEntity extends Equatable {
   final String createdBy;
   final String name;
   final String phoneNumber;
-  final String emergencyPhoneNumber;
+  final String? emergencyPhoneNumber;
   final String email;
 
   const UserEntity({

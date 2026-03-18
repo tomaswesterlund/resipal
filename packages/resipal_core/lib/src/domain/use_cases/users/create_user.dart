@@ -8,11 +8,16 @@ class CreateUser {
     required String name,
     required String phoneNumber,
     required String? emergencyPhoneNumber,
-    required String email,
-  }) async => await _source.createUser(
-    name: name,
-    phoneNumber: phoneNumber,
-    emergencyPhoneNumber: emergencyPhoneNumber,
-    email: email
-  );
+    required String email
+  }) async {
+    final model = UpsertUserModel(
+      name: name,
+      phoneNumber: phoneNumber,
+      emergencyPhoneNumber: emergencyPhoneNumber,
+      email: email,
+    );
+
+    final userId = _source.upsert(model);
+    return userId;
+  }
 }

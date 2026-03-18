@@ -8,9 +8,10 @@ class MemberDirectoryEntity {
   bool get isEmpty => members.isEmpty;
   int get count => members.length;
 
-  List<MemberEntity> get admins => members; //users.where((m) => m.isAdmin).toList();
-  List<MemberEntity> get securityStaff => members; //users.where((m) => m.isSecurity).toList();
-  List<MemberEntity> get residents =>  members;//users.where((m) => m.isResident).toList();
+  List<MemberEntity> get admins => members.where((x) => x.isAdmin).toList();
+  List<MemberEntity> get residents =>  members.where((x) => x.isResident).toList();
+  List<MemberEntity> get securityStaff => members.where((x) => x.isSecurity).toList();
+  
   
   List<MemberEntity> get pendingApplications =>  members;//users.where((m) => m.applicationStatus == ApplicationStatus.pendingReview).toList();
 

@@ -89,39 +89,14 @@ class _VisitorIdentification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SectionHeaderText(text: 'DOCUMENTO DE IDENTIDAD'),
           const SizedBox(height: 12),
-          DefaultCard(
-            child: Column(
-              children: [
-                const SizedBox(height: 24),
-                // Aquí podrías usar un CachedNetworkImage cuando tengas el link de Supabase
-                Icon(Icons.image_not_supported_outlined, size: 64, color: colorScheme.outline),
-                const SizedBox(height: 16),
-                BodyText.medium('Ruta del archivo:', color: colorScheme.onSurfaceVariant),
-                const SizedBox(height: 4),
-                BodyText.small(visitor.identificationPath, textAlign: TextAlign.center),
-                const SizedBox(height: 24),
-                Divider(height: 1, color: colorScheme.outlineVariant),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: PrimaryButton(
-                    label: 'Ver Documento Completo',
-                    onPressed: () {
-                      // Lógica para abrir visor de fotos
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+          BucketImage(bucket: 'visitors', path: visitor.identificationPath),
         ],
       ),
     );

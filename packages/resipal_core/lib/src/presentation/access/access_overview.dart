@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/domain/entities/access_registery.dart';
 import 'package:resipal_core/src/presentation/visitors/register_visitor/register_visitor_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
 class AccessOverview extends StatelessWidget {
-  final List<InvitationEntity> invitations;
-  final List<VisitorEntity> visitors;
+  final AccessRegistry accessRegistry;
 
-  const AccessOverview({required this.invitations, required this.visitors, super.key});
+  const AccessOverview({required this.accessRegistry, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class AccessOverview extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 1. Header de Control de Acceso Premium
-          AccessHeader(invitations: invitations, visitors: visitors),
+          AccessHeader(accessRegistry: accessRegistry,),
 
           const SizedBox(height: 32),
 
@@ -30,18 +30,18 @@ class AccessOverview extends StatelessWidget {
               children: [
                 const SectionHeaderText(text: 'INVITACIONES RECIENTES'),
                 TextButton(
-                  onPressed: () => Go.to(InvitationsPage(invitations: invitations)),
+                  onPressed: () => Go.to(InvitationsPage(invitations: accessRegistry.invitations)),
                   child: BodyText.small('Ver todas', fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
 
-          if (invitations.isEmpty)
+          if (accessRegistry.invitations.isEmpty)
             const _MiniEmptyState(message: 'No hay invitaciones registradas')
           else
           ...(List<InvitationEntity>.from(
-              invitations,
+              accessRegistry.invitations,
             )..sort((a, b) => b.createdAt.compareTo(a.createdAt))).take(3).map((inv) => InvitationTile(invitation: inv)),
 
           const SizedBox(height: 16),
@@ -69,18 +69,18 @@ class AccessOverview extends StatelessWidget {
               children: [
                 const SectionHeaderText(text: 'ÚLTIMOS VISITANTES'),
                 TextButton(
-                  onPressed: () => Go.to(VisitorsPage(visitors: visitors)),
+                  onPressed: () => Go.to(VisitorsPage(visitors: accessRegistry.visitors)),
                   child: BodyText.small('Ver todos', fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
 
-          if (visitors.isEmpty)
+          if (accessRegistry.visitors.isEmpty)
             const _MiniEmptyState(message: 'No hay registros de visitantes')
           else
             ...(List<VisitorEntity>.from(
-              visitors,
+              accessRegistry.visitors,
             )..sort((a, b) => b.createdAt.compareTo(a.createdAt))).take(3).map((vis) => VisitorTile(visitor: vis)),
 
           const SizedBox(height: 16),
@@ -104,15 +104,14 @@ class AccessOverview extends StatelessWidget {
 
 /// Header estilizado para métricas de Acceso
 class AccessHeader extends StatelessWidget {
-  final List<InvitationEntity> invitations;
-  final List<VisitorEntity> visitors;
+  final AccessRegistry accessRegistry;
 
-  const AccessHeader({required this.invitations, required this.visitors, super.key});
+  const AccessHeader({required this.accessRegistry, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final activeInvitations = invitations.where((i) => i.isActive).length;
-    final totalVisitors = visitors.length;
+    final activeInvitations = accessRegistry.invitations.where((i) => i.isActive).length;
+    final totalVisitors = accessRegistry.visitors.length;
 
     return GradientCard(
       child: Column(

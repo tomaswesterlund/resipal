@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/data/models/user/upsert_user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDataSource {
@@ -18,20 +19,6 @@ class UserDataSource {
       return model;
     });
   }
-
-  // Stream<List<UserModel>> watchByCommunityId(String communityId) {
-  //   return _client
-  //       .from('users')
-  //       .stream(primaryKey: ['id'])
-  //       .eq('community_id', communityId)
-  //       .map(
-  //         (data) => data.map((item) {
-  //           final model = UserModel.fromMap(item);
-  //           _cache[model.id] = model;
-  //           return model;
-  //         }).toList(),
-  //       );
-  // }
 
   UserModel? getById(String id) => _cache[id];
 
@@ -64,26 +51,12 @@ class UserDataSource {
     _cache[model.id] = model;
   }
 
-  Future<UserId> createUser({
-    required String name,
-    required String phoneNumber,
-    required String? emergencyPhoneNumber,
-    required String email,
-  }) async {
-    final userId = await _client.rpc(
-      'fn_create_user',
-      params: {
-        'p_name': name,
-        'p_phone_number': phoneNumber,
-        'p_emergency_phone_number': emergencyPhoneNumber,
-        'p_email': email,
-      },
-    );
-
-    return userId as String;
+  Future<UserId> upsert(UpsertUserModel model) async {
+    final response = await _client.from('users').upsert(model.toMap()).select('id').single();
+    return response['id'] as UserId;
   }
 
-  Future upsert(Map<String, dynamic> map) async {
-    await _client.from('users').upsert(map);
+  Future updateFirebaseCloudMessagingToken({required String userId, required String fcmToken}) async {
+    await _client.from('users').update({'fcm_token': fcmToken}).eq('id', userId);
   }
 }

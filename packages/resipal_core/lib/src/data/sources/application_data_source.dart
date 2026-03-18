@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/data/models/application/create_application_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ApplicationDataSource {
@@ -62,17 +61,8 @@ class ApplicationDataSource {
     }
   }
 
-  Future<void> upsert(ApplicationModel model) async {
-    try {
-      await _client.from('applications').upsert(model.toMap());
-      _cache[model.id] = model;
-    } catch (e, s) {
-      _logger.error(exception: e, featureArea: 'ApplicationDataSource.upsert', stackTrace: s);
-      rethrow;
-    }
-  }
-
-  Future<void> createApplication(CreateApplicationDto dto) async {
-    await _client.from('applications').insert(dto.toMap());
+  Future<ApplicationId> upsert(UpsertApplicationModel model) async {
+    final response = await _client.from('applications').upsert(model.toMap()).select('id').single();
+    return response['id'] as UserId;
   }
 }

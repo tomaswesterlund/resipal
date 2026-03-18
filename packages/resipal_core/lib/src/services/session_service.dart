@@ -6,6 +6,17 @@ import 'package:rxdart/rxdart.dart';
 class SessionService {
   final LoggerService _logger = GetIt.I<LoggerService>();
 
+  ResipalApplication? _app;
+  ResipalApplication get app {
+    if (_app == null) {
+      final error = StateError('_app is null');
+      _logger.error(featureArea: 'SessionService.app', exception: error);
+      throw error;
+    }
+
+    return _app!;
+  }
+
   String? _communityId;
   String get communityId {
     if (_communityId == null) {
@@ -21,22 +32,25 @@ class SessionService {
   String get userId {
     if (_userId == null) {
       final error = StateError('_userId is null');
-      _logger.error(featureArea: 'SessionService.communityId', exception: error);
+      _logger.error(featureArea: 'SessionService.userId', exception: error);
       throw error;
     }
 
     return _userId!;
   }
 
-  void setCommunityId(String communityId) => _communityId = communityId;
-
   // STREAMIN
   final CompositeSubscription _subscriptions = CompositeSubscription();
 
-  Future<void> startCommunityWatchers({required String communityId, required String userId}) async {
+  Future<void> startCommunityWatchers({
+    required ResipalApplication app,
+    required String communityId,
+    required String userId,
+  }) async {
     // 1. Clean up any existing session before starting a new one
     await stopWatchers();
 
+    _app = app;
     _communityId = communityId;
     _userId = userId;
 
@@ -58,6 +72,7 @@ class SessionService {
         _setupSubscription(GetIt.I<PaymentDataSource>().watchByCommunityId(communityId)),
         _setupSubscription(GetIt.I<PropertyDataSource>().watchByCommunityId(communityId)),
         _setupSubscription(GetIt.I<VisitorDataSource>().watchByCommunityId(communityId)),
+        _setupSubscription(GetIt.I<AccessLogDataSource>().watchByCommunityId(communityId)),
       ]);
 
       _logger.info(featureArea: 'SessionService', message: 'Watchers started successfully for community: $communityId');

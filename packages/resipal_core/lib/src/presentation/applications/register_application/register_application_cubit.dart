@@ -35,7 +35,7 @@ class RegisterApplicationCubit extends Cubit<RegisterApplicationState> {
     emit(RegisterApplicationFormSubmittingState());
 
     try {
-      final dto = CreateApplicationDto(
+      await CreateApplicationAndSendInvitations().call(
         communityId: _sessionService.communityId,
         userId: null,
         name: _formState.name,
@@ -48,8 +48,6 @@ class RegisterApplicationCubit extends Cubit<RegisterApplicationState> {
         isResident: _formState.isResident,
         isSecurity: _formState.isSecurity,
       );
-
-      await CreateApplicationAndSendInvitations().call(dto);
 
       emit(RegisterApplicationFormSubmittedSuccessfullyState());
     } catch (e, s) {

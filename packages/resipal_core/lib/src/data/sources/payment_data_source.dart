@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
-import '../models/payment_model.dart';
+import 'package:resipal_core/src/data/models/payment/upsert_payment_model.dart';
+import '../models/payment/payment_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PaymentDataSource {
@@ -70,27 +71,9 @@ class PaymentDataSource {
     return model;
   }
 
-  Future registerPayment({
-    required String communityId,
-    required String userId,
-    required int amountInCents,
-    required DateTime date,
-    required String? reference,
-    required String? note,
-    required String receiptPath,
-  }) async {
-    await _client.rpc(
-      'fn_register_payment',
-      params: {
-        'p_community_id': communityId,
-        'p_user_id': userId,
-        'p_amount_in_cents': amountInCents,
-        'p_date': date.toIso8601String(),
-        'p_reference': reference,
-        'p_note': note,
-        'p_receipt_path': receiptPath,
-      },
-    );
+  Future<PaymentId> upsert(UpsertPaymentModel model) async {
+    final response = await _client.from('payments').upsert(model.toMap()).select('id').single();
+    return response['id'] as PaymentId;
   }
 
   Future<void> updateStatus({required String id, required String status}) async {

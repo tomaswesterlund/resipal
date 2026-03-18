@@ -3,21 +3,13 @@ CREATE TABLE logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     created_by UUID NULL DEFAULT auth.uid() REFERENCES auth.users(id),
-    
-    -- Level: 'INFO', 'ERROR', 'DEBUG', 'WARNING'
-    level TEXT NOT NULL DEFAULT 'ERROR',
-    
-    -- General Message (renamed from error_message)
+    level TEXT NOT NULL,
     message TEXT NOT NULL,
-    
-    -- Debugging info
     stack_trace TEXT,
-    platform TEXT, -- 'ios', 'android', 'web'
+    platform TEXT,
     app_version TEXT,
-    
-    -- Context
-    feature_area TEXT, -- e.g., 'payments', 'invitations'
-    metadata JSONB DEFAULT '{}'::jsonb -- Stores variables/state
+    feature_area TEXT,
+    metadata JSONB DEFAULT '{}'::jsonb
 );
 
 -- Indexing for performance

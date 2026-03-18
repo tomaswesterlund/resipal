@@ -1,22 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resipal_core/lib.dart';
 import 'package:resident/app_colors.dart';
+import 'package:resident/firebase_options.dart';
 import 'package:resident/presentation/auth/auth_gate.dart';
-
+import 'package:resipal_core/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
+  // Setup Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   // Setup Supabase
-  final supabaseConfig = SupabaseConfig(
-    url: dotenv.get('SUPABASE_URL'),
-    anonKey: dotenv.get('SUPABASE_ANON_KEY'),
-  );
+  final supabaseConfig = SupabaseConfig(url: dotenv.get('SUPABASE_URL'), anonKey: dotenv.get('SUPABASE_ANON_KEY'));
   GetIt.instance.registerSingleton<SupabaseConfig>(supabaseConfig);
 
   // Setup Auth Config
@@ -28,7 +29,7 @@ Future main() async {
 
   await ServiceLocator().initializeContainers();
   GetIt.instance.registerSingleton<SessionService>(SessionService());
-  
+
   runApp(const MyApp());
 }
 

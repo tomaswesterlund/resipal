@@ -1,4 +1,4 @@
-import 'package:resipal_core/src/domain/enums/notification_application.dart';
+import 'package:resipal_core/src/domain/enums/resipal_application.dart';
 
 class NotificationEntity {
   final String id;
@@ -6,7 +6,7 @@ class NotificationEntity {
   final String userId;
   final DateTime createdAt;
   final String createdBy;
-  final NotificationApplication app;
+  final ResipalApplication app;
   final String title;
   final String message;
   final DateTime? readDate;

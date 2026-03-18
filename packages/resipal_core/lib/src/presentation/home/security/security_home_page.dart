@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:resipal_core/src/presentation/qr/qr_scanner_page.dart';
+import 'package:resipal_core/src/presentation/access/scan_invitation/scan_invitation_page.dart';
+import 'package:resipal_core/src/presentation/qr/qr_scanner_view.dart';
 import 'package:wester_kit/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
 
@@ -13,26 +14,23 @@ class SecurityHomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colorScheme.background,
-      appBar: const MyAppBar(
-        title: 'Resipal Security',
-        // showBackButton: false,
-      ),
+      appBar: const MyAppBar(title: 'Resipal Security', automaticallyImplyLeading: false),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 12),
-             HeaderText.four('Panel de Vigilancia'),
+            HeaderText.four('Panel de Vigilancia'),
             const SizedBox(height: 4),
-             BodyText.medium('Selecciona una acción rápida'),
-            
+            BodyText.medium('Selecciona una acción rápida'),
+
             const SizedBox(height: 32),
-        
+
             // --- ACCIÓN PRINCIPAL: SCAN QR ---
             // Un botón gigante y centralizado para la función más usada
             InkWell(
-              onTap: () => Go.to(QrScannerPage()),
+              onTap: () => Go.to(ScanInvitationPage()),
               borderRadius: BorderRadius.circular(32),
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 48),
@@ -44,20 +42,12 @@ class SecurityHomePage extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(32),
                   boxShadow: [
-                    BoxShadow(
-                      color: colorScheme.primary.withOpacity(0.3),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
+                    BoxShadow(color: colorScheme.primary.withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 10)),
                   ],
                 ),
                 child: Column(
                   children: [
-                    const Icon(
-                      Icons.qr_code_scanner_rounded,
-                      size: 80,
-                      color: Colors.white,
-                    ),
+                    const Icon(Icons.qr_code_scanner_rounded, size: 80, color: Colors.white),
                     const SizedBox(height: 16),
                     Text(
                       'ESCANEAR PASE QR',
@@ -71,9 +61,9 @@ class SecurityHomePage extends StatelessWidget {
                 ),
               ),
             ),
-        
+
             const SizedBox(height: 24),
-        
+
             // --- ACCIONES SECUNDARIAS ---
             // Row(
             //   children: [
@@ -96,34 +86,27 @@ class SecurityHomePage extends StatelessWidget {
             //     // ),
             //   ],
             // ),
-        
-            const SizedBox(height: 16),
-        
-            // --- ACCIÓN DE ALTA VISIBILIDAD: INCIDENTES ---
-            // Color 'error' (Rojo) para que destaque inmediatamente
-            DefaultCard(
-              child: ListTile(
-                onTap: () => _handleReportIncident(context),
-                leading: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: colorScheme.error.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(Icons.warning_amber_rounded, color: colorScheme.error),
-                ),
-                title: HeaderText.five(
-                  'REPORTAR INCIDENTE',
-                  color: colorScheme.error,
-                ),
-                subtitle: const OverlineText('Urgencias o anomalías'),
-                trailing: Icon(Icons.chevron_right_rounded, color: colorScheme.error),
-              ),
-            ),
-        
+            // const SizedBox(height: 16),
+
+            // // --- ACCIÓN DE ALTA VISIBILIDAD: INCIDENTES ---
+            // // Color 'error' (Rojo) para que destaque inmediatamente
+            // DefaultCard(
+            //   child: ListTile(
+            //     onTap: () => _handleReportIncident(context),
+            //     leading: Container(
+            //       padding: const EdgeInsets.all(12),
+            //       decoration: BoxDecoration(color: colorScheme.error.withOpacity(0.1), shape: BoxShape.circle),
+            //       child: Icon(Icons.warning_amber_rounded, color: colorScheme.error),
+            //     ),
+            //     title: HeaderText.five('REPORTAR INCIDENTE', color: colorScheme.error),
+            //     subtitle: const OverlineText('Urgencias o anomalías'),
+            //     trailing: Icon(Icons.chevron_right_rounded, color: colorScheme.error),
+            //   ),
+            // ),
+
             // const SizedBox(height: 48),
             Spacer(),
-            
+
             // Footer informativo
             Center(
               child: Opacity(
@@ -145,7 +128,6 @@ class SecurityHomePage extends StatelessWidget {
     );
   }
 
-
   void _handleRegisterPackage(BuildContext context) {
     print("Abriendo registro de paquetería...");
   }
@@ -161,11 +143,7 @@ class _SecurityActionCard extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _SecurityActionCard({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
+  const _SecurityActionCard({required this.icon, required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

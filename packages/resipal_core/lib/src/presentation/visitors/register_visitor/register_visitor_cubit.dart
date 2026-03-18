@@ -2,9 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/domain/use_cases/visitors/register_visitor.dart';
-import 'register_visitor_state.dart';
-import 'register_visitor_form_state.dart';
 
 class RegisterVisitorCubit extends Cubit<RegisterVisitorState> {
   final SessionService _sessionService = GetIt.I<SessionService>();

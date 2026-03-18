@@ -83,7 +83,9 @@ class _Form extends StatelessWidget {
             onChanged: cubit.updateMaxEntries,
           ),
           const SizedBox(height: 48),
-          PrimaryButton(label: 'GENERAR INVITACIÓN', canSubmit: formState.canSubmit, onPressed: cubit.submit),
+          SizedBox(
+            width: double.infinity,
+            child: PrimaryButton(label: 'REGISTRAR INVITACIÓN', canSubmit: formState.canSubmit, onPressed: cubit.submit)),
         ],
       ),
     );

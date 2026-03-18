@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:resipal_core/src/data/models/contract/upsert_contract_model.dart';
 import 'package:resipal_core/src/domain/typedefs.dart';
-import '../models/contract_model.dart';
+import '../models/contract/contract_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ContractDataSource {
@@ -42,26 +43,8 @@ class ContractDataSource {
     _cache[model.id] = model;
   }
 
-  /// Creates a new contract for a specific community.
-  /// Returns the [ContractId] (UUID) of the newly created contract.
-  Future<ContractId> createContract({
-    required String communityId,
-    required String name,
-    required int amountInCents,
-    required String period,
-    required String? description,
-  }) async {
-    final contractId = await _client.rpc<String>(
-      'fn_create_contract',
-      params: {
-        'p_community_id': communityId,
-        'p_name': name,
-        'p_amount_in_cents': amountInCents,
-        'p_period': period.toLowerCase(),
-        'p_description': description,
-      },
-    );
-
-    return contractId;
+  Future<ContractId> upsert(UpsertContractModel model) async {
+    final response = await _client.from('contracts').upsert(model.toMap()).select('id').single();
+    return response['id'] as UserId;
   }
 }

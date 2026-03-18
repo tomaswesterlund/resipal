@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/src/presentation/shared/bucket_image/bucket_image_cubit.dart';
@@ -19,7 +20,13 @@ class BucketImage extends StatelessWidget {
       child: BlocBuilder<BucketImageCubit, BucketImageState>(
         builder: (context, state) {
           if (state is BucketImageLoaded) {
-            return NetworkImagePreview(url: state.url, height: height);
+            return CachedNetworkImage(
+              imageUrl: state.url,
+              height: height,
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              cacheKey: path,
+            );
           }
 
           if (state is BucketImageError) {

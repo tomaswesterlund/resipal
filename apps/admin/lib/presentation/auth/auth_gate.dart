@@ -45,7 +45,7 @@ class AuthGate extends StatelessWidget {
 
           // 6. Error / Edge Cases
           if (state is UserIsNotAdmin) return const AccessDeniedView();
-          if (state is ErrorState) return const ErrorView();
+          if (state is ErrorState) return Scaffold(body: ErrorView(),);
 
           return const UnknownStateView();
         },

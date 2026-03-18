@@ -1,9 +1,9 @@
-class LogModel { // Renamed from ErrorLogModel for general use
+class LogModel {
   final String id;
   final DateTime createdAt;
   final String? createdBy;
-  final String level; // Added: 'INFO', 'ERROR', 'DEBUG', etc.
-  final String message; // Renamed from errorMessage for generality
+  final String level;
+  final String message;
   final String? stackTrace;
   final String platform;
   final String appVersion;

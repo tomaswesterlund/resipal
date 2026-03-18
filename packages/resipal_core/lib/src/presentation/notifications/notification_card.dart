@@ -7,8 +7,15 @@ class NotificationCard extends StatelessWidget {
   final NotificationEntity notification;
   final VoidCallback? onMarkAsRead;
   final VoidCallback? onTap;
+  final bool isSubmitting; // Added isSubmitting property
 
-  const NotificationCard({super.key, required this.notification, this.onMarkAsRead, this.onTap});
+  const NotificationCard({
+    super.key,
+    required this.notification,
+    this.onMarkAsRead,
+    this.onTap,
+    this.isSubmitting = false, // Default to false
+  });
 
   bool get isRead => notification.readDate != null;
 
@@ -29,7 +36,7 @@ class NotificationCard extends StatelessWidget {
       ),
       color: isRead ? colorScheme.surface : colorScheme.primaryContainer.withOpacity(0.05),
       child: InkWell(
-        onTap: onTap,
+        onTap: isSubmitting ? null : onTap, // Disable tap while submitting
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -39,7 +46,7 @@ class NotificationCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _StatusIndicator(isRead: isRead),
+                  _StatusIndicator(isRead: isRead, isSubmitting: isSubmitting),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -61,21 +68,29 @@ class NotificationCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               BodyText.medium(notification.message, color: colorScheme.onSurfaceVariant),
+
+              // Logic for Mark as Read button with Loading State
               if (!isRead && onMarkAsRead != null) ...[
                 const SizedBox(height: 16),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: TextButton.icon(
-                    onPressed: onMarkAsRead,
-                    icon: const Icon(Icons.done_all, size: 18),
-                    label: const Text('Marcar como leída'),
-                    style: TextButton.styleFrom(
-                      foregroundColor: colorScheme.primary,
-                      visualDensity: VisualDensity.compact,
-                    ),
-                  ),
+                  child: isSubmitting
+                      ? const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          child: SizedBox(height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2)),
+                        )
+                      : TextButton.icon(
+                          onPressed: onMarkAsRead,
+                          icon: const Icon(Icons.done_all, size: 18),
+                          label: const Text('Marcar como leída'),
+                          style: TextButton.styleFrom(
+                            foregroundColor: colorScheme.primary,
+                            visualDensity: VisualDensity.compact,
+                          ),
+                        ),
                 ),
               ],
+
               if (isRead) ...[
                 const SizedBox(height: 12),
                 Align(
@@ -103,8 +118,9 @@ class NotificationCard extends StatelessWidget {
 
 class _StatusIndicator extends StatelessWidget {
   final bool isRead;
+  final bool isSubmitting;
 
-  const _StatusIndicator({required this.isRead});
+  const _StatusIndicator({required this.isRead, required this.isSubmitting});
 
   @override
   Widget build(BuildContext context) {
@@ -113,14 +129,22 @@ class _StatusIndicator extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: isRead ? colorScheme.surfaceVariant.withOpacity(0.5) : colorScheme.primary.withOpacity(0.1),
+        color: isRead
+            ? colorScheme.surfaceVariant.withOpacity(0.5)
+            : (isSubmitting ? colorScheme.outlineVariant : colorScheme.primary.withOpacity(0.1)),
         shape: BoxShape.circle,
       ),
-      child: Icon(
-        isRead ? Icons.notifications_none_outlined : Icons.notifications_active,
-        color: isRead ? colorScheme.outline : colorScheme.primary,
-        size: 20,
-      ),
+      child: isSubmitting
+          ? SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(strokeWidth: 2, color: colorScheme.primary.withOpacity(0.5)),
+            )
+          : Icon(
+              isRead ? Icons.notifications_none_outlined : Icons.notifications_active,
+              color: isRead ? colorScheme.outline : colorScheme.primary,
+              size: 20,
+            ),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/domain/entities/members/admin_member_entity.dart';
-import 'package:resipal_core/src/domain/use_cases/notifications/get_admin_notifications_by_community_and_user_id.dart';
+import 'package:resipal_core/src/domain/enums/resipal_application.dart';
 
 class GetAdminMemberByCommunityIdAndUserId {
   final LoggerService _logger = GetIt.I<LoggerService>();
@@ -19,7 +18,7 @@ class GetAdminMemberByCommunityIdAndUserId {
     }
 
     final communityRef = GetCommunityRefById().call(communityId: communityId);
-    final notifications = GetAdminNotificationsByCommunityAndUserId().call(communityId: communityId, userId: userId);
+    final notifications = GetNotificationsByCommunityAndUserId().call(communityId: communityId, userId: userId, app: ResipalApplication.admin);
     final userRef = GetUserRefById().call(userId: userId);
 
     return AdminMemberEntity(

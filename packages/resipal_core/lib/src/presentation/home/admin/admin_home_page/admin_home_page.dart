@@ -43,7 +43,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       label: Text(admin.unreadNotifications.length.toString()),
                       child: const Icon(Icons.notifications_none),
                     ),
-                    onPressed: () => Go.to(NotificationsPage(notifications: admin.notifications)),
+                    onPressed: () => Go.to(NotificationsPage(admin.notifications)),
                   ),
                 if (_currentPageIndex == HomePage.properties.index)
                   IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterPropertyPage())),

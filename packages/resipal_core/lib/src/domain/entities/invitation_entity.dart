@@ -1,12 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:resipal_core/src/domain/entities/access_log_entity.dart';
-import 'package:resipal_core/src/domain/enums/invitation_status.dart';
-import 'package:resipal_core/src/domain/refs/property_ref.dart';
-import 'package:resipal_core/src/domain/refs/visitor_ref.dart';
+import 'package:resipal_core/lib.dart';
 
 class InvitationEntity extends Equatable {
   final String id;
-  final String userId;
+  final CommunityRef community;
+  final UserRef user;
   final VisitorRef visitor;
   final PropertyRef property;
   final DateTime createdAt;
@@ -19,8 +17,12 @@ class InvitationEntity extends Equatable {
   InvitationStatus get status {
     final now = DateTime.now();
 
-    if (now.isAfter(toDate) || (maxEntries != null && usageCount >= maxEntries!)) {
+    if (now.isAfter(toDate)) {
       return InvitationStatus.expired;
+    }
+
+    if (maxEntries != null && usageCount >= maxEntries!) {
+      return InvitationStatus.limitReached;
     }
 
     if (now.isBefore(fromDate)) {
@@ -34,11 +36,12 @@ class InvitationEntity extends Equatable {
   bool get isUpcoming => status == InvitationStatus.upcoming;
   int get remainingEntries => maxEntries == null ? 999 : maxEntries! - usageCount;
 
-  int get usageCount => logs.where((log) => log.isEntry).length;
+  int get usageCount => logs.where((log) => log.direction == AccessLogDirection.entry).length;
 
   const InvitationEntity({
     required this.id,
-    required this.userId,
+    required this.community,
+    required this.user,
     required this.visitor,
     required this.property,
     required this.createdAt,
@@ -49,10 +52,26 @@ class InvitationEntity extends Equatable {
     required this.logs,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'community_id': community.id, // Assuming Ref objects have an .id property
+      'user_id': user.id,
+      'visitor_id': visitor.id,
+      'property_id': property.id,
+      'created_at': createdAt.toIso8601String(),
+      'qr_code_token': qrCodeToken,
+      'from_date': fromDate.toIso8601String(),
+      'to_date': toDate.toIso8601String(),
+      'max_entries': maxEntries,
+    };
+  }
+
   @override
   List<Object?> get props => [
     id,
-    userId,
+    community,
+    user,
     visitor,
     property,
     createdAt,

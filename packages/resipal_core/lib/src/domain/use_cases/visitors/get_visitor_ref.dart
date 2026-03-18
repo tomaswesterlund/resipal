@@ -11,8 +11,9 @@ class GetVisitorRef {
     if (model == null) {
       throw Exception('Visitor $id not found in cache. Ensure the stream is active.');
     }
-    return VisitorRef(id: model.id, name: model.name);
+    return VisitorRef(id: model.id, name: model.name, identificationPath: model.identificationPath);
   }
 
-  VisitorRef fromModel(VisitorModel model) => VisitorRef(id: model.id, name: model.name);
+  VisitorRef fromModel(VisitorModel model) =>
+      VisitorRef(id: model.id, name: model.name, identificationPath: model.identificationPath);
 }

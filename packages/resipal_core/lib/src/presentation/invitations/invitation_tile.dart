@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/domain/enums/invitation_status.dart';
+import 'package:resipal_core/src/presentation/invitations/invitation_details/invitation_details_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
