@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resipal_core/src/presentation/shared/loading_screen.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:resident/presentation/auth/auth_gate_cubit.dart';
 import 'package:resident/presentation/auth/auth_gate_state.dart';
@@ -18,7 +19,12 @@ class AuthGate extends StatelessWidget {
         builder: (ctx, state) {
           // 1. Loading / Initialization States
           if (state is AuthGateInitialState || state is AuthGateLoadingState) {
-            return const _AuthLoadingScreen();
+            return LoadingScreen(
+              title: 'Resipal',
+              subtitle: 'Resident',
+              loadingTitle: 'Iniciando sesión',
+              loadingDescription: 'Estamos configurando tu espacio...',
+            );
           }
 
           // 2. Unauthenticated -> Go to Sign In
@@ -46,31 +52,6 @@ class AuthGate extends StatelessWidget {
 
           return const UnknownStateView();
         },
-      ),
-    );
-  }
-}
-
-class _AuthLoadingScreen extends StatelessWidget {
-  const _AuthLoadingScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Scaffold(
-      backgroundColor: colorScheme.background,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const ResipalLogo(),
-            const SizedBox(height: 12),
-            HeaderText.giga('Resipal', color: colorScheme.inverseSurface),
-            const SizedBox(height: 8),
-            HeaderText.three('Resident', color: colorScheme.inverseSurface),
-            const LoadingView(title: 'Iniciando Panel', description: 'Verificando credenciales...'),
-          ],
-        ),
       ),
     );
   }

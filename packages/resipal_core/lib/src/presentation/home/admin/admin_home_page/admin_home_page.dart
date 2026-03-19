@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:short_navigation/short_navigation.dart';
@@ -25,8 +26,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
     final colorScheme = theme.colorScheme;
 
     return BlocProvider(
-      create: (context) => AdminHomePageCubit()..initialize(widget.admin, widget.community),
-      child: BlocBuilder<AdminHomePageCubit, AdminHomePageState>(
+      create: (context) => AdminHomeCubit()..initialize(widget.admin, widget.community),
+      child: BlocBuilder<AdminHomeCubit, AdminHomeState>(
         builder: (context, state) {
           final admin = (state is AdminLoadedState) ? state.admin : widget.admin;
           final community = (state is AdminLoadedState) ? state.community : widget.community;
@@ -184,16 +185,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             icon: Icons.logout_rounded,
                             label: 'Cerrar Sesión',
                             color: colorScheme.error,
-                            onTap: () => context.read<AdminHomePageCubit>().signout(),
+                            onTap: () => context.read<AdminHomeCubit>().signout(),
                           ),
                           const Padding(padding: EdgeInsets.symmetric(vertical: 20.0), child: Divider(thickness: 1)),
-                          const SectionHeaderText(text: 'Debug'),
-                          const SizedBox(height: 16),
-                          WkDrawerItem(
-                            icon: Icons.message,
-                            label: 'WhatsApp',
-                            onTap: () => Go.to(const SendWhatsappMessagePage()),
-                          ),
+                          if (kDebugMode) ...[
+                            const SectionHeaderText(text: 'Debug'),
+                            const SizedBox(height: 16),
+                            WkDrawerItem(
+                              icon: Icons.message,
+                              label: 'WhatsApp',
+                              onTap: () => Go.to(const SendWhatsappMessagePage()),
+                            ),
+                          ],
                           const SizedBox(height: 12.0),
                           Center(
                             child: Text(

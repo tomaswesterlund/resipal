@@ -18,7 +18,13 @@ class AuthGate extends StatelessWidget {
         builder: (ctx, state) {
           // 1. Loading / Initialization States
           if (state is AuthGateInitialState || state is AuthGateLoadingState) {
-            return const _AuthLoadingScreen();
+            return LoadingScreen(
+              logoColor: LogoColor.red,
+              title: 'Resipal',
+              subtitle: 'Security',
+              loadingTitle: 'Iniciando sesión',
+              loadingDescription: 'Estamos configurando tu espacio...',
+            );
           }
 
           // 2. Unauthenticated -> Go to Sign In
@@ -33,7 +39,7 @@ class AuthGate extends StatelessWidget {
 
           // 4. Profile exists but No Community -> Go to Community Registration
           if (state is AuthGateUserHasNoSecurityMembership) {
-            return const _UserHasNoResidentMembership();
+            return const _UserHasNoSecurityMembership();
           }
 
           // 5. Success -> The Main Admin Dashboard
@@ -42,7 +48,9 @@ class AuthGate extends StatelessWidget {
             return SecurityHomePage();
           }
 
-          if (state is AuthGateErrorState) return const ErrorView();
+          if (state is AuthGateErrorState) {
+            return const ErrorView();
+          }
 
           return const UnknownStateView();
         },
@@ -51,33 +59,9 @@ class AuthGate extends StatelessWidget {
   }
 }
 
-class _AuthLoadingScreen extends StatelessWidget {
-  const _AuthLoadingScreen();
 
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Scaffold(
-      backgroundColor: colorScheme.background,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const ResipalLogo(),
-            const SizedBox(height: 12),
-            HeaderText.giga('Resipal', color: colorScheme.inverseSurface),
-            const SizedBox(height: 8),
-            HeaderText.three('Security', color: colorScheme.inverseSurface),
-            const LoadingView(title: 'Iniciando Panel', description: 'Verificando credenciales...'),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _UserHasNoResidentMembership extends StatelessWidget {
-  const _UserHasNoResidentMembership();
+class _UserHasNoSecurityMembership extends StatelessWidget {
+  const _UserHasNoSecurityMembership();
 
   @override
   Widget build(BuildContext context) {
@@ -97,11 +81,15 @@ class _UserHasNoResidentMembership extends StatelessWidget {
           ),
           const SizedBox(height: 32),
 
-          HeaderText.four('Esperando Solicitud', textAlign: TextAlign.center, color: colorScheme.primary),
+          HeaderText.four(
+            'Acceso no autorizado',
+            textAlign: TextAlign.center,
+            color: colorScheme.primary,
+          ),
           const SizedBox(height: 16),
 
           Text(
-            'Para acceder a las funciones de residente, un administrador de tu comunidad debe enviarte una solicitud de ingreso.',
+            "No tienes ninguna membresía de seguridad vinculada a tu usuario. Para acceder a las funciones de Seguridad, un administrador de tu comunidad debe registrarte dentro de Resipal.",
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant, height: 1.5),
           ),
@@ -109,7 +97,7 @@ class _UserHasNoResidentMembership extends StatelessWidget {
           const SizedBox(height: 12),
 
           Text(
-            'Una vez que recibas la invitación, podrás ver toda la información de tu propiedad aquí mismo.',
+            "Por favor, ponte en contacto con un administrador del fraccionamiento.",
             textAlign: TextAlign.center,
             style: theme.textTheme.bodySmall?.copyWith(color: colorScheme.outline),
           ),
@@ -132,17 +120,9 @@ class _UserHasNoResidentMembership extends StatelessWidget {
                 children: [
                   _SupportIcon(
                     icon: Icons.chat_bubble_outline_rounded,
-                    label: 'Contactar Admin',
+                    label: 'Contactar Resipal',
                     onTap: () {
                       // Lógica para contactar soporte o admin
-                    },
-                  ),
-                  const SizedBox(width: 48),
-                  _SupportIcon(
-                    icon: Icons.refresh_rounded,
-                    label: 'Actualizar',
-                    onTap: () {
-                      // Lógica para recargar el estado del usuario
                     },
                   ),
                 ],

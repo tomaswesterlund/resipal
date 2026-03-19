@@ -17,7 +17,7 @@ class SigninCubit extends Cubit<SigninState> {
       await _authService.signInWithGoogle();
 
       final authUser = _authService.getSignedInUser();
-      final userId = authUser.id;
+      _sessionService.setUserId(authUser.id);
 
       emit(AdminSignedInSuccessfullyState());
     } catch (e, stack) {

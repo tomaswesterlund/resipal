@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
 
 class CreateUser {
+  final SessionService _sessionService = GetIt.I<SessionService>();
   final UserDataSource _source = GetIt.I<UserDataSource>();
 
   Future<UserId> call({
@@ -11,6 +12,7 @@ class CreateUser {
     required String email
   }) async {
     final model = UpsertUserModel(
+      id: _sessionService.userId,
       name: name,
       phoneNumber: phoneNumber,
       emergencyPhoneNumber: emergencyPhoneNumber,

@@ -8,39 +8,43 @@ import 'package:resipal_security/presentation/auth/auth_gate_state.dart';
 
 class AuthGateCubit extends Cubit<AuthGateState> {
   final AuthService _authService = GetIt.I<AuthService>();
+  final LoggerService _logger = GetIt.I<LoggerService>();
   final SessionService _sessionService = GetIt.I<SessionService>();
   StreamSubscription? _authSubscription;
 
   AuthGateCubit() : super(AuthGateInitialState());
 
-  /// The entry point for the AuthGate
   void initialize() {
-    // 1. Listen to real-time auth changes
-    _authSubscription = _authService.onAuthStateChange.listen((authUser) async {
-      switch (authUser.event) {
-        case AuthChangeEvent.initialSession:
-          if (authUser.session == null) {
-            emit(AuthGateUserNotSignedIn());
-          } else {
+    try {
+      _authSubscription = _authService.onAuthStateChange.listen((authUser) async {
+        switch (authUser.event) {
+          case AuthChangeEvent.initialSession:
+            if (authUser.session == null) {
+              emit(AuthGateUserNotSignedIn());
+            } else {
+              await _onUserSignedIn(_authService.getSignedInUserId());
+            }
+          case AuthChangeEvent.passwordRecovery:
+            throw UnimplementedError();
+          case AuthChangeEvent.signedIn:
             await _onUserSignedIn(_authService.getSignedInUserId());
-          }
-        case AuthChangeEvent.passwordRecovery:
-          throw UnimplementedError();
-        case AuthChangeEvent.signedIn:
-          await _onUserSignedIn(_authService.getSignedInUserId());
-        case AuthChangeEvent.signedOut:
-          await _sessionService.stopWatchers();
-          emit(AuthGateUserNotSignedIn());
-        case AuthChangeEvent.tokenRefreshed:
-          throw UnimplementedError();
-        case AuthChangeEvent.userUpdated:
-          throw UnimplementedError();
-        case AuthChangeEvent.userDeleted:
-          throw UnimplementedError();
-        case AuthChangeEvent.mfaChallengeVerified:
-          throw UnimplementedError();
-      }
-    });
+          case AuthChangeEvent.signedOut:
+            await _sessionService.stopWatchers();
+            emit(AuthGateUserNotSignedIn());
+          case AuthChangeEvent.tokenRefreshed:
+            throw UnimplementedError();
+          case AuthChangeEvent.userUpdated:
+            throw UnimplementedError();
+          case AuthChangeEvent.userDeleted:
+            throw UnimplementedError();
+          case AuthChangeEvent.mfaChallengeVerified:
+            throw UnimplementedError();
+        }
+      });
+    } catch (e, s) {
+      _logger.error(featureArea: 'AuthGateCubit', exception: e, stackTrace: s);
+      emit(AuthGateErrorState());
+    }
   }
 
   /// Private logic to check profile, community, and memberships
@@ -67,7 +71,7 @@ class AuthGateCubit extends Cubit<AuthGateState> {
       final membership = memberships.first;
 
       if (membership.isSecurity == false) {
-        emit(AuthGateErrorState());
+        emit(AuthGateUserHasNoSecurityMembership());
         return;
       }
       final community = membership.community;
@@ -75,10 +79,15 @@ class AuthGateCubit extends Cubit<AuthGateState> {
 
       await _sessionService.startCommunityWatchers(
         app: ResipalApplication.security,
-        userId: userId, communityId: community.id);
+        userId: userId,
+        communityId: community.id,
+      );
 
       emit(UserSignedIn(resident));
-    } catch (e) {}
+    } catch (e, s) {
+      _logger.error(featureArea: 'AuthGateCubit', exception: e, stackTrace: s);
+      emit(AuthGateErrorState());
+    }
   }
 
   @override

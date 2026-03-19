@@ -75,19 +75,17 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/
 
 flutter_native_splash:
   color: "#ffffff"
   image: assets/resipal_logo_blue.png
   fullscreen: true
-  android_gravity: fill # This tells Android to stretch/fill more aggressively
-  ios_content_mode: center # Change to 'scaleAspectFit' if you want it larger on iOS
-  
   android_12:
     color: "#ffffff"
     image: assets/resipal_logo_blue.png
-    # Ensure this image is cropped tightly to the edges
-
+    icon_background_color: "#ffffff"
+    
 package_rename_config:
   android:
     app_name: "Resipal - Administrator"

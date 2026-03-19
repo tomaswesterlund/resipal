@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -86,6 +87,7 @@ class _Loaded extends StatelessWidget {
                   value: application.phoneNumber,
                   enableCopy: true,
                 ),
+
                 if (application.emergencyPhoneNumber != null) ...[
                   Divider(height: 1, color: colorScheme.outlineVariant),
                   DetailTile(
@@ -106,6 +108,14 @@ class _Loaded extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
+          if (kDebugMode) ...[
+            SecondaryButton(
+              icon: Icons.message_outlined,
+              label: 'WhatsApp de invitación',
+              onPressed: () => context.read<ApplicationDetailsCubit>().sendInvitationWhatsApp(application),
+            ),
+            const SizedBox(height: 20),
+          ],
 
           const SectionHeaderText(text: 'DETALLES DE LA SOLICITUD'),
           DefaultCard(

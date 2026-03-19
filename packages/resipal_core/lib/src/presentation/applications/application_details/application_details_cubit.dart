@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
@@ -41,6 +40,19 @@ class ApplicationDetailsCubit extends Cubit<ApplicationDetailsState> {
         metadata: {'application': application.toMap()},
       );
 
+      emit(ApplicationDetailsErrorState());
+    }
+  }
+
+  Future sendInvitationWhatsApp(ApplicationEntity application) async {
+    try {
+      await SendInvitationWhatsappMessage().call(
+        phoneNumber: application.phoneNumber,
+        personName: application.name,
+        communityName: application.community.name,
+      );
+    } catch (e, s) {
+      _logger.error(featureArea: 'ApplicationDetailsCubit', exception: e, stackTrace: s);
       emit(ApplicationDetailsErrorState());
     }
   }

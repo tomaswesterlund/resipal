@@ -4,13 +4,13 @@ import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:rxdart/streams.dart';
 
-class AdminHomePageCubit extends Cubit<AdminHomePageState> {
+class AdminHomeCubit extends Cubit<AdminHomeState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final NotificationService _notificationService = GetIt.I<NotificationService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
   StreamSubscription? _streamSubscription;
 
-  AdminHomePageCubit() : super(AdminInitialState());
+  AdminHomeCubit() : super(AdminInitialState());
 
   Future<void> initialize(AdminMemberEntity admin, CommunityEntity community) async {
     try {

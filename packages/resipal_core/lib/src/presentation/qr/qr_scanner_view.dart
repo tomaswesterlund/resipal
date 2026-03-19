@@ -23,29 +23,7 @@ class _QrScannerViewState extends State<QrScannerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: MyAppBar(
-        title: 'Escanear Pase',
-        backgroundColor: Colors.transparent,
-        actions: [
-          // Control de Linterna (Flash)
-          // ValueListenableBuilder(
-          //   valueListenable: controller.value.torchState.rawValue,
-          //   builder: (context, state, child) {
-          //     return IconButton(
-          //       icon: Icon(
-          //         state == TorchState.on ? Icons.flashlight_on : Icons.flashlight_off,
-          //         color: Colors.white,
-          //       ),
-          //       onPressed: () => controller.toggleTorch(),
-          //     );
-          //   },
-          // ),
-          IconButton(
-            icon: const Icon(Icons.flip_camera_ios, color: Colors.white),
-            onPressed: () => controller.switchCamera(),
-          ),
-        ],
-      ),
+
       body: Stack(
         children: [
           MobileScanner(
@@ -78,28 +56,6 @@ class _QrScannerViewState extends State<QrScannerView> {
                 child: BodyText.medium('Centra el código QR para validar', color: Colors.white),
               ),
             ),
-          ),
-          Row(
-            children: [
-              PrimaryButton(
-                label: 'Not valid',
-                onPressed: () {
-                  widget.onQrCodeDetected('not valid');
-                },
-              ),
-              PrimaryButton(
-                label: 'Future',
-                onPressed: () {
-                  widget.onQrCodeDetected('3310761b-7252-4ea8-88b3-ca22ddf51400');
-                },
-              ),
-              PrimaryButton(
-                label: 'Valid',
-                onPressed: () {
-                  widget.onQrCodeDetected('71993c8a-c44a-44af-9a99-476e87d9f09d');
-                },
-              ),
-            ],
           ),
         ],
       ),

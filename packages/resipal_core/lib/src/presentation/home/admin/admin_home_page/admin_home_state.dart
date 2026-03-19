@@ -2,16 +2,16 @@ import 'package:equatable/equatable.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:resipal_core/src/domain/entities/members/admin_member_entity.dart';
 
-abstract class AdminHomePageState extends Equatable {
+abstract class AdminHomeState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class AdminInitialState extends AdminHomePageState {}
+class AdminInitialState extends AdminHomeState {}
 
-class AdminLoadingState extends AdminHomePageState {}
+class AdminLoadingState extends AdminHomeState {}
 
-class AdminLoadedState extends AdminHomePageState {
+class AdminLoadedState extends AdminHomeState {
   final AdminMemberEntity admin;
   final CommunityEntity community;
   
@@ -22,6 +22,6 @@ class AdminLoadedState extends AdminHomePageState {
   List<Object?> get props => [admin, community];
 }
 
-class AdminEmptyState extends AdminHomePageState {}
+class AdminEmptyState extends AdminHomeState {}
 
-class AdminErrorState extends AdminHomePageState {}
+class AdminErrorState extends AdminHomeState {}

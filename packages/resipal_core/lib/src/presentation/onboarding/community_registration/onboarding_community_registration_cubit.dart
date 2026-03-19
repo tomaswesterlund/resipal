@@ -54,7 +54,8 @@ class OnboardingCommunityRegistrationCubit extends Cubit<OnboardingCommunityRegi
       );
 
       await FetchCommunity().call(communityId);
-      await FetchUsers().call(); // TODO Switch to listen by Community ID (we'll need Memberships)
+      await FetchUsers().call();
+      await FetchMembershipsByUserId().call(userId: userId);
 
       final admin = GetAdminMemberByCommunityIdAndUserId().call(communityId: communityId, userId: userId);
       final community = GetCommunityById().call(communityId);

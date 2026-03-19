@@ -22,13 +22,13 @@ class AuthGateCubit extends Cubit<AuthGateState> {
           if (authUser.session == null) {
             emit(UserNotSignedIn());
           } else {
-            await _onUserSignedIn(_authService.getSignedInUserId());
+            await _onUserSignedIn();
           }
         case AuthChangeEvent.passwordRecovery:
           // TODO: Handle this case.
           throw UnimplementedError();
         case AuthChangeEvent.signedIn:
-          await _onUserSignedIn(_authService.getSignedInUserId());
+          await _onUserSignedIn();
         case AuthChangeEvent.signedOut:
           emit(UserNotSignedIn());
         case AuthChangeEvent.tokenRefreshed:
@@ -48,9 +48,12 @@ class AuthGateCubit extends Cubit<AuthGateState> {
   }
 
   /// Private logic to check profile, community, and memberships
-  Future<void> _onUserSignedIn(String userId) async {
+  Future<void> _onUserSignedIn() async {
     try {
       emit(LoadingState());
+      final authUser = _authService.getSignedInUser();
+      final userId = authUser.id;
+      _sessionService.setUserId(userId);
 
       // Pre-fetch all necessary data
       await Future.wait([

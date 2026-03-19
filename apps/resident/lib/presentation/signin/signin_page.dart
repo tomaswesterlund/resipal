@@ -1,6 +1,7 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resipal_core/src/presentation/shared/loading_screen.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:resident/presentation/signin/signin_cubit.dart';
 import 'package:resident/presentation/signin/signin_state.dart';
@@ -37,7 +38,12 @@ class SigninPage extends StatelessWidget {
             }
 
             if (state is SigninUserSigningInState) {
-              return LoadingView(title: 'Iniciando sesión', description: 'Estamos configurando tu espacio...');
+              return LoadingScreen(
+                title: 'Resipal',
+                subtitle: 'Resident',
+                loadingTitle: 'Iniciando sesión',
+                loadingDescription: 'Estamos configurando tu espacio...'
+              );
             }
 
             if (state is SigninErrorState) {

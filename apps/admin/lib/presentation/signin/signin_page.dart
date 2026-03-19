@@ -25,10 +25,12 @@ class SigninPage extends StatelessWidget {
             }
 
             if (state is AdminSigningInState || state is AdminSignedInSuccessfullyState) {
-              return const LoadingView(
-                logo: ResipalLogo(),
-                title: 'Iniciando sesión',
-                description: 'Estamos configurando tu espacio...',
+              return LoadingScreen(
+                logoColor: LogoColor.blue,
+                title: 'Resipal',
+                subtitle: 'Admin',
+                loadingTitle: 'Iniciando sesión',
+                loadingDescription: 'Estamos configurando tu espacio...',
               );
             }
 
@@ -53,65 +55,48 @@ class _Signin extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      backgroundColor: colorScheme.background,
+      backgroundColor: colorScheme.surface,
       body: Column(
         children: [
-          // --- Brand Header ---
-          Container(
-            padding: const EdgeInsets.all(30),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  colorScheme.primaryContainer.withOpacity(0.4), // Soft brand start
-                  colorScheme.background, // Fades into page color
-                ],
-              ),
-            ),
+          GradientCard(
+            padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+            borderRadius: 0,
             child: SafeArea(
-              child: SizedBox(
+              child: Container(
                 width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 0.0),
                 child: Column(
                   children: [
-                    const ResipalLogo(),
+                    ResipalLogo(color: LogoColor.blue),
                     const SizedBox(height: 16),
-                    HeaderText.giga('Resipal Admin', color: colorScheme.onBackground, textAlign: TextAlign.center),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Gestión y Administración',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onBackground.withOpacity(0.7),
-                        letterSpacing: 0.5,
-                      ),
-                    ),
+                    HeaderText.giga('Resipal', color: Colors.white),
+                    SizedBox(height: 4),
+                    HeaderText.two('Admin', color: Colors.white),
                   ],
                 ),
               ),
             ),
           ),
-
           // --- Login Actions ---
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
-                HeaderText.four('Panel de Administración', color: colorScheme.onBackground),
+                HeaderText.four('Bienvenido de nuevo'),
                 const SizedBox(height: 8),
                 Text(
                   'Inicia sesión para gestionar el complejo residencial',
                   textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.outline),
+                  style: TextStyle(color: colorScheme.outline),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
 
                 // Google Sign In
                 SocialLoginButton(
                   label: 'Continuar con Google',
-                  icon: Icons.g_mobiledata_rounded,
-                  backgroundColor: colorScheme.surface,
-                  textColor: colorScheme.onSurface,
+                  icon: Icons.g_mobiledata_rounded, // Use a custom SVG for production
+                  backgroundColor: Colors.white,
+                  textColor: Colors.black87,
                   onPressed: () => context.read<SigninCubit>().signin(),
                 ),
 
@@ -121,12 +106,14 @@ class _Signin extends StatelessWidget {
                 SocialLoginButton(
                   label: 'Continuar con Apple',
                   icon: Icons.apple,
-                  backgroundColor: Colors.black, // Apple branding usually stays black
+                  backgroundColor: Colors.black,
                   textColor: Colors.white,
                   onPressed: () {
                     // TODO: Implement Apple Sign In
                   },
                 ),
+
+                const SizedBox(height: 40),
               ],
             ),
           ),
@@ -134,10 +121,10 @@ class _Signin extends StatelessWidget {
           SafeArea(
             top: false,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.only(bottom: 20),
               child: Text(
-                'Acceso exclusivo para administradores autorizados',
-                style: theme.textTheme.labelSmall?.copyWith(color: colorScheme.outline, fontSize: 10),
+                'Al continuar, aceptas nuestros Términos y Condiciones',
+                style: TextStyle(fontSize: 10, color: colorScheme.outline),
               ),
             ),
           ),

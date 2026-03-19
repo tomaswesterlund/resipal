@@ -1,10 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
-import 'package:resipal_core/src/data/sources/notification_data_source.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SessionService {
   final LoggerService _logger = GetIt.I<LoggerService>();
+
+  bool get isDebug => kDebugMode;
 
   ResipalApplication? _app;
   ResipalApplication get app {
@@ -39,7 +41,9 @@ class SessionService {
     return _userId!;
   }
 
-  // STREAMIN
+  setUserId(String userId) => _userId = userId;
+
+  // STREAMING
   final CompositeSubscription _subscriptions = CompositeSubscription();
 
   Future<void> startCommunityWatchers({
