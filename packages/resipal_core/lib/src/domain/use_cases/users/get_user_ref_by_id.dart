@@ -9,7 +9,7 @@ class GetUserRefById {
 
   UserRef call({required String userId}) {
     try {
-      final model = _source.getById(userId);
+      final model = _source.getOptionalById(userId);
 
       if (model == null) {
         throw Exception('UserId $userId not found in cache. Ensure the stream is active.');

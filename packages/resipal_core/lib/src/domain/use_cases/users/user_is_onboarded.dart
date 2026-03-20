@@ -5,7 +5,7 @@ class UserIsOnboarded {
   final UserDataSource _source = GetIt.I<UserDataSource>();
 
   Future<bool> call(String id) async {
-    final user =  _source.getById(id);
+    final user =  _source.getOptionalById(id);
     return user != null;
   }
 }

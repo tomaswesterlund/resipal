@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/contracts/no_active_contracts_found_view.dart';
 import 'package:wester_kit/lib.dart';
-import 'package:short_navigation/short_navigation.dart';
 
 class RegisterPropertyPage extends StatelessWidget {
   const RegisterPropertyPage({super.key});
@@ -19,7 +19,7 @@ class RegisterPropertyPage extends StatelessWidget {
         child: BlocConsumer<RegisterPropertyCubit, RegisterPropertyState>(
           listener: (ctx, state) {},
           builder: (ctx, state) {
-            if (state is RegisterPropertyNoContractsFound) return const _NoContractsFound();
+            if (state is RegisterPropertyNoContractsFound) return const NoActiveContractsFoundView();
             if (state is RegisterPropertyFormEditingState) return _Form(state.formState);
 
             if (state is RegisterPropertyFormSubmittingState) {
@@ -78,7 +78,8 @@ class _Form extends StatelessWidget {
             label: "Seleccionar contrato",
             isRequired: true,
             readOnly: formState.resident == null ? true : false,
-            helpText: "Vincula un contrato a esta propiedad. Solo obligatorio si la propiedad tiene un residente vinculado.",
+            helpText:
+                "Vincula un contrato a esta propiedad. Solo obligatorio si la propiedad tiene un residente vinculado.",
             items: formState.contracts,
             value: null,
             itemLabelBuilder: (contract) => "${CurrencyFormatter.fromCents(contract.amountInCents)}: ${contract.name}",
@@ -103,46 +104,6 @@ class _Form extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _NoContractsFound extends StatelessWidget {
-  const _NoContractsFound();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(color: colorScheme.primary.withOpacity(0.1), shape: BoxShape.circle),
-              child: Icon(Icons.description_outlined, size: 64, color: colorScheme.primary),
-            ),
-            const SizedBox(height: 32),
-            HeaderText.four('No hay contratos activos', textAlign: TextAlign.center, color: colorScheme.primary),
-            const SizedBox(height: 16),
-            Text(
-              'Para registrar una propiedad, primero necesitas definir al menos un tipo de contrato (ej: Mensualidad, Mantenimiento).',
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface),
-            ),
-            const SizedBox(height: 32),
-            TextButton.icon(
-              onPressed: () => Go.to(RegisterContractPage()),
-              icon: const Icon(Icons.add),
-              label: const Text('Registrar contrato'),
-              style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
-            ),
-          ],
-        ),
       ),
     );
   }

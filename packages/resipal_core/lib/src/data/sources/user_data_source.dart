@@ -8,6 +8,7 @@ class UserDataSource {
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
   final Map<String, UserModel> _cache = {};
+  Map<String, UserModel> get cache => _cache;
 
   Stream<UserModel> watchById(String id) {
     return _client.from('users').stream(primaryKey: ['id']).eq('id', id).map((data) {
@@ -20,7 +21,9 @@ class UserDataSource {
     });
   }
 
-  UserModel? getById(String id) => _cache[id];
+  UserModel? getOptionalById(String id) => _cache[id];
+
+  UserModel? getOptionalByEmail(String email) => _cache.values.where((x) => x.email.toLowerCase().trim() == email.toLowerCase().trim()).singleOrNull;
 
   bool userExistsInCache(String id) => _cache.containsKey(id);
 

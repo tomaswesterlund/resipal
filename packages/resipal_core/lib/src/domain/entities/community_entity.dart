@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:resipal_core/lib.dart';
 
-class CommunityEntity {
+class CommunityEntity extends Equatable {
   final String id;
   final String name;
   final String location;
@@ -27,4 +28,8 @@ class CommunityEntity {
     required this.propertyRegistry,
     required this.memberDirectory,
   });
+  
+  @override
+  // TODO: implement props
+  List<Object?> get props => [id, name, location, description, applications, contracts, paymentLedger, propertyRegistry, memberDirectory];
 }

@@ -5,7 +5,7 @@ class GetMembershipById {
   final MembershipDataSource _source = GetIt.I<MembershipDataSource>();
 
   MembershipEntity call(String id) {
-    final membership = _source.getById(id);
+    final membership = _source.getOptionalById(id);
 
     if (membership == null) {
       throw Exception('Membership with id $id not found in cache. Ensure the stream is active.');

@@ -8,6 +8,7 @@ class MembershipDataSource {
   final SupabaseClient _client = GetIt.I<SupabaseClient>();
 
   final Map<String, MembershipModel> _cache = {};
+  Map<String, MembershipModel> get cache => _cache;
 
   Stream<MembershipModel> watchById(String id) {
     return _client.from('memberships').stream(primaryKey: ['id']).eq('id', id).map((data) {
@@ -34,10 +35,13 @@ class MembershipDataSource {
         );
   }
 
-  MembershipModel? getById(String id) => _cache[id];
+  MembershipModel? getOptionalById(String id) => _cache[id];
 
   MembershipModel getByCommunityAndUserId({required String communityId, required String userId}) =>
       _cache.values.where((x) => x.communityId == communityId && x.userId == userId).single;
+
+  MembershipModel? getOptionalByCommunityAndUserId({required String communityId, required String userId}) =>
+      _cache.values.where((x) => x.communityId == communityId && x.userId == userId).singleOrNull;
 
   List<MembershipModel> getByCommunityId(String communityId) =>
       _cache.values.where((x) => x.communityId == communityId).toList();

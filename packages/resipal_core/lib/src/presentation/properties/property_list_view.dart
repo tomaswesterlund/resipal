@@ -40,8 +40,6 @@ class _PropertyListViewState extends State<PropertyListView> {
     // 2. Sort by name
     filteredProperties.sort((a, b) => a.name.compareTo(b.name));
 
-    if (widget.properties.isEmpty) return _Empty(showRegisterProperty: widget.showRegisterProperty);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: SingleChildScrollView(
@@ -104,55 +102,6 @@ class _PropertyListViewState extends State<PropertyListView> {
             style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface, fontWeight: FontWeight.w500),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _Empty extends StatelessWidget {
-  final bool showRegisterProperty;
-  const _Empty({required this.showRegisterProperty});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(color: colorScheme.primary.withOpacity(0.1), shape: BoxShape.circle),
-              child: Icon(Icons.home_work_outlined, size: 64, color: colorScheme.primary),
-            ),
-            const SizedBox(height: 32),
-            HeaderText.four('Sin propiedades', textAlign: TextAlign.center, color: colorScheme.primary),
-            const SizedBox(height: 16),
-            Text(
-              'Aún no se ha dado de alta ninguna propiedad.',
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Si eres residente, por favor comunícate con un administrador para que te registre una.',
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface),
-            ),
-            const SizedBox(height: 32),
-            if (showRegisterProperty)
-              TextButton.icon(
-                onPressed: () => Go.to(const RegisterPropertyPage()),
-                icon: const Icon(Icons.add),
-                label: const Text('Registrar propiedad'),
-                style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
-              ),
-          ],
-        ),
       ),
     );
   }

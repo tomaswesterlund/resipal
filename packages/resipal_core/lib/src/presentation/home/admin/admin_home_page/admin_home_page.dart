@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resipal_core/src/presentation/help/help_page.dart';
+import 'package:resipal_core/src/presentation/properties/properties_view.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:wester_kit/lib.dart';
@@ -88,7 +90,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   onPendingApplicationsPressed: () => setState(() => _currentPageIndex = HomePage.applications.index),
                   onPendingPaymentsPressed: () => setState(() => _currentPageIndex = HomePage.payments.index),
                 ),
-                PropertyListView(community.propertyRegistry.properties),
+                PropertiesView(
+                  properties: community.propertyRegistry.properties,
+                  showNoActiveContractInformation: community.contracts.length == 0,
+                  showRegisterProperty: true,
+                ),
+
                 PaymentListView(community.paymentLedger.payments),
                 ApplicationListView(community.applications),
                 MemberListView(community.memberDirectory.members),
@@ -173,14 +180,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             label: 'Solicitudes',
                             onTap: () => Go.to(ApplicationListPage(applications: community.applications)),
                           ),
+
                           const Padding(padding: EdgeInsets.symmetric(vertical: 20.0), child: Divider(thickness: 1)),
                           const SectionHeaderText(text: 'SISTEMA'),
                           const SizedBox(height: 16),
+                          WkDrawerItem(icon: Icons.help, label: 'Ayuda', onTap: () => Go.to(HelpPage())),
                           WkDrawerItem(
                             icon: Icons.settings,
                             label: 'Configuración',
                             onTap: () => Go.to(const SettingsPage()),
                           ),
+
                           WkDrawerItem(
                             icon: Icons.logout_rounded,
                             label: 'Cerrar Sesión',
@@ -188,6 +198,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             onTap: () => context.read<AdminHomeCubit>().signout(),
                           ),
                           const Padding(padding: EdgeInsets.symmetric(vertical: 20.0), child: Divider(thickness: 1)),
+
                           if (kDebugMode) ...[
                             const SectionHeaderText(text: 'Debug'),
                             const SizedBox(height: 16),

@@ -5,7 +5,7 @@ class GetApplicationById {
   final ApplicationDataSource _source = GetIt.I<ApplicationDataSource>();
 
   ApplicationEntity call({required String id}) {
-    final model = _source.getById(id);
+    final model = _source.getOptionalById(id);
 
     if (model == null) {
       throw Exception('Application withg id $id not found in cache. Ensure the stream is active.');

@@ -30,7 +30,10 @@ class ApplicationDataSource {
         );
   }
 
-  ApplicationModel? getById(String id) => _cache[id];
+  ApplicationModel? getOptionalById(String id) => _cache[id];
+
+  ApplicationModel? getOptionalByEmail(String email) =>
+      _cache.values.where((x) => x.email.toLowerCase().trim() == email.toLowerCase().trim()).singleOrNull;
 
   List<ApplicationModel> getByCommunityId(String communityId) =>
       _cache.values.where((x) => x.communityId == communityId).toList();

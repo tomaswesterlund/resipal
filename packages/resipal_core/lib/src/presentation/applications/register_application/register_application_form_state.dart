@@ -3,7 +3,7 @@ import 'package:resipal_core/lib.dart';
 
 class RegisterApplicationFormState extends Equatable {
   final String name;
-  final String email;
+  final InputField<String> email;
   final String phoneNumber;
   final String? emergencyPhoneNumber;
   final String message;
@@ -13,34 +13,26 @@ class RegisterApplicationFormState extends Equatable {
 
   const RegisterApplicationFormState({
     this.name = '',
-    this.email = '',
+    this.email = const InputField<String>(value: ''),
     this.phoneNumber = '',
     this.emergencyPhoneNumber,
     this.message = '',
     this.isAdmin = false,
     this.isResident = true,
-    this.isSecurity = false,
+    this.isSecurity = false
   });
 
-  bool get canSubmit {
-    if (name.isEmpty) return false;
-    if (message.isEmpty) return false;
-    if (Validators.isValidEmail(email) == false) return false;
-    if (Validators.isValidPhone(phoneNumber) == false) return false;
-    if (!isAdmin && !isResident && !isSecurity) return false;
 
-    return true;
-  }
 
   RegisterApplicationFormState copyWith({
     String? name,
-    String? email,
+    InputField<String>? email,
     String? phoneNumber,
     String? emergencyPhoneNumber,
     String? message,
     bool? isAdmin,
     bool? isResident,
-    bool? isSecurity,
+    bool? isSecurity
   }) {
     return RegisterApplicationFormState(
       name: name ?? this.name,
@@ -50,10 +42,38 @@ class RegisterApplicationFormState extends Equatable {
       message: message ?? this.message,
       isAdmin: isAdmin ?? this.isAdmin,
       isResident: isResident ?? this.isResident,
-      isSecurity: isSecurity ?? this.isSecurity,
+      isSecurity: isSecurity ?? this.isSecurity
     );
   }
 
   @override
   List<Object?> get props => [name, email, phoneNumber, emergencyPhoneNumber, message, isAdmin, isResident, isSecurity];
+}
+
+
+class InputField<T> extends Equatable {
+  final T value;
+  final String? errorMessage;
+
+  const InputField({
+    required this.value, 
+    this.errorMessage,
+  });
+
+  bool get isValid => errorMessage == null;
+  bool get hasError => errorMessage != null;
+
+  InputField<T> copyWith({
+    T? value,
+    String? errorMessage,
+    bool clearError = false,
+  }) {
+    return InputField<T>(
+      value: value ?? this.value,
+      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+    );
+  }
+
+  @override
+  List<Object?> get props => [value, errorMessage];
 }

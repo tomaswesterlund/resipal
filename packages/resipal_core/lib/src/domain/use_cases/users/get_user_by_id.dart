@@ -5,7 +5,7 @@ class GetUserById {
   final UserDataSource _source = GetIt.I<UserDataSource>();
 
   UserEntity call(String id) {
-    final user = _source.getById(id);
+    final user = _source.getOptionalById(id);
 
     if (user == null) {
       throw Exception('User $id not found in cache. Ensure the stream is active.');

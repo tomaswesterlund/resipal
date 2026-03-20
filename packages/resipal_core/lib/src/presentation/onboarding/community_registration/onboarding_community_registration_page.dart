@@ -81,7 +81,7 @@ class OnboardingCommunityRegistrationPage extends StatelessWidget {
 
                     TextInputField(
                       label: 'Descripción (Opcional)',
-                      hint: 'Breve descripción o mensaje de bienvenida...',
+                      hint: 'Breve descripción de la comunidad ...',
                       maxLines: 3,
                       initialValue: form.location,
                       onChanged: cubit.onDescriptionChanged,

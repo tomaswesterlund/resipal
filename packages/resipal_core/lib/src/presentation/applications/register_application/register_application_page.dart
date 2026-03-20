@@ -64,7 +64,13 @@ class _Form extends StatelessWidget {
             onChanged: cubit.updateName,
           ),
           const SizedBox(height: 20),
-          EmailInputField(label: 'Correo electrónico', isRequired: true, onChanged: cubit.updateEmail),
+          EmailInputField(
+            label: 'Correo electrónico',
+            isRequired: true,
+            errorText: formState.email.errorMessage,
+            onChanged: cubit.updateEmail,
+            focusNode: cubit.emailFocusNode,
+          ),
           const SizedBox(height: 20),
           PhoneNumberInputField(
             label: 'Teléfono de contacto',
@@ -91,20 +97,21 @@ class _Form extends StatelessWidget {
             ),
           ),
           DefaultCard(
+            elevation: 0,
             child: Column(
               children: [
                 CheckboxListTile(
-                  title: const Text('Residente'),
+                  title: BodyText.medium('Residente'),
                   value: formState.isResident,
                   onChanged: cubit.toggleResident,
                 ),
                 CheckboxListTile(
-                  title: const Text('Administrador'),
+                  title: BodyText.medium('Administrador'),
                   value: formState.isAdmin,
                   onChanged: cubit.toggleAdmin,
                 ),
                 CheckboxListTile(
-                  title: const Text('Seguridad'),
+                  title: BodyText.medium('Seguridad'),
                   value: formState.isSecurity,
                   onChanged: cubit.toggleSecurity,
                 ),
@@ -126,7 +133,7 @@ class _Form extends StatelessWidget {
           const SizedBox(height: 48),
           SizedBox(
             width: double.infinity,
-            child: PrimaryButton(label: 'ENVIAR SOLICITUD', canSubmit: formState.canSubmit, onPressed: cubit.submit),
+            child: PrimaryButton(label: 'ENVIAR SOLICITUD', canSubmit: cubit.canSubmit, onPressed: cubit.submit),
           ),
         ],
       ),
