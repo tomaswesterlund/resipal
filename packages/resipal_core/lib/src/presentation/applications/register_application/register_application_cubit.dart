@@ -9,60 +9,84 @@ class RegisterApplicationCubit extends Cubit<RegisterApplicationState> {
 
   RegisterApplicationCubit() : super(RegisterApplicationInitialState());
 
-  RegisterApplicationFormState _formState = RegisterApplicationFormState();
-
-  FocusNode emailFocusNode = FocusNode();
+  RegisterApplicationFormState _formState = RegisterApplicationFormState(
+    name: InputField(value: '', validators: [ValueNotEmpty()]),
+    email: InputField(value: '', validators: [ValueNotEmpty()]),
+  );
 
   void initialize() {
     emit(RegisterApplicationFormEditingState(_formState));
-
-    emailFocusNode.addListener(() => onEmailFocusChanged(emailFocusNode.hasFocus));
   }
 
-  void updateName(String val) => _update(() => _formState.copyWith(name: val));
+  void updateName(String newName) {
+    // CHECK IF EMAIL IS VALID
+    // final emailIsValid = Validators.isValidEmail(_formState.email.value);
+    // if (!emailIsValid) {
+    //   final email = _formState.email.copyWith(value: _formState.email.value, errorMessage: 'El email no es válido.');
+    //   _formState = _formState.copyWith(email: email);
+    //   emit(RegisterApplicationFormEditingState(_formState));
+    //   return;
+    // }
+
+    // // CHECK IF USER EXISTS
+    // final membershipExists = MemberExistsByEmail().call(email: _formState.email.value);
+    // if (membershipExists) {
+    //   final email = _formState.email.copyWith(
+    //     value: _formState.email.value,
+    //     errorMessage: 'El email está registrado a un miembro.',
+    //   );
+    //   _formState = _formState.copyWith(email: email);
+    //   emit(RegisterApplicationFormEditingState(_formState));
+    //   return;
+    // }
+
+    final name = _formState.email.copyWith(value: newName, clearError: true);
+    _formState = _formState.copyWith(name: name);
+    emit(RegisterApplicationFormEditingState(_formState));
+  }
 
   void updateEmail(String newEmail) {
     // CHECK IF EMAIL IS VALID
-    final emailIsValid = Validators.isValidEmail(_formState.email.value);
-    if (!emailIsValid) {
-      final email = _formState.email.copyWith(value: _formState.email.value, errorMessage: 'El email no es válido.');
-      _formState = _formState.copyWith(email: email);
-      emit(RegisterApplicationFormEditingState(_formState));
-      return;
-    }
+    // final emailIsValid = Validators.isValidEmail(_formState.email.value);
+    // if (!emailIsValid) {
+    //   final email = _formState.email.copyWith(value: _formState.email.value, errorMessage: 'El email no es válido.');
+    //   _formState = _formState.copyWith(email: email);
+    //   emit(RegisterApplicationFormEditingState(_formState));
+    //   return;
+    // }
 
-    // CHECK IF USER EXISTS
-    final membershipExists = MemberExistsByEmail().call(email: _formState.email.value);
-    if (membershipExists) {
-      final email = _formState.email.copyWith(
-        value: _formState.email.value,
-        errorMessage: 'El email está registrado a un miembro.',
-      );
-      _formState = _formState.copyWith(email: email);
-      emit(RegisterApplicationFormEditingState(_formState));
-      return;
-    }
+    // // CHECK IF USER EXISTS
+    // final membershipExists = MemberExistsByEmail().call(email: _formState.email.value);
+    // if (membershipExists) {
+    //   final email = _formState.email.copyWith(
+    //     value: _formState.email.value,
+    //     errorMessage: 'El email está registrado a un miembro.',
+    //   );
+    //   _formState = _formState.copyWith(email: email);
+    //   emit(RegisterApplicationFormEditingState(_formState));
+    //   return;
+    // }
 
     final email = _formState.email.copyWith(value: newEmail, clearError: true);
     _formState = _formState.copyWith(email: email);
     emit(RegisterApplicationFormEditingState(_formState));
   }
 
-  void onEmailFocusChanged(bool hasFocus) {
-    if (hasFocus) return;
+  // void onEmailFocusChanged(bool hasFocus) {
+  //   if (hasFocus) return;
 
-    // CHECK IF EMAIL ALREADY EXISTS IN APPLICATION!
-    final applicationExists = ApplicationExistsByEmail().call(email: _formState.email.value);
-    if (applicationExists) {
-      final email = _formState.email.copyWith(
-        value: _formState.email.value,
-        errorMessage: 'El email ya está registrado a una solicitud.',
-      );
-      _formState = _formState.copyWith(email: email);
-      emit(RegisterApplicationFormEditingState(_formState));
-      return;
-    }
-  }
+  //   // CHECK IF EMAIL ALREADY EXISTS IN APPLICATION!
+  //   final applicationExists = ApplicationExistsByEmail().call(email: _formState.email.value);
+  //   if (applicationExists) {
+  //     final email = _formState.email.copyWith(
+  //       value: _formState.email.value,
+  //       errorMessage: 'El email ya está registrado a una solicitud.',
+  //     );
+  //     _formState = _formState.copyWith(email: email);
+  //     emit(RegisterApplicationFormEditingState(_formState));
+  //     return;
+  //   }
+  // }
 
   void updatePhone(String val) => _update(() => _formState.copyWith(phoneNumber: val));
   void updateEmergencyPhone(String val) => _update(() => _formState.copyWith(emergencyPhoneNumber: val));
@@ -76,19 +100,13 @@ class RegisterApplicationCubit extends Cubit<RegisterApplicationState> {
     emit(RegisterApplicationFormEditingState(_formState));
   }
 
-  bool get canSubmit {
-    final state = _formState;
-    if (state.name.isEmpty) return false;
-    if (state.message.isEmpty) return false;
-    if (state.email.value.trim().isEmpty || state.email.hasError) return false;
-    //if (Validators.isValidPhone(phoneNumber) == false) return false;
-    if (state.isAdmin == false && state.isResident == false && state.isSecurity == false) return false;
-
-    return true;
-  }
-
   Future<void> submit() async {
-    if (state is! RegisterApplicationFormEditingState || canSubmit == false) return;
+    // VALIDATE
+    final state = _formState.validate();
+    if (state.isValid == false) {
+      emit(RegisterApplicationFormEditingState(state));
+      return;
+    }
 
     emit(RegisterApplicationFormSubmittingState());
 
@@ -96,7 +114,7 @@ class RegisterApplicationCubit extends Cubit<RegisterApplicationState> {
       await CreateApplicationAndSendInvitations().call(
         communityId: _sessionService.communityId,
         userId: null,
-        name: _formState.name,
+        name: _formState.name.value,
         email: _formState.email.value,
         phoneNumber: _formState.phoneNumber,
         emergencyPhoneNumber: _formState.emergencyPhoneNumber,

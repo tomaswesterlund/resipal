@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:resipal_core/lib.dart';
 
 class RegisterApplicationFormState extends Equatable {
-  final String name;
+  final InputField<String> name;
   final InputField<String> email;
   final String phoneNumber;
   final String? emergencyPhoneNumber;
@@ -12,27 +12,25 @@ class RegisterApplicationFormState extends Equatable {
   final bool isSecurity;
 
   const RegisterApplicationFormState({
-    this.name = '',
-    this.email = const InputField<String>(value: ''),
+    required this.name,
+    required this.email,
     this.phoneNumber = '',
     this.emergencyPhoneNumber,
     this.message = '',
     this.isAdmin = false,
     this.isResident = true,
-    this.isSecurity = false
+    this.isSecurity = false,
   });
 
-
-
   RegisterApplicationFormState copyWith({
-    String? name,
+    InputField<String>? name,
     InputField<String>? email,
     String? phoneNumber,
     String? emergencyPhoneNumber,
     String? message,
     bool? isAdmin,
     bool? isResident,
-    bool? isSecurity
+    bool? isSecurity,
   }) {
     return RegisterApplicationFormState(
       name: name ?? this.name,
@@ -42,38 +40,16 @@ class RegisterApplicationFormState extends Equatable {
       message: message ?? this.message,
       isAdmin: isAdmin ?? this.isAdmin,
       isResident: isResident ?? this.isResident,
-      isSecurity: isSecurity ?? this.isSecurity
+      isSecurity: isSecurity ?? this.isSecurity,
     );
   }
 
   @override
   List<Object?> get props => [name, email, phoneNumber, emergencyPhoneNumber, message, isAdmin, isResident, isSecurity];
-}
 
-
-class InputField<T> extends Equatable {
-  final T value;
-  final String? errorMessage;
-
-  const InputField({
-    required this.value, 
-    this.errorMessage,
-  });
-
-  bool get isValid => errorMessage == null;
-  bool get hasError => errorMessage != null;
-
-  InputField<T> copyWith({
-    T? value,
-    String? errorMessage,
-    bool clearError = false,
-  }) {
-    return InputField<T>(
-      value: value ?? this.value,
-      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-    );
+  RegisterApplicationFormState validate() {
+    return copyWith(name: name.validate(), email: email.validate());
   }
 
-  @override
-  List<Object?> get props => [value, errorMessage];
+  bool get isValid => name.isValid && email.isValid;
 }

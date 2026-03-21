@@ -69,7 +69,6 @@ class _Form extends StatelessWidget {
             isRequired: true,
             errorText: formState.email.errorMessage,
             onChanged: cubit.updateEmail,
-            focusNode: cubit.emailFocusNode,
           ),
           const SizedBox(height: 20),
           PhoneNumberInputField(
@@ -133,7 +132,7 @@ class _Form extends StatelessWidget {
           const SizedBox(height: 48),
           SizedBox(
             width: double.infinity,
-            child: PrimaryButton(label: 'ENVIAR SOLICITUD', canSubmit: cubit.canSubmit, onPressed: cubit.submit),
+            child: PrimaryButton(label: 'ENVIAR SOLICITUD', canSubmit: true, onPressed: cubit.submit),
           ),
         ],
       ),
