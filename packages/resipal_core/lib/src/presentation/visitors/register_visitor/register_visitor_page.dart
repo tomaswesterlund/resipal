@@ -66,9 +66,10 @@ class _Form extends StatelessWidget {
 
           const SizedBox(height: 32),
           TextInputField(
-            label: 'Nombre Completo',
+            label: 'Nombre completo',
             hint: 'Ej: Juan Pérez',
             isRequired: true,
+            errorText: formState.name.errorMessage,
             onChanged: cubit.updateName,
           ),
 
@@ -76,10 +77,10 @@ class _Form extends StatelessWidget {
           const OverlineText('IDENTIFICACIÓN OFICIAL (INE / LICENCIA)'),
           const SizedBox(height: 12),
 
-          if (formState.idImage != null)
+          if (formState.image.value != null)
             Stack(
               children: [
-                XFileImagePreview(xFile: formState.idImage!),
+                XFileImagePreview(xFile: formState.image.value!),
                 Positioned(
                   top: 8,
                   right: 8,
@@ -97,13 +98,14 @@ class _Form extends StatelessWidget {
             ImagePickerButtons(
               onCamera: () => cubit.pickImage(ImageSource.camera),
               onGallery: () => cubit.pickImage(ImageSource.gallery),
+              errorText: formState.image.errorMessage,
             ),
 
           const SizedBox(height: 48),
 
           SizedBox(
             width: double.infinity,
-            child: PrimaryButton(label: 'REGISTRAR VISITANTE', canSubmit: formState.canSubmit, onPressed: cubit.submit),
+            child: PrimaryButton(label: 'REGISTRAR VISITANTE', onPressed: cubit.submit),
           ),
         ],
       ),

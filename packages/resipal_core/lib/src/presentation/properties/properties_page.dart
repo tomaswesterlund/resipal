@@ -5,8 +5,8 @@ import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/ui/my_app_bar.dart';
 
 class PropertiesPage extends StatelessWidget {
-  final List<PropertyEntity> properties;
-  const PropertiesPage(this.properties, {super.key});
+  final PropertyRegistry registry;
+  const PropertiesPage(this.registry, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class PropertiesPage extends StatelessWidget {
         actions: [IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterPropertyPage()))],
       ),
 
-      body: PropertyListView(properties),
+      body: PropertyListView(registry),
     );
   }
 }

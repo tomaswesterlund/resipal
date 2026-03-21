@@ -20,6 +20,16 @@ class RegisterInvitationCubit extends Cubit<RegisterInvitationState> {
       userId: _sessionService.userId,
     );
 
+    if(properties.isEmpty) {
+      emit(RegisterInvitationNoPropertiesState());
+      return;
+    }
+
+    if(visitors.isEmpty) {
+      emit(RegisterInvitationNoVisitorsState());
+      return;
+    }
+
     _formState = RegisterInvitationFormState(properties: properties, visitors: visitors);
     emit(RegisterInvitationFormEditingState(_formState));
   }

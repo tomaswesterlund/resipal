@@ -8,6 +8,10 @@ abstract class RegisterInvitationState extends Equatable {
 
 class RegisterInvitationInitialState extends RegisterInvitationState {}
 
+class RegisterInvitationNoPropertiesState extends RegisterInvitationState {}
+
+class RegisterInvitationNoVisitorsState extends RegisterInvitationState {}
+
 class RegisterInvitationFormEditingState extends RegisterInvitationState {
   final RegisterInvitationFormState formState;
   RegisterInvitationFormEditingState(this.formState);

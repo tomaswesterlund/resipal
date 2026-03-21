@@ -61,6 +61,7 @@ class _Form extends StatelessWidget {
             label: 'Nombre completo',
             hint: 'Ej: Juan Pérez',
             isRequired: true,
+            errorText: formState.name.errorMessage,
             onChanged: cubit.updateName,
           ),
           const SizedBox(height: 20),
@@ -75,14 +76,16 @@ class _Form extends StatelessWidget {
             label: 'Teléfono de contacto',
             isRequired: true,
             helpText: 'Tu número principal para recibir notificaciones.',
-            onChanged: cubit.updatePhone,
+            errorText: formState.phoneNumber.errorMessage,
+            onChanged: cubit.updatePhoneNumber,
           ),
           const SizedBox(height: 20),
           PhoneNumberInputField(
             label: 'Teléfono de emergencia',
             isRequired: false,
             helpText: 'Número de un contacto de confianza en caso de incidentes dentro de la comunidad.',
-            onChanged: cubit.updatePhone,
+            errorText: formState.emergencyPhoneNumber.errorMessage,
+            onChanged: cubit.updateEmergencyPhoneNumber,
           ),
 
           const SizedBox(height: 24),
@@ -95,28 +98,8 @@ class _Form extends StatelessWidget {
                   'Define los permisos que tendrá el usuario. Puedes seleccionar varios roles dependiendo de sus responsabilidades en la comunidad.',
             ),
           ),
-          DefaultCard(
-            elevation: 0,
-            child: Column(
-              children: [
-                CheckboxListTile(
-                  title: BodyText.medium('Residente'),
-                  value: formState.isResident,
-                  onChanged: cubit.toggleResident,
-                ),
-                CheckboxListTile(
-                  title: BodyText.medium('Administrador'),
-                  value: formState.isAdmin,
-                  onChanged: cubit.toggleAdmin,
-                ),
-                CheckboxListTile(
-                  title: BodyText.medium('Seguridad'),
-                  value: formState.isSecurity,
-                  onChanged: cubit.toggleSecurity,
-                ),
-              ],
-            ),
-          ),
+          _RolesSection(formState),
+          
 
           const SizedBox(height: 32),
           TextInputField(
@@ -126,6 +109,7 @@ class _Form extends StatelessWidget {
             isRequired: true,
             helpText:
                 'Este mensaje se enviará al usuario junto con su invitación para darle contexto sobre el acceso a la comunidad.',
+                errorText: formState.message.errorMessage,
             onChanged: cubit.updateMessage,
           ),
 
@@ -136,6 +120,64 @@ class _Form extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _RolesSection extends StatelessWidget {
+  final RegisterApplicationFormState formState;
+
+  const _RolesSection(this.formState);
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<RegisterApplicationCubit>();
+    final colorScheme = Theme.of(context).colorScheme;
+    final hasError = formState.rolesError != null;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DefaultCard(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: BorderSide(
+              color: hasError ? colorScheme.error : colorScheme.outlineVariant,
+              width: hasError ? 2 : 1,
+            ),
+          ),
+          child: Column(
+            children: [
+              CheckboxListTile(
+                title: BodyText.medium('Residente'),
+                value: formState.isResident,
+                onChanged: cubit.toggleResident,
+                activeColor: colorScheme.primary,
+              ),
+              CheckboxListTile(
+                title: BodyText.medium('Administrador'),
+                value: formState.isAdmin,
+                onChanged: cubit.toggleAdmin,
+                activeColor: colorScheme.primary,
+              ),
+              CheckboxListTile(
+                title: BodyText.medium('Seguridad'),
+                value: formState.isSecurity,
+                onChanged: cubit.toggleSecurity,
+                activeColor: colorScheme.primary,
+              ),
+            ],
+          ),
+        ),
+
+        // Mostramos el mensaje de error debajo del card
+        if (hasError)
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, top: 8.0),
+            child: Text(formState.rolesError!, style: TextStyle(color: colorScheme.error, fontSize: 12)),
+          ),
+      ],
     );
   }
 }

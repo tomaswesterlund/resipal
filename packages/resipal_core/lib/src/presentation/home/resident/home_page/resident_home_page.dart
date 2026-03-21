@@ -27,7 +27,7 @@ class _ResidentHomePageState extends State<ResidentHomePage> {
       create: (context) => ResidentHomePageCubit()..initialize(widget.community, widget.resident),
       child: BlocBuilder<ResidentHomePageCubit, ResidentHomePageState>(
         builder: (context, state) {
-          if(state is ResidentErrorState) {
+          if (state is ResidentErrorState) {
             return ErrorView();
           }
           final community = (state is ResidentLoadedState) ? state.community : widget.community;
@@ -41,7 +41,7 @@ class _ResidentHomePageState extends State<ResidentHomePage> {
               index: _currentPageIndex,
               children: [
                 ResidentHomeOverview(resident: resident),
-                PropertyListView(resident.propertyRegistry.properties),
+                PropertyListView(resident.propertyRegistry),
                 PaymentListView(resident.paymentLedger.payments),
                 AccessOverview(accessRegistry: resident.accessRegistry),
               ],
@@ -68,7 +68,8 @@ class _ResidentHomePageState extends State<ResidentHomePage> {
                             label: 'Mi Comunidad',
                             onTap: () => Go.to(CommunityDetailsPage(community: community)),
                           ),
-                          WkDrawerItem(icon: Icons.person, label: 'Mi Perfil', onTap: () => {}),
+                          WkDrawerItem(icon: Icons.person, label: 'Mi Membresía', onTap: () => {}),
+                          WkDrawerItem(icon: Icons.help, label: 'Ayuda', onTap: () => Go.to(HelpPage())),
 
                           SizedBox(height: 12),
                           Divider(thickness: 1),
@@ -79,13 +80,6 @@ class _ResidentHomePageState extends State<ResidentHomePage> {
                             label: 'Cerrar Sesión',
                             color: colorScheme.error,
                             onTap: () => context.read<ResidentHomePageCubit>().signout(),
-                          ),
-                          const SizedBox(height: 24.0),
-                          Center(
-                            child: Text(
-                              'Resipal Residente v1.0.4',
-                              style: theme.textTheme.labelSmall?.copyWith(color: colorScheme.outline),
-                            ),
                           ),
                         ],
                       ),
@@ -127,7 +121,12 @@ class _ResidentHomePageState extends State<ResidentHomePage> {
   List<Widget> _getAppBarActions(BuildContext context, ResidentMemberEntity resident) {
     switch (_currentPageIndex) {
       case 0:
-        return [IconButton(icon: const Icon(Icons.notifications_none), onPressed: () => Go.to(NotificationsPage(resident.notifications)))];
+        return [
+          IconButton(
+            icon: const Icon(Icons.notifications_none),
+            onPressed: () => Go.to(NotificationsPage(resident.notifications)),
+          ),
+        ];
       case 2: // Pestaña de Pagos
         return [IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(const RegisterPaymentPage()))];
       default:

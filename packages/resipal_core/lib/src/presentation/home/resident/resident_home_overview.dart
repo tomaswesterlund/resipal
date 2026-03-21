@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:resipal_core/src/presentation/access/access_page.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
@@ -108,7 +109,7 @@ class ResidentHomeOverview extends StatelessWidget {
                         count: resident.propertyRegistry.withOverduesFees.length,
                         icon: Icons.house_outlined,
                         color: Theme.of(context).colorScheme.primary,
-                        onPressed: () => Go.to(PropertiesPage(resident.propertyRegistry.properties)),
+                        onPressed: () => Go.to(PropertiesPage(resident.propertyRegistry)),
                       ),
                       SizedBox(height: 4),
                       ActionTile(
@@ -116,7 +117,7 @@ class ResidentHomeOverview extends StatelessWidget {
                         count: resident.paymentLedger.pendingPayments.length,
                         icon: Icons.attach_money,
                         color: Theme.of(context).colorScheme.primary,
-                        onPressed: () => Go.to(PaymentsPage(payments: resident.paymentLedger.payments)),
+                        onPressed: () => Go.to(PaymentsPage(ledger: resident.paymentLedger)),
                       ),
                       SizedBox(height: 4),
                       ActionTile(
@@ -124,7 +125,7 @@ class ResidentHomeOverview extends StatelessWidget {
                         count: resident.accessRegistry.activeInvitations.length,
                         icon: Icons.door_front_door_outlined,
                         color: Theme.of(context).colorScheme.primary,
-                        onPressed: () {},
+                        onPressed: () => Go.to(AccessPage(resident.accessRegistry)),
                       ),
                     ],
                   ),

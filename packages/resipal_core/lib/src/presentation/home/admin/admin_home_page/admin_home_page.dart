@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal_core/src/presentation/help/help_page.dart';
-import 'package:resipal_core/src/presentation/properties/properties_view.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:wester_kit/lib.dart';
@@ -91,7 +89,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   onPendingPaymentsPressed: () => setState(() => _currentPageIndex = HomePage.payments.index),
                 ),
                 PropertiesView(
-                  properties: community.propertyRegistry.properties,
+                  registry: community.propertyRegistry,
                   showNoActiveContractInformation: community.contracts.length == 0,
                   showRegisterProperty: true,
                 ),
@@ -163,7 +161,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           WkDrawerItem(
                             icon: Icons.house,
                             label: 'Propiedades',
-                            onTap: () => Go.to(PropertiesPage(community.propertyRegistry.properties)),
+                            onTap: () => Go.to(PropertiesPage(community.propertyRegistry)),
                           ),
                           WkDrawerItem(
                             icon: Icons.bar_chart_outlined,
@@ -208,13 +206,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                               onTap: () => Go.to(const SendWhatsappMessagePage()),
                             ),
                           ],
-                          const SizedBox(height: 12.0),
-                          Center(
-                            child: Text(
-                              'Resipal Admin v1.0.4',
-                              style: theme.textTheme.labelSmall?.copyWith(color: colorScheme.outline),
-                            ),
-                          ),
                         ],
                       ),
                     ),

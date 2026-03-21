@@ -1,23 +1,27 @@
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wester_kit/ui/inputs/validation/input_field.dart';
 
 class RegisterVisitorFormState extends Equatable {
-  final String name;
-  final XFile? idImage;
+  final InputField<String> name;
+  final InputField<XFile?> image;
+  // final XFile? idImage;
 
-  const RegisterVisitorFormState({this.name = '', this.idImage});
+  const RegisterVisitorFormState({required this.name, required this.image});
 
-  // El nombre es requerido y la imagen de identificación también para proceder
-  bool get canSubmit => name.trim().isNotEmpty && idImage != null;
-
-  RegisterVisitorFormState copyWith({String? name, XFile? idImage}) {
-    return RegisterVisitorFormState(name: name ?? this.name, idImage: idImage ?? this.idImage);
+  RegisterVisitorFormState copyWith({InputField<String>? name, InputField<XFile?>? image}) {
+    return RegisterVisitorFormState(name: name ?? this.name, image: image ?? this.image);
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{'name': name, 'idImage': idImage?.path};
+    return <String, dynamic>{'name': name, 'image': image.value?.path};
   }
 
   @override
-  List<Object?> get props => [name, idImage];
+  List<Object?> get props => [name, image];
+  RegisterVisitorFormState validate() {
+    return copyWith(name: name.validate(), image: image.validate());
+  }
+
+  bool get isValid => name.isValid && image.isValid;
 }

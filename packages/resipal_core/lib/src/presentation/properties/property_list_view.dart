@@ -4,10 +4,10 @@ import 'package:wester_kit/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class PropertyListView extends StatefulWidget {
-  final List<PropertyEntity> properties;
+  final PropertyRegistry registry;
   final bool showRegisterProperty;
 
-  const PropertyListView(this.properties, {this.showRegisterProperty = false, super.key});
+  const PropertyListView(this.registry, {this.showRegisterProperty = false, super.key});
 
   @override
   State<PropertyListView> createState() => _PropertyListViewState();
@@ -34,8 +34,8 @@ class _PropertyListViewState extends State<PropertyListView> {
 
     // 1. Filter Logic
     final filteredProperties = _selectedFilter.value == null
-        ? widget.properties
-        : widget.properties.where((p) => p.hasDebt == _selectedFilter.value).toList();
+        ? widget.registry.properties
+        : widget.registry.properties.where((p) => p.hasDebt == _selectedFilter.value).toList();
 
     // 2. Sort by name
     filteredProperties.sort((a, b) => a.name.compareTo(b.name));

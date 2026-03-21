@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/ui/my_app_bar.dart';
 
 class PaymentsPage extends StatelessWidget {
-  final List<PaymentEntity> payments;
-  const PaymentsPage({required this.payments, super.key});
+  final PaymentLedgerEntity ledger;
+  const PaymentsPage({required this.ledger, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: 'Pagos'),
-      body: PaymentListView(payments),
+      appBar: MyAppBar(
+        title: 'Pagos',
+        actions: [IconButton(icon: const Icon(Icons.add), onPressed: () => Go.to(RegisterPaymentPage()))],
+      ),
+      body: PaymentListView(ledger.payments),
     );
   }
 }

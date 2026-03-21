@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
 class RegisterPaymentPage extends StatelessWidget {
@@ -92,12 +93,7 @@ class _Form extends StatelessWidget {
           ),
 
           const SizedBox(height: 24),
-          TextInputField(
-            label: 'Nota',
-            hint: 'Ej: Pago adelantado de marzo',
-            maxLines: 2,
-            onChanged: cubit.updateNote,
-          ),
+          TextInputField(label: 'Nota', hint: 'Ej: Pago adelantado de marzo', maxLines: 2, onChanged: cubit.updateNote),
 
           const SizedBox(height: 24),
 
@@ -150,15 +146,15 @@ class _NoResidentsFound extends StatelessWidget {
             HeaderText.four('No hay residentes registrados', textAlign: TextAlign.center, color: colorScheme.primary),
             const SizedBox(height: 16),
             Text(
-              'No puedes registrar un pago si no hay residentes en el sistema. Primero debes dar de alta a los usuarios y asignarles una propiedad.',
+              "No puedes registrar pagos sin residentes activos. Para dar de alta a un usuario, el administrador debe enviar una invitación y esta debe ser aprobada por el residente desde su cuenta. Una vez aceptada, asegúrate de asignarle una propiedad.",
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface),
             ),
             const SizedBox(height: 32),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: () => Go.to(RegisterApplicationPage()),
               icon: const Icon(Icons.add),
-              label: const Text('Registrar residente'),
+              label: const Text('Registrar solicitud'),
               style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
             ),
           ],

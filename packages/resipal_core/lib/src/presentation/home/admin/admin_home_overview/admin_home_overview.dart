@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:resipal_core/src/domain/entities/members/admin_member_entity.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
 class AdminHomeOverview extends StatelessWidget {
@@ -70,7 +71,7 @@ class AdminHomeOverview extends StatelessWidget {
                       count: community.paymentLedger.pendingPayments.length,
                       icon: Icons.receipt_long_outlined,
                       color: colorScheme.surfaceTint,
-                      onPressed: onPendingPaymentsPressed,
+                      onPressed: () => Go.to(PaymentsPage(ledger: community.paymentLedger)),
                     ),
                     const SizedBox(height: 12),
                     ActionTile(
@@ -78,7 +79,7 @@ class AdminHomeOverview extends StatelessWidget {
                       count: community.applications.length,
                       icon: Icons.person_add_outlined,
                       color: colorScheme.surfaceTint,
-                      onPressed: onPendingApplicationsPressed,
+                      onPressed: () => Go.to(ApplicationListPage(applications: community.applications)),
                     ),
 
                     const SizedBox(height: 200),
