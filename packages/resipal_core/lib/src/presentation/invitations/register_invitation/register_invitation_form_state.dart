@@ -1,34 +1,33 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:resipal_core/lib.dart';
+import 'package:wester_kit/ui/inputs/validation/input_field.dart';
 
 class RegisterInvitationFormState extends Equatable {
   final List<PropertyEntity> properties;
   final List<VisitorEntity> visitors;
 
-  final PropertyEntity? property;
-  final VisitorEntity? visitor;
-  final DateTimeRange? dateRange;
-  final int? maxEntries;
+  final InputField<PropertyEntity?> property;
+  final InputField<VisitorEntity?> visitor;
+  final InputField<DateTimeRange?> dateRange;
+  final InputField<int?> maxEntries;
 
   const RegisterInvitationFormState({
     required this.properties,
     required this.visitors,
-    this.property,
-    this.visitor,
-    this.dateRange,
-    this.maxEntries,
+    required this.property,
+    required this.visitor,
+    required this.dateRange,
+    required this.maxEntries,
   });
-
-  bool get canSubmit => property != null && visitor != null && dateRange != null;
 
   RegisterInvitationFormState copyWith({
     List<PropertyEntity>? properties,
     List<VisitorEntity>? visitors,
-    PropertyEntity? property,
-    VisitorEntity? visitor,
-    DateTimeRange? dateRange,
-    int? maxEntries,
+    InputField<PropertyEntity?>? property,
+    InputField<VisitorEntity?>? visitor,
+    InputField<DateTimeRange?>? dateRange,
+    InputField<int?>? maxEntries,
   }) {
     return RegisterInvitationFormState(
       properties: properties ?? this.properties,
@@ -42,4 +41,15 @@ class RegisterInvitationFormState extends Equatable {
 
   @override
   List<Object?> get props => [properties, visitors, property, visitor, dateRange, maxEntries];
+
+  bool get isValid => property.isValid && visitor.isValid && dateRange.isValid && maxEntries.isValid;
+
+  RegisterInvitationFormState validate() {
+    return copyWith(
+      property: property.validate(),
+      visitor: visitor.validate(),
+      dateRange: dateRange.validate(),
+      maxEntries: maxEntries.validate(),
+    );
+  }
 }

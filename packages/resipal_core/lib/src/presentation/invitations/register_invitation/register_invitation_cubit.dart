@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
 import 'package:resipal_core/src/domain/use_cases/invitations/register_invitation.dart';
 import 'package:resipal_core/src/domain/use_cases/properties/get_properties_by_community_and_resident_id.dart';
+import 'package:wester_kit/lib.dart';
 
 class RegisterInvitationCubit extends Cubit<RegisterInvitationState> {
   final SessionService _sessionService = GetIt.I<SessionService>();
@@ -14,61 +15,78 @@ class RegisterInvitationCubit extends Cubit<RegisterInvitationState> {
   RegisterInvitationCubit() : super(RegisterInvitationInitialState());
 
   void initialize() {
-    final properties = GetPropertiesByCommunityAndResidentId().call(communityId: _sessionService.communityId, residentId: _sessionService.userId);
+    final properties = GetPropertiesByCommunityAndResidentId().call(
+      communityId: _sessionService.communityId,
+      residentId: _sessionService.userId,
+    );
     final visitors = GetVisitorsByCommunityIdAndUserId().call(
       communityId: _sessionService.communityId,
       userId: _sessionService.userId,
     );
 
-    if(properties.isEmpty) {
+    if (properties.isEmpty) {
       emit(RegisterInvitationNoPropertiesState());
       return;
     }
 
-    if(visitors.isEmpty) {
+    if (visitors.isEmpty) {
       emit(RegisterInvitationNoVisitorsState());
       return;
     }
 
-    _formState = RegisterInvitationFormState(properties: properties, visitors: visitors);
+    _formState = RegisterInvitationFormState(
+      properties: properties,
+      visitors: visitors,
+      property: InputField<PropertyEntity?>(value: null, validators: [ValueNotNull()]),
+      visitor: InputField<VisitorEntity?>(value: null, validators: [ValueNotNull()]),
+      dateRange: InputField<DateTimeRange?>(value: null, validators: [ValueNotNull()]),
+      maxEntries: InputField<int?>(value: null, validators: []),
+    );
     emit(RegisterInvitationFormEditingState(_formState));
   }
 
-  void updateProperty(PropertyEntity? property) {
+  void updateProperty(PropertyEntity? selectedProperty) {
+    final property = _formState.property.copyWith(value: selectedProperty);
     _formState = _formState.copyWith(property: property);
     emit(RegisterInvitationFormEditingState(_formState));
   }
 
-  void updateVisitor(VisitorEntity? visitor) {
+  void updateVisitor(VisitorEntity? selectedVisitor) {
+    final visitor = _formState.visitor.copyWith(value: selectedVisitor);
     _formState = _formState.copyWith(visitor: visitor);
     emit(RegisterInvitationFormEditingState(_formState));
   }
 
-  void updateDateRange(DateTimeRange? range) {
-    _formState = _formState.copyWith(dateRange: range);
+  void updateDateRange(DateTimeRange? selectedDateRange) {
+    final dateRange = _formState.dateRange.copyWith(value: selectedDateRange);
+    _formState = _formState.copyWith(dateRange: dateRange);
     emit(RegisterInvitationFormEditingState(_formState));
   }
 
   void updateMaxEntries(String? value) {
     final entries = (value == null || value.isEmpty) ? null : int.tryParse(value);
-    _formState = _formState.copyWith(maxEntries: entries);
+    final maxEntries = _formState.maxEntries.copyWith(value: entries);
+    _formState = _formState.copyWith(maxEntries: maxEntries);
     emit(RegisterInvitationFormEditingState(_formState));
   }
 
   Future<void> submit() async {
-    if (!_formState.canSubmit) return;
+    final state = _formState.validate();
+    if (state.isValid == false) {
+      emit(RegisterInvitationFormEditingState(state));
+      return;
+    }
 
     emit(RegisterInvitationSubmittingState());
     try {
       await RegisterInvitation().call(
         communityId: _sessionService.communityId,
         userId: _sessionService.userId,
-        propertyId: _formState.property!.id,
-        visitorId: _formState.visitor!.id,
-        fromDate: _formState.dateRange!.start,
-        toDate: _formState.dateRange!.end,
-        maxEntries: _formState.maxEntries,
-        
+        propertyId: state.property.value!.id,
+        visitorId: state.visitor.value!.id,
+        fromDate: state.dateRange.value!.start,
+        toDate: state.dateRange.value!.end,
+        maxEntries: state.maxEntries.value,
       );
       emit(RegisterInvitationSuccessState());
     } catch (e, s) {

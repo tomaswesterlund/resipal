@@ -15,14 +15,13 @@ class RegisterInvitationPage extends StatelessWidget {
         create: (context) => RegisterInvitationCubit()..initialize(),
         child: BlocBuilder<RegisterInvitationCubit, RegisterInvitationState>(
           builder: (context, state) {
-            if(state is RegisterInvitationNoPropertiesState) {
+            if (state is RegisterInvitationNoPropertiesState) {
               return _NoProperties();
             }
 
-            if(state is RegisterInvitationNoVisitorsState) {
+            if (state is RegisterInvitationNoVisitorsState) {
               return _NoVisitors();
             }
-
 
             if (state is RegisterInvitationSubmittingState) return const LoadingView();
             if (state is RegisterInvitationSuccessState) {
@@ -64,6 +63,7 @@ class _Form extends StatelessWidget {
             label: 'Propiedad de destino',
             items: formState.properties,
             itemLabelBuilder: (p) => p.name,
+            errorMessage: formState.property.errorMessage,
             onChanged: cubit.updateProperty,
             isRequired: true,
           ),
@@ -72,13 +72,15 @@ class _Form extends StatelessWidget {
             label: 'Visitante',
             items: formState.visitors,
             itemLabelBuilder: (v) => v.name,
+            errorMessage: formState.visitor.errorMessage,
             onChanged: cubit.updateVisitor,
             isRequired: true,
           ),
           const SizedBox(height: 24),
           DateRangePickerField(
             label: 'Vigencia de acceso',
-            selectedRange: formState.dateRange,
+            selectedRange: formState.dateRange.value,
+            errorMessage: formState.dateRange.errorMessage,
             onRangeSelected: cubit.updateDateRange,
             isRequired: true,
           ),
@@ -87,16 +89,13 @@ class _Form extends StatelessWidget {
             label: 'Límite de entradas (Opcional)',
             hint: 'Ej: 5 (Dejar vacío para ilimitadas)',
             keyboardType: TextInputType.number,
+            errorText: formState.maxEntries.errorMessage,
             onChanged: cubit.updateMaxEntries,
           ),
           const SizedBox(height: 48),
           SizedBox(
             width: double.infinity,
-            child: PrimaryButton(
-              label: 'REGISTRAR INVITACIÓN',
-              canSubmit: formState.canSubmit,
-              onPressed: cubit.submit,
-            ),
+            child: PrimaryButton(label: 'REGISTRAR INVITACIÓN', onPressed: cubit.submit),
           ),
         ],
       ),
@@ -127,7 +126,6 @@ class _NoProperties extends StatelessWidget {
               'ponte en contacto con la administración para realizar este registro.',
               textAlign: TextAlign.center,
             ),
-            
           ],
         ),
       ),
