@@ -8,7 +8,7 @@ import 'package:gotrue/src/constants.dart';
 
 class AuthGateCubit extends Cubit<AuthGateState> {
   final AuthService _authService = GetIt.I<AuthService>();
-  final SessionService _sessionService = GetIt.I<SessionService>();
+  final SessionService _session = GetIt.I<SessionService>();
   StreamSubscription? _authSubscription;
 
   AuthGateCubit() : super(AuthGateInitialState());
@@ -29,7 +29,7 @@ class AuthGateCubit extends Cubit<AuthGateState> {
         case AuthChangeEvent.signedIn:
           await _onUserSignedIn(_authService.getSignedInUserId());
         case AuthChangeEvent.signedOut:
-          await _sessionService.stopWatchers();
+          await _session.stopWatchers();
           emit(AuthGateUserNotSignedIn());
         case AuthChangeEvent.tokenRefreshed:
           throw UnimplementedError();
@@ -47,28 +47,39 @@ class AuthGateCubit extends Cubit<AuthGateState> {
   Future<void> _onUserSignedIn(String userId) async {
     try {
       emit(AuthGateLoadingState());
+      final email = _authService.getSignedInUser().email;
+      if (email == null) {
+        emit(AuthGateErrorState());
+        return;
+      }
 
       // Pre-fetch all necessary data
       await Future.wait([
         FetchUsers().call(),
         FetchCommunities().call(),
         FetchMembershipsByUserId().call(userId: userId),
+        FetchApplications().call(),
       ]);
 
-      // Check Profile
       final onboarded = await UserIsOnboarded().call(userId);
-      if (!onboarded) return emit(AuthGateUserNotOnboarded());
+      final applications = GetApplicationsByEmail().call(email: email).where((x) => x.isResident == true);
+
+      if (onboarded == false) {
+        final ApplicationEntity? application = applications.isNotEmpty ? applications.first : null;
+        return emit(AuthGateUserNotOnboarded(application: application));
+      }
 
       // Check Membership
       final memberships = GetMembershipsByUserId().call(userId: userId);
-      if (memberships.isEmpty) return emit(AuthGateUserHasNoResidentMembership());
+      final user = GetUserById().call(userId);
+      if (memberships.isEmpty) return emit(AuthGateUserHasNoResidentMembership(user: user));
 
       // TODO: Check if resident / Check if we have a pending application etc.
 
       // Success: Start real-time watchers for this specific community
       final community = memberships.first.community;
 
-      await _sessionService.startCommunityWatchers(
+      await _session.startCommunityWatchers(
         app: ResipalApplication.resident,
         userId: userId,
         communityId: community.id,

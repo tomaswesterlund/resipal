@@ -5,7 +5,8 @@ class ApplicationExistsByEmail {
   final ApplicationDataSource _source = GetIt.I<ApplicationDataSource>();
 
   bool call({required String email}) {
-    final model = _source.getOptionalByEmail(email);
-    return model != null;
+    final applications = _source.getByEmail(email);
+
+    return applications.length != 0;
   }
 }

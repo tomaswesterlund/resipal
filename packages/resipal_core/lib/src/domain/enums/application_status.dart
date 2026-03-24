@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 enum ApplicationStatus {
   approved,
-  invited,
-  pendingApproval,
-  rejected,
-  revoked;
+  invited;
+  // pendingApproval,
+  // rejected,
+  // revoked;
 
   static ApplicationStatus fromString(String value) {
     return switch (value) {
       'approved' => ApplicationStatus.approved,
       'invited' => ApplicationStatus.invited,
-      'pending_approval' => ApplicationStatus.pendingApproval,
-      'rejected' => ApplicationStatus.rejected,
-      'revoked' => ApplicationStatus.revoked,
+      // 'pending_approval' => ApplicationStatus.pendingApproval,
+      // 'rejected' => ApplicationStatus.rejected,
+      // 'revoked' => ApplicationStatus.revoked,
       _ => throw UnimplementedError('Unknown ApplicationStatus: $value'),
     };
   }
@@ -23,9 +23,9 @@ enum ApplicationStatus {
     return switch (this) {
       ApplicationStatus.approved => 'approved',
       ApplicationStatus.invited => 'invited',
-      ApplicationStatus.pendingApproval => 'pending_approval',
-      ApplicationStatus.rejected => 'rejected',
-      ApplicationStatus.revoked => 'revoked',
+      // ApplicationStatus.pendingApproval => 'pending_approval',
+      // ApplicationStatus.rejected => 'rejected',
+      // ApplicationStatus.revoked => 'revoked',
     };
   }
 
@@ -34,9 +34,9 @@ enum ApplicationStatus {
     return switch (this) {
       ApplicationStatus.approved => 'Aprobado',
       ApplicationStatus.invited => 'Invitado',
-      ApplicationStatus.pendingApproval => 'Pendiente',
-      ApplicationStatus.rejected => 'Rechazado',
-      ApplicationStatus.revoked => 'Revocado',
+      // ApplicationStatus.pendingApproval => 'Pendiente',
+      // ApplicationStatus.rejected => 'Rechazado',
+      // ApplicationStatus.revoked => 'Revocado',
     };
   }
 
@@ -45,9 +45,9 @@ enum ApplicationStatus {
     return switch (this) {
       ApplicationStatus.approved => colors.tertiary,
       ApplicationStatus.invited => colors.primary,
-      ApplicationStatus.pendingApproval => colors.secondary,
-      ApplicationStatus.rejected => colors.error,
-      ApplicationStatus.revoked => colors.outline,
+      // ApplicationStatus.pendingApproval => colors.secondary,
+      // ApplicationStatus.rejected => colors.error,
+      // ApplicationStatus.revoked => colors.outline,
     };
   }
 }

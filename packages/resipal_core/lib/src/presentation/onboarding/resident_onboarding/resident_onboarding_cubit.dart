@@ -2,20 +2,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:resipal_core/lib.dart';
 
-class OnboardingUserRegistrationCubit extends Cubit<OnboardingUserRegistrationState> {
+class ResidentOnboardingCubit extends Cubit<ResidentOnboardingState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
   final AuthService _authService = GetIt.I<AuthService>();
-  final SessionService _session = GetIt.I<SessionService>();
 
-  OnboardingUserRegistrationCubit() : super(OnboardingUserRegistrationInitialState());
+  ResidentOnboardingCubit() : super(ResidentOnboardingInitialState());
 
-  OnboardingUserRegistrationFormState _formState = OnboardingUserRegistrationFormState();
+  ResidentOnboardingFormState _formState = ResidentOnboardingFormState();
 
-  void initialize() {
+  void initialize(ApplicationEntity? application) {
     try {
       final user = _authService.getSignedInUser();
       _formState = _formState.copyWith(email: user.email);
-      emit(OnboardingUserRegistrationFormEditingState(_formState));
+      if (application != null) {
+        _formState = _formState.copyWith(
+          name: application.name,
+          phoneNumber: application.phoneNumber,
+          emergencyPhoneNumber: application.emergencyPhoneNumber,
+        );
+      }
+      emit(ResidentOnboardingFormEditingState(_formState));
     } catch (e, s) {
       _logger.error(
         exception: e,
@@ -23,23 +29,23 @@ class OnboardingUserRegistrationCubit extends Cubit<OnboardingUserRegistrationSt
         stackTrace: s,
         metadata: _formState.toMap(),
       );
-      emit(OnboardingUserRegistrationErrorState());
+      emit(ResidentOnboardingErrorState());
     }
   }
 
   void onNameChanged(String newName) {
     _formState = _formState.copyWith(name: newName);
-    emit(OnboardingUserRegistrationFormEditingState(_formState));
+    emit(ResidentOnboardingFormEditingState(_formState));
   }
 
   void onPhoneChanged(String newPhoneNumber) {
     _formState = _formState.copyWith(phoneNumber: newPhoneNumber);
-    emit(OnboardingUserRegistrationFormEditingState(_formState));
+    emit(ResidentOnboardingFormEditingState(_formState));
   }
 
   void onEmergencyPhoneChanged(String newEmergencyPhoneNumber) {
     _formState = _formState.copyWith(emergencyPhoneNumber: newEmergencyPhoneNumber);
-    emit(OnboardingUserRegistrationFormEditingState(_formState));
+    emit(ResidentOnboardingFormEditingState(_formState));
   }
 
   Future<void> submit() async {
@@ -48,18 +54,21 @@ class OnboardingUserRegistrationCubit extends Cubit<OnboardingUserRegistrationSt
         return;
       }
 
-      emit(OnboardingUserRegistrationFormSubmittingState());
+      emit(ResidentOnboardingFormSubmittingState());
+      final iii = _authService.getSignedInUserId();
       final userId = await CreateUser().call(
-        userId: _session.userId,
+        userId: _authService.getSignedInUserId(),
         name: _formState.name,
         email: _formState.email,
         phoneNumber: _formState.phoneNumber,
-        emergencyPhoneNumber: _formState.emergencyPhoneNumber
+        emergencyPhoneNumber: _formState.emergencyPhoneNumber,
       );
 
       await FetchUser().call(userId);
+      await FetchApplications().call();
+      final user = GetUserById().call(userId);
 
-      emit(OnboardingUserRegistrationFormSubmittedSuccessfully());
+      emit(ResidentOnboardingFormSubmittedSuccessfully(user: user));
     } catch (e, s) {
       _logger.error(
         exception: e,
@@ -67,7 +76,7 @@ class OnboardingUserRegistrationCubit extends Cubit<OnboardingUserRegistrationSt
         stackTrace: s,
         metadata: _formState.toMap(),
       );
-      emit(OnboardingUserRegistrationErrorState());
+      emit(ResidentOnboardingErrorState());
     }
   }
 }

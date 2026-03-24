@@ -30,10 +30,41 @@ class ApplicationDataSource {
         );
   }
 
+  Stream<List<ApplicationModel>> watchByEmail(String email) {
+    return _client
+        .from('applications')
+        .stream(primaryKey: ['id'])
+        .eq('email', email)
+        .map(
+          (data) => data.map((item) {
+            final model = ApplicationModel.fromMap(item);
+            _cache[model.id] = model;
+            return model;
+          }).toList(),
+        );
+  }
+
+  Stream<List<ApplicationModel>> watchByUserId(String userId) {
+    return _client
+        .from('applications')
+        .stream(primaryKey: ['id'])
+        .eq('user_id', userId)
+        .map(
+          (data) => data.map((item) {
+            final model = ApplicationModel.fromMap(item);
+            _cache[model.id] = model;
+            return model;
+          }).toList(),
+        );
+  }
+
   ApplicationModel? getOptionalById(String id) => _cache[id];
 
-  ApplicationModel? getOptionalByEmail(String email) =>
-      _cache.values.where((x) => x.email.toLowerCase().trim() == email.toLowerCase().trim()).singleOrNull;
+  List<ApplicationModel> getByEmail(String email) =>
+      _cache.values.where((x) => x.email.toLowerCase().trim() == email.toLowerCase().trim()).toList();
+
+  List<ApplicationModel> getByPhoneNumber(String phoneNumber) =>
+      _cache.values.where((x) => x.phoneNumber.toLowerCase().trim() == phoneNumber.toLowerCase().trim()).toList();
 
   List<ApplicationModel> getByCommunityId(String communityId) =>
       _cache.values.where((x) => x.communityId == communityId).toList();

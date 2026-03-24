@@ -8,7 +8,7 @@ class GetApplicationById {
     final model = _source.getOptionalById(id);
 
     if (model == null) {
-      throw Exception('Application withg id $id not found in cache. Ensure the stream is active.');
+      throw Exception('Application with id $id not found in cache. Ensure the stream is active.');
     }
 
     final community = GetCommunityRefById().call(communityId: model.communityId);

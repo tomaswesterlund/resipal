@@ -61,12 +61,12 @@ class _Loaded extends StatelessWidget {
         children: [
           ApplicationHeader(application),
 
-          // Action Buttons (if pending)
-          if (application.status == ApplicationStatus.pendingApproval) ...[
-            const SizedBox(height: 12),
-            // Replace with your actual action buttons/logic
-            PrimaryButton(label: 'Revisar Solicitud', onPressed: () => {}),
-          ],
+          // // Action Buttons (if pending)
+          // if (application.status == ApplicationStatus.pendingApproval) ...[
+          //   const SizedBox(height: 12),
+          //   // Replace with your actual action buttons/logic
+          //   PrimaryButton(label: 'Revisar Solicitud', onPressed: () => {}),
+          // ],
 
           const SizedBox(height: 32),
 

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
 import 'package:resipal_core/lib.dart';
 
@@ -12,9 +14,17 @@ class AuthGateLoadingState extends AuthGateState {}
 
 class AuthGateUserNotSignedIn extends AuthGateState {}
 
-class AuthGateUserNotOnboarded extends AuthGateState {}
+class AuthGateUserNotOnboarded extends AuthGateState {
+  final ApplicationEntity? application;
 
-class AuthGateUserHasNoResidentMembership extends AuthGateState {}
+  AuthGateUserNotOnboarded({required this.application});
+}
+
+class AuthGateUserHasNoResidentMembership extends AuthGateState {
+  final UserEntity user;
+
+  AuthGateUserHasNoResidentMembership({required this.user});
+}
 
 class UserSignedIn extends AuthGateState {
   final ResidentMemberEntity resident;
