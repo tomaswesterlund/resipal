@@ -1,0 +1,9 @@
+name: resipal_workspace
+publish_to: 'none'
+
+workspace:
+  - apps/admin
+  - apps/resident
+  - apps/security
+  - packages/core
+  - packages/ui
