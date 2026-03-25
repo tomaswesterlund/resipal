@@ -1,8 +1,8 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal_core/src/presentation/shared/loading_screen.dart';
-import 'package:resipal_core/lib.dart';
+import 'package:core/src/presentation/shared/loading_screen.dart';
+import 'package:core/lib.dart';
 import 'package:resident/presentation/signin/signin_cubit.dart';
 import 'package:resident/presentation/signin/signin_state.dart';
 import 'package:wester_kit/lib.dart';

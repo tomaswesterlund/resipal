@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:resident/app_colors.dart';
 import 'package:resident/firebase_options.dart';
 import 'package:resident/presentation/auth/auth_gate.dart';
-import 'package:resipal_core/lib.dart';
+import 'package:core/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 Future main() async {

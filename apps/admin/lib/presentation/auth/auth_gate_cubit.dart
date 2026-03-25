@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gotrue/src/constants.dart';
 import 'package:resipal_admin/presentation/auth/auth_gate_state.dart';
-import 'package:resipal_core/lib.dart';
+import 'package:core/lib.dart';
 
 class AuthGateCubit extends Cubit<AuthGateState> {
   final AuthService _authService = GetIt.I<AuthService>();

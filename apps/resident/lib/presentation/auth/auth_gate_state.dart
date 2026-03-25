@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
-import 'package:resipal_core/lib.dart';
+import 'package:core/lib.dart';
 
 abstract class AuthGateState extends Equatable {
   @override

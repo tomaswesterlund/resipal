@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:resipal_core/lib.dart';
+import 'package:core/lib.dart';
 import 'package:resipal_security/presentation/signin/signin_state.dart';
 
 class SigninCubit extends Cubit<SigninState> {

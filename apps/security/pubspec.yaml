@@ -13,8 +13,8 @@ dependencies:
   flutter_bloc: ^9.1.1
   get_it: ^9.2.0
   google_fonts: ^8.0.1
-  resipal_core:
-    path: ../../packages/resipal_core
+  core:
+    path: ../../packages/core
   wester_kit:
     git:
       url: https://github.com/tomaswesterlund/WesterKit

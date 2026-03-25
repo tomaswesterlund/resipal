@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resipal_core/lib.dart';
+import 'package:core/lib.dart';
 import 'package:resipal_security/presentation/auth/auth_gate_cubit.dart';
 import 'package:resipal_security/presentation/auth/auth_gate_state.dart';
 import 'package:resipal_security/presentation/signin/signin_page.dart';

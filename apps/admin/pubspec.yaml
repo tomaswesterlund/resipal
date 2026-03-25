@@ -35,8 +35,8 @@ dependencies:
   flutter_bloc: ^9.1.1
   get_it: ^9.2.0
   google_fonts: ^8.0.1
-  resipal_core:
-    path: ../../packages/resipal_core
+  core:
+    path: ../../packages/core
   rxdart: ^0.28.0
   short_navigation: ^2.5.3
   flutter_launcher_icons: ^0.14.4

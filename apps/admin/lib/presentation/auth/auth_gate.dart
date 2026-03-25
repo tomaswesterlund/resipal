@@ -4,7 +4,7 @@ import 'package:resipal_admin/app_colors.dart';
 import 'package:resipal_admin/presentation/auth/auth_gate_cubit.dart';
 import 'package:resipal_admin/presentation/auth/auth_gate_state.dart';
 import 'package:resipal_admin/presentation/signin/signin_page.dart';
-import 'package:resipal_core/lib.dart';
+import 'package:core/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:wester_kit/lib.dart';
 
