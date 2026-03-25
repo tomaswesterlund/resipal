@@ -1,0 +1,165 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:core/lib.dart';
+import 'package:short_navigation/short_navigation.dart';
+import 'package:ui/lib.dart';
+
+class RegisterPaymentPage extends StatelessWidget {
+  final ResidentMemberEntity? resident;
+  const RegisterPaymentPage({this.resident, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      appBar: const MyAppBar(title: 'Registrar Pago'),
+      backgroundColor: colorScheme.background,
+      body: BlocProvider(
+        create: (context) => RegisterPaymentCubit()..initialize(resident),
+        child: BlocConsumer<RegisterPaymentCubit, RegisterPaymentState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is RegisterPaymentNoResidentsFound) return const _NoResidentsFound();
+
+            if (state is RegisterPaymentFormSubmittingState) {
+              return const LoadingView(title: 'Procesando pago...');
+            }
+
+            if (state is RegisterPaymentErrorState) return const ErrorView();
+
+            if (state is RegisterPaymentFormSubmittedSuccessfullyState) {
+              return SuccessView(
+                title: '¡Pago Registrado!',
+                subtitle: 'El saldo del residente ha sido actualizado correctamente.',
+                actionButtonLabel: 'Volver',
+                onActionButtonPressed: () => Navigator.of(context).pop(),
+              );
+            }
+
+            if (state is RegisterPaymentFormEditingState) {
+              return _Form(state.formState);
+            }
+
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _Form extends StatelessWidget {
+  final RegisterPaymentFormState formState;
+  const _Form(this.formState);
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<RegisterPaymentCubit>();
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        children: [
+          EntityDropdownField<ResidentMemberEntity>(
+            label: 'Residente',
+            isRequired: true,
+            readOnly: formState.isResidentReadOnly,
+            helpText: 'Selecciona el residente que hizo este pago.',
+            itemLabelBuilder: (resident) => resident.user.name,
+            items: formState.residents,
+            onChanged: cubit.updateResident,
+          ),
+
+          const SizedBox(height: 24),
+          AmountInputField(label: 'Monto', isRequired: true, onChanged: cubit.updateAmount),
+
+          const SizedBox(height: 24),
+          DatePickerField(
+            label: 'Fecha de pago',
+            isRequired: true,
+            helpText: 'Selecciona la fecha exacta de la transferencia o depósito.',
+            selectedDate: formState.payDate,
+            onDateChanged: cubit.updatePayDate,
+          ),
+
+          const SizedBox(height: 24),
+          TextInputField(
+            label: 'Referencia / No. de Operación',
+            hint: 'Ej: TRANS-12345',
+            isRequired: true,
+            onChanged: cubit.updateReference,
+          ),
+
+          const SizedBox(height: 24),
+          TextInputField(label: 'Nota', hint: 'Ej: Pago adelantado de marzo', maxLines: 2, onChanged: cubit.updateNote),
+
+          const SizedBox(height: 24),
+
+          if (formState.receiptImage != null)
+            XFileImagePreview(
+              xFile: formState.receiptImage!,
+              //onDelete: () => cubit.removeImage(), // Assuming removeImage exists
+            )
+          else
+            ImagePickerButtons(
+              onCamera: () => cubit.pickImage(ImageSource.camera),
+              onGallery: () => cubit.pickImage(ImageSource.gallery),
+            ),
+
+          const SizedBox(height: 48),
+
+          SizedBox(
+            width: double.infinity,
+            child: PrimaryButton(
+              label: 'REGISTRAR PAGO',
+              canSubmit: formState.canSubmit,
+              onPressed: () => cubit.submit(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NoResidentsFound extends StatelessWidget {
+  const _NoResidentsFound();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(color: colorScheme.primary.withOpacity(0.1), shape: BoxShape.circle),
+              child: Icon(Icons.groups_outlined, size: 64, color: colorScheme.primary),
+            ),
+            const SizedBox(height: 32),
+            HeaderText.four('No hay residentes registrados', textAlign: TextAlign.center, color: colorScheme.primary),
+            const SizedBox(height: 16),
+            Text(
+              "No puedes registrar pagos sin residentes activos. Para dar de alta a un usuario, el administrador debe enviar una invitación y esta debe ser aprobada por el residente desde su cuenta. Una vez aceptada, asegúrate de asignarle una propiedad.",
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.inverseSurface),
+            ),
+            const SizedBox(height: 32),
+            TextButton.icon(
+              onPressed: () => Go.to(RegisterApplicationPage()),
+              icon: const Icon(Icons.add),
+              label: const Text('Registrar solicitud'),
+              style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
