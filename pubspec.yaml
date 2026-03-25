@@ -1,6 +1,9 @@
 name: resipal_workspace
 publish_to: 'none'
 
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
 workspace:
   - apps/admin
   - apps/resident

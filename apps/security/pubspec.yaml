@@ -1,5 +1,6 @@
 name: security
 description: "A new Flutter project."
+resolution: workspace
 version: 1.0.0+1
 
 environment:
