@@ -57,3 +57,11 @@ supabase/.temp/
 # -------------------------------------------------------------------
 melos_resipal.iml
 .melos/
+
+# Firebase configuration files
+**/firebase.json
+**/firebase_options.dart
+
+# Optional: also ignore Firebase debug logs
+firebase-debug.log*
+.firebase/
