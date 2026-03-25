@@ -1,0 +1,47 @@
+{
+  "name": "flutter_libphonenumber_darwin",
+  "version": "1.0.0",
+  "summary": "Leverages libphonenumber to allow for asynchronous and synchronous formatting of phone numbers in Flutter apps. Includes a TextInputFormatter to allow real-time AsYouType formatting.",
+  "description": "Leverages libphonenumber to allow for asynchronous and synchronous formatting of phone numbers in Flutter apps. Includes a TextInputFormatter to allow real-time AsYouType formatting.",
+  "homepage": "https://github.com/acoutts/flutter_libphonenumber",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "Andrew Coutts": "andrew@coutts-consulting.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "Classes/**/*",
+  "ios": {
+    "dependencies": {
+      "Flutter": []
+    }
+  },
+  "osx": {
+    "dependencies": {
+      "FlutterMacOS": []
+    }
+  },
+  "dependencies": {
+    "PhoneNumberKit/PhoneNumberKitCore": [
+      "4.2.1"
+    ]
+  },
+  "platforms": {
+    "ios": "12.0",
+    "osx": "10.15"
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES",
+    "VALID_ARCHS[sdk=iphonesimulator*]": "x86_64"
+  },
+  "swift_versions": "5.0",
+  "resource_bundles": {
+    "flutter_libphonenumber_darwin": [
+      "Resources/PrivacyInfo.xcprivacy"
+    ]
+  },
+  "swift_version": "5.0"
+}
