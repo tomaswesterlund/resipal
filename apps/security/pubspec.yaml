@@ -15,10 +15,8 @@ dependencies:
   google_fonts: ^8.0.1
   core:
     path: ../../packages/core
-  wester_kit:
-    git:
-      url: https://github.com/tomaswesterlund/WesterKit
-      ref: main
+  ui:
+    path: ../../packages/ui
   rxdart: ^0.28.0
   short_navigation: ^2.5.3
   google_sign_in: ^7.2.0

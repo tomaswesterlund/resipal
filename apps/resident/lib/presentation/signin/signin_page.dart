@@ -5,7 +5,7 @@ import 'package:core/src/presentation/shared/loading_screen.dart';
 import 'package:core/lib.dart';
 import 'package:resident/presentation/signin/signin_cubit.dart';
 import 'package:resident/presentation/signin/signin_state.dart';
-import 'package:wester_kit/lib.dart';
+import 'package:ui/lib.dart';
 
 class SigninPage extends StatelessWidget {
   const SigninPage({super.key});

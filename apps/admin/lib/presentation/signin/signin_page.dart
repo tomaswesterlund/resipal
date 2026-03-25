@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resipal_admin/presentation/signin/signin_cubit.dart';
 import 'package:resipal_admin/presentation/signin/signin_state.dart';
 import 'package:core/lib.dart';
-import 'package:wester_kit/lib.dart';
+import 'package:ui/lib.dart';
 
 class SigninPage extends StatelessWidget {
   const SigninPage({super.key});

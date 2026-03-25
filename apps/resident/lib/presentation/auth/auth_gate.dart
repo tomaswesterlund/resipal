@@ -4,7 +4,7 @@ import 'package:core/lib.dart';
 import 'package:resident/presentation/auth/auth_gate_cubit.dart';
 import 'package:resident/presentation/auth/auth_gate_state.dart';
 import 'package:resident/presentation/signin/signin_page.dart';
-import 'package:wester_kit/lib.dart';
+import 'package:ui/lib.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
