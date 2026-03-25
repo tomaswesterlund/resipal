@@ -3,8 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:core/lib.dart';
-import 'package:resipal_security/app_colors.dart';
-import 'package:resipal_security/presentation/auth/auth_gate.dart';
+import 'package:security/app_colors.dart';
+import 'package:security/presentation/auth/auth_gate.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 Future main() async {

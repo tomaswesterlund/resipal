@@ -2,8 +2,8 @@ import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:core/lib.dart';
-import 'package:resipal_security/presentation/signin/signin_cubit.dart';
-import 'package:resipal_security/presentation/signin/signin_state.dart';
+import 'package:security/presentation/signin/signin_cubit.dart';
+import 'package:security/presentation/signin/signin_state.dart';
 import 'package:ui/lib.dart';
 
 class SigninPage extends StatelessWidget {

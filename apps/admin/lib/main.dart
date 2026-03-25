@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resipal_admin/app_colors.dart';
-import 'package:resipal_admin/firebase_options.dart';
-import 'package:resipal_admin/presentation/auth/auth_gate.dart';
+import 'package:admin/app_colors.dart';
+import 'package:admin/firebase_options.dart';
+import 'package:admin/presentation/auth/auth_gate.dart';
 import 'package:core/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
 

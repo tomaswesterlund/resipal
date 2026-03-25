@@ -5,4 +5,4 @@ environment:
 workspace:
   - apps/resident
   - apps/admin
-  - apps/resipal_security
+  - apps/security
