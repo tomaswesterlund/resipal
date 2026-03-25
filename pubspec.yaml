@@ -1,8 +1,0 @@
-name: resipal_workspace
-environment:
-  sdk: ^3.6.0
-
-workspace:
-  - apps/resident
-  - apps/admin
-  - apps/security
