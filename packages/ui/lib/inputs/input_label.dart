@@ -5,9 +5,17 @@ class InputLabel extends StatelessWidget {
   final String label;
   final String? description; // Optional detailed body text
   final String? helpText; // Optional info icon text
+  final Widget? helpWidget; // Optional custom widget shown instead of helpText icon
   final bool isRequired;
 
-  const InputLabel({required this.label, this.description, this.helpText, this.isRequired = false, super.key});
+  const InputLabel({
+    required this.label,
+    this.description,
+    this.helpText,
+    this.helpWidget,
+    this.isRequired = false,
+    super.key,
+  }) : assert(helpText == null || helpWidget == null, 'Provide either helpText or helpWidget, not both.');
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +41,12 @@ class InputLabel extends StatelessWidget {
                 onTap: () => _showHelpDialog(context, theme),
                 child: Icon(Icons.help_outline_rounded, size: 18, color: colorScheme.outline),
               ),
+            ] else if (helpWidget != null) ...[
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: () => _showHelpWidgetDialog(context),
+                child: Icon(Icons.help_outline_rounded, size: 18, color: colorScheme.outline),
+              ),
             ],
           ],
         ),
@@ -46,6 +60,16 @@ class InputLabel extends StatelessWidget {
           ),
         ],
       ],
+    );
+  }
+
+  void _showHelpWidgetDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: helpWidget!,
+      ),
     );
   }
 

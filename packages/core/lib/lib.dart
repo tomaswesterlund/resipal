@@ -344,9 +344,11 @@ export 'src/presentation/whatsapp/send_whatsapp_message/send_whatsapp_message_fo
 export 'src/presentation/whatsapp/send_whatsapp_message/send_whatsapp_message_page.dart';
 export 'src/presentation/whatsapp/send_whatsapp_message/send_whatsapp_message_state.dart';
 export 'src/services/auth_service.dart';
+export 'src/services/email_service.dart';
 export 'src/services/image_service.dart';
 export 'src/services/logger_service.dart';
 export 'src/services/notification_service.dart';
 export 'src/services/pdf_service.dart';
 export 'src/services/service_locator.dart';
 export 'src/services/session_service.dart';
+export 'src/services/whatsapp_service.dart';

@@ -1,3 +1,4 @@
+import 'package:core/src/presentation/roles/role_selector_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:core/lib.dart';
@@ -99,7 +100,6 @@ class _Form extends StatelessWidget {
             ),
           ),
           _RolesSection(formState),
-          
 
           const SizedBox(height: 32),
           TextInputField(
@@ -109,7 +109,7 @@ class _Form extends StatelessWidget {
             isRequired: true,
             helpText:
                 'Este mensaje se enviará al usuario junto con su invitación para darle contexto sobre el acceso a la comunidad.',
-                errorText: formState.message.errorMessage,
+            errorText: formState.message.errorMessage,
             onChanged: cubit.updateMessage,
           ),
 
@@ -132,52 +132,15 @@ class _RolesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<RegisterApplicationCubit>();
-    final colorScheme = Theme.of(context).colorScheme;
-    final hasError = formState.rolesError != null;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        DefaultCard(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: BorderSide(
-              color: hasError ? colorScheme.error : colorScheme.outlineVariant,
-              width: hasError ? 2 : 1,
-            ),
-          ),
-          child: Column(
-            children: [
-              CheckboxListTile(
-                title: BodyText.medium('Residente'),
-                value: formState.isResident,
-                onChanged: cubit.toggleResident,
-                activeColor: colorScheme.primary,
-              ),
-              CheckboxListTile(
-                title: BodyText.medium('Administrador'),
-                value: formState.isAdmin,
-                onChanged: cubit.toggleAdmin,
-                activeColor: colorScheme.primary,
-              ),
-              CheckboxListTile(
-                title: BodyText.medium('Seguridad'),
-                value: formState.isSecurity,
-                onChanged: cubit.toggleSecurity,
-                activeColor: colorScheme.primary,
-              ),
-            ],
-          ),
-        ),
-
-        // Mostramos el mensaje de error debajo del card
-        if (hasError)
-          Padding(
-            padding: const EdgeInsets.only(left: 12.0, top: 8.0),
-            child: Text(formState.rolesError!, style: TextStyle(color: colorScheme.error, fontSize: 12)),
-          ),
-      ],
+    return RoleSelectorCard(
+      isResident: formState.isResident,
+      isAdmin: formState.isAdmin,
+      isSecurity: formState.isSecurity,
+      errorText: formState.rolesError,
+      onResidentChanged: cubit.toggleResident,
+      onAdminChanged: cubit.toggleAdmin,
+      onSecurityChanged: cubit.toggleSecurity,
     );
   }
 }

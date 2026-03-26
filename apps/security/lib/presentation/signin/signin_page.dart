@@ -109,16 +109,16 @@ class _Signin extends StatelessWidget {
 
                 const SizedBox(height: 16),
 
-                // Apple Sign In
-                SocialLoginButton(
-                  label: 'Continuar con Apple',
-                  icon: Icons.apple,
-                  backgroundColor: Colors.black,
-                  textColor: Colors.white,
-                  onPressed: () {
-                    // TODO: Implement Apple Sign In
-                  },
-                ),
+                if (Theme.of(context).platform == TargetPlatform.iOS)
+                  SocialLoginButton(
+                    label: 'Continuar con Apple',
+                    icon: Icons.apple,
+                    backgroundColor: Colors.black,
+                    textColor: Colors.white,
+                    onPressed: () {
+                      // TODO: Implement Apple Sign In
+                    },
+                  ),
 
                 const SizedBox(height: 40),
               ],

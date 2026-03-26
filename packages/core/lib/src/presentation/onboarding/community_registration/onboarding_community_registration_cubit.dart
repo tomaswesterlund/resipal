@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:core/lib.dart';
-import 'package:core/src/domain/use_cases/admin/get_admin_member_by_community_id_and_user_id.dart';
+import 'package:ui/lib.dart';
 
 class OnboardingCommunityRegistrationCubit extends Cubit<OnboardingCommunityRegistrationState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
@@ -10,56 +10,83 @@ class OnboardingCommunityRegistrationCubit extends Cubit<OnboardingCommunityRegi
 
   OnboardingCommunityRegistrationCubit() : super(OnboardingCommunityRegistrationInitialState());
 
-  OnboardingCommunityRegistrationFormState _formState = OnboardingCommunityRegistrationFormState();
+  OnboardingCommunityRegistrationFormState _formState = OnboardingCommunityRegistrationFormState(
+    name: InputField(value: '', validators: [ValueNotEmpty()]),
+    address: InputField(value: '', validators: [ValueNotEmpty()]),
+    location: InputField(value: '', validators: []),
+  );
 
   void initialize() {
     emit(OnboardingCommunityRegistrationFormEditingState(_formState));
   }
 
   void onNameChanged(String value) {
-    _formState = _formState.copyWith(name: value);
-    emit(OnboardingCommunityRegistrationFormEditingState(_formState));
+    final name = _formState.name.copyWith(value: value, clearError: true);
+    _update(() => _formState.copyWith(name: name));
   }
 
   void onAddressChanged(String value) {
-    _formState = _formState.copyWith(address: value);
-    emit(OnboardingCommunityRegistrationFormEditingState(_formState));
+    final address = _formState.address.copyWith(value: value, clearError: true);
+    _update(() => _formState.copyWith(address: address));
   }
 
   void onDescriptionChanged(String value) {
-    _formState = _formState.copyWith(location: value);
+    final location = _formState.location.copyWith(value: value, clearError: true);
+    _update(() => _formState.copyWith(location: location));
+  }
+
+  void toggleResident(bool? val) => _update(() => _formState.copyWith(isResident: val, clearRolesError: true));
+  void toggleSecurity(bool? val) => _update(() => _formState.copyWith(isSecurity: val, clearRolesError: true));
+
+  void _update(OnboardingCommunityRegistrationFormState Function() next) {
+    _formState = next();
     emit(OnboardingCommunityRegistrationFormEditingState(_formState));
   }
 
-  Future<void> submit() async {
-    try {
-      if (!_formState.canSubmit) return;
+  // --- Submission Logic ---
 
+  Future<void> submit() async {
+    final validatedState = _formState.validate();
+
+    if (!validatedState.isValid) {
+      _formState = validatedState;
+      emit(OnboardingCommunityRegistrationFormEditingState(_formState));
+      return;
+    }
+
+    try {
       emit(OnboardingCommunityRegistrationFormSubmittingState());
 
       final userId = _authService.getSignedInUserId();
 
+      // 1. Create the Community
       final communityId = await CreateCommunity().call(
-        name: _formState.name,
-        location: _formState.address,
-        description: _formState.location,
+        name: _formState.name.value,
+        location: _formState.address.value,
+        description: _formState.location.value,
       );
 
-      final membershipId = CreateMembership().call(
+      // 2. Create the Membership with selected roles
+      await CreateMembership().call(
         communityId: communityId,
         userId: userId,
         isAdmin: true,
-        isResident: false,
-        isSecurity: false,
+        isResident: _formState.isResident,
+        isSecurity: _formState.isSecurity,
       );
 
-      await FetchCommunity().call(communityId);
-      await FetchUsers().call();
-      await FetchMembershipsByUserId().call(userId: userId);
+      // 3. Refresh Data
+      await Future.wait([
+        FetchCommunity().call(communityId),
+        FetchUsers().call(),
+        FetchMembershipsByUserId().call(userId: userId),
+      ]);
 
       final admin = GetAdminMemberByCommunityIdAndUserId().call(communityId: communityId, userId: userId);
+
       final community = GetCommunityById().call(communityId);
 
+      // 4. Initialize Session Watchers
       await _sessionService.startCommunityWatchers(
         app: ResipalApplication.admin,
         userId: userId,

@@ -6,6 +6,7 @@ import 'package:admin/presentation/auth/auth_gate_state.dart';
 import 'package:admin/presentation/signin/signin_page.dart';
 import 'package:core/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
+import 'package:ui/support/support_section.dart';
 import 'package:ui/lib.dart';
 
 class AuthGate extends StatelessWidget {
@@ -95,70 +96,18 @@ class _UserHasNoAdminMembership extends StatelessWidget {
             const SizedBox(height: 48),
 
             // Support Section
-            Column(
-              children: [
-                Text(
-                  '¿Necesitas ayuda con el acceso?',
-                  style: theme.textTheme.labelMedium?.copyWith(
-                    color: colorScheme.outline.withOpacity(0.7),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _SupportIcon(
-                      icon: Icons.chat_bubble_outline_rounded,
-                      label: 'WhatsApp',
-                      onTap: () {}, // Implement WhatsApp launch
-                    ),
-                    const SizedBox(width: 56),
-                    _SupportIcon(
-                      icon: Icons.email_outlined,
-                      label: 'Correo',
-                      onTap: () {}, // Implement Mail launch
-                    ),
-                  ],
-                ),
-              ],
+            SupportSection(
+              onMessagePressed: () async {
+                final whatsappService = WhatsAppService();
+                await whatsappService.sendSupportMessage();
+              },
+              onEmailPressed: () {
+                final emailService = EmailService();
+                emailService.sendSupportEmail();
+              },
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _SupportIcon extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  const _SupportIcon({required this.icon, required this.label, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Column(
-        children: [
-          Icon(icon, color: colorScheme.primary, size: 28),
-          const SizedBox(height: 6),
-          Text(
-            label,
-            style: theme.textTheme.labelSmall?.copyWith(
-              fontSize: 12,
-              fontWeight: FontWeight.w900,
-              color: colorScheme.primary,
-              letterSpacing: 0.5,
-            ),
-          ),
-        ],
       ),
     );
   }

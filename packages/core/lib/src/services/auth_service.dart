@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:core/lib.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
@@ -26,6 +27,27 @@ class AuthService {
     return await _client.auth.signInWithIdToken(provider: OAuthProvider.google, idToken: idToken);
   }
 
+  Future<AuthResponse> signInWithApple() async {
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName],
+      );
+
+      final idToken = credential.identityToken;
+      if (idToken == null) throw Exception('Apple ID Token is null');
+
+      // EXTREMELY IMPORTANT: This is what actually logs the user into Supabase
+      return await _client.auth.signInWithIdToken(
+        provider: OAuthProvider.apple,
+        idToken: idToken,
+        nonce: null, // Only needed if you manually generated one
+      );
+    } catch (e, s) {
+      _loggerService.error(exception: e, featureArea: 'AuthService.signInWithApple', stackTrace: s);
+      rethrow;
+    }
+  }
+
   Future signInWithGoogle() async {
     try {
       final config = GetIt.I<AuthServiceConfig>();
@@ -47,10 +69,7 @@ class AuthService {
     }
   }
 
-  Future signout() async {
-    // This will trigger AuthChangeEvent.signedOut on the stream
-    await _client.auth.signOut(scope: SignOutScope.global);
-  }
+  Future signout() async => await _client.auth.signOut(scope: SignOutScope.global);
 }
 
 class AuthServiceConfig {

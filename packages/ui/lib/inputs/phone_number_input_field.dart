@@ -76,7 +76,7 @@ class _PhoneNumberInputFieldState extends State<PhoneNumberInputField> {
           keyboardType: TextInputType.phone,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
-            _InputVisualFormatter(dialCode: _selectedDialCode),
+            _InputVisualFormatter(),
           ],
           style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface, fontFamily: 'NotoSansMono'),
           decoration: InputDecoration(
@@ -87,8 +87,6 @@ class _PhoneNumberInputFieldState extends State<PhoneNumberInputField> {
             contentPadding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
             filled: true,
             fillColor: colorScheme.surface,
-
-            // Bordes Estándar y Foco
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide(color: hasError ? colorScheme.error : colorScheme.outlineVariant),
@@ -97,8 +95,6 @@ class _PhoneNumberInputFieldState extends State<PhoneNumberInputField> {
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide(color: hasError ? colorScheme.error : colorScheme.primary, width: 2),
             ),
-
-            // Bordes de Error específicos
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide(color: colorScheme.error, width: 1.5),
@@ -142,22 +138,19 @@ class _PhoneNumberInputFieldState extends State<PhoneNumberInputField> {
 }
 
 class _InputVisualFormatter extends TextInputFormatter {
-  final String dialCode;
-  _InputVisualFormatter({required this.dialCode});
+  
+  _InputVisualFormatter();
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.text.isEmpty) return newValue;
 
     final String digits = newValue.text.replaceAll(RegExp(r'\D'), '');
-    final String fullNumber = '$dialCode$digits';
-    final String formattedFull = PhoneFormatter.toDisplay(fullNumber);
-
-    final String maskedLocal = formattedFull.replaceFirst(dialCode, '').trim();
+    final String formatted = PhoneFormatter.toDisplay(digits);
 
     return TextEditingValue(
-      text: maskedLocal,
-      selection: TextSelection.collapsed(offset: maskedLocal.length),
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
     );
   }
 }

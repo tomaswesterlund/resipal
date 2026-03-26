@@ -4,6 +4,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:admin/presentation/signin/signin_state.dart';
 import 'package:core/lib.dart';
 
+enum SignInProvider { google, apple }
+
 class SigninCubit extends Cubit<SigninState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
@@ -11,10 +13,17 @@ class SigninCubit extends Cubit<SigninState> {
 
   SigninCubit() : super(InitialState());
 
-  Future signin() async {
+  Future signin(SignInProvider provider) async {
     try {
       emit(AdminSigningInState());
-      await _authService.signInWithGoogle();
+      switch (provider) {
+        case SignInProvider.google:
+          await _authService.signInWithGoogle();
+          break;
+        case SignInProvider.apple:
+          await _authService.signInWithApple();
+          break;
+      }
 
       final authUser = _authService.getSignedInUser();
       _sessionService.setUserId(authUser.id);
