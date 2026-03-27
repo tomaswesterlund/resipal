@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // --- New Brand Palette ---
-  static const Color primary = primary700;    // Mantengo 700 para alto contraste
+  static const Color primary = primary700;
   static const Color secondary = secondary500;
   static const Color background = Color(0xFFF9FAFB);
   static const Color surface = Colors.white;
@@ -13,7 +13,7 @@ class AppColors {
   static const Color primary200 = Color(0xFFE99E9F);
   static const Color primary300 = Color(0xFFE06E70);
   static const Color primary400 = Color(0xFFD64D51);
-  static const Color primary500 = Color(0xFFC53A41); // Tu nuevo Base
+  static const Color primary500 = Color(0xFFC53A41);
   static const Color primary600 = Color(0xFFB3343A);
   static const Color primary700 = Color(0xFF912A2F);
   static const Color primary800 = Color(0xFF6F2024);
@@ -25,7 +25,7 @@ class AppColors {
   static const Color secondary200 = Color(0xFF9EE3DF);
   static const Color secondary300 = Color(0xFF6ED5CF);
   static const Color secondary400 = Color(0xFF4DCAC2);
-  static const Color secondary500 = Color(0xFF3AC5BE); // Tu nuevo Base
+  static const Color secondary500 = Color(0xFF3AC5BE);
   static const Color secondary600 = Color(0xFF34B3AD);
   static const Color secondary700 = Color(0xFF2A918C);
   static const Color secondary800 = Color(0xFF206F6C);

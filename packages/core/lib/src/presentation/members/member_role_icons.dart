@@ -6,12 +6,7 @@ class MemberRoleIcons extends StatelessWidget {
   final Color? color;
   final double size;
 
-  const MemberRoleIcons({
-    super.key,
-    required this.member,
-    this.color,
-    this.size = 18,
-  });
+  const MemberRoleIcons({super.key, required this.member, this.color, this.size = 18});
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +15,10 @@ class MemberRoleIcons extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (member.isAdmin)
-          _buildIcon(
-            Icons.admin_panel_settings_outlined,
-            color ?? colorScheme.primary, // Color Admin
-          ),
-        if (member.isSecurity)
-          _buildIcon(
-            Icons.shield_outlined,
-            color ?? colorScheme.secondary, // Color Seguridad
-          ),
-        if (member.isResident)
-          _buildIcon(
-            Icons.home_work_outlined,
-            color ?? colorScheme.outline, // Color Residente
-          ),
+        if (member.isAdmin) _buildIcon(Icons.admin_panel_settings_outlined, color ?? Color(0xFF6A95B9)),
+
+        if (member.isResident) _buildIcon(Icons.home_work_outlined, color ?? Color(0xFF3C7873)),
+        if (member.isSecurity) _buildIcon(Icons.shield_outlined, color ?? Color(0xFFC53A41)),
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:core/lib.dart';
 import 'package:ui/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
+import 'package:ui/support/support_section.dart';
 
 class OnboardingStartPage extends StatelessWidget {
   const OnboardingStartPage({super.key});
@@ -71,40 +72,20 @@ class OnboardingStartPage extends StatelessWidget {
             const SizedBox(height: 12),
             _buildTierCard(context, title: 'Plan 200', properties: 'Hasta 200 propiedades', price: '\$1,000 MXN / mes'),
             const SizedBox(height: 12),
-            _buildTierCard(context, title: 'Plan 300', properties: 'Hasta 200 propiedades', price: '\$1,500 MXN / mes'),
+            _buildTierCard(context, title: 'Plan 300', properties: 'Hasta 300 propiedades', price: '\$1,500 MXN / mes'),
             const SizedBox(height: 24),
-
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              decoration: BoxDecoration(
-                color: colorScheme.surfaceVariant.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: colorScheme.outlineVariant),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    '¿Necesitas más de 300 propiedades?',
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: WhatsAppContactButton(
-                      phoneNumber: Constants.supportPhoneNumber,
-                      message: '!Hola¡ Quisiera saber más de Resipal ...',
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: EmailContactButton(email: Constants.supportEmail),
-                  ),
-                ],
-              ),
+            SupportSection(
+              title: '¡Contáctanos si ya estás interesado en un plan o tienes dudas sobre cuál elegir!',
+              onMessagePressed: () async {
+                final whatsappService = WhatsAppService();
+                await whatsappService.sendSupportMessage();
+              },
+              onEmailPressed: () {
+                final emailService = EmailService();
+                emailService.sendSupportEmail();
+              },
             ),
+
             const SizedBox(height: 40),
           ],
         ),

@@ -11,7 +11,13 @@ class ServiceLocator {
     final sl = GetIt.instance;
 
     final config = GetIt.I<SupabaseConfig>();
-    await Supabase.initialize(url: config.url, anonKey: config.anonKey);
+    await Supabase.initialize(
+      url: config.url,
+      anonKey: config.anonKey,
+      realtimeClientOptions: const RealtimeClientOptions(
+        timeout: Duration(seconds: 30),
+      ),
+    );
 
     sl.registerSingleton<SupabaseClient>(Supabase.instance.client);
 

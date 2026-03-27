@@ -29,7 +29,7 @@ class RolesView extends StatelessWidget {
           subtitle: 'Control Total',
           description:
               'Gestión financiera completa, auditoría de pagos, edición de propiedades y aprobación de nuevos registros.',
-          color: colorScheme.primary,
+          color: Color(0xFF6A95B9),
         ),
 
         _buildRoleExplanation(
@@ -39,7 +39,7 @@ class RolesView extends StatelessWidget {
           subtitle: 'Usuario Final',
           description:
               'Consulta de estados de cuenta personales, descarga de comprobantes y participación en reportes vecinales.',
-          color: colorScheme.outline,
+          color: Color(0xFF3C7873),
         ),
 
         _buildRoleExplanation(
@@ -49,7 +49,7 @@ class RolesView extends StatelessWidget {
           subtitle: 'Monitoreo y Vigilancia',
           description:
               'Control de accesos peatonales y vehiculares, registro de visitas y reporte de incidencias en tiempo real.',
-          color: colorScheme.secondary,
+          color: Color(0xFFC53A41),
         ),
       ],
     );

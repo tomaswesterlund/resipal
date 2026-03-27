@@ -18,15 +18,7 @@ class RolesLegend extends StatelessWidget {
           icon: Icons.admin_panel_settings,
           name: 'ADMINISTRADOR',
           description: 'Acceso total a finanzas, gestión de propiedades y aprobación de solicitudes.',
-          iconColor: colorScheme.primary,
-        ),
-        const SizedBox(height: 12),
-        _buildRoleRow(
-          context,
-          icon: Icons.shield_outlined,
-          name: 'SEGURIDAD',
-          description: 'Control de accesos, registro de visitas y monitoreo de incidencias en tiempo real.',
-          iconColor: colorScheme.secondary,
+          iconColor: Color(0xFF6A95B9),
         ),
         const SizedBox(height: 12),
         _buildRoleRow(
@@ -34,7 +26,16 @@ class RolesLegend extends StatelessWidget {
           icon: Icons.home_work_outlined,
           name: 'RESIDENTE',
           description: 'Consulta de estados de cuenta, reserva de áreas comunes y reportes vecinales.',
-          iconColor: colorScheme.outline,
+          iconColor: Color(0xFF3C7873),
+        ),
+
+        const SizedBox(height: 12),
+        _buildRoleRow(
+          context,
+          icon: Icons.shield_outlined,
+          name: 'SEGURIDAD',
+          description: 'Control de accesos, registro de visitas y monitoreo de incidencias en tiempo real.',
+          iconColor: Color(0xFFC53A41),
         ),
       ],
     );
@@ -52,10 +53,7 @@ class RolesLegend extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: iconColor.withOpacity(0.1),
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: iconColor.withOpacity(0.1), shape: BoxShape.circle),
           child: Icon(icon, size: 20, color: iconColor),
         ),
         const SizedBox(width: 16),
@@ -63,16 +61,9 @@ class RolesLegend extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BodyText.small(
-                name,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+              BodyText.small(name, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
               const SizedBox(height: 2),
-              BodyText.tiny(
-                description,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+              BodyText.tiny(description, color: Theme.of(context).colorScheme.onSurfaceVariant),
             ],
           ),
         ),
