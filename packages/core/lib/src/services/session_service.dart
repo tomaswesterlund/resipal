@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart'; // Required for WidgetsBindingObserver
 import 'package:get_it/get_it.dart';
 import 'package:core/lib.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SessionService {
+class SessionService with WidgetsBindingObserver {
   final LoggerService _logger = GetIt.I<LoggerService>();
 
   bool get isDebug => kDebugMode;
@@ -15,7 +16,6 @@ class SessionService {
       _logger.error(featureArea: 'SessionService.app', exception: error);
       throw error;
     }
-
     return _app!;
   }
 
@@ -26,7 +26,6 @@ class SessionService {
       _logger.error(featureArea: 'SessionService.communityId', exception: error);
       throw error;
     }
-
     return _communityId!;
   }
 
@@ -37,13 +36,34 @@ class SessionService {
       _logger.error(featureArea: 'SessionService.userId', exception: error);
       throw error;
     }
-
     return _userId!;
   }
 
-  setUserId(String userId) => _userId = userId;
+  // --- Initialization ---
 
-  // STREAMING
+  SessionService() {
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  void setUserId(String userId) => _userId = userId;
+
+  // --- Lifecycle Handling ---
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // When returning to the app on iOS, the Realtime connection might be dead.
+    // We trigger a re-sync to ensure the cache is fresh.
+    if (state == AppLifecycleState.resumed && _communityId != null) {
+      _logger.info(
+        featureArea: 'SessionService',
+        message: 'App Resumed: Refreshing community session for $_communityId',
+      );
+      _refreshCurrentSession();
+    }
+  }
+
+  // --- Streaming Logic ---
+
   final CompositeSubscription _subscriptions = CompositeSubscription();
 
   Future<void> startCommunityWatchers({
@@ -51,7 +71,6 @@ class SessionService {
     required String communityId,
     required String userId,
   }) async {
-    // 1. Clean up any existing session before starting a new one
     await stopWatchers();
 
     _app = app;
@@ -59,26 +78,7 @@ class SessionService {
     _userId = userId;
 
     try {
-      // 2. We await the first data emission for all critical data sources
-      // This ensures the Cubits find data in the cache immediately upon UI load.
-      await Future.wait([
-        _setupSubscription(GetIt.I<CommunityDataSource>().watchById(communityId)),
-        _setupSubscription(GetIt.I<UserDataSource>().watchById(userId)),
-
-        _setupSubscription(GetIt.I<ApplicationDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<ContractDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<EmailInvitationDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<ContractDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<InvitationDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<MaintenanceFeeDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<MembershipDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<NotificationDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<PaymentDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<PropertyDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<VisitorDataSource>().watchByCommunityId(communityId)),
-        _setupSubscription(GetIt.I<AccessLogDataSource>().watchByCommunityId(communityId)),
-      ]);
-
+      await _refreshCurrentSession();
       _logger.info(featureArea: 'SessionService', message: 'Watchers started successfully for community: $communityId');
     } catch (e, s) {
       _logger.error(
@@ -91,11 +91,40 @@ class SessionService {
     }
   }
 
+  Future<void> _refreshCurrentSession() async {
+    final cid = _communityId;
+    final uid = _userId;
+    if (cid == null || uid == null) return;
+
+    _subscriptions.clear();
+
+    try {
+      await Future.wait([
+        _setupSubscription(GetIt.I<CommunityDataSource>().watchById(cid)),
+        _setupSubscription(GetIt.I<UserDataSource>().watchById(uid)),
+        _setupSubscription(GetIt.I<ApplicationDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<ContractDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<EmailInvitationDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<InvitationDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<MaintenanceFeeDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<MembershipDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<NotificationDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<PaymentDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<PropertyDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<VisitorDataSource>().watchByCommunityId(cid)),
+        _setupSubscription(GetIt.I<AccessLogDataSource>().watchByCommunityId(cid)),
+      ]);
+    } catch (e, s) {
+      _logger.error(exception: e, featureArea: 'SessionService._refreshCurrentSession', stackTrace: s);
+    }
+  }
+
   Future<void> stopWatchers() async {
     try {
       _subscriptions.clear();
       _communityId = null;
       _userId = null;
+      _app = null;
 
       _logger.info(featureArea: 'SessionService', message: 'SessionService: All watchers stopped and session cleared.');
     } catch (e, s) {
@@ -104,19 +133,22 @@ class SessionService {
   }
 
   Future<void> _setupSubscription<T>(Stream<T> stream) async {
-    // Ensure data is in the repository/cache before moving forward
-    await stream.first;
+    try {
+      // Ensure first emission (REST/Cache) is handled before proceeding
+      await stream.first.timeout(const Duration(seconds: 10));
 
-    // We listen to keep the stream 'hot' in the repository.
-    // The CompositeSubscription will handle the cancellation automatically.
-    final sub = stream.listen((data) {
-      /* Repository is updated internally by the DataSources */
-    }, onError: (e) => _logger.error(exception: e, featureArea: 'SessionService.Stream'));
+      final sub = stream.listen((data) {
+        /* Internal repository update handled by DataSource */
+      }, onError: (e, s) => _logger.error(exception: e, featureArea: 'SessionService.Stream', stackTrace: s));
 
-    _subscriptions.add(sub);
+      _subscriptions.add(sub);
+    } catch (e, s) {
+      _logger.error(exception: e, featureArea: 'SessionService._setupSubscription', stackTrace: s);
+    }
   }
 
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     stopWatchers();
     _subscriptions.dispose();
   }
