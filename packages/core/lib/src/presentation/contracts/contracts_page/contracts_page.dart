@@ -3,16 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:core/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ui/lib.dart';
+import 'package:ui/support/support_section.dart';
 
 class ContractsPage extends StatelessWidget {
-  final List<ContractEntity> initialContracts;
+  final List<ContractEntity> contracts;
 
-  const ContractsPage(this.initialContracts, {super.key});
+  const ContractsPage(this.contracts, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ContractsCubit()..initialize(initialContracts),
+      create: (context) => ContractsCubit()..initialize(contracts),
       child: Scaffold(
         appBar: MyAppBar(
           title: 'Contratos',
@@ -68,12 +69,15 @@ class _NoContractsView extends StatelessWidget {
             const SizedBox(height: 32),
             Divider(thickness: 1),
             const SizedBox(height: 32),
-            BodyText.small('¿Algo no sale como esperabas?'),
-            const SizedBox(height: 12),
-            WhatsAppContactButton(
-              phoneNumber: Constants.supportPhoneNumber,
-              label: 'Solicitar ayuda',
-              message: 'Hola, mi lista de contratos en Resipal aparece vacía y necesito ayuda.',
+            SupportSection(
+              onMessagePressed: () async {
+                final whatsappService = WhatsAppService();
+                await whatsappService.sendSupportMessage();
+              },
+              onEmailPressed: () {
+                final emailService = EmailService();
+                emailService.sendSupportEmail();
+              },
             ),
           ],
         ),

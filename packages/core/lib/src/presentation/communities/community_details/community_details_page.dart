@@ -73,6 +73,8 @@ class _Loaded extends StatelessWidget {
                 Divider(height: 1, color: colorScheme.outlineVariant),
                 DetailTile(icon: Icons.location_on_rounded, label: 'Ubicación', value: community.location),
                 Divider(height: 1, color: colorScheme.outlineVariant),
+                DetailTile(icon: Icons.stars, label: 'Nivel', value: community.tier.toDisplayName()),
+                Divider(height: 1, color: colorScheme.outlineVariant),
                 DetailTile(
                   icon: Icons.fingerprint_rounded,
                   label: 'ID de Comunidad',

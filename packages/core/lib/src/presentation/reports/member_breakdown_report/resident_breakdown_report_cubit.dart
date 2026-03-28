@@ -19,7 +19,7 @@ class ResidentBreakdownReportCubit extends Cubit<ResidentBreakdownReportState> {
       final residents = GetResidentsByCommunity().call(communityId);
 
       final totalDebt = residents.fold<int>(0, (sum, m) => sum + m.propertyRegistry.totalDebtAmountInCents);
-      final totalBalance = residents.fold<int>(0, (sum, m) => sum + m.paymentLedger.totalPaymentBalanceInCents);
+      final totalBalance = residents.fold<int>(0, (sum, m) => sum + m.paymentLedger.totalApprovedPaymentBalanceInCents);
 
       // Calculate Pending Payments
       final totalPending = residents.fold<int>(0, (sum, m) => sum + m.paymentLedger.pendingPaymentAmountInCents);

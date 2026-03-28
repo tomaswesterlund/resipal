@@ -89,14 +89,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   onPendingPaymentsPressed: () => setState(() => _currentPageIndex = HomePage.payments.index),
                 ),
                 PropertiesView(
-                  registry: community.propertyRegistry,
+                  registry: community.registry,
                   showNoActiveContractInformation: community.contracts.length == 0,
                   showRegisterProperty: true,
                 ),
 
-                PaymentListView(community.paymentLedger.payments),
+                PaymentListView(community.ledger.payments),
                 ApplicationListView(community.applications),
-                MemberListView(community.memberDirectory.members),
+                MemberListView(community.directory.members),
               ],
             ),
             bottomNavigationBar: Padding(
@@ -109,13 +109,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   FloatingNavBarItem(
                     icon: Icons.home_work_outlined,
                     label: 'Propiedades',
-                    showDanger: community.propertyRegistry.hasOverdueFees,
-                    warningBadgeCount: community.propertyRegistry.withDueFees.length,
+                    showDanger: community.registry.hasOverdueFees,
+                    warningBadgeCount: community.registry.withDueFees.length,
                   ),
                   FloatingNavBarItem(
                     icon: Icons.attach_money,
                     label: 'Pagos',
-                    warningBadgeCount: community.paymentLedger.pendingPayments.length,
+                    warningBadgeCount: community.ledger.pendingPayments.length,
                   ),
                   FloatingNavBarItem(
                     icon: Icons.document_scanner,
@@ -156,12 +156,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           WkDrawerItem(
                             icon: Icons.people,
                             label: 'Miembros',
-                            onTap: () => Go.to(MembersPage(directory: community.memberDirectory)),
+                            onTap: () => Go.to(MembersPage(directory: community.directory)),
                           ),
                           WkDrawerItem(
-                            icon: Icons.house,
+                            icon: Icons.home_work,
                             label: 'Propiedades',
-                            onTap: () => Go.to(PropertiesPage(community.propertyRegistry)),
+                            onTap: () => Go.to(PropertiesPage(community.registry)),
                           ),
                           WkDrawerItem(
                             icon: Icons.bar_chart_outlined,

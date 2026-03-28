@@ -68,10 +68,10 @@ class AdminHomeOverview extends StatelessWidget {
 
                     ActionTile(
                       title: 'Pagos por revisar',
-                      count: community.paymentLedger.pendingPayments.length,
+                      count: community.ledger.pendingPayments.length,
                       icon: Icons.receipt_long_outlined,
                       color: colorScheme.surfaceTint,
-                      onPressed: () => Go.to(PaymentsPage(ledger: community.paymentLedger)),
+                      onPressed: () => Go.to(PaymentsPage(ledger: community.ledger)),
                     ),
                     const SizedBox(height: 12),
                     ActionTile(
@@ -120,7 +120,7 @@ class CommunityFinanceHeader extends StatelessWidget {
                   const OverlineText('DEUDA VENCIDA', color: Colors.white70),
                   const SizedBox(height: 4),
                   AmountText(
-                    amountInCents: community.propertyRegistry.totalDebtAmountInCents,
+                    amountInCents: community.registry.totalDebtAmountInCents,
                     fontSize: 20,
                     color: Colors.white,
                   ),
@@ -132,7 +132,7 @@ class CommunityFinanceHeader extends StatelessWidget {
                   const OverlineText('PAGOS PENDIENTES', color: Colors.white70),
                   const SizedBox(height: 4),
                   AmountText(
-                    amountInCents: community.paymentLedger.pendingPaymentAmountInCents,
+                    amountInCents: community.ledger.pendingPaymentAmountInCents,
                     fontSize: 20,
                     color: Colors.white,
                   ),
@@ -163,9 +163,9 @@ class CommunityPropertyHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildMiniStat(context, Icons.home_work_outlined, community.propertyRegistry.count.toString(), 'PROPIEDADES'),
+          _buildMiniStat(context, Icons.home_work_outlined, community.registry.count.toString(), 'PROPIEDADES'),
           Container(width: 1, height: 40, color: Colors.grey.withOpacity(0.2)),
-          _buildMiniStat(context, Icons.people_alt_outlined, community.memberDirectory.count.toString(), 'MIEMBROS'),
+          _buildMiniStat(context, Icons.people_alt_outlined, community.directory.count.toString(), 'MIEMBROS'),
         ],
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:core/src/presentation/properties/property_limit_reached_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:core/lib.dart';
@@ -19,6 +20,7 @@ class RegisterPropertyPage extends StatelessWidget {
         child: BlocConsumer<RegisterPropertyCubit, RegisterPropertyState>(
           listener: (ctx, state) {},
           builder: (ctx, state) {
+            if (state is RegisterPropertyLimitReachedState) return const PropertyLimitReachedView();
             if (state is RegisterPropertyNoContractsFound) return const NoActiveContractsFoundView();
             if (state is RegisterPropertyFormEditingState) return _Form(state.formState);
 

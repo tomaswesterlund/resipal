@@ -22,7 +22,7 @@ class ResidentMemberEntity extends MemberEntity {
 
   bool get hasDebt => propertyRegistry.hasDebt;
   int get totalMemberBalanceInCents {
-    return paymentLedger.totalPaymentBalanceInCents -
+    return paymentLedger.totalApprovedPaymentBalanceInCents -
         propertyRegistry.totalDebtAmountInCents -
         propertyRegistry.totalPaidAmountInCents;
   }

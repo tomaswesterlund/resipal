@@ -39,7 +39,7 @@ class ResidentBreakdownReportPage extends StatelessWidget {
       tableData.add([
         m.name,
         properties.length == 1 ? properties.first.name : '',
-        formatCurrency.format(m.paymentLedger.totalPaymentBalanceInCents / 100),
+        formatCurrency.format(m.paymentLedger.totalApprovedPaymentBalanceInCents / 100),
         formatCurrency.format(m.paymentLedger.pendingPaymentAmountInCents / 100),
         properties.length == 1 ? formatCurrency.format(m.propertyRegistry.totalDebtAmountInCents / 100) : '',
       ]);
@@ -229,8 +229,8 @@ class _SummaryHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final pendingAmount = state.community.paymentLedger.pendingPaymentAmountInCents;
-    final totalDebt = state.community.propertyRegistry.totalDebtAmountInCents;
+    final pendingAmount = state.community.ledger.pendingPaymentAmountInCents;
+    final totalDebt = state.community.registry.totalDebtAmountInCents;
 
     return GradientCard(
       child: Column(
@@ -287,7 +287,7 @@ class _SummaryHeader extends StatelessWidget {
               Expanded(
                 child: _HeaderMiniStat(
                   label: 'PROPIEDADES',
-                  value: state.community.propertyRegistry.count.toString(),
+                  value: state.community.registry.count.toString(),
                   icon: Icons.house,
                   accentColor: Colors.white,
                 ),
@@ -363,7 +363,7 @@ class _ResidentReportTile extends StatelessWidget {
               children: [
                 _AmountColumn(
                   label: 'SALDO TOTAL',
-                  cents: resident.paymentLedger.totalPaymentBalanceInCents,
+                  cents: resident.paymentLedger.totalApprovedPaymentBalanceInCents,
                   color: colorScheme.tertiary,
                 ),
                 _AmountColumn(

@@ -45,6 +45,15 @@ class RegisterPropertyFormState extends Equatable {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'description': description,
+      'resident_id': resident?.user.id,
+      'contract_id': contract?.id,
+    };
+  }
+
   @override
   String toString() {
     return 'RegisterPropertyFormState(resident: $resident, contract: $contract, name: $name, description: $description)';

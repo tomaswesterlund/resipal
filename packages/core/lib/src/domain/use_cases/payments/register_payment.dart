@@ -68,14 +68,14 @@ class RegisterPayment {
       await _source.upsert(model);
 
       final String amountFormatted = (amountInCents / 100).toStringAsFixed(2);
-      final String residentName = community.memberDirectory.members
+      final String residentName = community.directory.members
           .firstWhere((m) => m.user.id == residentId, orElse: () => signedInMember)
           .user
           .name;
 
       // CREATE NOTIFICATIONS
       /// Inform all admins
-      for (var admin in community.memberDirectory.admins) {
+      for (var admin in community.directory.admins) {
         // Don't notify the admin who just performed the action
         //if (admin.user.id == signedInMember.user.id) continue;
 

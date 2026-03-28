@@ -1,9 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:core/lib.dart';
-import 'package:core/src/presentation/properties/register_property/register_property_form_state.dart';
-import 'package:core/src/presentation/properties/register_property/register_property_state.dart';
 
 class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
   final ImageService _imageService = GetIt.I<ImageService>();
@@ -12,24 +12,42 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
 
   RegisterPropertyCubit() : super(RegisterPropertyInitialState());
 
+  StreamSubscription? _stream;
   final ImagePicker _picker = ImagePicker();
 
   late RegisterPropertyFormState _formState;
 
   void initialize() {
-    final contracts = GetContractsByCommunity().call(_sessionService.communityId);
-
-    // TODO: Watch Contracts here ...
-
-    if (contracts.isEmpty) {
-      emit(RegisterPropertyNoContractsFound());
+    final community = GetCommunityById().call(_sessionService.communityId);
+    if (community.canRegisterNewProperty == false) {
+      emit(RegisterPropertyLimitReachedState());
       return;
     }
 
-    final residents = GetResidentsByCommunity().call(_sessionService.communityId);
+    _stream = WatchContractsByCommunity()
+        .call(_sessionService.communityId)
+        .listen(
+          (contracts) {
+            if (contracts.isEmpty) {
+              emit(RegisterPropertyNoContractsFound());
+              return;
+            }
 
-    _formState = RegisterPropertyFormState(residents: residents, contracts: contracts);
-    emit(RegisterPropertyFormEditingState(_formState));
+            final residents = GetResidentsByCommunity().call(_sessionService.communityId);
+
+            _formState = RegisterPropertyFormState(residents: residents, contracts: contracts);
+            emit(RegisterPropertyFormEditingState(_formState));
+          },
+          onError: (e, s) {
+            _logger.error(
+              exception: e,
+              stackTrace: s,
+              featureArea: 'RegisterPropertyCubit.initialize.WatchContractsByCommunity',
+              metadata: {'community_id': _sessionService.communityId, 'device_time': DateTime.now().toIso8601String()},
+            );
+            emit(RegisterPropertyErrorState());
+          },
+        );
   }
 
   void onContractSelected(ContractEntity? newContract) {
@@ -103,10 +121,16 @@ class RegisterPropertyCubit extends Cubit<RegisterPropertyState> {
         exception: e,
         stackTrace: s,
         featureArea: 'RegisterPropertyCubit.submit',
-        // TODO: Add metadata
-        //metadata: _formState.toString(),
+
+        metadata: _formState.toMap(),
       );
       emit(RegisterPropertyErrorState());
     }
+  }
+
+  @override
+  Future<void> close() {
+    _stream?.cancel();
+    return super.close();
   }
 }

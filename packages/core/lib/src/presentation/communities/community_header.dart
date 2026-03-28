@@ -47,13 +47,13 @@ class CommunityHeader extends StatelessWidget {
             children: [
               _buildStatItem(
                 'MIEMBROS',
-                community.memberDirectory.count.toString(), // Asumiendo que existe el getter
+                community.directory.count.toString(), // Asumiendo que existe el getter
                 onPrimary,
                 icon: Icons.people_outline_rounded,
               ),
               _buildStatItem(
                 'PROPIEDADES',
-                community.propertyRegistry.count.toString(),
+                community.registry.count.toString(),
                 onPrimary,
                 icon: Icons.home_work_outlined,
               ),

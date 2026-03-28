@@ -1,6 +1,6 @@
+import 'package:core/src/domain/enums/tiers.dart';
 import 'package:get_it/get_it.dart';
 import 'package:core/lib.dart';
-import 'package:core/src/domain/use_cases/properties/get_properties_by_community_id.dart';
 
 class GetCommunityById {
   final CommunityDataSource _source = GetIt.I<CommunityDataSource>();
@@ -25,9 +25,10 @@ class GetCommunityById {
       description: model.description,
       applications: applications,
       contracts: contracts,
-      paymentLedger: PaymentLedgerEntity(payments),
-      propertyRegistry: PropertyRegistry(properties),
-      memberDirectory: MemberDirectoryEntity(members),
+      tier: Tiers.fromString(model.tier),
+      ledger: PaymentLedgerEntity(payments),
+      registry: PropertyRegistry(properties),
+      directory: MemberDirectoryEntity(members),
     );
   }
 }

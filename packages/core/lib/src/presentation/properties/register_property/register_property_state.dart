@@ -21,6 +21,8 @@ class RegisterPropertyFormSubmittingState extends RegisterPropertyState {}
 
 class RegisterPropertyFormSubmittedSuccessfullyState extends RegisterPropertyState {}
 
+class RegisterPropertyLimitReachedState extends RegisterPropertyState {}
+
 class RegisterPropertyNoContractsFound extends RegisterPropertyState {}
 
 class RegisterPropertyErrorState extends RegisterPropertyState {}

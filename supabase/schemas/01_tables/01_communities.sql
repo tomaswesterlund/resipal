@@ -4,5 +4,6 @@ CREATE TABLE communities(
     created_by UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id),
     name text NOT NULL,
     description text,
-    location TEXT NOT NULL
+    location TEXT NOT NULL,
+    tier TEXT NOT NULL CHECK (tier IN ('free', 'plan_100', 'plan_200', 'plan_300')) DEFAULT 'free'
 );
