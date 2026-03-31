@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "268108175474",
+    "project_id": "resipal-dev-3aacf",
+    "storage_bucket": "resipal-dev-3aacf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268108175474:android:2bec074627a549e0da4aeb",
+        "android_client_info": {
+          "package_name": "app.resipal.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOajmsAkxrM2UXi3qswZpQEaA9UuLocrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268108175474:android:63ad66946f25f0ddda4aeb",
+        "android_client_info": {
+          "package_name": "app.resipal.resident"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOajmsAkxrM2UXi3qswZpQEaA9UuLocrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268108175474:android:bf8019ecabb87c13da4aeb",
+        "android_client_info": {
+          "package_name": "app.resipal.security"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOajmsAkxrM2UXi3qswZpQEaA9UuLocrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
