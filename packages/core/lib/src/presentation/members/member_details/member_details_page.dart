@@ -1,5 +1,7 @@
+import 'package:core/src/presentation/messages/send_message/send_message_page.dart';
 import 'package:flutter/material.dart';
 import 'package:core/lib.dart';
+import 'package:short_navigation/short_navigation.dart';
 import 'package:ui/lib.dart';
 
 class MemberDetailsPage extends StatelessWidget {
@@ -37,6 +39,13 @@ class MemberDetailsPage extends StatelessWidget {
                     label: 'Teléfono',
                     value: PhoneFormatter.toDisplay(member.user.phoneNumber),
                     enableCopy: true,
+                  ),
+                  Divider(height: 1, color: colorScheme.outlineVariant),
+                  DetailTile(
+                    icon: Icons.message_outlined,
+                    label: 'Mensaje',
+                    value: 'Haz click para mandar un mensaje al miembro',
+                    onPressed: () => Go.to(SendMessagePage()),
                   ),
                 ],
               ),

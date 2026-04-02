@@ -4,7 +4,6 @@ import 'package:ui/lib.dart';
 
 class MemberHeader extends StatelessWidget {
   final MemberEntity member;
-
   const MemberHeader({required this.member, super.key});
 
   @override
@@ -19,21 +18,12 @@ class MemberHeader extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.person_outline_rounded,
-                color: Colors.white,
-                size: 48,
-              ),
+              const Icon(Icons.person_outline_rounded, color: Colors.white, size: 48),
               const SizedBox(width: 12),
-              Expanded(
-                child: HeaderText.two(
-                  member.name,
-                  color: Colors.white,
-                ),
-              ),
+              Expanded(child: HeaderText.two(member.name, color: Colors.white)),
             ],
           ),
-          
+
           const SizedBox(height: 16),
           Divider(color: Colors.white.withOpacity(0.2), height: 1),
           const SizedBox(height: 20),
@@ -61,7 +51,6 @@ class MemberHeader extends StatelessWidget {
           //     ),
           //   ],
           // ),
-
           const SizedBox(height: 20),
           Divider(color: Colors.white.withOpacity(0.2), height: 1),
           const SizedBox(height: 16),
@@ -77,10 +66,7 @@ class MemberHeader extends StatelessWidget {
                   children: [
                     const OverlineText('COMUNIDAD', color: Colors.white),
                     const SizedBox(height: 2),
-                    BodyText.small(
-                      member.community.name,
-                      color: onPrimary.withOpacity(0.8),
-                    ),
+                    BodyText.small(member.community.name, color: onPrimary.withOpacity(0.8)),
                   ],
                 ),
               ),
@@ -120,12 +106,9 @@ class MemberHeader extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (member.isAdmin) 
-          _buildHeaderIcon(Icons.admin_panel_settings_rounded, onPrimary),
-        if (member.isSecurity) 
-          _buildHeaderIcon(Icons.shield_outlined, onPrimary),
-        if (member.isResident) 
-          _buildHeaderIcon(Icons.home_work_outlined, onPrimary),
+        if (member.isAdmin) _buildHeaderIcon(Icons.admin_panel_settings_rounded, onPrimary),
+        if (member.isResident) _buildHeaderIcon(Icons.home_work_outlined, onPrimary),
+        if (member.isSecurity) _buildHeaderIcon(Icons.shield_outlined, onPrimary),
       ],
     );
   }
