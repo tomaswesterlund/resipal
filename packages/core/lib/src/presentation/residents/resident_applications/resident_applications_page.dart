@@ -6,6 +6,7 @@ import 'package:core/src/presentation/residents/resident_applications/resident_a
 import 'package:short_navigation/short_navigation.dart';
 import 'package:ui/lib.dart';
 import 'package:intl/intl.dart';
+import 'package:ui/support/support_section.dart';
 
 class ResidentApplicationsPage extends StatelessWidget {
   final UserEntity user;
@@ -78,8 +79,17 @@ class ResidentApplicationsPage extends StatelessWidget {
               ),
             ),
 
-            // --- Footer de Soporte ---
-            const _SupportFooter(),
+            SupportSection(
+              onMessagePressed: () async {
+                final whatsappService = WhatsAppService();
+                await whatsappService.sendSupportMessage();
+              },
+              onEmailPressed: () {
+                final emailService = EmailService();
+                emailService.sendSupportEmail();
+              },
+            ),
+            SizedBox(height: 48),
           ],
         ),
       ),
@@ -198,34 +208,6 @@ class _ApplicationTile extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _SupportFooter extends StatelessWidget {
-  const _SupportFooter();
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        children: [
-          BodyText.medium('¿Crees que hay un error?'),
-          BodyText.small('Comunícate con Resipal por WhatsApp'),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: WhatsAppIconButton(
-              onPressed: () {
-                // Lógica para abrir WhatsApp (ej: launchUrl)
-              },
-            ),
-          ),
-          const SizedBox(height: 24),
-        ],
       ),
     );
   }

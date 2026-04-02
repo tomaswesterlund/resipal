@@ -5,6 +5,7 @@ import 'package:security/presentation/auth/auth_gate_cubit.dart';
 import 'package:security/presentation/auth/auth_gate_state.dart';
 import 'package:security/presentation/signin/signin_page.dart';
 import 'package:ui/lib.dart';
+import 'package:ui/support/support_section.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -59,7 +60,6 @@ class AuthGate extends StatelessWidget {
   }
 }
 
-
 class _UserHasNoSecurityMembership extends StatelessWidget {
   const _UserHasNoSecurityMembership();
 
@@ -81,11 +81,7 @@ class _UserHasNoSecurityMembership extends StatelessWidget {
           ),
           const SizedBox(height: 32),
 
-          HeaderText.four(
-            'Acceso no autorizado',
-            textAlign: TextAlign.center,
-            color: colorScheme.primary,
-          ),
+          HeaderText.four('Acceso no autorizado', textAlign: TextAlign.center, color: colorScheme.primary),
           const SizedBox(height: 16),
 
           Text(
@@ -108,26 +104,15 @@ class _UserHasNoSecurityMembership extends StatelessWidget {
           Divider(color: colorScheme.outlineVariant.withOpacity(0.5)),
           const SizedBox(height: 32),
 
-          Column(
-            children: [
-              Text(
-                '¿Crees que hay un error?',
-                style: theme.textTheme.labelMedium?.copyWith(color: colorScheme.outline, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _SupportIcon(
-                    icon: Icons.chat_bubble_outline_rounded,
-                    label: 'Contactar Resipal',
-                    onTap: () {
-                      // Lógica para contactar soporte o admin
-                    },
-                  ),
-                ],
-              ),
-            ],
+          SupportSection(
+            onMessagePressed: () async {
+              final whatsappService = WhatsAppService();
+              await whatsappService.sendSupportMessage();
+            },
+            onEmailPressed: () {
+              final emailService = EmailService();
+              emailService.sendSupportEmail();
+            },
           ),
         ],
       ),
