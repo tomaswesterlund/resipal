@@ -64,6 +64,7 @@ class _Form extends StatelessWidget {
         children: [
           EntityDropdownField<ResidentMemberEntity>(
             label: 'Residente',
+            initialValue: formState.resident,
             isRequired: true,
             readOnly: formState.isResidentReadOnly,
             helpText: 'Selecciona el residente que hizo este pago.',

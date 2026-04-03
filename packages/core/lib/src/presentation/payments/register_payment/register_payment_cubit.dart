@@ -15,16 +15,47 @@ class RegisterPaymentCubit extends Cubit<RegisterPaymentState> {
   late RegisterPaymentFormState _formState;
 
   Future initialize(ResidentMemberEntity? resident) async {
-    
-    final residents = GetResidentsByCommunity().call(_sessionService.communityId);
+    final resident = GetResidentByCommunityIdAndUserId().call(
+      communityId: _sessionService.communityId,
+      userId: _sessionService.userId,
+    );
 
-    if (residents.isEmpty) {
-      emit(RegisterPaymentNoResidentsFound());
+    if (_sessionService.app == ResipalApplication.admin) {
+      final residents = GetResidentsByCommunity().call(_sessionService.communityId);
+
+      if (residents.isEmpty) {
+        emit(RegisterPaymentNoResidentsFound());
+        return;
+      }
+
+      _formState = RegisterPaymentFormState(
+        residents: residents,
+        payDate: DateTime.now(),
+        resident: null,
+        isResidentReadOnly: false,
+      );
+
+      emit(RegisterPaymentFormEditingState(_formState));
+      return;
+    } else if (_sessionService.app == ResipalApplication.resident) {
+      final resident = GetResidentByCommunityIdAndUserId().call(
+        communityId: _sessionService.communityId,
+        userId: _sessionService.userId,
+      );
+
+      _formState = RegisterPaymentFormState(
+        residents: [resident],
+        payDate: DateTime.now(),
+        resident: resident,
+        isResidentReadOnly: true,
+      );
+
+      emit(RegisterPaymentFormEditingState(_formState));
+      return;
+    } else {
+      emit(RegisterPaymentErrorState());
       return;
     }
-
-    _formState = RegisterPaymentFormState(residents: residents, payDate: DateTime.now(), resident: resident, isResidentReadOnly: resident != null);
-    emit(RegisterPaymentFormEditingState(_formState));
   }
 
   void updateResident(ResidentMemberEntity? newResident) {

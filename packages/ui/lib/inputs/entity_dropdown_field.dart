@@ -3,14 +3,14 @@ import 'package:ui/lib.dart';
 
 class EntityDropdownField<T> extends StatelessWidget {
   final String label;
-  final T? value;
+  final T? initialValue;
   final List<T> items;
   final String Function(T) itemLabelBuilder;
   final ValueChanged<T?> onChanged;
   final bool isRequired;
   final String? helpText;
   final bool readOnly;
-  final String? errorMessage; // Nuevo: Parámetro de error
+  final String? errorMessage;
 
   const EntityDropdownField({
     super.key,
@@ -18,11 +18,11 @@ class EntityDropdownField<T> extends StatelessWidget {
     required this.items,
     required this.itemLabelBuilder,
     required this.onChanged,
-    this.value,
+    this.initialValue,
     this.isRequired = false,
     this.helpText,
     this.readOnly = false,
-    this.errorMessage, // Inicializado
+    this.errorMessage,
   });
 
   @override
@@ -39,9 +39,8 @@ class EntityDropdownField<T> extends StatelessWidget {
           child: InputLabel(label: label, isRequired: isRequired, helpText: helpText),
         ),
 
-        // --- Dropdown Field ---
         DropdownButtonFormField<T>(
-          value: value,
+          initialValue: initialValue,
           onChanged: readOnly ? null : onChanged,
           isExpanded: true,
           icon: Icon(

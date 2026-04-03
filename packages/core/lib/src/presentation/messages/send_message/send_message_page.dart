@@ -64,7 +64,7 @@ class _Form extends StatelessWidget {
             label: 'Destinatario',
             items: formState.members,
             itemLabelBuilder: (m) => m.name,
-            value: formState.selectedMember.value,
+            initialValue: formState.selectedMember.value,
             errorMessage: formState.selectedMember.errorMessage,
             onChanged: cubit.updateMember,
             isRequired: true,

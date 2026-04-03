@@ -71,7 +71,7 @@ class _Form extends StatelessWidget {
             isRequired: false,
             helpText: "Vincula un residente a esta propiedad.",
             items: formState.residents,
-            value: null,
+            initialValue: null,
             itemLabelBuilder: (resident) => resident.user.name,
             onChanged: (resident) => cubit.onResidentSelected(resident),
           ),
@@ -83,7 +83,7 @@ class _Form extends StatelessWidget {
             helpText:
                 "Vincula un contrato a esta propiedad. Solo obligatorio si la propiedad tiene un residente vinculado.",
             items: formState.contracts,
-            value: null,
+            initialValue: null,
             itemLabelBuilder: (contract) => "${CurrencyFormatter.fromCents(contract.amountInCents)}: ${contract.name}",
             onChanged: (contract) => cubit.onContractSelected(contract),
           ),
