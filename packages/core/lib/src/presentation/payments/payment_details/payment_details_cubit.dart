@@ -5,6 +5,7 @@ import 'package:core/lib.dart';
 
 class PaymentDetailsCubit extends Cubit<PaymentDetailsState> {
   final LoggerService _logger = GetIt.I<LoggerService>();
+  final SessionService _sessionService = GetIt.I<SessionService>();
 
   final WatchPaymentById _watchPaymentById = WatchPaymentById();
   StreamSubscription? _streamSubscription;
@@ -13,13 +14,17 @@ class PaymentDetailsCubit extends Cubit<PaymentDetailsState> {
 
   Future initialize(PaymentEntity payment) async {
     try {
-      emit(PaymentDetailsLoadedState(payment));
+      final bool showConfirmPaymentButton =
+          payment.status == PaymentStatus.pendingReview && _sessionService.app == ResipalApplication.admin;
+      emit(PaymentDetailsLoadedState(payment, showConfirmPaymentButton: showConfirmPaymentButton));
 
       _streamSubscription = _watchPaymentById
           .call(payment.id)
           .listen(
             (payment) async {
-              emit(PaymentDetailsLoadedState(payment));
+              final bool showConfirmPaymentButton =
+                  payment.status == PaymentStatus.pendingReview && _sessionService.app == ResipalApplication.admin;
+              emit(PaymentDetailsLoadedState(payment, showConfirmPaymentButton: showConfirmPaymentButton));
             },
             onError: (e, s) {
               _logger.error(

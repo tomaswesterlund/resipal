@@ -32,7 +32,7 @@ class PaymentDetailsPage extends StatelessWidget {
     }
 
     if (state is PaymentDetailsLoadedState) {
-      return _Loaded(state.payment, key: const ValueKey('loaded'));
+      return _Loaded(state.payment, showConfirmPaymentButton: state.showConfirmPaymentButton, key: const ValueKey('loaded'));
     }
 
     if (state is PaymentDetailsErrorState) {
@@ -45,8 +45,9 @@ class PaymentDetailsPage extends StatelessWidget {
 
 class _Loaded extends StatelessWidget {
   final PaymentEntity payment;
+  final bool showConfirmPaymentButton;
 
-  const _Loaded(this.payment, {super.key});
+  const _Loaded(this.payment, {required this.showConfirmPaymentButton, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +61,7 @@ class _Loaded extends StatelessWidget {
         children: [
           PaymentHeader(payment),
 
-          if (payment.status == PaymentStatus.pendingReview) ...[
-            const SizedBox(height: 12),
-            ConfirmPaymentButton(payment),
-          ],
+          if (showConfirmPaymentButton) ...[const SizedBox(height: 12), ConfirmPaymentButton(payment)],
 
           const SizedBox(height: 32),
 

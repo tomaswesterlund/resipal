@@ -75,7 +75,7 @@ class PropertyHeader extends StatelessWidget {
                   const SizedBox(height: 4),
                   StatusBadge(
                     label: property.propertyPaymentStatus.display,
-                    color: property.propertyPaymentStatus.color(colorScheme),
+                    color: colorScheme.onPrimary,
                   ),
                 ],
               ),

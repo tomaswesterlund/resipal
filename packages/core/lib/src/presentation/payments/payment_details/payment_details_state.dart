@@ -12,8 +12,9 @@ class PaymentDetailsLoadingState extends PaymentDetailsState {}
 
 class PaymentDetailsLoadedState extends PaymentDetailsState {
   final PaymentEntity payment;
+  final bool showConfirmPaymentButton;
 
-  PaymentDetailsLoadedState(this.payment);
+  PaymentDetailsLoadedState(this.payment, {required this.showConfirmPaymentButton});
 
   @override
   List<Object?> get props => [payment];

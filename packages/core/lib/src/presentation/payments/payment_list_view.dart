@@ -29,16 +29,12 @@ class _PaymentListViewState extends State<PaymentListView> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    // 1. Filter Logic
     final filteredPayments = _selectedFilter.value == null
         ? widget.payments
         : widget.payments.where((p) => p.status == _selectedFilter.value).toList();
 
     // 2. Sort by date (Descending)
-    filteredPayments.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    filteredPayments.sort((a, b) => b.date.compareTo(a.date));
 
     if (widget.payments.isEmpty) return const _Empty();
 

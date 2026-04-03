@@ -92,7 +92,6 @@ class PaymentHeader extends StatelessWidget {
                 ),
               ),
 
-              // Estatus del Pago (Pill de WesterKit)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
