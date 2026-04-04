@@ -147,7 +147,7 @@ class _FeeHeaderCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               StatusBadge(
-                color: fee.status.color(colorScheme),
+                color: colorScheme.onPrimary,
                 label: fee.status.display.toUpperCase(),
                 // Podrías considerar un estilo más claro si el GradientCard es muy oscuro
               ),

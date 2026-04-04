@@ -28,12 +28,7 @@ class VisitorHeader extends StatelessWidget {
               const Icon(Icons.person_pin_rounded, color: Colors.white, size: 48),
               const SizedBox(width: 12),
               Expanded(
-                child: HeaderText.two(
-                  visitor.name, 
-                  color: Colors.white,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                )
+                child: HeaderText.two(visitor.name, color: Colors.white, maxLines: 2, overflow: TextOverflow.ellipsis),
               ),
             ],
           ),
@@ -54,27 +49,16 @@ class VisitorHeader extends StatelessWidget {
                 children: [
                   Text(
                     day,
-                    style: const TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   const SizedBox(width: 8),
                   Text(
                     monthYear,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white.withOpacity(0.9),
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white.withOpacity(0.9)),
                   ),
                 ],
               ),
-              BodyText.medium(
-                'A las $time hrs',
-                color: Colors.white.withOpacity(0.8),
-              ),
+              BodyText.medium('A las $time hrs', color: Colors.white.withOpacity(0.8)),
             ],
           ),
 
@@ -94,10 +78,7 @@ class VisitorHeader extends StatelessWidget {
                   children: [
                     const OverlineText('ID REGISTRO', color: Colors.white),
                     const SizedBox(height: 2),
-                    BodyText.small(
-                      visitor.id.substring(0, 12).toUpperCase(),
-                      color: onPrimary.withOpacity(0.8),
-                    ),
+                    BodyText.small(visitor.id.substring(0, 12).toUpperCase(), color: onPrimary.withOpacity(0.8)),
                   ],
                 ),
               ),
@@ -108,10 +89,7 @@ class VisitorHeader extends StatelessWidget {
                 children: [
                   const OverlineText('ESTATUS', color: Colors.white),
                   const SizedBox(height: 4),
-                  const StatusBadge(
-                    label: 'VERIFICADO',
-                    color: Colors.green, // O usar colorScheme.primary si prefieres
-                  ),
+                  StatusBadge(label: 'VERIFICADO', color: Theme.of(context).colorScheme.onPrimary),
                 ],
               ),
             ],

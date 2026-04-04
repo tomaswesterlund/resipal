@@ -58,7 +58,7 @@ class RegisterPayment {
         communityId: community.id,
         userId: residentId,
         amountInCents: amountInCents,
-        status: isAdmin ? PaymentStatus.approved.toString() : PaymentStatus.pendingReview.toString(),
+        status: _session.app == ResipalApplication.admin ? PaymentStatus.approved.toString() : PaymentStatus.pendingReview.toString(),
         date: date,
         receiptPath: receiptPath,
         reference: reference,
