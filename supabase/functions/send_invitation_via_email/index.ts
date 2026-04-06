@@ -29,17 +29,17 @@ serve(async (req) => {
 
           <p>Para comenzar, descarga la app <strong>Resipal Residente</strong>:</p>
           
-          <div style="margin: 20px 0;">
-            <a href="https://apps.apple.com/app/resipal" style="display: inline-block; margin-right: 10px;">
-              <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1276560000&h=7e5b682945a97d549723385e6722d7d3" 
-                   alt="Download on the App Store" 
-                   style="height: 40px;">
+          <div style="margin: 20px 0; display: flex; align-items: center; gap: 12px;">
+            <a href="https://apps.apple.com/app/resipal">
+              <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1276560000&h=7e5b682945a97d549723385e6722d7d3"
+                   alt="Download on the App Store"
+                   style="height: 40px; display: block;">
             </a>
-            
+
             <a href="https://play.google.com/store/apps/details?id=app.resipal.resident">
-              <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
-                   alt="Get it on Google Play" 
-                   style="height: 60px; margin-top: -10px; vertical-align: middle;">
+              <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                   alt="Get it on Google Play"
+                   style="height: 55px; display: block;">
             </a>
           </div>
 
