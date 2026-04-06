@@ -29,19 +29,26 @@ serve(async (req) => {
 
           <p>Para comenzar, descarga la app <strong>Resipal Residente</strong>:</p>
           
-          <div style="margin: 20px 0; display: flex; align-items: center; gap: 12px;">
-            <a href="https://apps.apple.com/app/resipal">
-              <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1276560000&h=7e5b682945a97d549723385e6722d7d3"
-                   alt="Download on the App Store"
-                   style="height: 40px; display: block;">
-            </a>
-
-            <a href="https://play.google.com/store/apps/details?id=app.resipal.resident">
-              <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-                   alt="Get it on Google Play"
-                   style="height: 55px; display: block;">
-            </a>
-          </div>
+          <table cellpadding="0" cellspacing="0" border="0" style="margin: 20px 0;">
+            <tr>
+              <td style="vertical-align: middle; padding-right: 12px;">
+                <a href="https://apps.apple.com/app/resipal">
+                  <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1276560000&h=7e5b682945a97d549723385e6722d7d3"
+                       alt="Download on the App Store"
+                       width="120" height="40"
+                       style="display: block; width: 120px; height: 40px; border: 0;">
+                </a>
+              </td>
+              <td style="vertical-align: middle;">
+                <a href="https://play.google.com/store/apps/details?id=app.resipal.resident">
+                  <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                       alt="Get it on Google Play"
+                       width="103" height="40"
+                       style="display: block; width: 103px; height: 40px; border: 0;">
+                </a>
+              </td>
+            </tr>
+          </table>
 
           <p>O si prefieres el registro web, haz clic aquí:</p>
           <a href="https://tu-app.com/registro" style="background: #007bff; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold;">
