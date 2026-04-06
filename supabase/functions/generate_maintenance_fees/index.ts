@@ -16,11 +16,11 @@ serve(async (req) => {
   try {
     // 1. Calculate Dates
     const now = new Date();
-    const fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
-    const toDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+    const fromDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+    const toDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 0, 23, 59, 59));
     
     const dueDate = new Date(fromDate);
-    dueDate.setDate(fromDate.getDate() + 10);
+    dueDate.setUTCDate(fromDate.getUTCDate() + 10);
 
     const fromDateIso = fromDate.toISOString();
 

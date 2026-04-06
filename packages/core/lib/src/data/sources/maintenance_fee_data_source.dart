@@ -73,7 +73,7 @@ class MaintenanceFeeDataSource {
   }
 
   Future<void> updatePaymentDate({required String id, required DateTime paymentDate}) async {
-    await _client.from('maintenance_fees').update({'payment_date': paymentDate.toIso8601String()}).eq('id', id);
+    await _client.from('maintenance_fees').update({'payment_date': paymentDate.toUtc().toIso8601String()}).eq('id', id);
 
     if (_cache.containsKey(id)) {
       _cache[id] = _cache[id]!.copyWith(paymentDate: paymentDate);

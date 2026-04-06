@@ -16,7 +16,7 @@ class UpsertAccessLogModel {
       'community_id': communityId,
       'invitation_id': invitationId,
       'direction': direction, // 'in' or 'out'
-      'timestamp': timestamp.toIso8601String(),
+      'timestamp': timestamp.toUtc().toIso8601String(),
     };
   }
 }

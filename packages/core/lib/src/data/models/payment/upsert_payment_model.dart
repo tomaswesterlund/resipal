@@ -25,7 +25,7 @@ class UpsertPaymentModel {
       'user_id': userId,
       'amount_in_cents': amountInCents,
       'status': status,
-      'date': date.toIso8601String(),
+      'date': date.toUtc().toIso8601String(),
       'reference': reference,
       'note': note,
       'receipt_path': receiptPath,

@@ -46,7 +46,7 @@ class _VisitorOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final String formattedDate = DateFormat('dd MMM yyyy, HH:mm').format(visitor.createdAt);
+    final String formattedDate = DateFormat('dd MMM yyyy, HH:mm').format(visitor.createdAt.toLocal());
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 20),

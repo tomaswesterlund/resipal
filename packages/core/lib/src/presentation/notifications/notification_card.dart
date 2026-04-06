@@ -58,7 +58,7 @@ class NotificationCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          DateFormat('MMM dd, yyyy • hh:mm a').format(notification.createdAt),
+                          DateFormat('MMM dd, yyyy • hh:mm a').format(notification.createdAt.toLocal()),
                           style: theme.textTheme.labelSmall?.copyWith(color: colorScheme.outline),
                         ),
                       ],
@@ -101,7 +101,7 @@ class NotificationCard extends StatelessWidget {
                       Icon(Icons.check_circle, size: 12, color: colorScheme.outline),
                       const SizedBox(width: 4),
                       Text(
-                        'Leído el ${DateFormat('dd/MM/yy').format(notification.readDate!)}',
+                        'Leído el ${DateFormat('dd/MM/yy').format(notification.readDate!.toLocal())}',
                         style: theme.textTheme.labelSmall?.copyWith(color: colorScheme.outline),
                       ),
                     ],

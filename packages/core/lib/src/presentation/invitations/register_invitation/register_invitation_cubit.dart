@@ -85,7 +85,12 @@ class RegisterInvitationCubit extends Cubit<RegisterInvitationState> {
         propertyId: state.property.value!.id,
         visitorId: state.visitor.value!.id,
         fromDate: state.dateRange.value!.start,
-        toDate: state.dateRange.value!.end,
+        toDate: DateTime(
+          state.dateRange.value!.end.year,
+          state.dateRange.value!.end.month,
+          state.dateRange.value!.end.day,
+          23, 59, 59,
+        ),
         maxEntries: state.maxEntries.value,
       );
       emit(RegisterInvitationSuccessState());

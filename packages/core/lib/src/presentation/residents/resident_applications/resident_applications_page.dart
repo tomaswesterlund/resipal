@@ -106,7 +106,7 @@ class _ApplicationTile extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final Color statusColor = application.status.color(colorScheme);
-    final dateStr = DateFormat('dd/MM/yyyy').format(application.createdAt);
+    final dateStr = DateFormat('dd/MM/yyyy').format(application.createdAt.toLocal());
 
     return Card(
       elevation: 1,

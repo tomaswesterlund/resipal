@@ -36,7 +36,8 @@ class _VisitorListViewState extends State<VisitorListView> {
         ? widget.visitors
         : widget.visitors.where((v) {
             final now = DateTime.now();
-            return v.createdAt.year == now.year && v.createdAt.month == now.month && v.createdAt.day == now.day;
+            final local = v.createdAt.toLocal();
+            return local.year == now.year && local.month == now.month && local.day == now.day;
           }).toList();
 
     // 2. Sort by Date (Más recientes primero)

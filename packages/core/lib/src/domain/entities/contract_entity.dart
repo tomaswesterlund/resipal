@@ -21,7 +21,7 @@ class ContractEntity extends IdEntity implements Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
-      'createdAt': createdAt.millisecondsSinceEpoch,
+      'createdAt': createdAt.toIso8601String(),
       'period': period,
       'amountInCents': amountInCents,
       'description': description,

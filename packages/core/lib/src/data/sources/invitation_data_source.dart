@@ -55,8 +55,8 @@ class InvitationDataSource {
             'property_id': propertyId,
             'visitor_id': visitorId,
             'qr_code_token': qrCodeToken,
-            'from_date': fromDate.toIso8601String(),
-            'to_date': toDate.toIso8601String(),
+            'from_date': fromDate.toUtc().toIso8601String(),
+            'to_date': toDate.toUtc().toIso8601String(),
             'max_entries': maxEntries,
           })
           .select()

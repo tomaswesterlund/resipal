@@ -49,7 +49,7 @@ class MembershipModel {
       'id': id,
       'user_id': userId,
       'community_id': communityId,
-      'created_at': createdAt.millisecondsSinceEpoch,
+      'created_at': createdAt.toIso8601String(),
       'created_by': createdBy,
       'is_admin': isAdmin,
       'is_resident': isResident,

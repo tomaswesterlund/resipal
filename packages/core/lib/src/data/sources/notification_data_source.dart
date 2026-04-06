@@ -53,13 +53,13 @@ class NotificationDataSource {
   }) => _cache.values.where((x) => x.communityId == communityId && x.userId == userId && x.app == app).toList();
 
   Future updateReadDate({required String id, required DateTime readDate}) async {
-    await _client.from('notifications').update({'read_date': readDate.toIso8601String()}).eq('id', id);
+    await _client.from('notifications').update({'read_date': readDate.toUtc().toIso8601String()}).eq('id', id);
   }
 
   Future<void> markAllAsRead({required String communityId, required String userId, required DateTime readDate}) async {
     await _client
         .from('notifications')
-        .update({'read_date': readDate.toIso8601String()})
+        .update({'read_date': readDate.toUtc().toIso8601String()})
         .eq('community_id', communityId)
         .eq('user_id', userId)
         .isFilter('read_date', null);

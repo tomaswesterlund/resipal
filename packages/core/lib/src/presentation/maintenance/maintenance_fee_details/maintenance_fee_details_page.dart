@@ -175,7 +175,7 @@ class _FeeHeaderCard extends StatelessWidget {
               _buildStatItem('VENCIMIENTO', fee.dueDate.toShortDate(), onPrimary, icon: Icons.calendar_today_rounded),
               _buildStatItem(
                 'PERIODO',
-                '${fee.fromDate.month}/${fee.fromDate.year}',
+                '${fee.fromDate.toLocal().month}/${fee.fromDate.toLocal().year}',
                 onPrimary,
                 icon: Icons.date_range_rounded,
               ),

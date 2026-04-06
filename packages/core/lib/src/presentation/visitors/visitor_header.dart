@@ -14,9 +14,10 @@ class VisitorHeader extends StatelessWidget {
     final onPrimary = colorScheme.onPrimary;
 
     // Formateo para el área central del Header
-    final String day = DateFormat('dd').format(visitor.createdAt);
-    final String monthYear = DateFormat('MMM, yyyy').format(visitor.createdAt).toUpperCase();
-    final String time = DateFormat('HH:mm').format(visitor.createdAt);
+    final createdAtLocal = visitor.createdAt.toLocal();
+    final String day = DateFormat('dd').format(createdAtLocal);
+    final String monthYear = DateFormat('MMM, yyyy').format(createdAtLocal).toUpperCase();
+    final String time = DateFormat('HH:mm').format(createdAtLocal);
 
     return GradientCard(
       child: Column(

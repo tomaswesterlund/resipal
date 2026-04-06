@@ -262,7 +262,7 @@ class _InvitationLogs extends StatelessWidget {
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final log = logs[index];
-        final String logTime = DateFormat('dd MMM, HH:mm').format(log.createdAt);
+        final String logTime = DateFormat('dd MMM, HH:mm').format(log.createdAt.toLocal());
 
         return DefaultCard(
           child: Column(

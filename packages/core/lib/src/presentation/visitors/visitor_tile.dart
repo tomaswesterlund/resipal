@@ -15,7 +15,7 @@ class VisitorTile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     // Formateo de fecha para mostrar en el subtitulo
-    final String formattedDate = DateFormat('dd MMM, yyyy').format(visitor.createdAt);
+    final String formattedDate = DateFormat('dd MMM, yyyy').format(visitor.createdAt.toLocal());
 
     return Card(
       elevation: 1,
