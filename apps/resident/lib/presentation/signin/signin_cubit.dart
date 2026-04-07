@@ -40,4 +40,14 @@ class SigninCubit extends Cubit<SigninState> {
       emit(SigninErrorState());
     }
   }
+
+  Future signInWithEmailSuccessfully() async {
+    try {
+      emit(SigninUserSigningInState());
+      emit(SigninUserSignedInSuccessfullyState());
+    } catch (e, stack) {
+      _logger.error(exception: e, stackTrace: stack, featureArea: 'SigninCubit.signInWithEmailSuccessfully');
+      emit(SigninErrorState());
+    }
+  }
 }

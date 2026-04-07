@@ -4,8 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:admin/presentation/signin/signin_state.dart';
 import 'package:core/lib.dart';
 
-
-
 class SigninCubit extends Cubit<SigninState> {
   final AuthService _authService = GetIt.I<AuthService>();
   final LoggerService _logger = GetIt.I<LoggerService>();
@@ -38,6 +36,16 @@ class SigninCubit extends Cubit<SigninState> {
       }
 
       _logger.error(exception: e, stackTrace: stack, featureArea: 'SigninCubit.signin');
+      emit(ErrorState());
+    }
+  }
+
+  Future signInWithEmailSuccessfully() async {
+    try {
+      emit(AdminSigningInState());
+      emit(AdminSignedInSuccessfullyState());
+    } catch (e, stack) {
+      _logger.error(exception: e, stackTrace: stack, featureArea: 'SigninCubit.signInWithEmailSuccessfully');
       emit(ErrorState());
     }
   }

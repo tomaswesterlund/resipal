@@ -69,6 +69,18 @@ class AuthService {
     }
   }
 
+  Future<AuthResponse> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      return await _client.auth.signInWithPassword(email: email, password: password);
+    } catch (e, s) {
+      _loggerService.error(exception: e, featureArea: 'AuthService.signInWithEmailAndPassword', stackTrace: s);
+      rethrow;
+    }
+  }
+
   Future signout() async => await _client.auth.signOut(scope: SignOutScope.global);
 }
 

@@ -14,7 +14,9 @@ class TextInputField extends StatelessWidget {
   final int maxLines;
   final Widget? prefixIcon;
   final bool readOnly;
-  final String? errorText; // Nueva propiedad para validación desde el Cubit
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final String? errorText;
 
   const TextInputField({
     required this.label,
@@ -27,6 +29,8 @@ class TextInputField extends StatelessWidget {
     this.maxLines = 1,
     this.prefixIcon,
     this.readOnly = false,
+    this.obscureText = false,
+    this.suffixIcon,
     this.errorText,
     super.key,
   });
@@ -49,13 +53,15 @@ class TextInputField extends StatelessWidget {
           initialValue: initialValue,
           onChanged: onChanged,
           keyboardType: keyboardType,
-          maxLines: maxLines,
+          maxLines: obscureText ? 1 : maxLines,
           readOnly: readOnly,
+          obscureText: obscureText,
           style: theme.textTheme.bodyMedium?.copyWith(color: readOnly ? colorScheme.outline : colorScheme.onSurface),
           decoration: InputDecoration(
             errorText: hasError ? errorText : null,
             hintText: hint,
             prefixIcon: prefixIcon != null ? _buildPrefixIcon(colorScheme, hasError) : null,
+            suffixIcon: suffixIcon,
             hintStyle: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.outline),
             contentPadding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
 

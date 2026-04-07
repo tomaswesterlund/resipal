@@ -61,79 +61,91 @@ class _Signin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: context.colors.scheme.surface,
-      body: Column(
-        children: [
-          GradientCard(
-            padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
-            borderRadius: 0,
-            child: SafeArea(
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 0.0),
-                child: Column(
-                  children: [
-                    ResipalLogo(color: LogoColor.red, type: LogoType.svg),
-                    const SizedBox(height: 16),
-                    HeaderText.giga('Resipal', color: Colors.white),
-                    SizedBox(height: 4),
-                    HeaderText.two('Security', color: Colors.white),
-                  ],
+      backgroundColor: colorScheme.surface,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            GradientCard(
+              padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+              borderRadius: 0,
+              child: SafeArea(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 0.0),
+                  child: Column(
+                    children: [
+                      ResipalLogo(color: LogoColor.red),
+                      const SizedBox(height: 16),
+                      HeaderText.giga('Resipal', color: Colors.white),
+                      SizedBox(height: 4),
+                      HeaderText.two('Security', color: Colors.white),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          // --- Login Actions ---
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              children: [
-                HeaderText.four('Bienvenido de nuevo'),
-                const SizedBox(height: 8),
-                Text(
-                  'Inicia sesión para gestionar accesos, paquetería y seguridad.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: context.colors.scheme.outline),
-                ),
-                const SizedBox(height: 24),
+            // --- Login Actions ---
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  HeaderText.four('Bienvenido de nuevo', textAlign: TextAlign.center),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Inicia sesión para gestionar accesos, paquetería y seguridad.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: colorScheme.outline),
+                  ),
+                  const SizedBox(height: 24),
 
-                // Google Sign In
-                SocialLoginButton(
-                  label: 'Continuar con Google',
-                  icon: Icons.g_mobiledata_rounded, // Use a custom SVG for production
-                  backgroundColor: Colors.white,
-                  textColor: Colors.black87,
-                  onPressed: () => context.read<SigninCubit>().signin(SignInProvider.google),
-                ),
-
-                const SizedBox(height: 16),
-
-                if (Theme.of(context).platform == TargetPlatform.iOS)
                   SocialLoginButton(
-                    label: 'Continuar con Apple',
-                    icon: Icons.apple,
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    onPressed: () => context.read<SigninCubit>().signin(SignInProvider.apple),
+                    label: 'Continuar con Google',
+                    icon: Icons.g_mobiledata_rounded,
+                    backgroundColor: Colors.white,
+                    textColor: Colors.black87,
+                    onPressed: () => context.read<SigninCubit>().signin(SignInProvider.google),
                   ),
 
-                const SizedBox(height: 40),
-              ],
-            ),
-          ),
-          const Spacer(),
-          SafeArea(
-            top: false,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 20),
-              child: Text(
-                'Al continuar, aceptas nuestros Términos y Condiciones',
-                style: TextStyle(fontSize: 10, color: context.colors.scheme.outline),
+                  if (Theme.of(context).platform == TargetPlatform.iOS) ...[
+                    const SizedBox(height: 16),
+                    SocialLoginButton(
+                      label: 'Continuar con Apple',
+                      icon: Icons.apple,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      onPressed: () => context.read<SigninCubit>().signin(SignInProvider.apple),
+                    ),
+                  ],
+
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Expanded(child: Divider(color: colorScheme.outlineVariant)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('o continúa con', style: TextStyle(color: colorScheme.outline, fontSize: 12)),
+                      ),
+                      Expanded(child: Divider(color: colorScheme.outlineVariant)),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  EmailSignIn(onSuccess: () => context.read<SigninCubit>().signInWithEmailSuccessfully()),
+                  const SizedBox(height: 32),
+                  Text(
+                    'Al continuar, aceptas nuestros Términos y Condiciones',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 10, color: colorScheme.outline),
+                  ),
+                  const SizedBox(height: 24),
+                ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

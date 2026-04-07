@@ -81,58 +81,56 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(backgroundColor: AppColors.background),
         scaffoldBackgroundColor: AppColors.background,
         textTheme: TextTheme(
-          // HEADINGS (TÍTULOS)
           displayLarge: GoogleFonts.raleway(
             fontSize: 48,
             height: 54 / 48,
-            fontWeight: FontWeight.w700, // GIGA
+            fontWeight: FontWeight.w700,
           ),
           headlineLarge: GoogleFonts.raleway(
             fontSize: 32,
             height: 40 / 32,
-            fontWeight: FontWeight.bold, // H1
+            fontWeight: FontWeight.bold,
           ),
           headlineMedium: GoogleFonts.raleway(
             fontSize: 24,
             height: 32 / 24,
-            fontWeight: FontWeight.bold, // H2
+            fontWeight: FontWeight.bold,
           ),
           headlineSmall: GoogleFonts.raleway(
             fontSize: 20,
             height: 28 / 20,
-            fontWeight: FontWeight.bold, // H3
+            fontWeight: FontWeight.bold,
           ),
           titleLarge: GoogleFonts.raleway(
             fontSize: 18,
             height: 24 / 18,
-            fontWeight: FontWeight.bold, // H4
+            fontWeight: FontWeight.bold,
           ),
           titleMedium: GoogleFonts.raleway(
             fontSize: 16,
             height: 20 / 16,
-            fontWeight: FontWeight.bold, // H5
+            fontWeight: FontWeight.bold,
           ),
           titleSmall: GoogleFonts.raleway(
             fontSize: 14,
             height: 16 / 14,
-            fontWeight: FontWeight.bold, // H6
+            fontWeight: FontWeight.bold,
           ),
 
-          // BODY (CUERPO DE TEXTO)
           bodyLarge: GoogleFonts.raleway(
             fontSize: 18,
             height: 28 / 18,
-            fontWeight: FontWeight.normal, // Body Parrafo 01
+            fontWeight: FontWeight.normal,
           ),
           bodyMedium: GoogleFonts.raleway(
             fontSize: 16,
             height: 24 / 16,
-            fontWeight: FontWeight.normal, // Body Parrafo 02
+            fontWeight: FontWeight.normal,
           ),
           bodySmall: GoogleFonts.raleway(
             fontSize: 14,
             height: 20 / 14,
-            fontWeight: FontWeight.normal, // Body Parrafo 03
+            fontWeight: FontWeight.normal,
           ),
           labelSmall: GoogleFonts.poppins(
             // Caption / Tiny
