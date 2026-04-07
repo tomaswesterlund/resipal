@@ -1,11 +1,14 @@
+import 'package:core/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:core/src/presentation/access/scan_invitation/scan_invitation_page.dart';
 import 'package:core/src/presentation/qr/qr_scanner_view.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ui/lib.dart';
 import 'package:short_navigation/short_navigation.dart';
 
 class SecurityHomePage extends StatelessWidget {
-  const SecurityHomePage({super.key});
+  final MemberEntity member;
+  const SecurityHomePage({required this.member, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class SecurityHomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colorScheme.background,
-      appBar: const MyAppBar(title: 'Resipal Security', automaticallyImplyLeading: false),
+      appBar: const MyAppBar(title: 'Resipal Security', automaticallyImplyLeading: true),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
@@ -107,7 +110,6 @@ class SecurityHomePage extends StatelessWidget {
             // const SizedBox(height: 48),
             Spacer(),
 
-            // Footer informativo
             Center(
               child: Opacity(
                 opacity: 0.5,
@@ -121,7 +123,49 @@ class SecurityHomePage extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 32),
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        backgroundColor: colorScheme.surface,
+        width: MediaQuery.of(context).size.width * 0.85,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            WkDrawerHeader(name: member.user.name, email: member.user.email),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // const SectionHeaderText(text: 'OPCIONES'),
+                    // const SizedBox(height: 16),
+                    // WkDrawerItem(
+                    //   icon: Icons.location_city_rounded,
+                    //   label: 'Mi Comunidad',
+                    //   onTap: () => Go.to(CommunityDetailsPage(community: community)),
+                    // ),
+                    // WkDrawerItem(icon: Icons.person, label: 'Mi Membresía', onTap: () => {}),
+                    // WkDrawerItem(icon: Icons.help, label: 'Ayuda', onTap: () => Go.to(HelpPage())),
+
+                    // SizedBox(height: 12),
+                    // Divider(thickness: 1),
+                    // SizedBox(height: 24),
+
+                    WkDrawerItem(
+                      icon: Icons.logout_rounded,
+                      label: 'Cerrar Sesión',
+                      color: colorScheme.error,
+                      onTap: () => GetIt.I<AuthService>().signout(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -17,10 +17,9 @@ class AuthGateUserNotOnboarded extends AuthGateState {}
 class AuthGateUserHasNoSecurityMembership extends AuthGateState {}
 
 class UserSignedIn extends AuthGateState {
-  //TODO: Change to SecurityMemberEntity
-  final ResidentMemberEntity resident;
+  final MemberEntity member;
 
-  UserSignedIn(this.resident);
+  UserSignedIn(this.member);
 }
 
 class AuthGateErrorState extends AuthGateState {}

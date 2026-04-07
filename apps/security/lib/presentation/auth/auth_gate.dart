@@ -28,25 +28,20 @@ class AuthGate extends StatelessWidget {
             );
           }
 
-          // 2. Unauthenticated -> Go to Sign In
           if (state is AuthGateUserNotSignedIn) {
             return const SigninPage();
           }
 
-          // 3. Authenticated but No Profile -> Go to Onboarding
           if (state is AuthGateUserNotOnboarded) {
             return OnboardingUserRegistrationPage();
           }
 
-          // 4. Profile exists but No Community -> Go to Community Registration
           if (state is AuthGateUserHasNoSecurityMembership) {
             return const _UserHasNoSecurityMembership();
           }
 
-          // 5. Success -> The Main Admin Dashboard
           if (state is UserSignedIn) {
-            // final community = GetCommunityById().call(state.resident.community.id);
-            return SecurityHomePage();
+            return SecurityHomePage(member: state.member);
           }
 
           if (state is AuthGateErrorState) {
