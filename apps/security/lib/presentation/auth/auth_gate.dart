@@ -35,7 +35,7 @@ class AuthGate extends StatelessWidget {
 
           // 3. Authenticated but No Profile -> Go to Onboarding
           if (state is AuthGateUserNotOnboarded) {
-            return const OnboardingStartPage();
+            return OnboardingUserRegistrationPage();
           }
 
           // 4. Profile exists but No Community -> Go to Community Registration

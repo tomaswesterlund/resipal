@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:core/lib.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:resident/presentation/signin/signin_state.dart';
 
 class SigninCubit extends Cubit<SigninState> {
@@ -10,19 +11,31 @@ class SigninCubit extends Cubit<SigninState> {
 
   SigninCubit() : super(SigninInitialState());
 
-  Future signin() async {
+  Future signin(SignInProvider provider) async {
     try {
       emit(SigninUserSigningInState());
 
-      await _authService.signInWithGoogle();
+      switch (provider) {
+        case SignInProvider.google:
+          await _authService.signInWithGoogle();
+          break;
+        case SignInProvider.apple:
+          await _authService.signInWithApple();
+          break;
+      }
 
       final authUser = _authService.getSignedInUser();
-      final userId = authUser.id;
-
-      //await _sessionService.start(userId);
+      _sessionService.setUserId(authUser.id);
 
       emit(SigninUserSignedInSuccessfullyState());
     } catch (e, stack) {
+      if (e is GoogleSignInException) {
+        if (e.code == GoogleSignInExceptionCode.canceled) {
+          emit(SigninInitialState());
+          return;
+        }
+      }
+
       _logger.error(exception: e, stackTrace: stack, featureArea: 'SigninCubit.signin');
       emit(SigninErrorState());
     }

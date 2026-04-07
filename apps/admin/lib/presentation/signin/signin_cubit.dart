@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:admin/presentation/signin/signin_state.dart';
 import 'package:core/lib.dart';
 
-enum SignInProvider { google, apple }
+
 
 class SigninCubit extends Cubit<SigninState> {
   final AuthService _authService = GetIt.I<AuthService>();

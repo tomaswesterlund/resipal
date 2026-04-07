@@ -106,7 +106,7 @@ class _Signin extends StatelessWidget {
                   icon: Icons.g_mobiledata_rounded, // Use a custom SVG for production
                   backgroundColor: Colors.white,
                   textColor: Colors.black87,
-                  onPressed: () => context.read<SigninCubit>().signin(),
+                  onPressed: () => context.read<SigninCubit>().signin(SignInProvider.google),
                 ),
 
                 const SizedBox(height: 16),
@@ -117,9 +117,7 @@ class _Signin extends StatelessWidget {
                     icon: Icons.apple,
                     backgroundColor: Colors.black,
                     textColor: Colors.white,
-                    onPressed: () {
-                      // TODO: Implement Apple Sign In
-                    },
+                    onPressed: () => context.read<SigninCubit>().signin(SignInProvider.apple),
                   ),
 
                 const SizedBox(height: 40),

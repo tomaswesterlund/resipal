@@ -11,16 +11,21 @@ class SigninCubit extends Cubit<SigninState> {
 
   SigninCubit() : super(SigninInitialState());
 
-  Future signin() async {
+  Future signin(SignInProvider provider) async {
     try {
       emit(SigninUserSigningInState());
 
-      await _authService.signInWithGoogle();
+      switch (provider) {
+        case SignInProvider.google:
+          await _authService.signInWithGoogle();
+          break;
+        case SignInProvider.apple:
+          await _authService.signInWithApple();
+          break;
+      }
 
       final authUser = _authService.getSignedInUser();
-      final userId = authUser.id;
-
-      //await _sessionService.start(userId);
+      _sessionService.setUserId(authUser.id);
 
       emit(SigninUserSignedInSuccessfullyState());
     } catch (e, stack) {
